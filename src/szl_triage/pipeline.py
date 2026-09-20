@@ -1,11 +1,15 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
-"""The decision pipeline: guard, engine, model, validator.
+"""The decision pipeline: guard, doctrine, engine, model, validator.
 
     input
       |
       v
     [GUARD]      injection pattern -> REVIEW, model never consulted
       |
+      v
+    [DOCTRINE]   declared disposition (HOLD, not-authorised, not-inferred,
+      |          pending-ratification) -> REVIEW, terminal, model never
+      |          consulted. Evidence cannot outvote a declared disposition.
       v
     [ENGINE]     four axes -> Lambda aggregate -> MEASURED or abstain
       |
@@ -15,6 +19,11 @@
       v
     [VALIDATOR]  schema + allowed label + verbatim evidence, else REVIEW
 
+GUARD precedes DOCTRINE deliberately: an adversarial phrase is the more severe
+finding, and an attacker should not be able to relabel their injection as a
+governance disposition to change which tier reports it. There is a test for
+that ordering rather than a comment asserting it.
+
 Two invariants hold regardless of the model:
 
 1. A model can only *add* dispositions on inputs the engine could not reach.
@@ -22,12 +31,13 @@ Two invariants hold regardless of the model:
 2. Every path terminates in a typed Decision carrying the tier that produced
    it, so provenance is legible without re-execution.
 
-A third invariant belongs to the aggregator rather than this module: because
-Lambda is a geometric mean, a zeroed integrity axis yields exactly 0.0, so a
-detected meta-instruction cannot be outweighed by strong keyword evidence.
+A third belongs to the aggregator: because Lambda is a geometric mean, a zeroed
+integrity axis yields exactly 0.0, so a detected meta-instruction cannot be
+outweighed by strong keyword evidence.
 """
 from __future__ import annotations
 
+from . import doctrine as doctrine_tier
 from . import engine as engine_tier
 from . import guard as guard_tier
 from .contracts import Decision, State, Tier, new_decision_id, sha256_text
@@ -47,6 +57,7 @@ def _terminal(
     scores: dict[str, float] | None = None,
     axes: dict[str, float] | None = None,
     lambda_value: float = 0.0,
+    dispositions: tuple[str, ...] = (),
 ) -> Decision:
     """Build a REVIEW decision. The only way this pipeline says 'no'."""
     return Decision(
@@ -62,6 +73,7 @@ def _terminal(
         scores=scores or {},
         axes=axes or {},
         lambda_value=lambda_value,
+        dispositions=tuple(dispositions),
     )
 
 
@@ -99,52 +111,65 @@ def decide(
             (f"adversarial pattern detected: {list(injections)}", "model not consulted"),
         )
     else:
-        decision = engine_tier.classify(text, policy)
-        if decision.axes.get("integrity", 1.0) == 0.0:
-            # A zeroed integrity axis is terminal, exactly like a guard match.
-            # Escalating here would hand the attacker a second chance: the
-            # engine refuses, the model proposes the requested label, and the
-            # validator accepts it because the label name is verbatim present.
-            # Measured as a real bypass before this branch existed.
+        dispositions = doctrine_tier.detect(text, policy)
+        if dispositions:
             decision = _terminal(
-                text, policy, Tier.ENGINE,
-                decision.rationale + ("integrity axis zeroed: model not consulted",),
-                decision.scores, decision.axes, decision.lambda_value,
+                text, policy, Tier.DOCTRINE,
+                (
+                    f"explicit doctrine disposition forbids action: {list(dispositions)}",
+                    "terminal: lexical evidence cannot outvote a declared disposition",
+                    "model not consulted",
+                ),
+                dispositions=dispositions,
             )
-        elif decision.state is State.REVIEW and model is not None:
-            proposal = model.propose(text, policy.classifiable)
-            if proposal is None:
+        else:
+            decision = engine_tier.classify(text, policy)
+            if decision.axes.get("integrity", 1.0) == 0.0:
+                # A zeroed integrity axis is terminal, exactly like a guard
+                # match. Escalating here would hand the attacker a second
+                # chance: the engine refuses, the model proposes the requested
+                # label, and the validator accepts it because the label name is
+                # verbatim present. Measured as a real bypass before this
+                # branch existed.
                 decision = _terminal(
-                    text, policy, Tier.MODEL,
-                    decision.rationale + (f"model {model.name} abstained",),
+                    text, policy, Tier.ENGINE,
+                    decision.rationale + ("integrity axis zeroed: model not consulted",),
                     decision.scores, decision.axes, decision.lambda_value,
                 )
-            else:
-                accepted, reasons = validate_proposal(text, proposal, policy)
-                if accepted:
-                    decision = Decision(
-                        decision_id=new_decision_id(text),
-                        label=proposal.label,
-                        state=State.MEASURED,
-                        tier=Tier.MODEL,
-                        evidence=tuple(proposal.evidence),
-                        rationale=(
-                            f"model {model.name}: {proposal.rationale}",
-                            "evidence verified verbatim against input",
-                        ),
-                        policy_name=policy.name,
-                        policy_version=policy.version,
-                        input_sha256=sha256_text(text),
-                        scores=decision.scores,
-                        axes=decision.axes,
-                        lambda_value=decision.lambda_value,
-                    )
-                else:
+            elif decision.state is State.REVIEW and model is not None:
+                proposal = model.propose(text, policy.classifiable)
+                if proposal is None:
                     decision = _terminal(
-                        text, policy, Tier.VALIDATOR,
-                        (f"model {model.name} proposal rejected",) + reasons,
+                        text, policy, Tier.MODEL,
+                        decision.rationale + (f"model {model.name} abstained",),
                         decision.scores, decision.axes, decision.lambda_value,
                     )
+                else:
+                    accepted, reasons = validate_proposal(text, proposal, policy)
+                    if accepted:
+                        decision = Decision(
+                            decision_id=new_decision_id(text),
+                            label=proposal.label,
+                            state=State.MEASURED,
+                            tier=Tier.MODEL,
+                            evidence=tuple(proposal.evidence),
+                            rationale=(
+                                f"model {model.name}: {proposal.rationale}",
+                                "evidence verified verbatim against input",
+                            ),
+                            policy_name=policy.name,
+                            policy_version=policy.version,
+                            input_sha256=sha256_text(text),
+                            scores=decision.scores,
+                            axes=decision.axes,
+                            lambda_value=decision.lambda_value,
+                        )
+                    else:
+                        decision = _terminal(
+                            text, policy, Tier.VALIDATOR,
+                            (f"model {model.name} proposal rejected",) + reasons,
+                            decision.scores, decision.axes, decision.lambda_value,
+                        )
 
     if chain is not None:
         chain.append(decision.to_dict())

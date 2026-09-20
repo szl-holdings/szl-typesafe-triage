@@ -72,3 +72,15 @@ def test_v2_normalization_mode_is_not_accepted(raw_policy, tmp_policy):
     raw_policy["normalization"] = "top1"
     with pytest.raises(PolicyError):
         load_policy(tmp_policy(raw_policy))
+
+
+def test_empty_dispositions_block_raises(raw_policy, tmp_policy):
+    # A declared gate that can never fire reads as protection. Fail loudly.
+    raw_policy["doctrine_dispositions"] = {"fields": {}, "tokens": []}
+    with pytest.raises(PolicyError, match="never fire"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_dispositions_are_loaded(policy):
+    assert "disposition" in policy.disposition_fields
+    assert "PENDING_HUMAN_RATIFICATION" in policy.disposition_tokens
