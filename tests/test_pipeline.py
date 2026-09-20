@@ -1,6 +1,6 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """Tier invariants: a model may extend reach, never overturn a refusal."""
-from conftest import FakeModel
+from .conftest import FakeModel
 
 from szl_triage import ModelProposal, ReceiptChain, State, Tier, decide, verify_receipts
 

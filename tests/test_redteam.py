@@ -7,7 +7,7 @@ reports the paraphrase bypass this suite does NOT prevent, and names the
 public benchmarks that would replace self-grading.
 """
 import pytest
-from conftest import FakeModel
+from .conftest import FakeModel
 
 from szl_triage import ModelProposal, State, Tier, decide
 

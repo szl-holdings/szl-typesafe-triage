@@ -6,7 +6,7 @@ fires on the word "hold" would block real tickets, and a governance control
 that cries wolf gets switched off.
 """
 import pytest
-from conftest import FakeModel
+from .conftest import FakeModel
 
 from szl_triage import ModelProposal, State, Tier, decide, detect_dispositions
 

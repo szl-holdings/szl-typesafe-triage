@@ -5,6 +5,7 @@ The functional pytest tests and legacy unittest cases must both be collected.
 The original setup failure and zero-functional-collection risks must not recur.
 """
 from pathlib import Path
+import ast
 import re
 import unittest
 
@@ -62,6 +63,15 @@ class CIContractTests(unittest.TestCase):
         self.assertIn("    timeout-minutes: 15\n", source)
         self.assertIn("          persist-credentials: false\n", source)
         self.assertIn('      PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"\n', source)
+
+    def test_packaged_test_helpers_use_relative_imports(self):
+        for name in ("test_doctrine.py", "test_pipeline.py", "test_redteam.py"):
+            with self.subTest(path=name):
+                tree = ast.parse((ROOT / "tests" / name).read_text(encoding="utf-8"))
+                imports = [node for node in ast.walk(tree)
+                           if isinstance(node, ast.ImportFrom) and node.module == "conftest"]
+                self.assertEqual(len(imports), 1)
+                self.assertEqual(imports[0].level, 1)
 
     def test_native_push_pr_and_merge_group_paths_remain(self):
         source = workflow()
