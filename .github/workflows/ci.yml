@@ -15,8 +15,10 @@ jobs:
           python-version: "3.11"
       - name: Unit tests
         run: python -m unittest discover -s tests -v
-      - name: Fail-closed fixture gate
-        run: python scripts/export_sft_dataset.py --check
+      - name: Fixture gate (policy v1)
+        run: python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v1.json
+      - name: Fixture gate (policy v2)
+        run: python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v2.json
       - name: Export receipted SFT dataset
         run: python scripts/export_sft_dataset.py
       - uses: actions/upload-artifact@v4

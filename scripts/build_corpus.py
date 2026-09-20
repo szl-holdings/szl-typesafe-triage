@@ -41,7 +41,7 @@ SECURITY = ["possible vulnerability: session token exposed in the URL","cve-2026
  "possible exploit through template injection","cve triage needed on the base image",
  "security review: unsigned artifacts in the release"]
 AMBIG = ["idk it stopped working","not sure what happened here","this is weird, can someone look",
- "same as last time","it does the thing again","??","help","broken maybe",
+ "same as last time","it does the thing again","??","help","circling back on this one",
  "following up on my previous message","see attached","update?","thoughts on this",
  "any news","still waiting","the usual problem","hmm","can you check","doesn't work",
  "issue","please advise"]
@@ -65,7 +65,7 @@ def expand(seeds, n, rng):
 
 def main():
     rng = random.Random(1120)
-    policy = load_policy("policies/triage_policy.v1.json")
+    policy = load_policy(os.environ.get("SZL_POLICY", "policies/triage_policy.v2.json"))
     buckets = {"BUG":(BUG,30),"FEATURE":(FEATURE,30),"SUPPORT":(SUPPORT,30),
                "BILLING":(BILLING,30),"SECURITY":(SECURITY,30),
                "AMBIG":(AMBIG,45),"ADVERSARIAL":(ADVERSARIAL,45)}

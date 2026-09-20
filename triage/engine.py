@@ -21,6 +21,29 @@ def load_policy(path):
     return policy
 
 
+def denominator(terms, mode):
+    """Evidence baseline for a label.
+
+    "sum"  (policy v1): every keyword in the label must fire. Unreachable for
+                        real tickets -- a single strong signal could never
+                        clear min_confidence. Retained unchanged so v1 stays
+                        byte-for-byte reproducible.
+    "top1" (policy v2): the strongest keyword in the label defines sufficient
+                        evidence. One decisive signal can classify; weak lone
+                        signals still fall to REVIEW.
+    "top2":             two signals required. Measured too strict in practice
+                        (see reports/calibration_v1_to_v2.md).
+    """
+    weights = sorted((float(t["weight"]) for t in terms), reverse=True)
+    if mode == "top1":
+        total = weights[0] if weights else 0.0
+    elif mode == "top2":
+        total = sum(weights[:2])
+    else:
+        total = sum(weights)
+    return total if total > 0 else 1.0
+
+
 @dataclass
 class TriageDecision:
     decision_id: str
@@ -43,18 +66,19 @@ class TriageDecision:
 
 def classify(text, policy):
     lowered = text.lower()
+    mode = policy.get("normalization", "sum")
     scores = {}
     rationale = []
 
     for label, terms in policy["rules"].items():
-        maximum = sum(float(item["weight"]) for item in terms)
+        base = denominator(terms, mode)
         total = 0.0
         for item in terms:
             hits = lowered.count(item["term"].lower())
             if hits:
                 total += float(item["weight"]) * min(hits, 2)
                 rationale.append("%s: %s x%d" % (label, item["term"], hits))
-        scores[label] = round(min(total / maximum, 1), 4) if maximum else 0.0
+        scores[label] = round(min(total / base, 1.0), 4)
 
     ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
     leader, top = ranked[0]
