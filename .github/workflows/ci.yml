@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Unit tests
-        run: python -m unittest discover -s tests -v
-      - name: Fixture gate (policy v1)
+
+      - name: Install (no runtime dependencies)
+        run: pip install -e .
+
+      - name: Test suite
+        run: python -m unittest discover -s tests -t . -v
+
+      - name: CLI smoke test
+        run: szl-triage decide "charged twice on invoice INV-2041, want a refund"
+
+      - name: Legacy fixture gate (policy v1)
         run: python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v1.json
-      - name: Fixture gate (policy v2)
+
+      - name: Legacy fixture gate (policy v2)
         run: python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v2.json
-      - name: Export receipted SFT dataset
-        run: python scripts/export_sft_dataset.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sft-triage-dataset
-          path: dataset/
