@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-SCHEMA = "szl.triage.decision/v2"
+SCHEMA = "szl.triage.decision/v3"
 
 
 class State(str, Enum):
@@ -24,7 +24,7 @@ class State(str, Enum):
 
 
 class Tier(str, Enum):
-    """Which tier of the pipeline produced the disposition.
+    """Which tier produced the disposition.
 
     Recorded on every decision so an auditor can tell *who decided* without
     re-running anything. GUARD and VALIDATOR outcomes are always REVIEW.
@@ -61,7 +61,12 @@ class ModelProposal:
 
 @dataclass(frozen=True)
 class Decision:
-    """A triage disposition with its provenance."""
+    """A triage disposition with its provenance.
+
+    `axes` and `lambda_value` are recorded so a reader can see *why* the
+    aggregate landed where it did -- a zeroed integrity axis is visible in the
+    receipt rather than buried in a single number.
+    """
 
     decision_id: str
     label: str
@@ -73,6 +78,8 @@ class Decision:
     policy_version: str
     input_sha256: str
     scores: dict[str, float] = field(default_factory=dict)
+    axes: dict[str, float] = field(default_factory=dict)
+    lambda_value: float = 0.0
     schema: str = SCHEMA
 
     def to_dict(self) -> dict[str, Any]:
@@ -88,6 +95,8 @@ class Decision:
             "policy_version": self.policy_version,
             "input_sha256": self.input_sha256,
             "scores": self.scores,
+            "axes": self.axes,
+            "lambda": self.lambda_value,
         }
 
     def to_json(self) -> str:

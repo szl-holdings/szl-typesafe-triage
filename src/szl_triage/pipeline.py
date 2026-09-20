@@ -7,7 +7,7 @@
     [GUARD]      injection pattern -> REVIEW, model never consulted
       |
       v
-    [ENGINE]     deterministic, in-lexicon -> MEASURED
+    [ENGINE]     four axes -> Lambda aggregate -> MEASURED or abstain
       |
       v
     [MODEL]      only reached when the engine abstains; proposes, never decides
@@ -21,6 +21,10 @@ Two invariants hold regardless of the model:
    It can never overturn a refusal or relax a gate.
 2. Every path terminates in a typed Decision carrying the tier that produced
    it, so provenance is legible without re-execution.
+
+A third invariant belongs to the aggregator rather than this module: because
+Lambda is a geometric mean, a zeroed integrity axis yields exactly 0.0, so a
+detected meta-instruction cannot be outweighed by strong keyword evidence.
 """
 from __future__ import annotations
 
@@ -41,6 +45,8 @@ def _terminal(
     tier: Tier,
     rationale: tuple[str, ...],
     scores: dict[str, float] | None = None,
+    axes: dict[str, float] | None = None,
+    lambda_value: float = 0.0,
 ) -> Decision:
     """Build a REVIEW decision. The only way this pipeline says 'no'."""
     return Decision(
@@ -54,12 +60,12 @@ def _terminal(
         policy_version=policy.version,
         input_sha256=sha256_text(text),
         scores=scores or {},
+        axes=axes or {},
+        lambda_value=lambda_value,
     )
 
 
-def validate_proposal(
-    text: str, proposal, policy: Policy
-) -> tuple[bool, tuple[str, ...]]:
+def validate_proposal(text: str, proposal, policy: Policy) -> tuple[bool, tuple[str, ...]]:
     """Check an untrusted proposal. Returns (accepted, reasons)."""
     reasons: list[str] = []
 
@@ -89,25 +95,29 @@ def decide(
     injections = guard_tier.detect(text, policy)
     if injections:
         decision = _terminal(
-            text,
-            policy,
-            Tier.GUARD,
-            (
-                f"adversarial pattern detected: {list(injections)}",
-                "model not consulted",
-            ),
+            text, policy, Tier.GUARD,
+            (f"adversarial pattern detected: {list(injections)}", "model not consulted"),
         )
     else:
         decision = engine_tier.classify(text, policy)
-        if decision.state is State.REVIEW and model is not None:
+        if decision.axes.get("integrity", 1.0) == 0.0:
+            # A zeroed integrity axis is terminal, exactly like a guard match.
+            # Escalating here would hand the attacker a second chance: the
+            # engine refuses, the model proposes the requested label, and the
+            # validator accepts it because the label name is verbatim present.
+            # Measured as a real bypass before this branch existed.
+            decision = _terminal(
+                text, policy, Tier.ENGINE,
+                decision.rationale + ("integrity axis zeroed: model not consulted",),
+                decision.scores, decision.axes, decision.lambda_value,
+            )
+        elif decision.state is State.REVIEW and model is not None:
             proposal = model.propose(text, policy.classifiable)
             if proposal is None:
                 decision = _terminal(
-                    text,
-                    policy,
-                    Tier.MODEL,
+                    text, policy, Tier.MODEL,
                     decision.rationale + (f"model {model.name} abstained",),
-                    decision.scores,
+                    decision.scores, decision.axes, decision.lambda_value,
                 )
             else:
                 accepted, reasons = validate_proposal(text, proposal, policy)
@@ -126,14 +136,14 @@ def decide(
                         policy_version=policy.version,
                         input_sha256=sha256_text(text),
                         scores=decision.scores,
+                        axes=decision.axes,
+                        lambda_value=decision.lambda_value,
                     )
                 else:
                     decision = _terminal(
-                        text,
-                        policy,
-                        Tier.VALIDATOR,
+                        text, policy, Tier.VALIDATOR,
                         (f"model {model.name} proposal rejected",) + reasons,
-                        decision.scores,
+                        decision.scores, decision.axes, decision.lambda_value,
                     )
 
     if chain is not None:

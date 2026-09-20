@@ -1,13 +1,15 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """szl-triage: governed, evidence-bound triage.
 
-A three-tier decision pipeline where a language model can extend reach but
+A four-tier decision pipeline where a language model can extend reach but
 never hold authority, every label is justified by text verifiably present in
-the input, and promotion criteria are cryptographically sealed before any
-evaluation runs.
+the input, dispositions are produced by a non-compensatory Lambda aggregate,
+and promotion criteria are cryptographically sealed before evaluation runs.
 
 The core depends on the Python standard library alone.
 """
+from .aggregate import lambda_aggregate
+from .axes import axis_scores, boundary_count, meta_instruction_cues, normalize
 from .contracts import Decision, ModelProposal, State, Tier
 from .evidence import is_grounded, ungrounded_spans
 from .model_port import NullModel, TriageModel
@@ -16,7 +18,7 @@ from .policy import Policy, PolicyError, load as load_policy
 from .receipts import ReceiptChain, verify as verify_receipts
 from .sealing import Seal, create as create_seal, verify as verify_seal
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "Decision", "ModelProposal", "State", "Tier",
@@ -26,5 +28,7 @@ __all__ = [
     "ReceiptChain", "verify_receipts",
     "Seal", "create_seal", "verify_seal",
     "is_grounded", "ungrounded_spans",
+    "lambda_aggregate", "axis_scores", "boundary_count",
+    "meta_instruction_cues", "normalize",
     "__version__",
 ]

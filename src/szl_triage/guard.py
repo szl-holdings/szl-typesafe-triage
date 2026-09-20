@@ -1,18 +1,18 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """Tier 1: adversarial guard.
 
-Runs before any classifier and before any model. A matched pattern routes
+Runs before any classifier and before any model. A matched phrase routes
 straight to REVIEW and the model is never consulted, so no prompt can argue
 the system out of a refusal.
 
-Detection is intentionally shallow and honest about it: literal phrase
-matching over normalized text catches the patterns enumerated in policy and
-nothing more. Robustness against unseen phrasings is an empirical question,
-measured against a held-out novel-attack set rather than asserted here.
+This tier catches only the phrases enumerated in policy. It is deliberately
+shallow, and the measured evidence says so: of 40 structurally novel attacks,
+this guard caught 1. The integrity axis in `axes.py` carries the real load.
+See `docs/redteam.md` for the numbers.
 """
 from __future__ import annotations
 
-from .evidence import normalize
+from .axes import normalize
 from .policy import Policy
 
 

@@ -2,9 +2,15 @@
 """Policy loading and validation.
 
 A policy is data, not code: versioned JSON that can be diffed in a pull
-request and read by someone who does not write Python. Loading fails closed
--- a malformed policy raises rather than silently degrading to permissive
-defaults.
+request and read by someone who does not write Python. Loading fails closed --
+a malformed policy raises rather than degrading to a permissive default.
+
+Policy v3 replaces the bespoke `normalization` modes of v1/v2 with the Lambda
+aggregator (see `docs/calibration.md` and `docs/redteam.md`). Both earlier
+modes were measurably broken: `sum` was mathematically unreachable, and
+`top1` let a single keyword reach confidence 1.0. Neither is retained as a
+live option, because keeping a known-broken scorer selectable is not
+backwards compatibility, it is a trap.
 """
 from __future__ import annotations
 
@@ -13,13 +19,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-REQUIRED_KEYS = frozenset(
-    {"name", "version", "labels", "rules", "min_confidence", "min_margin"}
-)
+REQUIRED_KEYS = frozenset({
+    "name", "version", "labels", "rules",
+    "axis_weights", "lambda_threshold", "meta_cues",
+})
 
-NORMALIZATIONS = frozenset({"sum", "top1", "top2"})
+REQUIRED_AXES = frozenset({"lexical", "breadth", "integrity", "separation"})
 
 REVIEW_LABEL = "REVIEW"
+
+DEFAULT_MAX_HITS = 2
 
 
 class PolicyError(ValueError):
@@ -33,45 +42,41 @@ class Policy:
     labels: tuple[str, ...]
     rules: dict[str, tuple[tuple[str, float], ...]]
     injection_phrases: tuple[str, ...]
-    min_confidence: float
-    min_margin: float
-    normalization: str
+    meta_cues: tuple[str, ...]
+    axis_weights: dict[str, float]
+    lambda_threshold: float
+    max_hits_counted: int = DEFAULT_MAX_HITS
 
     @property
     def classifiable(self) -> tuple[str, ...]:
         """Labels a decision may assert, excluding the REVIEW sink."""
         return tuple(label for label in self.labels if label != REVIEW_LABEL)
 
-    def denominator(self, label: str) -> float:
-        """Evidence baseline for a label.
-
-        "sum"  -- every keyword must fire. Measured unreachable for real
-                  inputs (see docs/calibration.md); retained so historical
-                  scores stay reproducible.
-        "top1" -- the strongest keyword defines sufficient evidence.
-        "top2" -- two signals required. Measured too strict.
-        """
-        weights = sorted((weight for _, weight in self.rules[label]), reverse=True)
-        if not weights:
-            return 1.0
-        if self.normalization == "top1":
-            total = weights[0]
-        elif self.normalization == "top2":
-            total = sum(weights[:2])
-        else:
-            total = sum(weights)
-        return total if total > 0 else 1.0
-
 
 def _validate(raw: dict[str, Any]) -> None:
     missing = REQUIRED_KEYS - set(raw)
     if missing:
         raise PolicyError(f"policy missing required keys: {sorted(missing)}")
-    normalization = raw.get("normalization", "sum")
-    if normalization not in NORMALIZATIONS:
-        raise PolicyError(f"unknown normalization: {normalization!r}")
+
     if REVIEW_LABEL not in raw["labels"]:
         raise PolicyError("policy must declare the REVIEW sink label")
+
+    declared_axes = set(raw["axis_weights"])
+    if declared_axes != REQUIRED_AXES:
+        raise PolicyError(
+            f"axis_weights must declare exactly {sorted(REQUIRED_AXES)}, got {sorted(declared_axes)}"
+        )
+    for axis, weight in raw["axis_weights"].items():
+        if float(weight) <= 0.0:
+            raise PolicyError(f"axis weight must be positive: {axis}={weight}")
+
+    threshold = float(raw["lambda_threshold"])
+    if not 0.0 < threshold <= 1.0:
+        raise PolicyError(f"lambda_threshold out of range: {threshold}")
+
+    if not raw["meta_cues"]:
+        raise PolicyError("meta_cues must not be empty: the integrity axis would never fire")
+
     for label, terms in raw["rules"].items():
         if label not in raw["labels"]:
             raise PolicyError(f"rule for undeclared label: {label!r}")
@@ -83,10 +88,6 @@ def _validate(raw: dict[str, Any]) -> None:
             weight = float(term.get("weight", 0.0))
             if not 0.0 < weight <= 1.0:
                 raise PolicyError(f"weight out of range in {label!r}: {weight}")
-    for bound in ("min_confidence", "min_margin"):
-        value = float(raw[bound])
-        if not 0.0 <= value <= 1.0:
-            raise PolicyError(f"{bound} out of range: {value}")
 
 
 def load(path: str | Path) -> Policy:
@@ -101,7 +102,8 @@ def load(path: str | Path) -> Policy:
             for label, terms in raw["rules"].items()
         },
         injection_phrases=tuple(raw.get("injection_phrases", ())),
-        min_confidence=float(raw["min_confidence"]),
-        min_margin=float(raw["min_margin"]),
-        normalization=raw.get("normalization", "sum"),
+        meta_cues=tuple(raw["meta_cues"]),
+        axis_weights={k: float(v) for k, v in raw["axis_weights"].items()},
+        lambda_threshold=float(raw["lambda_threshold"]),
+        max_hits_counted=int(raw.get("max_hits_counted", DEFAULT_MAX_HITS)),
     )
