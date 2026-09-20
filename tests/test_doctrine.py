@@ -6,7 +6,6 @@ fires on the word "hold" would block real tickets, and a governance control
 that cries wolf gets switched off.
 """
 import pytest
-from .conftest import FakeModel
 
 from szl_triage import ModelProposal, State, Tier, decide, detect_dispositions
 
@@ -84,8 +83,8 @@ def test_strong_evidence_cannot_outvote_a_hold(policy):
     assert decision.state is State.REVIEW
 
 
-def test_model_is_never_consulted_on_a_disposition(policy):
-    model = FakeModel(ModelProposal("BILLING", ("invoice",), "looks like billing"))
+def test_model_is_never_consulted_on_a_disposition(policy, fake_model):
+    model = fake_model(ModelProposal("BILLING", ("invoice",), "looks like billing"))
     decide('{"disposition":"HOLD"}', policy, model=model)
     assert model.calls == 0
 
