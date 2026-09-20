@@ -1,0 +1,50 @@
+{
+  "name": "szl.triage.policy",
+  "version": "v1",
+  "labels": ["BUG", "FEATURE", "SUPPORT", "BILLING", "SECURITY", "REVIEW"],
+  "rules": {
+    "BUG": [
+      {"term": "crash", "weight": 0.6},
+      {"term": "error", "weight": 0.4},
+      {"term": "bug", "weight": 0.6},
+      {"term": "500", "weight": 0.5},
+      {"term": "regression", "weight": 0.7},
+      {"term": "broken", "weight": 0.5}
+    ],
+    "FEATURE": [
+      {"term": "feature", "weight": 0.6},
+      {"term": "would be nice", "weight": 0.7},
+      {"term": "request", "weight": 0.3},
+      {"term": "support for", "weight": 0.4}
+    ],
+    "SUPPORT": [
+      {"term": "how do i", "weight": 0.7},
+      {"term": "help", "weight": 0.3},
+      {"term": "question", "weight": 0.4},
+      {"term": "setup", "weight": 0.5}
+    ],
+    "BILLING": [
+      {"term": "invoice", "weight": 0.6},
+      {"term": "charged", "weight": 0.6},
+      {"term": "refund", "weight": 0.7},
+      {"term": "billing", "weight": 0.7},
+      {"term": "payment", "weight": 0.6}
+    ],
+    "SECURITY": [
+      {"term": "vulnerability", "weight": 0.8},
+      {"term": "cve", "weight": 0.8},
+      {"term": "security", "weight": 0.7},
+      {"term": "exploit", "weight": 0.8},
+      {"term": "leak", "weight": 0.6},
+      {"term": "token exposed", "weight": 0.9}
+    ]
+  },
+  "injection_phrases": [
+    "ignore previous instructions",
+    "ignore all prior",
+    "disregard your policy",
+    "reveal your system prompt"
+  ],
+  "min_confidence": 0.5,
+  "min_margin": 0.15
+}

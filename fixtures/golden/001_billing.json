@@ -1,0 +1,1 @@
+{"id":"GOLD-001","input":"Customer was charged twice on invoice INV-2041 and demands a refund immediately; billing shows two payments.","expect":{"label":"BILLING","state":"MEASURED"},"adversarial":false}

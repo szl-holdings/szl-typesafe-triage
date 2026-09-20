@@ -1,0 +1,11 @@
+{
+    "kind":  "szl.triage.build.receipt.v1",
+    "computed_at":  "2026-09-20T18:13:23Z",
+    "repo":  "szl-holdings/szl-typesafe-triage",
+    "base_model_planned":  "Qwen/Qwen3.5-0.8B",
+    "tests":  "PASS",
+    "fixture_gate":  "PASS 5/5",
+    "training_dataset":  "dataset/sft_triage_v1.jsonl",
+    "receipt_state":  "UNSIGNED_HONEST",
+    "doi_state":  "PENDING_ZENODO_RELEASE"
+}

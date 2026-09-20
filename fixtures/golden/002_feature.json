@@ -1,0 +1,1 @@
+{"id":"GOLD-002","input":"Would be nice if the CLI could export reports as CSV. Feature request: add support for a csv flag.","expect":{"label":"FEATURE","state":"MEASURED"},"adversarial":false}

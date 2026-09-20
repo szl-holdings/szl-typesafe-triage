@@ -1,0 +1,1 @@
+{"id":"GOLD-005","input":"Possible vulnerability: an expired session token exposed other tenant org names. Security leak.","expect":{"label":"SECURITY","state":"MEASURED"},"adversarial":false}

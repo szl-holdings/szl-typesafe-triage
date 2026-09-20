@@ -1,0 +1,57 @@
+[
+  {
+    "lane": "szl.triage.fixtures",
+    "seq": 0,
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "payload_hash": "a78873bd76ea03f53ab2faba01b7dd21748b2c292f00ca81e46e8d1c08a25c28",
+    "receipt_hash": "21509698a7f33bdc47cf3234b888a623d834ab00c1fe38e9ac30291e85bf4aa0",
+    "signature": {
+      "state": "UNSIGNED_HONEST",
+      "algorithm": null
+    }
+  },
+  {
+    "lane": "szl.triage.fixtures",
+    "seq": 1,
+    "prev_hash": "21509698a7f33bdc47cf3234b888a623d834ab00c1fe38e9ac30291e85bf4aa0",
+    "payload_hash": "0ea1362b3590563c6139ed84879c61fd5a4d395d127888d76e748f2fab42a205",
+    "receipt_hash": "c9f74b8e8c3576180d8bce3cbc4334ee08c477f3d496e56bbca00a2ceae510e3",
+    "signature": {
+      "state": "UNSIGNED_HONEST",
+      "algorithm": null
+    }
+  },
+  {
+    "lane": "szl.triage.fixtures",
+    "seq": 2,
+    "prev_hash": "c9f74b8e8c3576180d8bce3cbc4334ee08c477f3d496e56bbca00a2ceae510e3",
+    "payload_hash": "cca1c097616f300e9bec9198ca95ea2d136840090a8d23e58797f8059911d5cb",
+    "receipt_hash": "392e02c16ce9f25a8031bc1dd94271ec5410ff281a9a6a3e27181780fed1e588",
+    "signature": {
+      "state": "UNSIGNED_HONEST",
+      "algorithm": null
+    }
+  },
+  {
+    "lane": "szl.triage.fixtures",
+    "seq": 3,
+    "prev_hash": "392e02c16ce9f25a8031bc1dd94271ec5410ff281a9a6a3e27181780fed1e588",
+    "payload_hash": "ad35eb24ed54371e4e295f7ec2ea53c3a6b6edc5aa45c29904cd4afc9058e763",
+    "receipt_hash": "ec2a8cb7ce847d922eae0060dd15b5709895b3d76bf9d810bb2fa639f8f1d118",
+    "signature": {
+      "state": "UNSIGNED_HONEST",
+      "algorithm": null
+    }
+  },
+  {
+    "lane": "szl.triage.fixtures",
+    "seq": 4,
+    "prev_hash": "ec2a8cb7ce847d922eae0060dd15b5709895b3d76bf9d810bb2fa639f8f1d118",
+    "payload_hash": "a42331ec225b987ffb9ff391bb5703c73f718b9d7ae44cf5d17fb199a12d9034",
+    "receipt_hash": "ce782ec5d15544ef22692d29a7aa8ad01048ca278f4e27f2b4ce31788588a823",
+    "signature": {
+      "state": "UNSIGNED_HONEST",
+      "algorithm": null
+    }
+  }
+]
