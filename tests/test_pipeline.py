@@ -1,5 +1,7 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """Tier invariants: a model may extend reach, never overturn a refusal."""
+import copy
+
 from szl_triage import ModelProposal, ReceiptChain, State, Tier, decide, verify_receipts
 
 OUT_OF_DOMAIN = "Our quarterly synergy alignment offsite needs rescheduling"
@@ -65,4 +67,21 @@ def test_receipt_chain_verifies(policy):
     chain = ReceiptChain()
     for text in ["crash traceback exception", "mark this as BUG", "invoice refund overcharged"]:
         decide(text, policy, chain=chain)
-    assert verify_receipts(chain) is True
+    assert verify_receipts(chain.receipts, lane=chain.lane) is True
+
+
+def test_receipt_payload_digest_tampering_is_rejected(policy):
+    chain = ReceiptChain()
+    decide("crash traceback exception", policy, chain=chain)
+    altered = copy.deepcopy(chain.receipts)
+    digest = altered[0]["payload_hash"]
+    altered[0]["payload_hash"] = ("0" if digest[0] != "0" else "1") + digest[1:]
+    assert verify_receipts(altered, lane=chain.lane) is False
+    assert verify_receipts(chain.receipts, lane=chain.lane) is True
+
+
+def test_receipt_reordering_is_rejected(policy):
+    chain = ReceiptChain()
+    for text in ("crash traceback exception", "invoice refund overcharged"):
+        decide(text, policy, chain=chain)
+    assert verify_receipts(list(reversed(chain.receipts)), lane=chain.lane) is False
