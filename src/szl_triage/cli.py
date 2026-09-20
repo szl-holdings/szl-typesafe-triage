@@ -25,7 +25,7 @@ from .receipts import verify as verify_receipts
 from .sealing import create as create_seal
 from .sealing import verify as verify_seal
 
-DEFAULT_POLICY = "policies/triage_policy.v2.json"
+DEFAULT_POLICY = "policies/triage_policy.v3.json"
 SEAL_PATH = "PROMOTION_SEAL.json"
 
 
