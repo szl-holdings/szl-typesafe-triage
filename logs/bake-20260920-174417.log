@@ -1,0 +1,77 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260920174417
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 65764
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+  [INFO]  transcript: C:\Users\steph\szl-typesafe-triage\logs\bake-20260920-174417.log
+
+=== System diagnostics ===
+  [INFO]  OS       : Microsoft Windows 11 Home build 26200
+  [INFO]  PowerShell: 5.1.26100.9444
+  [INFO]  CPU      : Intel(R) Core(TM) Ultra 9 285H (16 threads)
+  [INFO]  RAM      : 31.6 GB
+  [INFO]  Disk C: : 37 GB free
+  [INFO]  GPU      : NVIDIA GeForce RTX 5050 Laptop GPU
+  [INFO]  VRAM     : 8151 MiB
+  [INFO]  Driver   : 610.47
+  [OK]    python 3.11, git present
+  [INFO]  LongPathsEnabled: 1
+
+=== Administrator operations ===
+  [INFO]  execution policy already Undefined; unchanged
+  [INFO]  long paths NOT changed (pass -EnableLongPaths to enable)
+  [INFO]  no Defender exclusion (pass -AddDefenderExclusion if pip is slow)
+
+=== Source ===
+Already up to date.
+  [OK]    pulled
+  [OK]    HEAD d118aee - fix(tests): restore relative conftest imports; call verify() with the receipt list
+
+=== Python environment ===
+
+
+
+  [OK]    szl_triage 0.4.0 installed
+
+=== GATE 0 - test suite must be green ===
+..................................uuuu.uuu..................................x................................... [ 82%]
+...............x......                                                                                           [100%]
+125 passed, 2 xfailed, 7 subtests passed in 0.26s
+  [OK]    suite green
+
+=== Corpus ===
+rows=328 splits={'eval': 66, 'train': 262}
+states={'REVIEW': 133, 'MEASURED': 195}
+labels={'REVIEW': 133, 'SUPPORT': 38, 'BUG': 40, 'BILLING': 39, 'FEATURE': 38, 'SECURITY': 40}
+determinism verified; wrote output\triage_distill_v0.3.0.jsonl
+  [OK]    328 rows, sha256 facf4ec36d634377...
+  [WARN]  corpus does NOT yet contain doctrine-disposition cases added in 11e9318;
+  [WARN]  the student will learn a gate one commit out of date.
+
+=== GATE 1 - oracle smoke test (CPU, ~1s) ===
+    examples            66
+    label exact         66/66 (100.0%)
+    state exact         66/66 (100.0%)
+    refusal fidelity    23/23 (100.0%)
+    evidence grounded   129/129 (100.0%)
+    malformed replies   0/66 (0.0%)
+
+    FALSE LABEL ON REFUSAL: 0  (target 0)
+  [STOP]  oracle did not report zero false labels. Harness is miswired - do not spend GPU time.
+**********************
+Windows PowerShell transcript end
+End time: 20260920174428
+**********************

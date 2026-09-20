@@ -1,0 +1,541 @@
+{
+  "rows": 66,
+  "malformed": 0,
+  "malformed_reasons": {},
+  "label_ok": 66,
+  "state_ok": 66,
+  "gold_refusals": 23,
+  "false_label_on_refusal": 0,
+  "ungrounded_spans": 0,
+  "verdict": "PROMOTABLE",
+  "records": [
+    {
+      "row": 0,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 1,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 2,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 3,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 4,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 5,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 6,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 7,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 8,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 9,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 10,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 11,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 12,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 13,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 14,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 15,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 16,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 17,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 18,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 19,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 20,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 21,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 22,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 23,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 24,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 25,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 26,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 27,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 28,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 29,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 30,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 31,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 32,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 33,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 34,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 35,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 36,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 37,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 38,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 39,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 40,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 41,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 42,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 43,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 44,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 45,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 46,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 47,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 48,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 49,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 50,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 51,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 52,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 53,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 54,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 55,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 56,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 57,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 58,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 59,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 60,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 61,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 62,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 63,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 64,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 65,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260920174928
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 65764
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+  [INFO]  transcript: C:\Users\steph\szl-typesafe-triage\logs\bake-20260920-174928.log
+
+=== System diagnostics ===
+  [INFO]  OS        : Microsoft Windows 11 Home build 26200
+  [INFO]  PowerShell: 5.1.26100.9444
+  [INFO]  CPU       : Intel(R) Core(TM) Ultra 9 285H (16 threads)
+  [INFO]  RAM       : 31.6 GB
+  [INFO]  Disk C:  : 37.1 GB free
+  [INFO]  GPU       : NVIDIA GeForce RTX 5050 Laptop GPU
+  [INFO]  VRAM      : 8151 MiB
+  [INFO]  Driver    : 610.47
+  [OK]    python 3.11, git present
+  [INFO]  LongPathsEnabled: 1
+
+=== Administrator operations ===
+  [INFO]  execution policy already Undefined; unchanged
+  [INFO]  long paths already enabled
+  [INFO]  no Defender exclusion (pass -AddDefenderExclusion if pip is slow)
+
+=== Source ===
+Already up to date.
+  [OK]    pulled
+  [OK]    HEAD 73289f2 - fix(bake): gates compared an ARRAY with -notmatch, so a perfect run was blocked
+
+=== Python environment ===
+
+
+
+  [OK]    szl_triage 0.4.0 installed
+
+=== GATE 0 - test suite must be green ===
+..................................uuuu.uuu..................................x................................... [ 82%]
+...............x......                                                                                           [100%]
+125 passed, 2 xfailed, 7 subtests passed in 0.20s
+  [OK]    suite green
+
+=== Corpus ===
+rows=328 splits={'eval': 66, 'train': 262}
+states={'REVIEW': 133, 'MEASURED': 195}
+labels={'REVIEW': 133, 'SUPPORT': 38, 'BUG': 40, 'BILLING': 39, 'FEATURE': 38, 'SECURITY': 40}
+determinism verified; wrote output\triage_distill_v0.3.0.jsonl
+  [OK]    328 rows, sha256 facf4ec36d634377...
+  [WARN]  corpus does NOT yet contain doctrine-disposition cases; the student
+  [WARN]  will learn a gate one commit out of date.
+
+=== GATE 1 - oracle smoke test (CPU, ~1s) ===
+    examples            66
+    label exact         66/66 (100.0%)
+    state exact         66/66 (100.0%)
+    refusal fidelity    23/23 (100.0%)
+    evidence grounded   129/129 (100.0%)
+    malformed replies   0/66 (0.0%)
+
+    FALSE LABEL ON REFUSAL: 0  (target 0)
+  [OK]    harness verified against the engine
+
+=== ML dependencies ===
+  [WARN]  train_distill.py has NEVER been executed. Expect a version-specific
+  [WARN]  SFTConfig / processing_class argument to need fixing on first run.
+  [WARN]  Despite the name it is bf16 LoRA, NOT 4-bit QLoRA - bitsandbytes is
+  [WARN]  deliberately omitted.
+WARNING: Connection interrupted while downloading.
+WARNING: Attempting to resume incomplete download (207.4 MB/1990.6 MB, attempt 1)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewC
+onnectionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to establish a new connection: [WinErr
+or 10065] A socket operation was attempted to an unreachable host")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_am
+d64.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Attempting to resume incomplete download (207.4 MB/1990.6 MB, attempt 2)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Attempting to resume incomplete download (207.4 MB/1990.6 MB, attempt 3)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Attempting to resume incomplete download (207.4 MB/1990.6 MB, attempt 4)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Attempting to resume incomplete download (207.4 MB/1990.6 MB, attempt 5)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'Name
+ResolutionError("HTTPSConnection(host='download-r2.pytorch.org', port=443): Failed to resolve 'download-r2.pytorch.org'
+([Errno 11001] getaddrinfo failed)")': /whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl
+ERROR: Could not install packages due to an OSError: [WinError 32] The process cannot access the file because it is bein
+g used by another process: 'C:\\Users\\steph\\AppData\\Local\\Temp\\pip-unpack-u49hgqyv\\torch-2.14.0+cu130-cp311-cp311-
+win_amd64.whl'
+Check the permissions.
+  [STOP]  torch install failed for cu130 - try -CudaTag cu128 or cu132
+**********************
+Windows PowerShell transcript end
+End time: 20260920175113
+**********************

@@ -75,7 +75,7 @@ def evaluate(predict, rows: list[dict]) -> dict:
                 m["false_label_on_refusal"] += 1
         for span in pred.get("evidence", []):
             m["evidence_n"] += 1
-            if is_grounded(span, row["input"]):
+            if is_grounded(span if isinstance(span, str) else str(span.get("text", "")), row["input"]):
                 m["evidence_grounded"] += 1
     return m
 
