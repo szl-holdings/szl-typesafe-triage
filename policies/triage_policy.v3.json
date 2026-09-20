@@ -1,7 +1,7 @@
 {
   "name": "szl-triage-default",
-  "version": "3.0.0",
-  "notes": "Axis-based policy for the Lambda aggregate. Label names are deliberately absent from the lexicon: in v2 the lexicon contained them, so naming a label selected it.",
+  "version": "3.1.0",
+  "notes": "Axis-based policy for the Lambda aggregate. Label names are deliberately absent from the lexicon: in v2 the lexicon contained them, so naming a label selected it. v3.1 adds doctrine_dispositions so governance vocabulary is data rather than Python.",
   "labels": ["BUG", "BILLING", "SECURITY", "FEATURE", "SUPPORT", "REVIEW"],
   "axis_weights": {"lexical": 0.25, "breadth": 0.40, "integrity": 0.20, "separation": 0.15},
   "lambda_threshold": 0.65,
@@ -92,5 +92,19 @@
     "override the",
     "do not classify this as",
     "priority classification"
-  ]
+  ],
+  "doctrine_dispositions": {
+    "_note": "Declared governance metadata that forbids action. A field match requires key:value structure, which is what keeps the English phrase 'on hold' from firing. Tokens are bare strings that themselves assert a fact is NOT known.",
+    "fields": {
+      "disposition": ["hold", "blocked", "rejected", "review"],
+      "productionAuthorized": ["false"],
+      "productionAuthorised": ["false"],
+      "automaticProductionPromotion": ["false"]
+    },
+    "tokens": [
+      "UNKNOWN_NOT_INFERRED",
+      "NOT_INFERRED_FROM_REPORTED_STATUS",
+      "PENDING_HUMAN_RATIFICATION"
+    ]
+  }
 }

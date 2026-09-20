@@ -27,10 +27,15 @@ class Tier(str, Enum):
     """Which tier produced the disposition.
 
     Recorded on every decision so an auditor can tell *who decided* without
-    re-running anything. GUARD and VALIDATOR outcomes are always REVIEW.
+    re-running anything. GUARD, DOCTRINE and VALIDATOR outcomes are always
+    REVIEW.
+
+    DOCTRINE was added in 0.4.0. It is a breaking change for any consumer that
+    switches exhaustively on this enum, which is why the minor version moved.
     """
 
     GUARD = "GUARD"
+    DOCTRINE = "DOCTRINE"
     ENGINE = "ENGINE"
     MODEL = "MODEL"
     VALIDATOR = "VALIDATOR"
@@ -64,8 +69,9 @@ class Decision:
     """A triage disposition with its provenance.
 
     `axes` and `lambda_value` are recorded so a reader can see *why* the
-    aggregate landed where it did -- a zeroed integrity axis is visible in the
-    receipt rather than buried in a single number.
+    aggregate landed where it did. `dispositions` records governance metadata
+    that forbade action, as structured data rather than only as prose inside
+    `rationale` -- an auditor should be able to filter on it.
     """
 
     decision_id: str
@@ -80,6 +86,7 @@ class Decision:
     scores: dict[str, float] = field(default_factory=dict)
     axes: dict[str, float] = field(default_factory=dict)
     lambda_value: float = 0.0
+    dispositions: tuple[str, ...] = ()
     schema: str = SCHEMA
 
     def to_dict(self) -> dict[str, Any]:
@@ -97,6 +104,7 @@ class Decision:
             "scores": self.scores,
             "axes": self.axes,
             "lambda": self.lambda_value,
+            "dispositions": list(self.dispositions),
         }
 
     def to_json(self) -> str:
