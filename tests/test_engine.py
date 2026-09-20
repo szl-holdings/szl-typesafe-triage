@@ -1,45 +1,51 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
-import unittest
-from pathlib import Path
-
-from szl_triage import State, load_policy
-from szl_triage.engine import classify, score
-
-POLICY = load_policy(Path("policies/triage_policy.v2.json"))
+"""The engine is an axis producer; Lambda decides. Determinism is a contract."""
+from szl_triage import State, Tier
+from szl_triage.engine import classify
 
 
-class TestEngine(unittest.TestCase):
-    def test_scores_bounded(self):
-        scores, _, _ = score("crash crash error 500 bug broken regression", POLICY)
-        for label, value in scores.items():
-            self.assertGreaterEqual(value, 0.0, label)
-            self.assertLessEqual(value, 1.0, label)
+def test_strong_bug_is_measured(policy):
+    decision = classify("The app crashes on login with a traceback and an exception", policy)
+    assert decision.state is State.MEASURED and decision.label == "BUG"
 
-    def test_repeated_hits_capped(self):
-        few, _, _ = score("crash crash", POLICY)
-        many, _, _ = score("crash crash crash crash crash crash", POLICY)
-        self.assertEqual(few["BUG"], many["BUG"])
 
-    def test_lexicon_ceiling_is_review(self):
-        """The engine's documented limitation, asserted as a test."""
-        for text in (
-            "the money thing looks wrong",
-            "cannot get into my account anymore",
-            "somebody else could read our private stuff",
-        ):
-            self.assertEqual(classify(text, POLICY).state, State.REVIEW, text)
+def test_strong_billing_is_measured(policy):
+    decision = classify("Please refund the invoice, I was overcharged", policy)
+    assert decision.state is State.MEASURED and decision.label == "BILLING"
 
-    def test_single_strong_signal_classifies(self):
-        self.assertEqual(classify("how do i rotate a key", POLICY).label, "SUPPORT")
 
-    def test_weak_lone_signal_reviews(self):
-        self.assertEqual(classify("help", POLICY).state, State.REVIEW)
+def test_tier_is_always_engine(policy):
+    assert classify("crash traceback exception", policy).tier is Tier.ENGINE
 
-    def test_rationale_always_explains(self):
-        self.assertTrue(classify("anything at all", POLICY).rationale)
 
-    def test_determinism(self):
-        text = "refund for a duplicate payment"
-        self.assertEqual(
-            classify(text, POLICY).to_json(), classify(text, POLICY).to_json()
-        )
+def test_single_keyword_abstains(policy):
+    assert classify("crash", policy).state is State.REVIEW
+
+
+def test_no_vocabulary_overlap_abstains(policy):
+    # The engine's ceiling is its lexicon. This is the reason a model tier exists.
+    assert classify("quarterly synergy alignment offsite", policy).state is State.REVIEW
+
+
+def test_abstention_carries_no_evidence(policy):
+    assert classify("crash", policy).evidence == ()
+
+
+def test_decision_records_axes_and_lambda(policy):
+    decision = classify("crash traceback exception", policy)
+    assert set(decision.axes) == {"lexical", "breadth", "integrity", "separation"}
+    assert decision.lambda_value > 0
+
+
+def test_rationale_explains_threshold_comparison(policy):
+    assert any("threshold" in r for r in classify("crash", policy).rationale)
+
+
+def test_deterministic_across_calls(policy):
+    first = classify("invoice refund overcharged", policy)
+    second = classify("invoice refund overcharged", policy)
+    assert first.to_json() == second.to_json()
+
+
+def test_input_hash_is_recorded(policy):
+    assert len(classify("crash", policy).input_sha256) == 64

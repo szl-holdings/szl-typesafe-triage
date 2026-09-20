@@ -1,61 +1,74 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
-import json
-import tempfile
-import unittest
-from pathlib import Path
+"""Policy loading fails closed. A permissive default is worse than a crash."""
+import pytest
 
-from szl_triage import load_policy
-from szl_triage.policy import PolicyError
-
-POLICY = Path("policies/triage_policy.v2.json")
+from szl_triage import PolicyError, load_policy
 
 
-def mutate(**overrides):
-    raw = json.loads(POLICY.read_text())
-    raw.update(overrides)
-    return raw
+def test_loads_v3(policy):
+    assert policy.version.startswith("3.")
 
 
-class TestPolicyValidation(unittest.TestCase):
-    def _load(self, raw):
-        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
-            json.dump(raw, fh)
-            path = fh.name
-        return load_policy(path)
+def test_review_excluded_from_classifiable(policy):
+    assert "REVIEW" not in policy.classifiable
 
-    def test_loads(self):
-        policy = load_policy(POLICY)
-        self.assertEqual(policy.version, "v2")
-        self.assertEqual(policy.normalization, "top1")
 
-    def test_review_excluded_from_classifiable(self):
-        self.assertNotIn("REVIEW", load_policy(POLICY).classifiable)
+def test_every_classifiable_label_has_rules(policy):
+    for label in policy.classifiable:
+        assert policy.rules[label]
 
-    def test_rejects_missing_keys(self):
-        raw = mutate()
-        del raw["min_margin"]
-        with self.assertRaises(PolicyError):
-            self._load(raw)
 
-    def test_rejects_unknown_normalization(self):
-        with self.assertRaises(PolicyError):
-            self._load(mutate(normalization="mystery"))
+def test_missing_key_raises(raw_policy, tmp_policy):
+    del raw_policy["lambda_threshold"]
+    with pytest.raises(PolicyError, match="missing required keys"):
+        load_policy(tmp_policy(raw_policy))
 
-    def test_rejects_missing_review_sink(self):
-        with self.assertRaises(PolicyError):
-            self._load(
-                mutate(labels=["BUG", "FEATURE", "SUPPORT", "BILLING", "SECURITY"])
-            )
 
-    def test_rejects_out_of_range_weight(self):
-        raw = mutate()
-        raw["rules"]["BUG"][0]["weight"] = 4.2
-        with self.assertRaises(PolicyError):
-            self._load(raw)
+def test_missing_review_sink_raises(raw_policy, tmp_policy):
+    raw_policy["labels"] = [l for l in raw_policy["labels"] if l != "REVIEW"]
+    with pytest.raises(PolicyError, match="REVIEW"):
+        load_policy(tmp_policy(raw_policy))
 
-    def test_rejects_out_of_range_threshold(self):
-        with self.assertRaises(PolicyError):
-            self._load(mutate(min_confidence=1.9))
 
-    def test_top1_denominator_is_strongest_term(self):
-        self.assertAlmostEqual(load_policy(POLICY).denominator("BUG"), 0.7)
+def test_wrong_axis_set_raises(raw_policy, tmp_policy):
+    raw_policy["axis_weights"].pop("breadth")
+    with pytest.raises(PolicyError, match="axis_weights"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_zero_axis_weight_raises(raw_policy, tmp_policy):
+    raw_policy["axis_weights"]["integrity"] = 0.0
+    with pytest.raises(PolicyError, match="positive"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_threshold_out_of_range_raises(raw_policy, tmp_policy):
+    raw_policy["lambda_threshold"] = 1.5
+    with pytest.raises(PolicyError, match="out of range"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_empty_meta_cues_raises(raw_policy, tmp_policy):
+    raw_policy["meta_cues"] = []
+    with pytest.raises(PolicyError, match="meta_cues"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_rule_for_undeclared_label_raises(raw_policy, tmp_policy):
+    raw_policy["rules"]["NOPE"] = [{"term": "x", "weight": 0.5}]
+    with pytest.raises(PolicyError, match="undeclared"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_weight_out_of_range_raises(raw_policy, tmp_policy):
+    raw_policy["rules"]["BUG"][0]["weight"] = 3.0
+    with pytest.raises(PolicyError, match="weight out of range"):
+        load_policy(tmp_policy(raw_policy))
+
+
+def test_v2_normalization_mode_is_not_accepted(raw_policy, tmp_policy):
+    # v1/v2 normalization modes were removed, not kept as selectable options.
+    raw_policy.pop("axis_weights")
+    raw_policy["normalization"] = "top1"
+    with pytest.raises(PolicyError):
+        load_policy(tmp_policy(raw_policy))

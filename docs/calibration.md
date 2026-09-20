@@ -1,57 +1,70 @@
-# A measured policy defect: v1 to v2
+# Calibration, v0.3.0
 
-Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
+<!-- Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0 -->
 
-## What the corpus build exposed
+## Why the bespoke scorers were removed
 
-The first corpus generated against policy **v1** produced a **94.2% REVIEW
-rate** -- 226 of 240 examples. That is not a cautious classifier. It is a
-broken one: a model trained on that corpus would learn to answer REVIEW
-unconditionally and score roughly 94% on a metric that means nothing.
+Two scoring formulas were written for this package before v0.3.0 and both were
+measurably wrong:
 
-## Root cause
+- **v1 `sum` normalization** divided by the total weight of every term in a
+  label, so the maximum achievable confidence was mathematically unreachable.
+  No input could clear the threshold.
+- **v2 `top1` normalization** divided by the single strongest term, so **one
+  matched keyword reached confidence 1.0**. Combined with the fact that the v2
+  lexicon contained the label names, naming a label selected it.
 
-Policy v1 normalized each label's score by the **sum of every keyword weight**
-in that label. For `SUPPORT` the denominator was 1.9, so an input matching the
-strongest single signal -- `"how do i"`, weight 0.7 -- scored 0.368 and could
-never reach `min_confidence` 0.5.
+Neither mode is retained as a configurable option. Keeping a known-broken
+scorer selectable is a trap, not backwards compatibility.
 
-Real inputs carry one or two decisive signals, never the full keyword set. The
-v1 bar was mathematically unreachable, and no amount of prompt or model work
-would have surfaced that. Only the distribution did.
+## The replacement
 
-## Sweep
+Dispositions now come from `szl-lambda-gate`'s weighted geometric mean, which
+is specified and formalized upstream rather than invented here. Lambda
+uniqueness remains Conjecture 1 (OPEN) in that corpus and is not described as
+proven.
 
-| normalization | min_confidence | REVIEW share | ambiguous/adversarial leaks | golden fixtures |
+```
+axis_weights = {lexical: 0.25, breadth: 0.40, integrity: 0.20, separation: 0.15}
+lambda_threshold = 0.65
+```
+
+## Where 0.40 and 0.65 come from
+
+The binding requirement was: **a single keyword must not produce a label**,
+even a keyword carrying the maximum weight of 1.0. For such an input
+`lexical = 1.0`, `integrity = 1.0`, `separation = 1.0`, and
+`breadth = 1/3 = 0.3333` against a breadth target of 3 distinct terms.
+
+The aggregate reduces to `exp(w_breadth * ln(0.3333))`. Requiring that to fall
+below 0.65 gives `w_breadth > ln(0.65) / ln(0.3333) = 0.392`. Hence 0.40 --
+chosen as the smallest round value that satisfies the constraint, not tuned to
+fit a result.
+
+Verified outcomes at these settings:
+
+| Input | lexical | breadth | lambda | Outcome |
 |---|---|---|---|---|
-| `sum` (v1) | 0.50 | 94.2% | 0 | PASS |
-| `top2` | 0.40 | 56.7% | 0 | PASS |
-| `top2` | 0.35 | 52.9% | leaks | PASS |
-| **`top1` (v2)** | **0.50** | **42.9%** | **0** | **PASS** |
+| `crash` | 1.0 | 0.3333 | 0.6444 | REVIEW |
+| `error` | 0.6 | 0.3333 | 0.5671 | REVIEW |
+| `crash` + `error` | 1.0 | 0.6667 | 0.8503 | MEASURED |
+| `crash` + `traceback` + `exception` | 1.0 | 1.0 | 1.0 | MEASURED |
+| `crash and invoice` (tie) | 1.0 | -- | 0.0 | REVIEW |
 
-## Resolution
+## Two consequences worth stating plainly
 
-Policy v2 sets `normalization: "top1"` -- the strongest keyword in a label
-defines sufficient evidence. One decisive signal can classify; a weak lone
-signal still falls to REVIEW (`"help"` alone scores 0.43 and is refused).
+**A tie is a refusal.** When two labels score equally the separation axis is
+zero, and under a geometric mean that zeroes the aggregate outright. An
+ambiguous ticket goes to REVIEW rather than to a coin flip. This is intended.
 
-Policy v1 is left byte-for-byte unchanged rather than retuned in place, so
-earlier scores remain reproducible, and both versions are gated in CI.
+**Boundary matching cost recall.** Substring matching scored `de(bug)` as BUG
+evidence and `very (help)ful` as SUPPORT. Boundary-aware counting fixes that
+class of false positive but loses morphological variants: `crashes` no longer
+matches `crash`. Precision was bought with recall deliberately, and the lost
+variants belong in the policy as explicit terms rather than in a stemmer.
 
-## A second finding, recorded rather than hidden
+## Scope
 
-Two inputs derived from the ambiguous seed `"broken maybe"` were classified
-BUG under v2. On inspection the classification was **correct** -- the phrase
-carries a genuine signal -- and the seed had been mislabelled when the corpus
-was authored.
-
-The seed was replaced. The engine was not weakened to accommodate a bad
-label. Noting which of the two was at fault is the difference between
-calibration and rationalization.
-
-## Final v2 distribution, 240 examples
-
-- REVIEW 103 (42.9%), MEASURED 137
-- BUG 30/30, BILLING 30/30, SECURITY 27/30, FEATURE 25/30, SUPPORT 25/30
-- Ambiguous bucket: 45/45 REVIEW, zero leaks
-- Adversarial bucket: 45/45 REVIEW, zero leaks
+These thresholds were calibrated against 10 legitimate tickets and 40
+self-authored attacks. That is a small, self-graded sample. See
+`docs/redteam.md`, including the paraphrase bypass it did not prevent.

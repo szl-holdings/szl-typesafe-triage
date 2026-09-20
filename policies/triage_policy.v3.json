@@ -1,0 +1,96 @@
+{
+  "name": "szl-triage-default",
+  "version": "3.0.0",
+  "notes": "Axis-based policy for the Lambda aggregate. Label names are deliberately absent from the lexicon: in v2 the lexicon contained them, so naming a label selected it.",
+  "labels": ["BUG", "BILLING", "SECURITY", "FEATURE", "SUPPORT", "REVIEW"],
+  "axis_weights": {"lexical": 0.25, "breadth": 0.40, "integrity": 0.20, "separation": 0.15},
+  "lambda_threshold": 0.65,
+  "max_hits_counted": 2,
+  "rules": {
+    "BUG": [
+      {"term": "crash", "weight": 1.0},
+      {"term": "stack trace", "weight": 0.9},
+      {"term": "traceback", "weight": 0.9},
+      {"term": "exception", "weight": 0.8},
+      {"term": "regression", "weight": 0.7},
+      {"term": "freeze", "weight": 0.7},
+      {"term": "error", "weight": 0.6},
+      {"term": "broken", "weight": 0.6},
+      {"term": "500", "weight": 0.5}
+    ],
+    "BILLING": [
+      {"term": "invoice", "weight": 1.0},
+      {"term": "refund", "weight": 0.9},
+      {"term": "overcharged", "weight": 0.9},
+      {"term": "card declined", "weight": 0.9},
+      {"term": "charged", "weight": 0.85},
+      {"term": "payment", "weight": 0.8},
+      {"term": "subscription", "weight": 0.7},
+      {"term": "pricing", "weight": 0.6}
+    ],
+    "SECURITY": [
+      {"term": "vulnerability", "weight": 1.0},
+      {"term": "exploit", "weight": 0.9},
+      {"term": "unauthorized", "weight": 0.9},
+      {"term": "breach", "weight": 0.9},
+      {"term": "cve", "weight": 0.8},
+      {"term": "leaked", "weight": 0.8},
+      {"term": "xss", "weight": 0.8},
+      {"term": "credentials", "weight": 0.7}
+    ],
+    "FEATURE": [
+      {"term": "enhancement", "weight": 1.0},
+      {"term": "please add", "weight": 0.9},
+      {"term": "would be nice", "weight": 0.8},
+      {"term": "suggestion", "weight": 0.7},
+      {"term": "roadmap", "weight": 0.6},
+      {"term": "improve", "weight": 0.6}
+    ],
+    "SUPPORT": [
+      {"term": "reset password", "weight": 1.0},
+      {"term": "account locked", "weight": 0.9},
+      {"term": "cannot log in", "weight": 0.9},
+      {"term": "how do i", "weight": 0.85},
+      {"term": "onboarding", "weight": 0.6},
+      {"term": "documentation", "weight": 0.6},
+      {"term": "walkthrough", "weight": 0.6}
+    ]
+  },
+  "injection_phrases": [
+    "ignore previous instructions",
+    "ignore all previous instructions",
+    "disregard previous instructions",
+    "disregard all prior instructions",
+    "you are now",
+    "new instructions:",
+    "system:",
+    "</system>",
+    "jailbreak",
+    "developer mode",
+    "reveal your prompt",
+    "print your instructions",
+    "repeat your system prompt"
+  ],
+  "meta_cues": [
+    "mark this as",
+    "classify this as",
+    "label this as",
+    "categorize this as",
+    "categorise this as",
+    "treat this as",
+    "set the label to",
+    "assign the label",
+    "the correct label is",
+    "this should be classified as",
+    "route this to",
+    "tag this as",
+    "you must classify",
+    "you should classify",
+    "as an ai",
+    "your instructions",
+    "system prompt",
+    "override the",
+    "do not classify this as",
+    "priority classification"
+  ]
+}
