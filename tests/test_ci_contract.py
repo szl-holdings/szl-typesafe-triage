@@ -21,16 +21,6 @@ def action_refs(source: str) -> list[str]:
     return re.findall(r"^\s*-\s+uses:\s+([^\s#]+)", source, re.MULTILINE)
 
 
-def bare_conftest_imports(source: str) -> list[str]:
-    found = []
-    for node in ast.walk(ast.parse(source)):
-        if isinstance(node, ast.ImportFrom) and node.module == "conftest" and node.level == 0:
-            found.append("from conftest")
-        if isinstance(node, ast.Import):
-            found.extend(alias.name for alias in node.names if alias.name == "conftest")
-    return found
-
-
 class CIContractTests(unittest.TestCase):
     def test_external_actions_have_immutable_full_sha_pins(self):
         refs = action_refs(workflow())
@@ -74,22 +64,14 @@ class CIContractTests(unittest.TestCase):
         self.assertIn("          persist-credentials: false\n", source)
         self.assertIn('      PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"\n', source)
 
-    def test_packaged_tests_do_not_import_top_level_conftest(self):
+    def test_packaged_test_helpers_use_relative_imports(self):
         for name in ("test_doctrine.py", "test_pipeline.py", "test_redteam.py"):
             with self.subTest(path=name):
-                source = (ROOT / "tests" / name).read_text(encoding="utf-8")
-                self.assertEqual(bare_conftest_imports(source), [])
-
-    def test_import_guard_accepts_fixtures_and_rejects_bare_imports(self):
-        for source in ("from conftest import FakeModel", "import conftest",
-                       "import conftest as helpers"):
-            with self.subTest(source=source):
-                self.assertTrue(bare_conftest_imports(source))
-        for source in ("from .conftest import FakeModel",
-                       "from tests.conftest import FakeModel",
-                       "def test_calls(fake_model):\n    model = fake_model()"):
-            with self.subTest(source=source):
-                self.assertEqual(bare_conftest_imports(source), [])
+                tree = ast.parse((ROOT / "tests" / name).read_text(encoding="utf-8"))
+                imports = [node for node in ast.walk(tree)
+                           if isinstance(node, ast.ImportFrom) and node.module == "conftest"]
+                self.assertEqual(len(imports), 1)
+                self.assertEqual(imports[0].level, 1)
 
     def test_native_push_pr_and_merge_group_paths_remain(self):
         source = workflow()

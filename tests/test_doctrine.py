@@ -9,6 +9,8 @@ import pytest
 
 from szl_triage import ModelProposal, State, Tier, decide, detect_dispositions
 
+from .conftest import FakeModel
+
 # The verbatim shape of szl-frontier/frontier/handoffs/2026-09-20-wave5-*.json,
 # which an earlier text-matching implementation missed because real JSON has no
 # space after the colon.
@@ -83,8 +85,8 @@ def test_strong_evidence_cannot_outvote_a_hold(policy):
     assert decision.state is State.REVIEW
 
 
-def test_model_is_never_consulted_on_a_disposition(policy, fake_model):
-    model = fake_model(ModelProposal("BILLING", ("invoice",), "looks like billing"))
+def test_model_is_never_consulted_on_a_disposition(policy):
+    model = FakeModel(ModelProposal("BILLING", ("invoice",), "looks like billing"))
     decide('{"disposition":"HOLD"}', policy, model=model)
     assert model.calls == 0
 
