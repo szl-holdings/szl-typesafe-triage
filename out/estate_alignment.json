@@ -1,0 +1,52 @@
+{
+  "schema": "szl.estate-alignment/v1",
+  "commit": "9c694ed",
+  "ledger": {
+    "algorithm": "sha3_256",
+    "records": 42,
+    "genesis": "0000000000000000000000000000000000000000000000000000000000000000",
+    "head_digest": "fad4499cb9b853b454ed098f3ebdcbff60f082201943c14d1eac6d39fe1b1947",
+    "continuity_breaks": 0,
+    "signer_state": "SIGNED",
+    "signer_detail": "persistent signer key generated into .keys (gitignored)",
+    "signatures_verified_offline": 42,
+    "public_key_pem_present": true
+  },
+  "divergences_corrected": [
+    {
+      "was": "sha256 hash chain",
+      "now": "sha3_256",
+      "why": "a-11-oy.com states every vertical emits into a single SHA3-256 hash chain; sha256 receipts could not join the estate ledger"
+    },
+    {
+      "was": "UNSIGNED_HONEST, a label I invented",
+      "now": "SIGNED / HASH-LINKED / UNSIGNED / DISABLED / UNAVAILABLE",
+      "why": "the estate vocabulary is fixed: SIGNED only when persistent signer evidence is active and independent verification passes"
+    },
+    {
+      "was": "uniqueness recorded only as Conjecture 1",
+      "now": "Conjecture 1 unconditional is machine-checked false as stated; Theorem U is the proven conditional alternative",
+      "why": "recording only the conjecture omitted the proven half and understated the actual result"
+    }
+  ],
+  "honesty_tier_crosswalk": {
+    "MEASURED": "MEASURED",
+    "UNRATIFIED": "REPORTED",
+    "DEGRADED": "SOFTWARE",
+    "BLOCKED": "UNAVAILABLE",
+    "UNVERIFIED": "REPORTED",
+    "UNAVAILABLE": "UNAVAILABLE",
+    "NOT_CLAIMED": "UNAVAILABLE",
+    "PRE_AGGREGATION": "SOFTWARE"
+  },
+  "crosswalk_note": "this repo invented seven claim states before checking the estate's six. the canonical tiers are MEASURED, REPORTED, ROADMAP, SOFTWARE, UNAVAILABLE and SIMULATED. local states are kept as finer grain and mapped, so nothing is published under a tier the estate does not define",
+  "f18_caution": "F18 is Reed-Solomon parity for erasure tolerance, not a DSSE seal. a-11-oy.com warns against that misattribution and this repo makes no F-number claim",
+  "lambda": {
+    "posture": "advisory",
+    "never_green": true,
+    "never_1_0": true,
+    "unconditional_uniqueness": "machine-checked FALSE as stated",
+    "conditional": "Theorem U, proven"
+  },
+  "status": "MEASURED"
+}

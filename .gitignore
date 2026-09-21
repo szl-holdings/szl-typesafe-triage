@@ -23,3 +23,9 @@ out/verify_publish_*.py
 out/*.bak/
 __pycache__/
 *.pyc
+.env
+*.key
+secrets.*
+out/*.secret.json
+.keys/
+*.pem
