@@ -1,6 +1,6 @@
 {
   "schema": "szl.bench/v1",
-  "commit": "1c4551b",
+  "commit": "0e962dc",
   "gate_shape": {
     "canonical_axes": 13,
     "engine_axes": 4,

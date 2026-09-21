@@ -49,4 +49,4 @@ Our trust aggregator's unconditional uniqueness is a **conjecture and disproved 
 result is proved, and it is proved without a project axiom. We claim no accreditation beyond level one honest
 supply-chain posture. Verification here proves integrity and origin, never accuracy or performance.
 
-Generated from receipts at `1c4551b`.
+Generated from receipts at `0e962dc`.

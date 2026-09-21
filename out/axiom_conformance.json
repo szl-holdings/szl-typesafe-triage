@@ -1,6 +1,6 @@
 {
   "schema": "szl.axiom-conformance/v1",
-  "commit": "1c4551b",
+  "commit": "0e962dc",
   "vectors_tested": 895,
   "source_of_axioms": "szl-papers thesis v23/v24 and preprints/ouroboros-arxiv, read from the local clone",
   "lambda_definition_per_thesis": "equal-weight geometric mean Lambda_k(x) = (prod x_i)^(1/k)",

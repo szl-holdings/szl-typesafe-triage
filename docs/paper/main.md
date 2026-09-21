@@ -1,6 +1,6 @@
 # A deployed triage engine measured against its own project's formal specification
 
-Generated from receipts at `1c4551b`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
+Generated from receipts at `0e962dc`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
 
 ## Abstract
 
@@ -36,7 +36,7 @@ Twenty-plus local behaviours are bound to named Lean symbols in `out/lean_bindin
 
 ## 5. Honesty apparatus
 
-A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: CLAIMED 0, DENIED 4 (listed for human ratification), QUOTED 288, META 58. a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.
+A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: CLAIMED 0, DENIED 5 (listed for human ratification), QUOTED 288, META 59. a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.
 
 ## 6. Limitations
 
