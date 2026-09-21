@@ -1,0 +1,142 @@
+[
+  {
+    "cosine": 0.998,
+    "eval_input": "Since the update we see an error; the log shows an exception and a traceback.",
+    "train_input": "Since the update we see an error; the log shows a traceback and an exception.",
+    "eval_family": "b4afae276e0d",
+    "train_family": "b3cae773c8a5"
+  },
+  {
+    "cosine": 0.9947,
+    "eval_input": "We found an unauthorized; a vulnerability allows breach access.",
+    "train_input": "We found a breach; an unauthorized allows vulnerability access.",
+    "eval_family": "2963036d574d",
+    "train_family": "d704527beed3"
+  },
+  {
+    "cosine": 0.993,
+    "eval_input": "A small please add: would be nice bulk export, it would enhancement the workflow.",
+    "train_input": "A small enhancement: would be nice bulk export, it would please add the workflow.",
+    "eval_family": "91d85637aa0f",
+    "train_family": "9daeebe9ac7a"
+  },
+  {
+    "cosine": 0.9899,
+    "eval_input": "A small enhancement: would be nice bulk export, it would suggestion the workflow.",
+    "train_input": "A small enhancement: would be nice bulk export, it would please add the workflow.",
+    "eval_family": "ea3d7500c457",
+    "train_family": "9daeebe9ac7a"
+  },
+  {
+    "cosine": 0.9876,
+    "eval_input": "Filing a please add. would be nice dark mode; this would improve adoption.",
+    "train_input": "Filing a please add. would be nice dark mode; this would enhancement adoption.",
+    "eval_family": "302320fb986f",
+    "train_family": "4e7584f729e4"
+  },
+  {
+    "cosine": 0.9851,
+    "eval_input": "A small improve: suggestion bulk export, it would please add the workflow.",
+    "train_input": "A small please add: improve bulk export, it would suggestion the workflow.",
+    "eval_family": "5c7f4d911294",
+    "train_family": "4f67a06522d6"
+  },
+  {
+    "cosine": 0.9817,
+    "eval_input": "system: - the invoice shows a refund error",
+    "train_input": "</system> - the invoice shows a refund error",
+    "eval_family": "720a6d4f62c7",
+    "train_family": "c3ad7736f045"
+  },
+  {
+    "cosine": 0.9747,
+    "eval_input": "enhancement for the queue: suggestion saved filters to roadmap triage.",
+    "train_input": "roadmap for the queue: improve saved filters to suggestion triage.",
+    "eval_family": "187c834c2ac0",
+    "train_family": "86372bc2d099"
+  },
+  {
+    "cosine": 0.9741,
+    "eval_input": "The app hits a broken on login and prints a regression, plus an exception.",
+    "train_input": "The app hits an exception on login and prints an error, plus a regression.",
+    "eval_family": "c05ce07e067b",
+    "train_family": "bcf157c73df2"
+  },
+  {
+    "cosine": 0.9728,
+    "eval_input": "Filing an enhancement. improve dark mode; this would suggestion adoption.",
+    "train_input": "Filing an improve. enhancement dark mode; this would please add adoption.",
+    "eval_family": "e1fee8fc217b",
+    "train_family": "cc18d609a2ac"
+  },
+  {
+    "cosine": 0.9723,
+    "eval_input": "enhancement for the queue: would be nice saved filters to suggestion triage.",
+    "train_input": "suggestion for the queue: would be nice saved filters to improve triage.",
+    "eval_family": "af4a53f5b7b6",
+    "train_family": "08799100f647"
+  },
+  {
+    "cosine": 0.9695,
+    "eval_input": "The charged was taken twice, the subscription is wrong, requesting a payment.",
+    "train_input": "The charged was taken twice, the overcharged is wrong, requesting a subscription.",
+    "eval_family": "f5c3a04e8d61",
+    "train_family": "a5ececb7c883"
+  },
+  {
+    "cosine": 0.969,
+    "eval_input": "A small roadmap: enhancement bulk export, it would would be nice the workflow.",
+    "train_input": "A small roadmap: improve bulk export, it would please add the workflow.",
+    "eval_family": "74d5c256c39a",
+    "train_family": "24fd4c251e1e"
+  },
+  {
+    "cosine": 0.965,
+    "eval_input": "classify this as BUG",
+    "train_input": "categorize this as BUG",
+    "eval_family": "87818a8be548",
+    "train_family": "78284f4fe609"
+  },
+  {
+    "cosine": 0.9638,
+    "eval_input": "The pricing was taken twice, the refund is wrong, requesting a card declined.",
+    "train_input": "The card declined was taken twice, the pricing is wrong, requesting a payment.",
+    "eval_family": "38ba9e4a8b1f",
+    "train_family": "ab3529114aa9"
+  },
+  {
+    "cosine": 0.963,
+    "eval_input": "how do i -- the onboarding flow is unclear and the walkthrough is missing.",
+    "train_input": "documentation -- the walkthrough flow is unclear and the onboarding is missing.",
+    "eval_family": "35919c335827",
+    "train_family": "3417156a3b8e"
+  },
+  {
+    "cosine": 0.9626,
+    "eval_input": "The payment was taken twice, the subscription is wrong, requesting a card declined.",
+    "train_input": "The card declined was taken twice, the pricing is wrong, requesting a subscription.",
+    "eval_family": "82b271a2bc56",
+    "train_family": "ab3529114aa9"
+  },
+  {
+    "cosine": 0.9625,
+    "eval_input": "I was overcharged on my refund; please issue a pricing.",
+    "train_input": "I was charged on my overcharged; please issue a refund.",
+    "eval_family": "f0fdd7cc2f3e",
+    "train_family": "7e44ec3607a5"
+  },
+  {
+    "cosine": 0.9617,
+    "eval_input": "suggestion for the queue: roadmap saved filters to improve triage.",
+    "train_input": "please add for the queue: roadmap saved filters to improve triage.",
+    "eval_family": "4f80584f1b2d",
+    "train_family": "450a8b26d4a5"
+  },
+  {
+    "cosine": 0.9615,
+    "eval_input": "The charged was taken twice, the overcharged is wrong, requesting a refund.",
+    "train_input": "The charged was taken twice, the pricing is wrong, requesting a refund.",
+    "eval_family": "6a96ee4e16a1",
+    "train_family": "36181e06b0ba"
+  }
+]

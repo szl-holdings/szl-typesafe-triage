@@ -1,0 +1,62 @@
+{
+  "source": "triage_distill_v0.3.0.jsonl",
+  "dest": "triage_distill_v0.3.1.jsonl",
+  "rows": 328,
+  "agreement_fixes": 64,
+  "slot_type_bugs": 11,
+  "slot_type_samples": [
+    "A unauthorized",
+    "a overcharged",
+    "a unauthorized",
+    "an would"
+  ],
+  "evidence_spans": 585,
+  "broken_spans": 0,
+  "residual_lint": 11,
+  "residual": [
+    {
+      "row": 17,
+      "issue": "an would"
+    },
+    {
+      "row": 23,
+      "issue": "a overcharged"
+    },
+    {
+      "row": 35,
+      "issue": "a unauthorized"
+    },
+    {
+      "row": 69,
+      "issue": "a unauthorized"
+    },
+    {
+      "row": 83,
+      "issue": "a overcharged"
+    },
+    {
+      "row": 120,
+      "issue": "a unauthorized"
+    },
+    {
+      "row": 130,
+      "issue": "an would"
+    },
+    {
+      "row": 141,
+      "issue": "a overcharged"
+    },
+    {
+      "row": 176,
+      "issue": "an would"
+    },
+    {
+      "row": 186,
+      "issue": "a unauthorized"
+    },
+    {
+      "row": 315,
+      "issue": "a unauthorized"
+    }
+  ]
+}
