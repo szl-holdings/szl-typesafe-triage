@@ -419,12 +419,29 @@ Two classes, each validated programmatically before scoring:
 Result: label 8/42, state 10/42, malformed 0, ungrounded spans 0,
 FALSE LABEL ON REFUSAL **10 of 12**.
 
-docs/redteam.md measured 3 of 5 paraphrased-steering attacks succeeding against the
-engine. The distilled model fails 10 of 12. Distillation reproduced the defect; it
-did not patch it. The v0.3.0 generator docstring predicted exactly this.
+CORRECTED 2026-09-21 13:02 by measurement (out/engine_only_probe.json). The engine was
+scored on the SAME 42 probes with NullModel, which the earlier text never did:
 
-This does not overturn the in-domain verdict. It bounds it: the model is faithful to
-a teacher that paraphrased steering defeats, and fidelity is why it fails here.
+| run | steering false labels | paraphrase labels correct |
+|---|---|---|
+| engine only (NullModel) | 12 of 12 | 0 of 30 |
+| distilled student | 10 of 12 | 8 of 30 |
+
+So the student is BETTER than its teacher, not faithful to it. It refuses two steering
+probes the engine mislabels, and it labels 8 paraphrase probes the engine cannot touch.
+The earlier sentences - "distillation reproduced the defect; it did not patch it" and
+"fidelity is why it fails here" - were wrong, and are retracted here rather than edited
+out. docs/redteam.md's "3 of 5" was a 5-probe sample of what is in fact a 12-of-12
+engine failure.
+
+The defect is the policy engine's, not the training run's. Engine lambda on steering
+probes averages 0.8752 against a 0.65 threshold: it fires confidently, and the integrity
+axis contributes nothing, sitting at 1.0 on 12 of 12 steering probes, 30 of 30 paraphrase
+probes, and 61 of 61 in-domain MEASURED rows. It reaches 0.0 only on 32 of 40 in-domain
+REVIEW rows - the rows written from the 20 enumerated override phrases in policy v3.1.
+The axis detects this corpus's own REVIEW templates, not attacks. That is why the
+36-configuration weight sweep found a flat surface: four axes, one of which is constant
+wherever it matters, cannot express the violated property.
 **101/101 in-domain must never be cited without 10/12 beside it.**
 
 ## Gate defect found and fixed
