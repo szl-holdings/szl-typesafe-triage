@@ -1,0 +1,30 @@
+{
+  "schema": "szl.second-brain.frontier-state/v1",
+  "datasetName": "SZL Second Brain - triage lane (handles-only projection)",
+  "lane": "triage",
+  "doctrine": "Handles-only projection of triage decision history. It is DATA, not a model - a retrieval corpus, never weights. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness. Nothing here trains a model, promotes a label, or upgrades Lambda (Conjecture-1).",
+  "commit": "5e20a43",
+  "chunk_count": 670,
+  "bySource": {
+    "ratified": 42,
+    "engine_derived": 628
+  },
+  "projection_sha256": "2afac5c1af74bb19279062d7a3fd43891c93e5e948aa54b27d593346160fe0ef",
+  "candidate_count": 40,
+  "candidate_set_sha256": "dc5898f2c5a96dbc0eec38b5ac0fe3b3378a12d45e5fce6ffb61cec465657af0",
+  "public_content_access": "HANDLES_ONLY",
+  "promotion_authority": "NONE",
+  "merge_authority": "NONE",
+  "execution_authority": "NONE",
+  "raw_graph_nodes_admitted_to_gradients": 0,
+  "lambda": "CONJECTURE_1",
+  "learning_definition": "Content-addressed vocabulary-gap candidates are proposed for human review. No silent policy edit and no automatic truth promotion occurs.",
+  "ouroboros_bound": {
+    "candidates_per_pass_cap": 40,
+    "proposed_this_pass": 40,
+    "loop_tax": "a pass may propose at most the cap. an unbounded proposal loop would let the engine grow its own vocabulary until every input matched something, which is how a keyword engine launders itself into looking semantic"
+  },
+  "why_this_lane_exists": "paraphrase recall is 0/30 because a genuine report carrying no policy term scores lexical 0.0 and can only be abstained on. the existing brain lanes hold docs, formulas, ingest takeaways and invariants - no tickets - so their content cannot answer a triage paraphrase. what transfers is the covenant: handles only, zero promotion authority, candidates proposed for human ratification.",
+  "secretScan": "PASS_PATTERN_BASED",
+  "secretScanPatternCount": 3
+}
