@@ -1,11 +1,11 @@
 {
   "schema": "szl.pipeline-run/v1",
-  "stages_total": 33,
-  "stages_run": 33,
-  "stages_passed": 32,
+  "stages_total": 34,
+  "stages_run": 34,
+  "stages_passed": 33,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 51.11,
+  "seconds": 72.11,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: 8ff764831af8955f3c9e49f1b8fdbe38",
+        "head digest: 36a2b2c87e50a15d4eeb413ffa840e69",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest 4aa6873ac8ec616de522cde2a603d897)",
+        "WROTE out/anatomy_feed.v1.json (digest 38ee67ac0b35ea15568633c3283dad6e)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.164 s for 1270 decisions",
+        "  wall clock 0.166 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []
@@ -337,7 +337,7 @@
       "produces": "out/phrasing_guard.json",
       "produced": true,
       "tail": [
-        "guard v4  META 58  QUOTED 288  DENIED 4  CLAIMED 0"
+        "guard v4  META 58  QUOTED 288  DENIED 5  CLAIMED 0"
       ],
       "stderr_tail": []
     },
@@ -413,6 +413,19 @@
       "produced": true,
       "tail": [
         "open-source surface written: README.md, docs/DATASET_CARD.md"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "showcase",
+      "script": "scripts/showcase.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/showcase.json",
+      "produced": true,
+      "tail": [
+        "showcase written: org profile, HF card, LinkedIn draft, CITATION.cff",
+        "numbers: {\"repos\": 88, \"schemas\": 689, \"unreviewed\": 75, \"comp\": 35, \"rows\": 100, \"canon_axes\": 13, \"eng_axes\": 4, \"perm\": 447, \"vecs\": 895, \"jac\": 0.8378, \"leak\": \"REFUSED\", \"ret\": 13, \"mine\": 9, \"ratified\": 0, \"eff\": 0, \"claimed\": 0}"
       ],
       "stderr_tail": []
     },

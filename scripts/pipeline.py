@@ -42,6 +42,7 @@ STAGES = [
     ("leakage", "scripts/leakage_gate.py", False, "out/leakage_gate.json"),
     ("bench", "scripts/bench.py", True, "out/bench/bench_summary.json"),
     ("ossurface", "scripts/opensource_surface.py", True, "docs/DATASET_CARD.md"),
+    ("showcase", "scripts/showcase.py", True, "out/showcase.json"),
     ("claims",     "scripts/claims_ledger.py",          True,  "out/claims_ledger.json"),
 ]
 

@@ -41,7 +41,9 @@ def extraction_ok(rel):
 scopes = {r: dict(zip(("extraction_verified", "evidence"), extraction_ok(r))) for r in EXTRACTION}
 meta, quoted, denied, claimed = [], [], [], []
 
-for p in sorted([q for q in Path("out").rglob("*.json")] + [q for q in Path("docs").rglob("*.md")]):
+targets = ([q for q in Path("out").rglob("*.json")] + [q for q in Path("docs").rglob("*.md")] +
+           [q for q in Path("docs/announce").rglob("*.txt")] + [Path("README.md")])
+for p in sorted(set(x for x in targets if x.exists())):
     rel = str(p).replace("\\", "/")
     if rel.startswith("out/diag/"):
         continue

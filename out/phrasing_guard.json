@@ -1,6 +1,6 @@
 {
   "schema": "szl.phrasing-guard/v4",
-  "commit": "8ee7817",
+  "commit": "1c4551b",
   "artefacts_scanned": 143,
   "violations": [],
   "violation_count": 0,
@@ -338,9 +338,9 @@
   },
   "why_v2_was_wrong": "v2 granted quotation scope only when a refutation keyword sat near the match. that misfired on 64 occurrences where the corpus says 'we do not claim L3, FedRAMP, Iron Bank, or CMMC' - a disclaimer read as a claim because the keyword list lacked 'do not claim'. extending the keyword list would have been whack-a-mole dressed as rigour.",
   "classes": {
-    "META": 58,
+    "META": 59,
     "QUOTED": 288,
-    "DENIED": 4,
+    "DENIED": 5,
     "CLAIMED": 0
   },
   "denied_pending_human_ratification": [
@@ -359,6 +359,13 @@
       "negation_cue": "not l2"
     },
     {
+      "file": "docs/showcase/HF_ORG_CARD.md",
+      "match": "unconditional uniqu",
+      "phrase_class": "unconditional Lambda uniqueness",
+      "preceding": "rtefact. tagged as such. - **no-weights / curriculum-only** \u2014 nothing to load. present for provenance. ## what we do not claim our trust aggregator's ",
+      "negation_cue": "do not claim"
+    },
+    {
       "file": "out/retractions.json",
       "match": "FedRAMP",
       "phrase_class": "a disclaimed supply-chain level",
@@ -373,11 +380,11 @@
       "negation_cue": "not l2"
     }
   ],
-  "denied_count": 4,
+  "denied_count": 5,
   "meta_exclusions": {
     "out/phrasing_guard.json": "the guard's own receipt stores the forbidden patterns and its own rationale, so every pattern matches itself; scanning it measures the guard, not a claim"
   },
-  "meta_hit_count": 58,
+  "meta_hit_count": 59,
   "honest_limit": "a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.",
   "iteration_history": "v2 granted absolution on any nearby refutation keyword and missed 'we do not claim', reporting 64 false positives. v3 removed the keyword test and reported 369, including the guard's own receipt. v4 separates authorship, negation and self-reference instead of widening a regex, and states that the negation test is heuristic."
 }

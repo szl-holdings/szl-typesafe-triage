@@ -1,6 +1,6 @@
 {
   "schema": "szl.refusal-mechanisms/v4",
-  "commit": "8ee7817",
+  "commit": "1c4551b",
   "rows": 1270,
   "paths": {
     "PRE_AGGREGATION": 39,
@@ -40,7 +40,7 @@
     "kind": "governance.decision",
     "producer": "szl-typesafe-triage",
     "policy_id": "triage_policy.v3",
-    "kernel_commit": "8ee7817",
+    "kernel_commit": "1c4551b",
     "seq": 0,
     "input_digest": "sha256:1c315050ff2c6ddb2faa1d902ec4603646d1aeaffa9cd222947c3e2818556398",
     "verdict": "REVIEW",

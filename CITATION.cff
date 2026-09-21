@@ -1,13 +1,22 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-title: "SZL TypeSafe Triage - deterministic, receipt-bearing typed triage engine"
+message: "If you reference this work, please cite it as below."
+title: "szl-typesafe-triage: a deployed triage engine measured against its own formal specification"
 authors:
   - family-names: Lutar
-    given-names: Stephen
-version: 0.1.0
-date-released: 2026-09-20
-url: "https://github.com/szl-holdings/szl-typesafe-triage"
+    given-names: "Stephen P."
+    name-suffix: Jr.
+    affiliation: "SZL Holdings"
 repository-code: "https://github.com/szl-holdings/szl-typesafe-triage"
 license: Apache-2.0
-copyright: "Copyright 2026 SZL Holdings"
-notes: "Mint a Zenodo DOI from the first tagged GitHub release; do not claim a DOI before Zenodo issues it."
+type: software
+keywords:
+  - governed AI
+  - measurement discipline
+  - corpus contamination
+  - non-compensatory aggregation
+  - receipts
+abstract: >
+  A deterministic, receipt-bearing triage engine, reported together with the measurements that show
+  where it fails: a compensatory four-axis aggregator against a non-compensatory 13-axis governance gate,
+  a corpus refused by a contamination gate, and an append-only ledger of 13 retractions.
+  No model is trained and no baseline is beaten.
