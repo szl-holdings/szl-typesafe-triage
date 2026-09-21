@@ -35,6 +35,7 @@ try {
   $Manifest.stages["S5_DETERMINISM"] = 0
 
   Invoke-Stage "S6_VERIFY_SPLIT" { & $vpy scripts\verify_split.py $SplitPath $CorpusPath 2>&1 | Tee-Object ".\out\verify_$stamp.log" }
+  Invoke-Stage "S6B_LEXICAL_LEAKAGE" { & $vpy scripts\leakage.py $SplitPath 2>&1 | Tee-Object ".\out\leakage_$stamp.log" }
   Invoke-Stage "S7_PREFLIGHT" { & $vpy scripts\preflight.py 2>&1 | Tee-Object ".\out\pre_$stamp.log" }
 
   $plan = Get-Content .\out\invocation_plan.json -Raw | ConvertFrom-Json
