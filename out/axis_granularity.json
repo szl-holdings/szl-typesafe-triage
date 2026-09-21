@@ -1,6 +1,6 @@
 {
   "schema": "szl.axis-granularity/v1",
-  "commit": "d801801",
+  "commit": "fb9bc7b",
   "rows": 1231,
   "tau": 0.65,
   "axes": [

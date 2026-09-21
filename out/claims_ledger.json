@@ -1,6 +1,6 @@
 {
   "schema": "szl.claims-ledger/v1",
-  "commit": "d801801",
+  "commit": "fb9bc7b",
   "claims": [
     {
       "id": "C1",
