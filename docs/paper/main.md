@@ -1,10 +1,10 @@
 # A deployed triage engine measured against its own project's formal specification
 
-Generated from receipts at `7198224`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
+Generated from receipts at `427a70e`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
 
 ## Abstract
 
-We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 16 claims made during development are retracted in an append-only ledger, 12 of them corrections to claims made earlier in the same repository.
+We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 19 claims made during development are retracted in an append-only ledger, 15 of them corrections to claims made earlier in the same repository.
 
 ## 1. What is claimed and what is not
 
@@ -36,7 +36,7 @@ Twenty-plus local behaviours are bound to named Lean symbols in `out/lean_bindin
 
 ## 5. Honesty apparatus
 
-A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: CLAIMED 0, DENIED 5 (listed for human ratification), QUOTED 288, META 59. a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.
+A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: CLAIMED 0, DENIED 9 (listed for human ratification), QUOTED 288, META 65. a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.
 
 ## 6. Limitations
 
@@ -90,5 +90,11 @@ A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: C
   corrected to: the axes are breadth, integrity, lexical and separation. the earlier names were assumed from the estate's vocabulary rather than read from policies/triage_policy.v3.json, and they were used in working notes throughout this session
 - **11.** claimed: the 0.97 ceiling is principled  
   corrected to: it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM
+- **19.** claimed: each commit today carries a message describing the work in that commit  
+  corrected to: six messages appear twice in today's history, 0.9 to 3.4 minutes apart: 91e1738/d00027c, 6d31e1d/9c694ed, fda04f7/3d3c474, 8ee7817/1c4551b, 0e962dc/d801801, fb9bc7b/ad0e8de. twelve of today's fifty-three commits, twenty-three percent. the second of each pair carries line-ending renormalisation and reuses the full message, so six messages in history describe work already committed minutes earlier. this is the 8977c76 and fbea5cd defect class and it went unrecorded all day while the ledger tracked everything else
+- **20.** claimed: commit 7198224 states that refuse_overwrite, assert_bf16_loader, assert_hparams and assert_sm120 are in place in scripts/train_lora.py  
+  corrected to: scripts/train_lora.py did not exist when 7198224 was authored. the patch script exited with FileNotFoundError on that path and the commit ran anyway. 82d854e added the rule that artifacts must be verified present before git add, and that rule was applied to one code path and never generalised, so the same defect recurred ninety minutes later
+- **21.** claimed: triage/ was a new directory for the stack  
+  corrected to: triage/ is an existing importable package holding __init__.py, engine.py at 3503 bytes and receipts.py at 1497 bytes. the stack files were written into a library package by a New-Item -Force that reported nothing, and the stack commit never landed at all. the files are moved to ops/ and the repository's two engine modules, triage/ and src/szl_triage/, are recorded as an open question rather than silently reconciled
 
 Release status: BLOCKED at 11/12.

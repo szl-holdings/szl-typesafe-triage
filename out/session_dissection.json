@@ -1,6 +1,6 @@
 {
   "schema": "szl.session-dissection/v1",
-  "commit": "7198224",
+  "commit": "427a70e",
   "retraction_rows": [
     {
       "n": 1,

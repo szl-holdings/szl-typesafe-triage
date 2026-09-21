@@ -1,6 +1,6 @@
 {
   "schema": "szl.rule-sensitivity/v1",
-  "commit": "7198224",
+  "commit": "427a70e",
   "tau": 0.65,
   "weights": {
     "lexical": 0.25,

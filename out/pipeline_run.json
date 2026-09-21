@@ -5,7 +5,7 @@
   "stages_passed": 37,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 48.07,
+  "seconds": 59.16,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: 9aaf5208156f7f39f5f6b3630e7127fa",
+        "head digest: ecdd584954ee3a0d74d8062f70611725",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest b1375868e02c5d487523d7ee7ffb667d)",
+        "WROTE out/anatomy_feed.v1.json (digest 574e029461b5cd41282aa67f80472301)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -224,7 +224,7 @@
       "produces": "docs/paper/main.md",
       "produced": true,
       "tail": [
-        "paper assembled from receipts -> docs/paper/main.md (78 lines)"
+        "paper assembled from receipts -> docs/paper/main.md (81 lines)"
       ],
       "stderr_tail": []
     },
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.167 s for 1270 decisions",
+        "  wall clock 0.159 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []
@@ -337,7 +337,7 @@
       "produces": "out/phrasing_guard.json",
       "produced": true,
       "tail": [
-        "guard v4  META 59  QUOTED 288  DENIED 9  CLAIMED 0"
+        "guard v4  META 65  QUOTED 288  DENIED 9  CLAIMED 0"
       ],
       "stderr_tail": []
     },

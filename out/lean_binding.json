@@ -1,6 +1,6 @@
 {
   "schema": "szl.lean-binding/v1",
-  "commit": "7198224",
+  "commit": "427a70e",
   "lutar_lean_commit": "5341b7a",
   "lean_symbols_indexed": 2068,
   "bindings": [

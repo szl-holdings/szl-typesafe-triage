@@ -1,6 +1,6 @@
 {
   "schema": "szl.compartment-balance/v1",
-  "commit": "7198224",
+  "commit": "427a70e",
   "borrowed_from": "szl-holdings/yarqa - plug-flow compartmentalization with signed provenance receipts. the concept transferred is conservation accounting over a divided flow, not CFD and not the YARQA-ATTN attention kernel, which has no place in a deterministic keyword engine",
   "inflow": 1270,
   "compartments": {

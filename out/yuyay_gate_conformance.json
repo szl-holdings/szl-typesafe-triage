@@ -1,6 +1,6 @@
 {
   "schema": "szl.yuyay-gate/v2",
-  "commit": "7198224",
+  "commit": "427a70e",
   "dataset": "SZLHOLDINGS/yuyay-v3-axis-labels-v1",
   "split": "eval",
   "rows": 100,
