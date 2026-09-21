@@ -2,7 +2,8 @@ import json, sys, hashlib
 from pathlib import Path
 SEED, LORA_R, LORA_ALPHA = 11, 16, 16
 MAX_SEQ_LEN, EPOCHS, BATCH, GRAD_ACCUM, LR = 2048, 3, 1, 4, 2e-4
-DATA = Path("output/triage_distill_v0.3.0.jsonl")
+import os as _os
+DATA = Path(_os.environ.get("SZL_DATA", "output/triage_distill_split_v0.4.0.jsonl"))
 BASE, OUT = sys.argv[1], sys.argv[2]
 SYSTEM = ('You are a triage classifier. Return only JSON with keys "label", '
           '"state", "evidence". Use state REVIEW and label REVIEW when evidence '

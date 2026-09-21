@@ -6,8 +6,10 @@ sys.path.insert(0, "src")
 from szl_triage.evidence import is_grounded
 from unsloth import FastLanguageModel
 
-ADAPTER = "out/triage-unsloth-bf16"
-DATA = Path("output/triage_distill_v0.3.0.jsonl")
+import os as _os0
+ADAPTER = _os0.environ.get("SZL_ADAPTER", "out/triage-unsloth-bf16")
+import os as _os
+DATA = Path(_os.environ.get("SZL_DATA", "output/triage_distill_split_v0.4.0.jsonl"))
 SYSTEM = ('You are a triage classifier. Return only JSON with keys "label", '
           '"state", "evidence". Use state REVIEW and label REVIEW when evidence '
           'is thin, when two labels are equally supported, or when the text '

@@ -1,0 +1,190 @@
+{
+  "corpus": "triage_distill_v0.5.0.jsonl",
+  "embedder": "BAAI/bge-small-en-v1.5 CLS",
+  "rows": 628,
+  "families": 282,
+  "lint": [],
+  "per_seed": {
+    "1": {
+      "family_cles": 0.5235,
+      "family_p": 0.44975,
+      "family_gap": -0.0019,
+      "random_cles": 0.4965,
+      "delta": -0.027,
+      "eval_rows": 103
+    },
+    "2": {
+      "family_cles": 0.4692,
+      "family_p": 0.31474,
+      "family_gap": 0.0044,
+      "random_cles": 0.5026,
+      "delta": 0.0335,
+      "eval_rows": 107
+    },
+    "3": {
+      "family_cles": 0.527,
+      "family_p": 0.39102,
+      "family_gap": -0.0015,
+      "random_cles": 0.4597,
+      "delta": -0.0673,
+      "eval_rows": 100
+    },
+    "4": {
+      "family_cles": 0.5354,
+      "family_p": 0.25872,
+      "family_gap": -0.0017,
+      "random_cles": 0.5232,
+      "delta": -0.0123,
+      "eval_rows": 101
+    },
+    "5": {
+      "family_cles": 0.5215,
+      "family_p": 0.49284,
+      "family_gap": -0.0017,
+      "random_cles": 0.5992,
+      "delta": 0.0777,
+      "eval_rows": 101
+    },
+    "6": {
+      "family_cles": 0.4548,
+      "family_p": 0.14163,
+      "family_gap": 0.0041,
+      "random_cles": 0.5251,
+      "delta": 0.0704,
+      "eval_rows": 106
+    },
+    "7": {
+      "family_cles": 0.4543,
+      "family_p": 0.14403,
+      "family_gap": 0.0069,
+      "random_cles": 0.4949,
+      "delta": 0.0405,
+      "eval_rows": 102
+    },
+    "8": {
+      "family_cles": 0.5115,
+      "family_p": 0.71431,
+      "family_gap": -0.0034,
+      "random_cles": 0.5216,
+      "delta": 0.0101,
+      "eval_rows": 100
+    },
+    "9": {
+      "family_cles": 0.4299,
+      "family_p": 0.02618,
+      "family_gap": 0.0059,
+      "random_cles": 0.4969,
+      "delta": 0.067,
+      "eval_rows": 100
+    },
+    "10": {
+      "family_cles": 0.5012,
+      "family_p": 0.96979,
+      "family_gap": 0.0004,
+      "random_cles": 0.4834,
+      "delta": -0.0178,
+      "eval_rows": 100
+    },
+    "11": {
+      "family_cles": 0.4834,
+      "family_p": 0.59438,
+      "family_gap": 0.0026,
+      "random_cles": 0.476,
+      "delta": -0.0074,
+      "eval_rows": 102
+    },
+    "12": {
+      "family_cles": 0.3813,
+      "family_p": 0.00015,
+      "family_gap": 0.0124,
+      "random_cles": 0.4602,
+      "delta": 0.079,
+      "eval_rows": 101
+    },
+    "13": {
+      "family_cles": 0.483,
+      "family_p": 0.59059,
+      "family_gap": 0.0037,
+      "random_cles": 0.5783,
+      "delta": 0.0953,
+      "eval_rows": 100
+    },
+    "14": {
+      "family_cles": 0.5068,
+      "family_p": 0.82726,
+      "family_gap": -0.0018,
+      "random_cles": 0.5512,
+      "delta": 0.0443,
+      "eval_rows": 101
+    },
+    "15": {
+      "family_cles": 0.4668,
+      "family_p": 0.28768,
+      "family_gap": 0.0063,
+      "random_cles": 0.5053,
+      "delta": 0.0385,
+      "eval_rows": 102
+    },
+    "16": {
+      "family_cles": 0.5131,
+      "family_p": 0.6755,
+      "family_gap": -0.002,
+      "random_cles": 0.5171,
+      "delta": 0.004,
+      "eval_rows": 102
+    },
+    "17": {
+      "family_cles": 0.5601,
+      "family_p": 0.05664,
+      "family_gap": -0.0065,
+      "random_cles": 0.4591,
+      "delta": -0.101,
+      "eval_rows": 100
+    },
+    "18": {
+      "family_cles": 0.5206,
+      "family_p": 0.51234,
+      "family_gap": -0.0025,
+      "random_cles": 0.4452,
+      "delta": -0.0754,
+      "eval_rows": 100
+    },
+    "19": {
+      "family_cles": 0.4709,
+      "family_p": 0.35296,
+      "family_gap": 0.0039,
+      "random_cles": 0.4934,
+      "delta": 0.0225,
+      "eval_rows": 101
+    },
+    "20": {
+      "family_cles": 0.4547,
+      "family_p": 0.14865,
+      "family_gap": -0.0004,
+      "random_cles": 0.4979,
+      "delta": 0.0432,
+      "eval_rows": 101
+    }
+  },
+  "family_cles_median": 0.4923,
+  "random_cles_median": 0.4974,
+  "delta_median": 0.028,
+  "seeds_family_harder": 13,
+  "primary": {
+    "seed": 12,
+    "train": 527,
+    "eval": 101,
+    "families": 44,
+    "refusals": 40,
+    "overlap": 0,
+    "family_cles": 0.3813,
+    "family_p": 0.00015,
+    "family_gap": 0.0124,
+    "random_cles": 0.4602,
+    "delta": 0.079,
+    "eval_rows": 101
+  },
+  "selection_rule": "primary = argmin family_cles over seeds 1-20; conservative selection, reported p is NOT a valid nominal p-value; inference rests on 18/20 aggregate vs random baseline",
+  "failed_conditions": [],
+  "verdict": "CORPUS FIT FOR TRAINING"
+}

@@ -10,3 +10,16 @@ scripts/*.bak
 unsloth_compiled_cache/
 src/*.egg-info/
 out/triage-unsloth-bf16/checkpoint-*/
+
+# pipeline artifacts (receipts committed explicitly, caches not)
+out/*.log
+out/*.npy
+out/manifest_*.json
+out/run_manifest_*.json
+out/frontier_manifest_*.json
+out/train_manifest_*.json
+out/split_before_*.jsonl
+out/verify_publish_*.py
+out/*.bak/
+__pycache__/
+*.pyc

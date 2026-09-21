@@ -1,0 +1,18 @@
+{
+  "skipped": [],
+  "mismatch": [],
+  "per_label": {
+    "BUG": 130,
+    "BILLING": 100,
+    "SECURITY": 130,
+    "FEATURE": 25,
+    "SUPPORT": 61
+  },
+  "candidates": {
+    "BUG": 259,
+    "BILLING": 100,
+    "SECURITY": 160,
+    "FEATURE": 25,
+    "SUPPORT": 61
+  }
+}

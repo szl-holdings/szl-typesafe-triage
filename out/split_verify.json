@@ -1,0 +1,66 @@
+{
+  "sha_triage_distill_split_v0.4.0": "5dd99e6c05ff1fa3",
+  "sha_triage_distill_v0.5.0": "c3fb8006e2a78848",
+  "split_row_count": {
+    "pass": true,
+    "value": 628
+  },
+  "corpus_row_count": {
+    "pass": true,
+    "value": 628
+  },
+  "split_inputs_match_corpus": {
+    "pass": true,
+    "value": "identical"
+  },
+  "split_labels_complete": {
+    "pass": true,
+    "value": "527/101"
+  },
+  "eval_rows_floor": {
+    "pass": true,
+    "value": 101
+  },
+  "eval_refusals_floor": {
+    "pass": true,
+    "value": 40
+  },
+  "template_family_present": {
+    "pass": true,
+    "value": 282
+  },
+  "eval_families_floor": {
+    "pass": true,
+    "value": 44
+  },
+  "family_overlap_zero": {
+    "pass": true,
+    "value": 0
+  },
+  "generator_lint_zero": {
+    "pass": true,
+    "value": 0
+  },
+  "evidence_spans_counted": {
+    "pass": true,
+    "value": 1338
+  },
+  "evidence_all_grounded": {
+    "pass": true,
+    "value": 0
+  },
+  "no_exact_duplicate_across_splits": {
+    "pass": true,
+    "value": 0
+  },
+  "no_intra_split_duplicates": {
+    "pass": true,
+    "value": "0 train dups, 0 eval dups"
+  },
+  "no_near_duplicate_across_splits": {
+    "pass": true,
+    "value": "max_cos=0.9852 over_thresh=0"
+  },
+  "eval_nn_cosine_median": 0.9491,
+  "failed_checks": []
+}
