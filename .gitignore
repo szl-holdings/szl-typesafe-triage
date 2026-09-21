@@ -29,3 +29,5 @@ secrets.*
 out/*.secret.json
 .keys/
 *.pem
+
+out/train/runs/
