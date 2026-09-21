@@ -1,0 +1,18 @@
+{
+  "schema": "szl.crosscheck/v1",
+  "implementation_a": "szl_triage.pipeline.decide (this repo)",
+  "implementation_b": "wgm() re-derived from betterwithage/anatomy organ_integrity.py (exp/log form)",
+  "rows_compared": 1270,
+  "max_abs_error": 0.0,
+  "zero_pinning_agreed_rows": 375,
+  "verdict": "CONSISTENT",
+  "note": "implementation A computes prod(x**w); implementation B computes exp(sum(w*log(x))). agreement at the engine's reported 4 decimals is the meaningful result; bit-identical agreement is not expected across those two float paths.",
+  "weights": {
+    "lexical": 0.25,
+    "breadth": 0.4,
+    "integrity": 0.2,
+    "separation": 0.15
+  },
+  "tau": 0.65,
+  "not_replacing": "szl-holdings/szl-crosscheck does this properly with dual-signed receipts; this is a local check"
+}
