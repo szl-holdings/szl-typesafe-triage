@@ -1,6 +1,12 @@
 import json, subprocess
 from pathlib import Path
 
+import os as _osn, sys
+
+def _os_force():
+    return _osn.environ.get("SZL_FORCE_NOTES") == "1"
+
+
 new = json.loads(Path("out/gate_report.json").read_text(encoding="utf-8")) if Path("out/gate_report.json").exists() else {}
 old = json.loads(Path("out/gate_report_v030_adapter.json").read_text(encoding="utf-8"))
 cg = json.loads(Path("out/corpus_gate_report.json").read_text(encoding="utf-8"))
@@ -54,6 +60,21 @@ md += "\n### corpus_gate_report.json\n```json\n" + json.dumps(cg, indent=2)[:400
 md += "\n### split_verify.json\n```json\n" + json.dumps(sv, indent=2)[:3000] + "\n```\n"
 md += "\n### gate_report (old adapter)\n```json\n" + json.dumps(old, indent=2)[:2000] + "\n```\n"
 Path("docs").mkdir(exist_ok=True)
-Path("docs/RELEASE_NOTES_v0.5.0.md").write_text(md, encoding="utf-8")
+_dst = Path("docs/RELEASE_NOTES_v0.5.0.md")
+# Sections appended by hand on 2026-09-21 (red-team 10/12, gate defect, gate scope,
+# v0.3.x correction) live only in the file, not in this generator. An unconditional
+# write_text here deletes them and restores claims that have since been corrected.
+_MANUAL = ("Red-team measurement", "Gate defect found and fixed",
+           "What the gate does and does not check",
+           "Correction: the v0.3.x quarantine")
+if _dst.exists() and not _os_force():
+    _cur = _dst.read_text(encoding="utf-8")
+    _present = [m for m in _MANUAL if m in _cur]
+    if _present:
+        print("REFUSING TO CLOBBER docs/RELEASE_NOTES_v0.5.0.md", flush=True)
+        print("hand-written sections present: " + ", ".join(_present), flush=True)
+        print("fold them into this generator, or set SZL_FORCE_NOTES=1 to overwrite", flush=True)
+        sys.exit(3)
+_dst.write_text(md, encoding="utf-8")
 print("WROTE docs/RELEASE_NOTES_v0.5.0.md", flush=True)
 print(subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True).stdout, flush=True)

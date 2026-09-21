@@ -24,6 +24,11 @@ That adapter scored PROMOTABLE on its own leaky eval. Preserved at
 `out/triage-unsloth-bf16.v0.3.0-corpus.bak`.
 
 ## Claim scope (do not overstate)
+
+See **Red-team measurement (added 2026-09-21)** below before citing any number in this
+document. In-domain is 101/101 and the gate says PROMOTABLE; out-of-domain, the model
+returns a confident false label on 10 of 12 paraphrased-steering probes. The second
+figure is not optional context for the first.
 Supported: reproduction of engine decisions on unseen combinations of seen terms,
 and refusal on unseen meta-cue wordings.
 NOT supported: distributional generalization. Family-vs-random sign test p = 0.2632
