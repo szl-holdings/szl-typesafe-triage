@@ -5,7 +5,7 @@
   "stages_passed": 32,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 69.6,
+  "seconds": 65.98,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: 2ccd29ef1b864471dcca5f0f086e2af7",
+        "head digest: dc387b4e97b8de104fa84de6e254acce",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest b2e84b16b2fa8ce80d24e802159dee99)",
+        "WROTE out/anatomy_feed.v1.json (digest afcfc8eb0c527c9cf33394eb092b2821)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -224,7 +224,7 @@
       "produces": "docs/paper/main.md",
       "produced": true,
       "tail": [
-        "paper assembled from receipts -> docs/paper/main.md (74 lines)"
+        "paper assembled from receipts -> docs/paper/main.md (75 lines)"
       ],
       "stderr_tail": []
     },
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.170 s for 1270 decisions",
+        "  wall clock 0.173 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []
@@ -325,7 +325,7 @@
       "produces": "out/retractions.json",
       "produced": true,
       "tail": [
-        "retractions: 12   of which self-corrections against my own earlier commits: 8"
+        "retractions: 13   of which self-corrections against my own earlier commits: 9"
       ],
       "stderr_tail": []
     },
@@ -400,7 +400,7 @@
       "produces": "out/bench/bench_summary.json",
       "produced": true,
       "tail": [
-        "bench: axes 13 vs 4   compensation errors 35   leakage REFUSED   retractions 12"
+        "bench: axes 13 vs 4   compensation errors 35   leakage REFUSED   retractions 13"
       ],
       "stderr_tail": []
     },

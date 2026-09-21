@@ -34,11 +34,16 @@ def text_of(r):
     return json.dumps(r)
 
 def family(t):
-    """template family = the sentence skeleton with content words stripped.
-    per-row splitting is what made the adapter's held-out set measure template recall."""
+    """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.
+    the first version hashed the sorted unique token set, so a single changed word produced a new
+    family and the count equalled the row count - 628 of 628. it could never detect a shared
+    template. this version keeps word POSITIONS and replaces only the low-frequency content words,
+    so rows sharing a skeleton collapse to one family."""
+    # POSITION_SKELETON
     s = re.sub(r"[^a-z ]", " ", t.lower())
-    toks = [w for w in s.split() if len(w) > 2]
-    return hashlib.sha1(" ".join(sorted(set(toks))[:12]).encode()).hexdigest()[:12]
+    toks = s.split()
+    skel = [(w if w in _COMMON else "#") for w in toks]
+    return hashlib.sha1(" ".join(skel).encode()).hexdigest()[:12]
 
 def grams(t, n=5):
     s = re.sub(r"\s+", " ", t.lower())
@@ -47,6 +52,12 @@ def grams(t, n=5):
 def jaccard(a, b):
     u = len(a | b)
     return (len(a & b) / u) if u else 0.0
+
+_wc = {}
+for _r in rows:
+    for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():
+        _wc[_w] = _wc.get(_w, 0) + 1
+_COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
 
 texts = [text_of(r) for r in rows]
 fams = [family(t) for t in texts]

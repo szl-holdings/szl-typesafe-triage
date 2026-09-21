@@ -1,10 +1,10 @@
 # A deployed triage engine measured against its own project's formal specification
 
-Generated from receipts at `b6b0139`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
+Generated from receipts at `b077521`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
 
 ## Abstract
 
-We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 12 claims made during development are retracted in an append-only ledger, 8 of them corrections to claims made earlier in the same repository.
+We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 13 claims made during development are retracted in an append-only ledger, 9 of them corrections to claims made earlier in the same repository.
 
 ## 1. What is claimed and what is not
 
@@ -80,6 +80,8 @@ A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: C
   corrected to: boundedness means a well-founded measure, formalized as contraction to a unique fixed point in ouro_loop_unique_fixedPoint. FAIL_BY_DEFINITION
 - **13.** claimed: the min gate scores worse than the compensatory product on the yuyay eval split  
   corrected to: my min gate was misspecified as min(scores) >= max(floors), a uniform threshold at the strictest floor. the correct analogue is per-axis margins, min(score-floor) >= 0, which is algebraically identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule nobody proposed
+- **15.** claimed: the corpus has 628 template families across 628 rows, so no families are shared  
+  corrected to: my family heuristic hashed the sorted unique token set, so one changed word produced a new family and the count necessarily equalled the row count. it could never detect a shared template. the family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 alone. the heuristic now keeps word positions and masks low-frequency content words
 - **11.** claimed: the 0.97 ceiling is principled  
   corrected to: it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM
 

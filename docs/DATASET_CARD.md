@@ -13,8 +13,8 @@
 ## Leakage detail
 
 - rows: 628
-- template families: 628
-- largest family: 1
+- template families: 491
+- largest family: 35
 - exact duplicates across split: 0
 - max char5gram jaccard: 0.8378
 - heldout rows flagged: 45/314

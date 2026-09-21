@@ -1,6 +1,6 @@
 {
   "schema": "szl.completion-audit/v1",
-  "commit": "b6b0139",
+  "commit": "b077521",
   "artifacts_reviewed": 30,
   "decision_counts": {
     "ADOPT_NOW": 5,

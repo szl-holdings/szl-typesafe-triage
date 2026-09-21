@@ -44,12 +44,18 @@ R = [
                    "identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule "
                    "nobody proposed"),
   "source": "SZLHOLDINGS/yuyay-v3-axis-labels-v1 eval split, 100 rows"},
+ {"n": 15, "claimed": "the corpus has 628 template families across 628 rows, so no families are shared",
+  "corrected_to": ("my family heuristic hashed the sorted unique token set, so one changed word produced a new family "
+                   "and the count necessarily equalled the row count. it could never detect a shared template. the "
+                   "family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 "
+                   "alone. the heuristic now keeps word positions and masks low-frequency content words"),
+  "source": "out/leakage_gate.json at the first run of the gate"},
  {"n": 11, "claimed": "the 0.97 ceiling is principled",
   "corrected_to": ("it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in "
                    "c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM"),
   "source": "lutar-lean Tier1Mathlib.lean"},
 ]
-mine = [x["n"] for x in R if x["n"] in (5, 6, 7, 8, 9, 10, 11, 13)]
+mine = [x["n"] for x in R if x["n"] in (5, 6, 7, 8, 9, 10, 11, 13, 14, 15)]
 
 Path("out/retractions.json").write_text(json.dumps(
  {"schema": "szl.retractions/v1", "commit": HEAD, "count": len(R), "retractions": R,

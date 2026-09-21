@@ -1,6 +1,6 @@
 {
   "schema": "szl.bench/v1",
-  "commit": "b6b0139",
+  "commit": "b077521",
   "gate_shape": {
     "canonical_axes": 13,
     "engine_axes": 4,
@@ -27,11 +27,11 @@
   "coverage": null,
   "leakage": {
     "verdict": "REFUSED",
-    "families": 628,
+    "families": 491,
     "max_jaccard": 0.8378,
     "semantic_pass": "UNAVAILABLE"
   },
-  "retractions": 12,
+  "retractions": 13,
   "no_winner_clause": "this bench names no winner and no baseline is beaten. it reports properties of one engine against one labelled corpus, and every number carries the receipt it came from",
   "what_is_not_benchmarked": [
     "no model weights are loaded",

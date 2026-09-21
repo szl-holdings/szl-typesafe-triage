@@ -1,7 +1,7 @@
 {
   "schema": "szl.retractions/v1",
-  "commit": "b6b0139",
-  "count": 12,
+  "commit": "b077521",
+  "count": 13,
   "retractions": [
     {
       "n": 1,
@@ -70,6 +70,12 @@
       "source": "SZLHOLDINGS/yuyay-v3-axis-labels-v1 eval split, 100 rows"
     },
     {
+      "n": 15,
+      "claimed": "the corpus has 628 template families across 628 rows, so no families are shared",
+      "corrected_to": "my family heuristic hashed the sorted unique token set, so one changed word produced a new family and the count necessarily equalled the row count. it could never detect a shared template. the family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 alone. the heuristic now keeps word positions and masks low-frequency content words",
+      "source": "out/leakage_gate.json at the first run of the gate"
+    },
+    {
       "n": 11,
       "claimed": "the 0.97 ceiling is principled",
       "corrected_to": "it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM",
@@ -84,6 +90,7 @@
     9,
     10,
     13,
+    15,
     11
   ],
   "rule": "a retraction is appended, never an edit. the wrong claim stays legible next to what replaced it, because a ledger that silently improves is not a ledger.",
