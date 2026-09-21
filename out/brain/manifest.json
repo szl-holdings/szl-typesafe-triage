@@ -3,7 +3,7 @@
   "datasetName": "SZL Second Brain - triage lane (handles-only projection)",
   "lane": "triage",
   "doctrine": "Handles-only projection of triage decision history. It is DATA, not a model - a retrieval corpus, never weights. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness. Nothing here trains a model, promotes a label, or upgrades Lambda (Conjecture-1).",
-  "commit": "5e20a43",
+  "commit": "6d31e1d",
   "chunk_count": 670,
   "bySource": {
     "ratified": 42,
