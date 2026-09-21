@@ -1,0 +1,59 @@
+{
+  "generated_utc": "2026-09-21T18:50:50+00:00",
+  "subject": "szl-typesafe-triage",
+  "organs": [
+    {
+      "organ": "trust_gate",
+      "role": "aggregate axis scores into a governed verdict",
+      "state": "MEASURED",
+      "evidence": "weighted geometric mean, zero-pinned, reproduced on 1270 rows across three corpora at 4 decimals; 336 of 336 zero-axis rows pin to exactly 0.0",
+      "source": "out/shadow_fidelity.json",
+      "lesion": "the integrity axis is the veto input and it never fires: 1.0 on all 600 authority probes. a proven veto wired to a sensor that perceives nothing"
+    },
+    {
+      "organ": "perception",
+      "role": "score an input along lexical, breadth, integrity, separation",
+      "state": "DEAD",
+      "evidence": "paraphrase recall 0/30, steering resistance 1/12 on human-ratified rows",
+      "source": "out/ratified_scoreboard.json",
+      "lesion": "lambda tracks policy-vocabulary presence, not whether the text describes an incident. genuine paraphrases carrying no policy term score 0.0 and abstain; directives naming a team clear tau"
+    },
+    {
+      "organ": "receipt_bus",
+      "role": "bind artifacts to a commit and verify ancestry",
+      "state": "UNAVAILABLE",
+      "evidence": "no seal receipt found on disk",
+      "source": "-",
+      "lesion": null
+    },
+    {
+      "organ": "reasoning_cortex",
+      "role": "semantic judgement of ticket content",
+      "state": "UNWIRED",
+      "evidence": "5 BF16 checkpoints on disk; decide() calls none of them",
+      "source": "out/triage-unsloth-bf16/",
+      "lesion": "trained and idle. no nested model supplies any axis, so no semantic judgement reaches a verdict"
+    },
+    {
+      "organ": "consensus",
+      "role": "multi-party witnessed agreement before an action stands",
+      "state": "ABSENT",
+      "evidence": "no witness, no quorum, no cosign keys in this repository",
+      "source": "-",
+      "lesion": "szl-holdings/khipu-consensus implements BFT 3-of-4 DSSE witnessing and is not integrated here"
+    },
+    {
+      "organ": "egress",
+      "role": "permit or refuse promotion of a release",
+      "state": "MEASURED",
+      "evidence": "release verdict BLOCKED",
+      "source": "out/release_gate.json",
+      "lesion": "blocked on refusal integrity: engine-side steering failures"
+    }
+  ],
+  "coverage_on_grounds": "0/9",
+  "probe_rows_unratified": 600,
+  "honesty_contract": "MEASURED requires a named receipt on disk. DEGRADED works but below estate standard. UNWIRED exists outside the decision path. ABSENT was never built here. DEAD is present, running, detecting nothing. UNAVAILABLE has no evidence and is never rendered as health.",
+  "not_a_product": "diagnostic organ map of one repository, generated from its own receipts. no claim about any other estate component. nothing glows that did not earn it.",
+  "state_digest": "d7cc45d56e313cb1b0ce32ec9e00d051"
+}
