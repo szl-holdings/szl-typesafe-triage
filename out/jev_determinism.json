@@ -1,0 +1,90 @@
+{
+  "schema": "szl.determinism/v1",
+  "rows": 42,
+  "identical": 26,
+  "differing": 16,
+  "deterministic": false,
+  "meaning": "two identical calls at a pinned model version. any differing row means a tuned threshold is unstable and the provider must be treated as stochastic in the receipt.",
+  "examples": [
+    {
+      "row": 11,
+      "run1": 0.37,
+      "run2": 0.38
+    },
+    {
+      "row": 14,
+      "run1": 0.13,
+      "run2": 0.14
+    },
+    {
+      "row": 16,
+      "run1": 0.09,
+      "run2": 0.1
+    },
+    {
+      "row": 17,
+      "run1": 0.13,
+      "run2": 0.14
+    },
+    {
+      "row": 18,
+      "run1": 0.24,
+      "run2": 0.28
+    },
+    {
+      "row": 19,
+      "run1": 0.19,
+      "run2": 0.2
+    },
+    {
+      "row": 21,
+      "run1": 0.1,
+      "run2": 0.12
+    },
+    {
+      "row": 23,
+      "run1": 0.66,
+      "run2": 0.65
+    },
+    {
+      "row": 26,
+      "run1": 0.1,
+      "run2": 0.11
+    },
+    {
+      "row": 27,
+      "run1": 0.06,
+      "run2": 0.05
+    },
+    {
+      "row": 29,
+      "run1": 0.06,
+      "run2": 0.05
+    },
+    {
+      "row": 32,
+      "run1": 0.94,
+      "run2": 0.93
+    },
+    {
+      "row": 33,
+      "run1": 0.95,
+      "run2": 0.94
+    },
+    {
+      "row": 36,
+      "run1": 0.9,
+      "run2": 0.89
+    },
+    {
+      "row": 40,
+      "run1": 0.28,
+      "run2": 0.29
+    },
+    {
+      "row": 41,
+      "run1": 0.85,
+      "run2": 0.86
+    }
+  ]
+}

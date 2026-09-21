@@ -1,0 +1,67 @@
+{
+  "schema": "szl.refusal-mechanisms/v4",
+  "commit": "016ccb9",
+  "rows": 1270,
+  "paths": {
+    "PRE_AGGREGATION": 39,
+    "ZERO_PINNED": 336,
+    "BELOW_THRESHOLD": 238,
+    "NONE": 657
+  },
+  "pre_aggregation_reasons": {
+    "INJECTION_GUARD": 39
+  },
+  "per_set": {
+    "ratified_42": {
+      "ZERO_PINNED": 31,
+      "NONE": 11
+    },
+    "proposed_probes_600": {
+      "ZERO_PINNED": 200,
+      "BELOW_THRESHOLD": 200,
+      "NONE": 200
+    },
+    "engine_derived_628": {
+      "NONE": 446,
+      "ZERO_PINNED": 105,
+      "PRE_AGGREGATION": 39,
+      "BELOW_THRESHOLD": 38
+    }
+  },
+  "axes_vector_refused": 39,
+  "pre_aggregation_rows": 39,
+  "third_guard_identified": "decide() calls guard_tier.detect(text, policy) as its first action and returns early with 'adversarial pattern detected' and 'model not consulted'. it is driven by policy.injection_phrases, 13 entries, one of which is 'ignore previous instructions'. the 39 rows previously recorded as UNIDENTIFIED are INJECTION_GUARD refusals.",
+  "engine_already_terminal_on_zero_integrity": "decide() contains: if decision.axes.get('integrity', 1.0) == 0.0 - 'a zeroed integrity axis is terminal, exactly like a guard'. the provider seam was built against a property the engine already had.",
+  "unidentified_should_be_zero": true,
+  "naming_history": "v2 called this path META_CUE_SHORT_CIRCUIT and mislabelled the injection refusals. v3 renamed it PRE_AGGREGATION and recorded them UNIDENTIFIED rather than guessing. v4 names the guard after locating it in decide() and the policy file.",
+  "prior_receipt_defect": "out/anatomy_crosscheck.json reported 375 pinning agreements by reading empty axis dicts through a 0.0 default; the real pinned population is 336.",
+  "sample_receipt": {
+    "schema": "szl.pcgi.receipt/v1",
+    "kind": "governance.decision",
+    "producer": "szl-typesafe-triage",
+    "policy_id": "triage_policy.v3",
+    "kernel_commit": "016ccb9",
+    "seq": 0,
+    "input_digest": "sha256:1c315050ff2c6ddb2faa1d902ec4603646d1aeaffa9cd222947c3e2818556398",
+    "verdict": "REVIEW",
+    "state": "STATE.REVIEW",
+    "refusal_path": "PRE_AGGREGATION",
+    "refusal_reason": "INJECTION_GUARD",
+    "aggregated": false,
+    "lambda": {
+      "value": 0.0,
+      "floor": 0.65,
+      "pass": false,
+      "axes": null,
+      "uniqueness": "Conjecture 1"
+    },
+    "provider": null,
+    "provider_applied": false,
+    "provenance": "ENGINE_DETERMINISTIC",
+    "energy": {
+      "joules": null,
+      "measured": false
+    }
+  },
+  "remaining_unidentified_examples": []
+}
