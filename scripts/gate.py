@@ -21,8 +21,10 @@ ev = [r for r in rows if r.get("split") != "train"]
 print("CORPUS SHA256 MEASURED", hashlib.sha256(DATA.read_bytes()).hexdigest()[:16])
 print("HELD-OUT ROWS MEASURED", len(ev))
 
+LOAD_4BIT = _os0.environ.get("SZL_4BIT", "0") == "1"
+print("QUANT MODE MEASURED load_in_4bit=" + str(LOAD_4BIT), flush=True)
 model, tok = FastLanguageModel.from_pretrained(
-    model_name=ADAPTER, max_seq_length=2048, dtype=None, load_in_4bit=False)
+    model_name=ADAPTER, max_seq_length=2048, dtype=None, load_in_4bit=LOAD_4BIT)
 
 lora_b = [(n, p) for n, p in model.named_parameters() if "lora_B" in n]
 nonzero = sum(1 for n, p in lora_b if p.detach().abs().max().item() > 0)
@@ -111,7 +113,7 @@ Path("out/gate_report.json").write_text(json.dumps(
      "false_label_on_refusal": false_on_refusal, "ungrounded_spans": ungrounded,
      "verdict": verdict,
      "adapter": ADAPTER, "data_path": str(DATA), "corpus_sha256": _CORPUS_SHA,
-     "run_utc": _RUN_UTC,
+     "run_utc": _RUN_UTC, "load_in_4bit": LOAD_4BIT,
      "verdict_basis": ("malformed == 0 and false_label_on_refusal == 0 and "
                        "ungrounded_spans == 0; label and state accuracy are "
                        "REPORTED but do NOT affect the verdict"),

@@ -30,8 +30,63 @@ BREADTH_TARGET = 3
 SEPARATION_SCALE = 0.30
 
 
+def _despace(text: str) -> str:
+    """Collapse letter-spaced obfuscation, decided per passage rather than per run.
+
+    The first attempt collapsed only runs of three or more single letters. That left
+    13 of the policy's meta_cues evadable, because every cue containing "as", "to" or
+    "an" turns into a two-letter run under spacing: "m a r k   t h i s   a s" became
+    "mark this a s", which matches no cue. tests/test_every_meta_cue_survives_spacing
+    caught it.
+
+    Spacing is a property of the passage, not of one run. If any whitespace-delimited
+    segment contains a run of three or more single letters, the passage is being spaced
+    out, and every run in it collapses - including two-letter runs. Otherwise nothing
+    is touched, so "issue in a b testing" survives intact.
+    """
+    segments = re.split(r"\s{2,}", text)
+
+    def longest_single_run(segment: str) -> int:
+        best = run = 0
+        for token in segment.split():
+            if len(token) == 1 and token.isalpha():
+                run += 1
+                best = max(best, run)
+            else:
+                run = 0
+        return best
+
+    # Detection reads the whole token stream; collapsing respects segment boundaries.
+    # Per-segment detection missed the cue "as an ai": spaced, it is three segments of
+    # two letters each, so no single segment held a run of three. End to end it is six
+    # consecutive single letters, which is unmistakable obfuscation.
+    if longest_single_run(" ".join(segments)) < 3:
+        return text
+
+    rebuilt = []
+    for segment in segments:
+        acc: list[str] = []
+        buf: list[str] = []
+        for token in segment.split():
+            if len(token) == 1 and token.isalpha():
+                buf.append(token)
+                continue
+            if len(buf) >= 2:
+                acc.append("".join(buf))
+            else:
+                acc.extend(buf)
+            buf = []
+            acc.append(token)
+        if len(buf) >= 2:
+            acc.append("".join(buf))
+        else:
+            acc.extend(buf)
+        rebuilt.append(" ".join(acc))
+    return " ".join(rebuilt)
+
+
 def normalize(text: str) -> str:
-    return _WHITESPACE.sub(" ", text).strip().lower()
+    return _WHITESPACE.sub(" ", _despace(text)).strip().lower()
 
 
 def boundary_count(haystack: str, term: str) -> int:
