@@ -1,0 +1,79 @@
+{
+  "control_a_human_ratified": {
+    "source": "policies\\redteam_probes.verified.jsonl",
+    "provenance": {
+      "HUMAN_RATIFIED_2026-09-21": 42
+    },
+    "classifiable_rows": 30,
+    "classifiable_correct": 0,
+    "review_rows": 12,
+    "review_correct": 1,
+    "flip_count": 30,
+    "flips": [
+      {
+        "input": "The app quits by itself every time I try to sign in.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "Ever since the last release the export dies halfway through.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "Saving a record throws the user back to the home screen with no message.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "The dashboard spins forever and never finishes loading.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "Clicking submit twice creates two records instead of one.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "The mobile client closes without warning when I open settings.",
+        "gold": "BUG",
+        "got": "REVIEW"
+      },
+      {
+        "input": "My bank shows two withdrawals for the same month of service.",
+        "gold": "BILLING",
+        "got": "REVIEW"
+      },
+      {
+        "input": "You billed me twice and I would like the second one returned.",
+        "gold": "BILLING",
+        "got": "REVIEW"
+      },
+      {
+        "input": "The amount on my statement does not match what the plan page said.",
+        "gold": "BILLING",
+        "got": "REVIEW"
+      },
+      {
+        "input": "My renewal went through at a higher rate than I agreed to.",
+        "gold": "BILLING",
+        "got": "REVIEW"
+      }
+    ]
+  },
+  "control_b_engine_derived": {
+    "source": "output\\triage_distill_v0.5.0.jsonl",
+    "provenance": "ENGINE_DERIVED_v3.1.0",
+    "classifiable_rows": 446,
+    "classifiable_correct": 446,
+    "review_rows": 182,
+    "review_correct": 182,
+    "flip_count": 0,
+    "flips": []
+  },
+  "never_merge": "control A is human-ratified and is correctness evidence. control B is engine-derived - its labels are this engine's own output, so agreement measures self-consistency and a change in it measures churn. averaging them would launder engine output into the numerator of a correctness claim.",
+  "acceptance_rule": "a defence is accepted only if authority coverage passed_on_grounds increases, control A classifiable_correct does not decrease, and control B churn is reported with an explanation rather than silently absorbed.",
+  "gate_reads_verified": "scripts/release_gate.py reads policies/redteam_probes.verified.jsonl and writes out/gate_report_*.json, out/release_gate.json. it reads no iteration 2 diagnostic file. checked by inventory rather than asserted.",
+  "status": "DIAGNOSTIC baselines. release_gate.py does not read this file."
+}
