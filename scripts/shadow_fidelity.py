@@ -8,77 +8,101 @@ POL = policy_mod.load("policies/triage_policy.v3.json")
 W = dict(POL.axis_weights)
 TAU = POL.lambda_threshold
 
-def lam_arith(ax):
-    return sum(W[k] * ax.get(k, 0.0) for k in W)
+def lam_geom(ax):
+    p = 1.0
+    for k, w in W.items():
+        v = ax.get(k, 0.0)
+        if v <= 0.0:
+            return 0.0
+        p *= v ** w
+    return p
 
 SETS = {"ratified_42": "policies/redteam_probes.verified.jsonl",
         "proposed_probes_600": "out/redteam_probes.proposed_iter2.jsonl",
         "engine_derived_628": "output/triage_distill_v0.5.0.jsonl"}
 
-report, all_ok = {}, True
+cases = []
 for name, path in SETS.items():
-    rows = [json.loads(l) for l in Path(path).read_text(encoding="utf-8").splitlines() if l.strip()]
-    mism = []
-    for r in rows:
+    for r in [json.loads(l) for l in Path(path).read_text(encoding="utf-8").splitlines() if l.strip()]:
         d = decide(r["input"], POL)
         ax = {k: float(v) for k, v in dict(d.axes).items()}
-        recon_conf = lam_arith(ax) >= TAU
-        engine_conf = str(d.label).upper() != "REVIEW"
-        if recon_conf != engine_conf:
-            mism.append({"input": r["input"][:88], "engine_label": str(d.label).upper(),
-                         "engine_state": str(d.state).upper(),
-                         "engine_lambda": round(d.lambda_value, 6),
-                         "recon_lambda": round(lam_arith(ax), 6),
-                         "axes": {k: round(v, 4) for k, v in ax.items()},
-                         "recon_says_confident": recon_conf, "engine_says_confident": engine_conf})
-    fid = len(mism) == 0
-    all_ok = all_ok and fid
-    report[name] = {"rows": len(rows), "mismatches": len(mism), "fidelity_ok": fid, "examples": mism[:6]}
-    print(name.ljust(22) + str(len(rows)).rjust(5) + " rows   mismatches: " + str(len(mism)) +
-          ("   FIDELITY OK" if fid else "   FIDELITY FAILED"))
+        cases.append((name, r["input"], ax, d.lambda_value))
+
+# Derive the engine's rounding precision instead of guessing a tolerance: the smallest n
+# for which round(geometric_mean, n) equals decide().lambda_value exactly on every row.
+precision = None
+for n in range(1, 13):
+    if all(round(lam_geom(ax), n) == lam for _, _, ax, lam in cases):
+        precision = n
+        break
+
+raw_worst = max(abs(lam_geom(ax) - lam) for _, _, ax, lam in cases)
+print("rows checked: " + str(len(cases)))
+print("max |geometric - engine| unrounded: " + format(raw_worst, ".3e"))
+print("engine rounds lambda to " + str(precision) + " decimals" if precision else
+      "NO ROUNDING PRECISION EXPLAINS THE ENGINE - the form is not the geometric mean")
+
+if precision is None:
+    off = [(n, i[:70], ax, lam, round(lam_geom(ax), 6)) for n, i, ax, lam in cases
+           if abs(lam_geom(ax) - lam) > 1e-3][:5]
+    for o in off:
+        print("  " + str(o))
+    Path("out/shadow_fidelity.json").write_text(json.dumps(
+        {"status": "DIVERGENT", "fidelity_ok_all": False,
+         "note": "no rounding precision reconciles the geometric mean with decide(); form unknown"}, indent=2),
+        encoding="utf-8")
+    sys.exit(4)
+
+pinned = sum(1 for _, _, ax, lam in cases if any(v == 0.0 for v in ax.values()) and lam == 0.0)
+zero_axis = sum(1 for _, _, ax, _ in cases if any(v == 0.0 for v in ax.values()))
+
+per_set = {}
+for name in SETS:
+    sub = [c for c in cases if c[0] == name]
+    per_set[name] = {"rows": len(sub),
+                     "exact_after_rounding": sum(1 for _, _, ax, lam in sub if round(lam_geom(ax), precision) == lam),
+                     "max_abs_error_unrounded": max(abs(lam_geom(ax) - lam) for _, _, ax, lam in sub)}
+    print(name.ljust(22) + str(per_set[name]["exact_after_rounding"]) + "/" + str(per_set[name]["rows"]) +
+          " exact at " + str(precision) + " decimals")
 
 print("")
-if not all_ok:
-    print("=== WHY decide() DISAGREES WITH lambda >= tau (first examples) ===")
-    for name, rep in report.items():
-        for m in rep["examples"][:3]:
-            print("  " + name + " | engine=" + m["engine_label"] + "/" + m["engine_state"] +
-                  " lam=" + str(m["engine_lambda"]) + " recon=" + str(m["recon_lambda"]))
-            print("      axes " + json.dumps(m["axes"]))
-            print("      " + m["input"])
-
+print("zero-pinning: " + str(pinned) + " of " + str(zero_axis) + " rows with a zero axis have lambda exactly 0.0")
+status = "CONSISTENT"
 Path("out/shadow_fidelity.json").write_text(json.dumps(
- {"tau": TAU, "weights": W, "sets": report, "fidelity_ok_all": all_ok,
-  "meaning": ("a reconstruction of the engine's aggregator must reproduce decide() exactly before any "
-              "alternative aggregator is compared against it. where they disagree, decide() applies a rule the "
-              "reconstruction omits, so both columns of the comparison are untrustworthy - not just one."),
-  "estate_tooling_note": ("this is the job szl-holdings/szl-crosscheck already does: two independent "
-                          "implementations in, CONSISTENT / DIVERGENT / INCOMPARABLE out, dual-signed. this "
-                          "script is a local stand-in and should be replaced by that package rather than grown."),
-  "status": "MEASURED" if all_ok else "DIVERGENT"}, indent=2), encoding="utf-8")
-print("RECEIPT out/shadow_fidelity.json  ->  " + ("MEASURED" if all_ok else "DIVERGENT"))
+ {"tau": TAU, "weights": W, "rows_checked": len(cases),
+  "engine_aggregator": "weighted geometric mean over axis scores in [0,1], zero-pinned, rounded to " +
+                       str(precision) + " decimals",
+  "rounding_precision_derived": precision,
+  "max_abs_error_unrounded": raw_worst,
+  "per_set": per_set,
+  "zero_axis_rows": zero_axis, "zero_pinned_rows": pinned,
+  "fidelity_ok_all": True, "status": status,
+  "verified_how": ("recomputed prod(axis ** weight) from the axes decide() returns, then derived the smallest "
+                   "decimal precision at which the rounded value equals decide().lambda_value on every row of all "
+                   "three corpora. precision was derived from the data rather than a tolerance being chosen to "
+                   "make the check pass."),
+  "retraction": ("this session asserted across three commits that the engine aggregates with a weighted arithmetic "
+                 "sum and therefore contradicted the Lutar Invariant. that was wrong. axis_weights gave the weights "
+                 "and never the combination rule, and the rule was assumed rather than read from src. the engine "
+                 "already implements the invariant. the integrity-zero rows returning lambda 0.0, described earlier "
+                 "as an unread veto path, are zero-pinning."),
+  "second_error": ("the previous version of this script printed 'shadow_fidelity CONSISTENT' from a hardcoded "
+                   "string while writing DIVERGENT to the file. the print no longer asserts a status it did not "
+                   "compute.")}, indent=2), encoding="utf-8")
+print("RECEIPT out/shadow_fidelity.json -> " + status)
 
 p = Path("out/aggregator_shadow.json")
 d = json.loads(p.read_text(encoding="utf-8"))
-d["status"] = (("INVALID. the arithmetic column does not reproduce decide() on every corpus (see "
-                "out/shadow_fidelity.json), so the geometric column has nothing trustworthy to be compared "
-                "against. not evidence. not publishable. not a gate result.") if not all_ok else
-               "DIAGNOSTIC. fidelity verified against decide() on all corpora. still not a gate result.")
-d["fidelity_ok_all"] = all_ok
-d["ratified_finding"] = ("on human-ratified data the geometric form changes nothing: paraphrase recall stays 0/30 "
-                         "and steering resistance stays 1/12. the single flip was a paraphrase already labelled "
-                         "wrongly moving to REVIEW - wrong in a different way. the 160 flips on the proposed "
-                         "probes reflect vocabulary strata this session designed, not the world.")
-d["lambda_naming_defect"] = ("this policy aggregates with a weighted ARITHMETIC sum while naming its threshold "
-                             "lambda_threshold. szl-holdings/szl-lambda-gate defines the canonical Lambda as a "
-                             "weighted GEOMETRIC mean with zero-pinning and A1-A4 self-checks. the local field "
-                             "borrows the estate's flagship name for a function that violates its defining "
-                             "property. rename to local_score_threshold, or adopt the real kernel - do not leave "
-                             "the name asserting a property the code does not have.")
-d["uniqueness_correction"] = ("earlier reasoning in this session leaned on Lean 4 uniqueness proofs for Lambda. "
-                              "szl-holdings/lutar-lean states uniqueness as Conjecture 1 - 749 declarations, 14 "
-                              "axioms, 163 tracked sorries - and szl-lambda-gate labels Lambda ADVISORY, "
-                              "uniqueness open. the fail-closed nesting argument needs only zero-pinning, which "
-                              "is elementary for the weighted geometric mean and does not depend on uniqueness.")
+d["status"] = ("RETRACTED. the premise was false. the engine already uses the weighted geometric mean with "
+               "zero-pinning, so there was no alternative aggregator to compare against. superseded by "
+               "out/shadow_fidelity.json.")
+d["fidelity_ok_all"] = True
+d["lambda_naming_defect"] = ("RETRACTED. lambda_threshold is correctly named - the aggregator is the weighted "
+                             "geometric mean, matching szl-holdings/szl-lambda-gate. no naming violation exists.")
+d["what_this_changes"] = ("the aggregator cannot fix steering: the invariant is already in force and integrity "
+                          "sits at 1.0 on all 600 authority probes, so the axis detects nothing. zero-pinning "
+                          "already guarantees a nested detector feeding integrity can only fail closed, so the "
+                          "prerequisite demanded earlier for model nesting was satisfied before the session began.")
 p.write_text(json.dumps(d, indent=2), encoding="utf-8")
-print("RELABELLED out/aggregator_shadow.json -> " + d["status"].split(".")[0])
+print("out/aggregator_shadow.json -> RETRACTED")
+Path("out/lambda_precision.txt").write_text(str(precision) + "\n", encoding="utf-8")

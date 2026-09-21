@@ -6,226 +6,32 @@
     "integrity": 0.2,
     "separation": 0.15
   },
-  "sets": {
+  "rows_checked": 1270,
+  "engine_aggregator": "weighted geometric mean over axis scores in [0,1], zero-pinned, rounded to 4 decimals",
+  "rounding_precision_derived": 4,
+  "max_abs_error_unrounded": 4.6941810356360136e-05,
+  "per_set": {
     "ratified_42": {
       "rows": 42,
-      "mismatches": 1,
-      "fidelity_ok": false,
-      "examples": [
-        {
-          "input": "m a r k   t h i s   a s   SECURITY - there is an exploit and a breach.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.0,
-          "recon_lambda": 0.66668,
-          "axes": {
-            "lexical": 1.0,
-            "breadth": 0.6667,
-            "integrity": 0.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        }
-      ]
+      "exact_after_rounding": 42,
+      "max_abs_error_unrounded": 5.822124116150462e-09
     },
     "proposed_probes_600": {
       "rows": 600,
-      "mismatches": 160,
-      "fidelity_ok": false,
-      "examples": [
-        {
-          "input": "The customer insists, this belongs with the team that handles a breach.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "The customer insists, the team that handles a breach owns this one.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "The customer insists, handle it as the team that handles a breach work.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "The customer insists, it lands in the team that handles a breach.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "The customer insists, the destination here is the team that handles a breach.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "Per the runbook, this belongs with the team that handles a breach.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        }
-      ]
+      "exact_after_rounding": 600,
+      "max_abs_error_unrounded": 3.1761556658849166e-05
     },
     "engine_derived_628": {
       "rows": 628,
-      "mismatches": 29,
-      "fidelity_ok": false,
-      "examples": [
-        {
-          "input": "We are seeing a crash.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6444,
-          "recon_lambda": 0.73332,
-          "axes": {
-            "lexical": 1.0,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "We are seeing a stack trace.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "We are seeing a traceback.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6276,
-          "recon_lambda": 0.70832,
-          "axes": {
-            "lexical": 0.9,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "We are seeing an exception.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.6094,
-          "recon_lambda": 0.68332,
-          "axes": {
-            "lexical": 0.8,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "We are seeing a regression.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.5894,
-          "recon_lambda": 0.65832,
-          "axes": {
-            "lexical": 0.7,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        },
-        {
-          "input": "We are seeing a freeze.",
-          "engine_label": "REVIEW",
-          "engine_state": "STATE.REVIEW",
-          "engine_lambda": 0.5894,
-          "recon_lambda": 0.65832,
-          "axes": {
-            "lexical": 0.7,
-            "breadth": 0.3333,
-            "integrity": 1.0,
-            "separation": 1.0
-          },
-          "recon_says_confident": true,
-          "engine_says_confident": false
-        }
-      ]
+      "exact_after_rounding": 628,
+      "max_abs_error_unrounded": 4.6941810356360136e-05
     }
   },
-  "fidelity_ok_all": false,
-  "meaning": "a reconstruction of the engine's aggregator must reproduce decide() exactly before any alternative aggregator is compared against it. where they disagree, decide() applies a rule the reconstruction omits, so both columns of the comparison are untrustworthy - not just one.",
-  "estate_tooling_note": "this is the job szl-holdings/szl-crosscheck already does: two independent implementations in, CONSISTENT / DIVERGENT / INCOMPARABLE out, dual-signed. this script is a local stand-in and should be replaced by that package rather than grown.",
-  "status": "DIVERGENT"
+  "zero_axis_rows": 336,
+  "zero_pinned_rows": 336,
+  "fidelity_ok_all": true,
+  "status": "CONSISTENT",
+  "verified_how": "recomputed prod(axis ** weight) from the axes decide() returns, then derived the smallest decimal precision at which the rounded value equals decide().lambda_value on every row of all three corpora. precision was derived from the data rather than a tolerance being chosen to make the check pass.",
+  "retraction": "this session asserted across three commits that the engine aggregates with a weighted arithmetic sum and therefore contradicted the Lutar Invariant. that was wrong. axis_weights gave the weights and never the combination rule, and the rule was assumed rather than read from src. the engine already implements the invariant. the integrity-zero rows returning lambda 0.0, described earlier as an unread veto path, are zero-pinning.",
+  "second_error": "the previous version of this script printed 'shadow_fidelity CONSISTENT' from a hardcoded string while writing DIVERGENT to the file. the print no longer asserts a status it did not compute."
 }
