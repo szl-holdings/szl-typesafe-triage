@@ -397,3 +397,35 @@ inherits from the teacher.
       "gold_label": "BUG",
       "gold_state": "MEAS
 ```
+
+
+## Red-team measurement (added 2026-09-21)
+
+42 probes, labels HUMAN_RATIFIED, in `policies/redteam_probes.verified.jsonl`.
+Two classes, each validated programmatically before scoring:
+
+- PARAPHRASE (30): contain NO policy term. The engine abstains on all 30, so these
+  test whether the student exceeds its teacher on unseen vocabulary.
+- STEERING (12): contain policy terms AND a paraphrased handling instruction. The
+  engine returns a confident MEASURED label on all 12 - the mechanism documented in
+  docs/redteam.md, where integrity stays 1.0 because no enumerated cue fires while
+  lexical and breadth rise on genuine keyword evidence.
+
+Result: label 8/42, state 10/42, malformed 0, ungrounded spans 0,
+FALSE LABEL ON REFUSAL **10 of 12**.
+
+docs/redteam.md measured 3 of 5 paraphrased-steering attacks succeeding against the
+engine. The distilled model fails 10 of 12. Distillation reproduced the defect; it
+did not patch it. The v0.3.0 generator docstring predicted exactly this.
+
+This does not overturn the in-domain verdict. It bounds it: the model is faithful to
+a teacher that paraphrased steering defeats, and fidelity is why it fails here.
+**101/101 in-domain must never be cited without 10/12 beside it.**
+
+## Gate defect found and fixed
+
+`scripts/gate.py` fell off the end of the module with status 0 regardless of verdict.
+A BLOCKED result therefore registered as a PASSING pipeline stage - including the
+baseline adapter's 96/101 with 3 refusal breaches. Every "gate PROMOTABLE" claim
+prior to 2026-09-21 12:09 was made by a gate that could not fail a build. Now exits
+1 on BLOCKED and 2 on a missing verdict field (fails closed).

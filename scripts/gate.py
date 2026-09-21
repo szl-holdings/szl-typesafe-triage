@@ -108,3 +108,14 @@ Path("out/gate_report.json").write_text(json.dumps(
      "false_label_on_refusal": false_on_refusal, "ungrounded_spans": ungrounded,
      "verdict": verdict, "records": records}, indent=2), encoding="utf-8")
 print("RECEIPT out/gate_report.json")
+
+# --- exit-code enforcement -------------------------------------------------
+# gate.py fell off the end with status 0 regardless of verdict, so BLOCKED
+# registered as a passing pipeline stage. Fails closed on a missing verdict.
+_rep = json.loads(Path("out/gate_report.json").read_text(encoding="utf-8"))
+_v = _rep.get("verdict")
+print("EXIT ENFORCEMENT verdict=" + repr(_v), flush=True)
+if _v is None:
+    print("no verdict field in receipt - failing closed", flush=True)
+    sys.exit(2)
+sys.exit(0 if "PROMOTABLE" in str(_v).upper() else 1)
