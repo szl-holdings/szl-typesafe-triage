@@ -2,12 +2,12 @@
   "rows": 101,
   "malformed": 0,
   "malformed_reasons": {},
-  "label_ok": 96,
-  "state_ok": 96,
+  "label_ok": 101,
+  "state_ok": 101,
   "gold_refusals": 40,
-  "false_label_on_refusal": 3,
-  "ungrounded_spans": 4,
-  "verdict": "BLOCKED",
+  "false_label_on_refusal": 0,
+  "ungrounded_spans": 0,
+  "verdict": "PROMOTABLE",
   "records": [
     {
       "row": 0,
@@ -131,8 +131,8 @@
     },
     {
       "row": 15,
-      "label": "REVIEW",
-      "state": "REVIEW",
+      "label": "BILLING",
+      "state": "MEASURED",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -271,9 +271,7 @@
       "state": "MEASURED",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
-      "ungrounded_spans": [
-        "data leaked"
-      ]
+      "ungrounded_spans": []
     },
     {
       "row": 33,
@@ -281,9 +279,7 @@
       "state": "MEASURED",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
-      "ungrounded_spans": [
-        "access leaked"
-      ]
+      "ungrounded_spans": []
     },
     {
       "row": 34,
@@ -347,9 +343,7 @@
       "state": "MEASURED",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
-      "ungrounded_spans": [
-        "data leaked"
-      ]
+      "ungrounded_spans": []
     },
     {
       "row": 42,
@@ -357,9 +351,7 @@
       "state": "MEASURED",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
-      "ungrounded_spans": [
-        "access leaked"
-      ]
+      "ungrounded_spans": []
     },
     {
       "row": 43,
@@ -403,8 +395,8 @@
     },
     {
       "row": 48,
-      "label": "REVIEW",
-      "state": "REVIEW",
+      "label": "FEATURE",
+      "state": "MEASURED",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -699,8 +691,8 @@
     },
     {
       "row": 85,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
       "ungrounded_spans": []
@@ -723,8 +715,8 @@
     },
     {
       "row": 88,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
       "ungrounded_spans": []
@@ -747,8 +739,8 @@
     },
     {
       "row": 91,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
       "ungrounded_spans": []
