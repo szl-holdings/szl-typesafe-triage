@@ -1,3 +1,16 @@
+﻿"""RETIRED 2026-09-21. Do not run.
+
+Untyped slots: rng.sample() dropped policy terms into t0/t1/t2 regardless of part
+of speech, producing "it would enhancement the workflow" and "A small please add:".
+Ordered sampling also emitted up to 6 permutations of each term triple, which the
+exact-text dedup let through: 173 of 325 rows were permutation duplicates.
+
+Replaced by scripts/build_corpus_typed.py (typed slots, combinations not
+permutations, computed articles, content_family emission).
+"""
+import sys
+sys.exit("RETIRED: use scripts/build_corpus_typed.py")
+
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """Build a distillation corpus from the v0.3.0 engine.
 
