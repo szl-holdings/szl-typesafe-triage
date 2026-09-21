@@ -1,6 +1,6 @@
 {
   "schema": "szl.khipu-witness/v2",
-  "commit": "0e962dc",
+  "commit": "d801801",
   "pattern_from": "szl-holdings/khipu-consensus - BFT 3-of-4 multi-party-witnessed agreement, ECDSA P-256 cosign over DSSE",
   "threshold": "3-of-4",
   "witnesses": [

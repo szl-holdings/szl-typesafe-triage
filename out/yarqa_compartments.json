@@ -1,6 +1,6 @@
 {
   "schema": "szl.compartment-balance/v1",
-  "commit": "0e962dc",
+  "commit": "d801801",
   "borrowed_from": "szl-holdings/yarqa - plug-flow compartmentalization with signed provenance receipts. the concept transferred is conservation accounting over a divided flow, not CFD and not the YARQA-ATTN attention kernel, which has no place in a deterministic keyword engine",
   "inflow": 1270,
   "compartments": {
@@ -77,13 +77,13 @@
       "id": "I7",
       "name": "receipt-columns-consistent",
       "state": "PARTIAL",
-      "detail": "33 of 89 readable receipts declare a schema; 0 unreadable"
+      "detail": "36 of 92 readable receipts declare a schema; 0 unreadable"
     },
     {
       "id": "I8",
       "name": "flywheel-lineage",
       "state": "PARTIAL",
-      "detail": "22 of 89 receipts name the commit that produced them"
+      "detail": "25 of 92 receipts name the commit that produced them"
     }
   ],
   "invariant_note": "the I1-I8 catalog is published on SZLHOLDINGS/YARQA-ATTN and executed by SZLHOLDINGS/szl-invariants; this is a local pre-check and statuses are not coerced",

@@ -43,6 +43,9 @@ STAGES = [
     ("bench", "scripts/bench.py", True, "out/bench/bench_summary.json"),
     ("ossurface", "scripts/opensource_surface.py", True, "docs/DATASET_CARD.md"),
     ("showcase", "scripts/showcase.py", True, "out/showcase.json"),
+    ("conjshadow", "scripts/conjunctive_shadow.py", True, "out/conjunctive_shadow.json"),
+    ("granular", "scripts/axis_granularity.py", True, "out/axis_granularity.json"),
+    ("sensitiv", "scripts/rule_sensitivity.py", True, "out/rule_sensitivity.json"),
     ("claims",     "scripts/claims_ledger.py",          True,  "out/claims_ledger.json"),
 ]
 

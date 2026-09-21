@@ -1,11 +1,11 @@
 {
   "schema": "szl.pipeline-run/v1",
-  "stages_total": 34,
-  "stages_run": 34,
-  "stages_passed": 33,
+  "stages_total": 37,
+  "stages_run": 37,
+  "stages_passed": 36,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 56.95,
+  "seconds": 72.28,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: 373f79f844918b1c843f0ab1daad2f43",
+        "head digest: 4ba1a6b579e2f15fd0f442ab26206b82",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest 5540bd4b5b9fa88dae5a0ebb008581ad)",
+        "WROTE out/anatomy_feed.v1.json (digest 19bb6247b911bef2ecb07917e8878136)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -224,7 +224,7 @@
       "produces": "docs/paper/main.md",
       "produced": true,
       "tail": [
-        "paper assembled from receipts -> docs/paper/main.md (75 lines)"
+        "paper assembled from receipts -> docs/paper/main.md (78 lines)"
       ],
       "stderr_tail": []
     },
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.142 s for 1270 decisions",
+        "  wall clock 0.171 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []
@@ -325,7 +325,7 @@
       "produces": "out/retractions.json",
       "produced": true,
       "tail": [
-        "retractions: 13   of which self-corrections against my own earlier commits: 9"
+        "retractions: 16   of which self-corrections against my own earlier commits: 12"
       ],
       "stderr_tail": []
     },
@@ -400,7 +400,7 @@
       "produces": "out/bench/bench_summary.json",
       "produced": true,
       "tail": [
-        "bench: axes 13 vs 4   compensation errors 35   leakage REFUSED   retractions 13"
+        "bench: axes 13 vs 4   compensation errors 35   leakage REFUSED   retractions 16"
       ],
       "stderr_tail": []
     },
@@ -425,7 +425,46 @@
       "produced": true,
       "tail": [
         "showcase written: org profile, HF card, LinkedIn draft, CITATION.cff",
-        "numbers: {\"repos\": 88, \"schemas\": 689, \"unreviewed\": 75, \"comp\": 35, \"rows\": 100, \"canon_axes\": 13, \"eng_axes\": 4, \"perm\": 447, \"vecs\": 895, \"jac\": 0.8378, \"leak\": \"REFUSED\", \"ret\": 13, \"mine\": 9, \"ratified\": 0, \"eff\": 0, \"claimed\": 0}"
+        "numbers: {\"repos\": 88, \"schemas\": 689, \"unreviewed\": 75, \"comp\": 35, \"rows\": 100, \"canon_axes\": 13, \"eng_axes\": 4, \"perm\": 447, \"vecs\": 895, \"jac\": 0.8378, \"leak\": \"REFUSED\", \"ret\": 16, \"mine\": 12, \"ratified_source\": \"policies/redteam_probes.verified.jsonl\", \"ratified_provenance\": \"HUMAN_RATIFIED_2026-09-21\", \"eff_engine\": 9, \"eff_model\": 600, \"generated_rows\": 600, \"tau\": 0.65, \"margin\": 0.0056, \"claimed\": 0}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "conjshadow",
+      "script": "scripts/conjunctive_shadow.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/conjunctive_shadow.json",
+      "produced": true,
+      "tail": [
+        "  conjunctive with integrity floor 0.80: 0 rows move CONFIDENT -> REVIEW",
+        "RECEIPT out/conjunctive_shadow.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "granular",
+      "script": "scripts/axis_granularity.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/axis_granularity.json",
+      "produced": true,
+      "tail": [
+        "rows with a nonzero axis below tau AND another at or above tau: 238",
+        "RECEIPT out/axis_granularity.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "sensitiv",
+      "script": "scripts/rule_sensitivity.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/rule_sensitivity.json",
+      "produced": true,
+      "tail": [
+        "  lexical     low 0.6000   product alone 0.8801   diverges if weight < 0.8433   current 0.2500   WOULD FLIP",
+        "RECEIPT out/rule_sensitivity.json"
       ],
       "stderr_tail": []
     },

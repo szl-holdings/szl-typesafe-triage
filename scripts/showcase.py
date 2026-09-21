@@ -18,7 +18,13 @@ N = {"repos": EA.get("public_repos_cloned", 0),
      "perm": AX.get("violations", {}).get("A5_permutation_invariance", 0), "vecs": AX.get("vectors_tested", 0),
      "jac": LK.get("max_char5gram_jaccard", 0), "leak": LK.get("verdict", "UNAVAILABLE"),
      "ret": RT.get("count", 0), "mine": len(RT.get("retractions_of_my_own_prior_claims_in_this_repo", [])),
-     "ratified": SC.get("ratified_rows", 0), "eff": EN.get("effective_n", 0),
+     "ratified_source": SC.get("source", "UNAVAILABLE"),
+     "ratified_provenance": SC.get("provenance", "UNAVAILABLE"),
+     "eff_engine": EN.get("engine_side_effective_n", "UNAVAILABLE"),
+     "eff_model": EN.get("model_side_effective_n", "UNAVAILABLE"),
+     "generated_rows": EN.get("generated_rows", "UNAVAILABLE"),
+     "tau": EN.get("tau_confident", "UNAVAILABLE"),
+     "margin": EN.get("tightest_margin_to_tau", "UNAVAILABLE"),
      "claimed": (GD.get("classes", {}) or {}).get("CLAIMED", 0)}
 
 # ---------- GitHub org profile ----------
@@ -33,6 +39,11 @@ gh = ["# SZL Holdings", "",
  "we had deployed checks " + str(N["eng_axes"]) + " and lets a strong score cover for a weak one. On " +
  str(N["rows"]) + " examples our own",
  "reviewers had labelled, the deployed engine would have approved " + str(N["comp"]) + " that the rulebook refuses.",
+ "",
+ "**Our sample is smaller than it looks, and we say so.** 600 generated test cases collapse to " +
+   str(N["eff_engine"]) + " distinct",
+ "engine states, because a deterministic engine gives the same answer to a rephrased question. Counting all",
+ "600 would manufacture confidence out of repetition, so we report " + str(N["eff_engine"]) + ".",
  "",
  "**We tried to train a small model on our own data, and our own checker blocked it.** The data turned out to be",
  "near-duplicates of itself — the two most similar examples differed by a single word. A model trained on it would",
@@ -54,7 +65,8 @@ gh = ["# SZL Holdings", "",
    " | `out/leakage_gate.json` |",
  "| Estate repositories audited | " + str(N["repos"]) + ", with " + str(N["schemas"]) +
    " distinct receipt schemas found | `out/estate_audit.json` |",
- "| Retraction ledger | " + str(N["ret"]) + " entries, append-only | `out/retractions.json` |",
+ "| Retraction ledger | " + str(N["ret"]) + " entries, " + str(N["mine"]) +
+   " correcting this work's own earlier claims | `out/retractions.json` |",
  "", "### How the estate is organised", "",
  "- **Kernels** — the shared primitives: signing, provenance, invariants, bounded loops, honest BLOCKED states.",
  "- **Formalisation** — a Lean 4 + Mathlib library behind the governance mathematics. Our central aggregator",

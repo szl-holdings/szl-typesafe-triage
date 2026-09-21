@@ -16,11 +16,15 @@ gate checks 13 separate qualities, and every one has to clear its own bar. The e
 we had deployed checks 4 and lets a strong score cover for a weak one. On 100 examples our own
 reviewers had labelled, the deployed engine would have approved 35 that the rulebook refuses.
 
+**Our sample is smaller than it looks, and we say so.** 600 generated test cases collapse to 9 distinct
+engine states, because a deterministic engine gives the same answer to a rephrased question. Counting all
+600 would manufacture confidence out of repetition, so we report 9.
+
 **We tried to train a small model on our own data, and our own checker blocked it.** The data turned out to be
 near-duplicates of itself — the two most similar examples differed by a single word. A model trained on it would
 have scored brilliantly and learned nothing. No model was published.
 
-**We wrote down every time we were wrong.** 13 corrections are recorded permanently, 9 of them
+**We wrote down every time we were wrong.** 16 corrections are recorded permanently, 12 of them
 fixing something we had claimed earlier the same day. Each one has a test attached so the mistake cannot
 quietly come back.
 
@@ -35,7 +39,7 @@ quietly come back.
 | Aggregator property conformance | monotone, homogeneous, idempotent, bounded; **not symmetric** on 447 of 895 vectors | `out/axiom_conformance.json` |
 | Corpus contamination | **REFUSED** at max char-5gram Jaccard 0.8378 | `out/leakage_gate.json` |
 | Estate repositories audited | 88, with 689 distinct receipt schemas found | `out/estate_audit.json` |
-| Retraction ledger | 13 entries, append-only | `out/retractions.json` |
+| Retraction ledger | 16 entries, 12 correcting this work's own earlier claims | `out/retractions.json` |
 
 ### How the estate is organised
 
@@ -58,4 +62,4 @@ quietly come back.
 *Verification proves integrity and origin. It does not prove accuracy or performance, and we do not let it
 pretend to.*
 
-Apache-2.0 where published. Generated from receipts at `0e962dc`.
+Apache-2.0 where published. Generated from receipts at `d801801`.

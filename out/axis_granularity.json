@@ -1,0 +1,54 @@
+{
+  "schema": "szl.axis-granularity/v1",
+  "commit": "d801801",
+  "rows": 1231,
+  "tau": 0.65,
+  "axes": [
+    "breadth",
+    "integrity",
+    "lexical",
+    "separation"
+  ],
+  "distinct_values_per_axis": {
+    "breadth": 4,
+    "integrity": 2,
+    "lexical": 8,
+    "separation": 2
+  },
+  "commonest_values_per_axis": {
+    "breadth": {
+      "1.0": 448,
+      "0.0": 335,
+      "0.3333": 238,
+      "0.6667": 210
+    },
+    "integrity": {
+      "1.0": 1130,
+      "0.0": 101
+    },
+    "lexical": {
+      "1.0": 743,
+      "0.0": 335,
+      "0.9": 91,
+      "0.6": 48,
+      "0.8": 6,
+      "0.7": 5
+    },
+    "separation": {
+      "1.0": 896,
+      "0.0": 335
+    }
+  },
+  "rows_in_compensating_band_per_axis": {
+    "breadth": 238,
+    "integrity": 0,
+    "lexical": 49,
+    "separation": 0
+  },
+  "rows_where_compensation_is_possible": 238,
+  "finding": "a compensatory rule can differ from a conjunctive one only on rows where some axis is strictly between zero and tau while another is at or above it. this count is the population on which the aggregator's shape can matter at all",
+  "scoping_correction": "the 35 of 100 compensation errors measured on the doctrine's labelled corpus were produced by continuous scores sitting near their floors. this engine's axes are coarse, so on its own output the same comparison yields zero flips across 1231 rows. the gate shape is wrong in principle and currently inert in practice, and reporting 35 of 100 as this engine's measured cost would have been a category error",
+  "where_the_real_defect_is": "if the compensating band is empty, the axis scorers are not measuring degree. that is an upstream problem in axis scoring granularity, not an aggregation problem, and it is the same finding as the vocabulary-matching limitation stated elsewhere in this repository",
+  "consequence_for_the_change": "adopting per-axis floors remains correct because it makes the rule express the policy, and it is now known to be behaviour-preserving on the current corpus - zero flips means zero ratification risk. the change can ship without moving a single row",
+  "status": "MEASURED"
+}

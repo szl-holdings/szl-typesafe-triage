@@ -1,6 +1,6 @@
 # Open questions
 
-Generated from receipts at `0e962dc`. 11 open. Each names the state it is in and
+Generated from receipts at `d801801`. 11 open. Each names the state it is in and
 the experiment that would close it.
 
 ### Q1. Why does the engine recall 0 of 30 human-ratified classifiable reports?
@@ -29,13 +29,13 @@ the experiment that would close it.
 
 ### Q-I7. What is required for invariant I7 (receipt-columns-consistent) to pass?
 
-- state: PARTIAL - 33 of 89 readable receipts declare a schema; 0 unreadable
+- state: PARTIAL - 36 of 92 readable receipts declare a schema; 0 unreadable
 - settled by: execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap
 - receipt: `out/yarqa_compartments.json`
 
 ### Q-I8. What is required for invariant I8 (flywheel-lineage) to pass?
 
-- state: PARTIAL - 22 of 89 receipts name the commit that produced them
+- state: PARTIAL - 25 of 92 receipts name the commit that produced them
 - settled by: execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap
 - receipt: `out/yarqa_compartments.json`
 

@@ -50,12 +50,30 @@ R = [
                    "family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 "
                    "alone. the heuristic now keeps word positions and masks low-frequency content words"),
   "source": "out/leakage_gate.json at the first run of the gate"},
+ {"n": 16, "claimed": "35 of 100 compensation errors is this engine's measured cost of a compensatory aggregator",
+  "corrected_to": ("that figure is the cost on the doctrine's labelled corpus, whose scores are continuous and sit "
+                   "near their floors. shadowing the same comparison on this engine's own 1231 aggregated rows gives "
+                   "zero flips in either direction, because its axis scores are coarse and never enter the band where "
+                   "compensation is possible. the gate shape is wrong in principle and inert in practice here"),
+  "source": "out/conjunctive_shadow.json and out/axis_granularity.json"},
+ {"n": 17, "claimed": "no row in this corpus enters the band where compensation is possible",
+  "corrected_to": ("238 of 1231 rows do enter it - breadth sits at 0.3333 on 238 rows while another axis is at or "
+                   "above tau. the two rules agree because the weighted product also refuses those rows, which is a "
+                   "property of the current weights and tau and not of the corpus. for one axis at value v with the "
+                   "others at 1.0 the product clears tau exactly when that axis weight is at most ln(tau)/ln(v), so "
+                   "the agreement is contingent and a reweighting could open the divergence silently"),
+  "source": "out/axis_granularity.json and out/rule_sensitivity.json"},
+ {"n": 18, "claimed": "the engine's axes are provenance, containment, coherence and convergence",
+  "corrected_to": ("the axes are breadth, integrity, lexical and separation. the earlier names were assumed from the "
+                   "estate's vocabulary rather than read from policies/triage_policy.v3.json, and they were used in "
+                   "working notes throughout this session"),
+  "source": "policies/triage_policy.v3.json axis_weights"},
  {"n": 11, "claimed": "the 0.97 ceiling is principled",
   "corrected_to": ("it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in "
                    "c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM"),
   "source": "lutar-lean Tier1Mathlib.lean"},
 ]
-mine = [x["n"] for x in R if x["n"] in (5, 6, 7, 8, 9, 10, 11, 13, 14, 15)]
+mine = [x["n"] for x in R if x["n"] in (5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18)]
 
 Path("out/retractions.json").write_text(json.dumps(
  {"schema": "szl.retractions/v1", "commit": HEAD, "count": len(R), "retractions": R,

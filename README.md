@@ -3,7 +3,7 @@
 A deterministic, receipt-bearing triage engine, and an honest account of what it cannot do.
 
 **Read this first.** The engine does not yet perform triage by meaning; it matches vocabulary. The useful content
-of this repository is the measurement discipline: 13 retractions recorded in an
+of this repository is the measurement discipline: 16 retractions recorded in an
 append-only ledger, a phrasing guard that mirrors the estate's CI rule, and a leakage gate that refuses rather than
 advises. Release is **BLOCKED at 11/12**.
 
@@ -15,7 +15,7 @@ advises. Release is **BLOCKED at 11/12**.
 | Compensation errors on the labelled eval split | 35 | `out/yuyay_gate_conformance.json` |
 | Ratified rows / effective n | None / None | `out/effective_n.json` |
 | Corpus leakage verdict | REFUSED | `out/leakage_gate.json` |
-| Retractions, of which self-corrections | 13 | `out/retractions.json` |
+| Retractions, of which self-corrections | 16 | `out/retractions.json` |
 
 ## What is not claimed
 

@@ -1,11 +1,11 @@
 {
   "schema": "szl.estate-alignment/v1",
-  "commit": "0e962dc",
+  "commit": "d801801",
   "ledger": {
     "algorithm": "sha3_256",
     "records": 42,
     "genesis": "0000000000000000000000000000000000000000000000000000000000000000",
-    "head_digest": "373f79f844918b1c843f0ab1daad2f43de9d153bbf4ba3ed9968701e937d7ddd",
+    "head_digest": "4ba1a6b579e2f15fd0f442ab26206b821d5de85778bef8d390a5a07917263eac",
     "continuity_breaks": 0,
     "signer_state": "SIGNED",
     "signer_detail": "persistent signer key loaded from .keys (gitignored)",

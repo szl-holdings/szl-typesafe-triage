@@ -18,5 +18,5 @@ keywords:
 abstract: >
   A deterministic, receipt-bearing triage engine, reported together with the measurements that show
   where it fails: a compensatory four-axis aggregator against a non-compensatory 13-axis governance gate,
-  a corpus refused by a contamination gate, and an append-only ledger of 13 retractions.
+  a corpus refused by a contamination gate, and an append-only ledger of 16 retractions.
   No model is trained and no baseline is beaten.

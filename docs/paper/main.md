@@ -1,10 +1,10 @@
 # A deployed triage engine measured against its own project's formal specification
 
-Generated from receipts at `0e962dc`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
+Generated from receipts at `d801801`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
 
 ## Abstract
 
-We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 13 claims made during development are retracted in an append-only ledger, 9 of them corrections to claims made earlier in the same repository.
+We report a keyword-based triage engine that does not yet perform its task, and argue that the useful contribution is the measurement discipline rather than the engine. The engine's aggregator is checked against the axiom properties its own estate formalizes, and is found to satisfy monotonicity, homogeneity, idempotence and boundedness while failing permutation invariance on 447 of 895 strictly positive axis vectors. It is therefore not the estate's trust invariant, which is defined as the equal-weight geometric mean, but a member of the counterexample family used to bound that invariant's uniqueness. 16 claims made during development are retracted in an append-only ledger, 12 of them corrections to claims made earlier in the same repository.
 
 ## 1. What is claimed and what is not
 
@@ -82,6 +82,12 @@ A phrasing guard mirrors the estate's CI rule locally. Classes at this commit: C
   corrected to: my min gate was misspecified as min(scores) >= max(floors), a uniform threshold at the strictest floor. the correct analogue is per-axis margins, min(score-floor) >= 0, which is algebraically identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule nobody proposed
 - **15.** claimed: the corpus has 628 template families across 628 rows, so no families are shared  
   corrected to: my family heuristic hashed the sorted unique token set, so one changed word produced a new family and the count necessarily equalled the row count. it could never detect a shared template. the family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 alone. the heuristic now keeps word positions and masks low-frequency content words
+- **16.** claimed: 35 of 100 compensation errors is this engine's measured cost of a compensatory aggregator  
+  corrected to: that figure is the cost on the doctrine's labelled corpus, whose scores are continuous and sit near their floors. shadowing the same comparison on this engine's own 1231 aggregated rows gives zero flips in either direction, because its axis scores are coarse and never enter the band where compensation is possible. the gate shape is wrong in principle and inert in practice here
+- **17.** claimed: no row in this corpus enters the band where compensation is possible  
+  corrected to: 238 of 1231 rows do enter it - breadth sits at 0.3333 on 238 rows while another axis is at or above tau. the two rules agree because the weighted product also refuses those rows, which is a property of the current weights and tau and not of the corpus. for one axis at value v with the others at 1.0 the product clears tau exactly when that axis weight is at most ln(tau)/ln(v), so the agreement is contingent and a reweighting could open the divergence silently
+- **18.** claimed: the engine's axes are provenance, containment, coherence and convergence  
+  corrected to: the axes are breadth, integrity, lexical and separation. the earlier names were assumed from the estate's vocabulary rather than read from policies/triage_policy.v3.json, and they were used in working notes throughout this session
 - **11.** claimed: the 0.97 ceiling is principled  
   corrected to: it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM
 

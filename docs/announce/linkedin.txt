@@ -13,7 +13,7 @@ Three findings, all checkable in a public repo:
    check refused to promote it, because the held-out data was a near-copy of the training data - the closest
    pair differed by one word. We published no model.
 
-3. We recorded 13 corrections, 9 of them fixing claims we had made
+3. We recorded 16 corrections, 12 of them fixing claims we had made
    earlier the same day, each with a test so the error cannot come back quietly.
 
 The uncomfortable part: every instrument that caught these already existed in our own estate. Nobody had

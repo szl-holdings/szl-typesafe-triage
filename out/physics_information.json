@@ -1,6 +1,6 @@
 {
   "schema": "szl.physics-information/v1",
-  "commit": "0e962dc",
+  "commit": "d801801",
   "rows": 1270,
   "distinct_configurations": 21,
   "entropy_bits": {
@@ -22,8 +22,8 @@
   },
   "energy_doctrine": "joules are measured or null. no estimate, no model, no zero standing in for an unmeasured quantity. szl-holdings/szl-energy-attest is the estate component that does this properly with NVML and an honest UNAVAILABLE.",
   "timing": {
-    "wall_seconds": 0.1425,
-    "decisions_per_second": 8915.1,
+    "wall_seconds": 0.1712,
+    "decisions_per_second": 7416.5,
     "caveat": "single-process wall clock on one host; not a benchmark and not comparable across machines"
   },
   "status": "MEASURED"
