@@ -2,7 +2,7 @@
   "schema": "szl.spans/v1",
   "span_count": 42,
   "otlp_shape": "resourceSpans/scopeSpans/spans - OTLP JSON, offline file, no collector contacted",
-  "payload_digest": "sha256:bb74d18b0787bb853d03230b1a23b2a955cb3f127e01b58aeffeb96cd7ba91c2",
+  "payload_digest": "sha256:e0e07f32b4f90b5d34745fe22dd62514876db87afb7182a7a9a335b4144b5385",
   "signed": false,
   "signature": null,
   "honesty": "UNSIGNED_HONEST. szl-holdings/vsp-otel provides the signed-span exporter and is not wired here, so these spans are emitted unsigned and must render as UNAVAILABLE rather than as attested.",

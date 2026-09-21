@@ -1,6 +1,6 @@
 {
   "schema": "szl.conjunctive-shadow/v1",
-  "commit": "fb9bc7b",
+  "commit": "ad0e8de",
   "rows": 1231,
   "per_source": {
     "policies/redteam_probes.verified.jsonl": 42,

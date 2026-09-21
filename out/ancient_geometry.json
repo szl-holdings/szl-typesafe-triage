@@ -1,6 +1,6 @@
 {
   "schema": "szl.symmetric-mean-position/v1",
-  "commit": "fb9bc7b",
+  "commit": "ad0e8de",
   "vectors_checked": 895,
   "violations": {
     "maclaurin": 0,

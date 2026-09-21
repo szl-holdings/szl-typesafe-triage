@@ -1,6 +1,6 @@
 # What this repository has measured
 
-Generated from receipts at commit `fb9bc7b`. Every sentence below maps to a claim id and a file on
+Generated from receipts at commit `ad0e8de`. Every sentence below maps to a claim id and a file on
 disk. Nothing here is asserted without one.
 
 ## MEASURED
