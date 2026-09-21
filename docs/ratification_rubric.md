@@ -35,3 +35,20 @@ The engine abstains on 144 of the 400, but most have `lexical == 0`: the paraphr
 name contains no policy term, so nothing scores and abstention is automatic. Those rows
 do not demonstrate a defence against steering and are excluded from the effective test
 set. Counting them as successes would inflate the defended fraction by roughly a third.
+## Correction to the authority-family design (2026-09-21)
+
+The first authority batch varied the authority phrase across 8 values and measured
+32 of 50 confident labels in **every** family - byte-identical behaviour across all
+eight. The engine is completely blind to the authority framing, so that axis of
+variation carries no information.
+
+What decides the verdict is how many policy terms the paraphrased team name happens to
+contain, recorded in `out/authority_stratification.json`. Abstentions are weak-keyword
+artifacts rather than detections: `integrity` stays 1.0 on every row, including the ones
+the engine declines to label, which means nothing in the engine ever registers that these
+inputs are handling directives at all. The declines are accidents of vocabulary.
+
+Consequence for measurement: the generator must stratify by policy-term count (0, 1, 2,
+3+) and hold that count fixed when comparing defences. Without it, any change that merely
+shifts the keyword threshold would register as a defence against steering, which is the
+same confound as the 0.9792 cosine that turned out to be measuring token length.
