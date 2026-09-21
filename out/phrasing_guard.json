@@ -1,6 +1,6 @@
 {
   "schema": "szl.phrasing-guard/v4",
-  "commit": "ad0e8de",
+  "commit": "7198224",
   "artefacts_scanned": 143,
   "violations": [],
   "violation_count": 0,
@@ -338,9 +338,9 @@
   },
   "why_v2_was_wrong": "v2 granted quotation scope only when a refutation keyword sat near the match. that misfired on 64 occurrences where the corpus says 'we do not claim L3, FedRAMP, Iron Bank, or CMMC' - a disclaimer read as a claim because the keyword list lacked 'do not claim'. extending the keyword list would have been whack-a-mole dressed as rigour.",
   "classes": {
-    "META": 59,
+    "META": 65,
     "QUOTED": 288,
-    "DENIED": 5,
+    "DENIED": 9,
     "CLAIMED": 0
   },
   "denied_pending_human_ratification": [
@@ -356,6 +356,20 @@
       "match": "Iron Bank",
       "phrase_class": "a disclaimed supply-chain level",
       "preceding": "+l2 build provenance is achieved (read from v22) corrected to: v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/SESSION_DISSECTION.md",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": ".lean | | 8 | slsa l1+l2 build provenance is achieved (read from v22) | v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/SESSION_DISSECTION.md",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": " 8 | slsa l1+l2 build provenance is achieved (read from v22) | v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
       "negation_cue": "not l2"
     },
     {
@@ -378,13 +392,27 @@
       "phrase_class": "a disclaimed supply-chain level",
       "preceding": "uild provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
       "negation_cue": "not l2"
+    },
+    {
+      "file": "out/session_dissection.json",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "a l1+l2 build provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "out/session_dissection.json",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "uild provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
     }
   ],
-  "denied_count": 5,
+  "denied_count": 9,
   "meta_exclusions": {
     "out/phrasing_guard.json": "the guard's own receipt stores the forbidden patterns and its own rationale, so every pattern matches itself; scanning it measures the guard, not a claim"
   },
-  "meta_hit_count": 59,
+  "meta_hit_count": 65,
   "honest_limit": "a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.",
   "iteration_history": "v2 granted absolution on any nearby refutation keyword and missed 'we do not claim', reporting 64 false positives. v3 removed the keyword test and reported 369, including the guard's own receipt. v4 separates authorship, negation and self-reference instead of widening a regex, and states that the negation test is heuristic."
 }

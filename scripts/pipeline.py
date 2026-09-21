@@ -46,6 +46,7 @@ STAGES = [
     ("conjshadow", "scripts/conjunctive_shadow.py", True, "out/conjunctive_shadow.json"),
     ("granular", "scripts/axis_granularity.py", True, "out/axis_granularity.json"),
     ("sensitiv", "scripts/rule_sensitivity.py", True, "out/rule_sensitivity.json"),
+    ("dissect", "scripts/session_dissection.py", True, "out/session_dissection.json"),
     ("claims",     "scripts/claims_ledger.py",          True,  "out/claims_ledger.json"),
 ]
 

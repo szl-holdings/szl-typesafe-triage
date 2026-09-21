@@ -1,6 +1,6 @@
 # A deployed triage engine measured against its own project's formal specification
 
-Generated from receipts at `ad0e8de`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
+Generated from receipts at `7198224`. Every number below is read from a receipt in `out/`; no figure is typed by hand.
 
 ## Abstract
 

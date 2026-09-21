@@ -1,119 +1,236 @@
 {
-  "schema": "szl.retractions/v1",
+  "schema": "szl.session-dissection/v1",
   "commit": "7198224",
-  "count": 16,
-  "retractions": [
+  "retraction_rows": [
     {
       "n": 1,
       "claimed": "the aggregator is an arithmetic mean",
       "corrected_to": "it is a weighted geometric mean",
+      "instrument": "aggregator shadow comparison",
+      "self": false,
       "source": "measurement in this repo"
     },
     {
       "n": 2,
       "claimed": "12 receipts verify",
       "corrected_to": "6 verify",
+      "instrument": "receipt verifier",
+      "self": false,
       "source": "measurement in this repo"
     },
     {
       "n": 3,
       "claimed": "the engine performs semantic triage",
       "corrected_to": "it matches vocabulary; recall is the open problem",
+      "instrument": "ratified probe set",
+      "self": false,
       "source": "ratified 42"
     },
     {
       "n": 4,
       "claimed": "the aggregator is the Lutar invariant",
       "corrected_to": "Lambda is the EQUAL-weight geometric mean; this is an unequally weighted product and is not Lambda",
+      "instrument": "aggregator shadow comparison",
+      "self": false,
       "source": "thesis v23/v24 definition"
     },
     {
       "n": 5,
       "claimed": "the engine violates A5",
       "corrected_to": "it violates permutation invariance / symmetry. thesis prose numbers that A5; SetAlphaUniqueness.lean numbers symmetry A1 and multiplicativity A5, under which the engine SATISFIES A5. name the property, not the number",
+      "instrument": "Lean source index",
+      "self": true,
       "source": "lutar-lean SetAlphaUniqueness.lean"
     },
     {
       "n": 6,
       "claimed": "the locked-count discrepancy is resolved in favour of eight",
       "corrected_to": "UNRESOLVED. v24's binding honesty doctrine states exactly five {F1,F11,F12,F18,F19} at c7c0ba17; ARXIV_SUBMISSION_GUIDE.md states eight certified by locked_count_eight. this repository makes no count claim",
+      "instrument": "cross-source evidence tally",
+      "self": true,
       "source": "szl-papers corpus, both readings present"
     },
     {
       "n": 7,
       "claimed": "unequal weights instantiate the proven Egyptian weight structure",
       "corrected_to": "backwards. v23 states the equal exponents 1/k ARE the Egyptian unit-fraction weights, so unequal weights depart from that structure rather than instantiating it",
+      "instrument": "Lean Egyptian.lean",
+      "self": true,
       "source": "thesis v23 definition of Lambda"
     },
     {
       "n": 8,
       "claimed": "SLSA L1+L2 build provenance is achieved (read from v22)",
       "corrected_to": "v24 corrects this: L1 honest, L2 roadmap, and explicitly not L2-verified, L3, FedRAMP, Iron Bank or CMMC. the v22 line is superseded and must not be cited",
+      "instrument": "receipt verifier",
+      "self": true,
       "source": "thesis v24 honesty doctrine"
     },
     {
       "n": 9,
       "claimed": "a scalar Kalman update is the correct estimator for repeated advisor calls",
       "corrected_to": "conformal_marginal_coverage and ville_markov_bound already exist in-estate and need no Gaussian assumption on a bounded quantity",
+      "instrument": "Lean theorem index",
+      "self": true,
       "source": "lutar-lean Conformal.lean, Ville.lean"
     },
     {
       "n": 10,
       "claimed": "I5 passes because the advisory pass is capped",
       "corrected_to": "boundedness means a well-founded measure, formalized as contraction to a unique fixed point in ouro_loop_unique_fixedPoint. FAIL_BY_DEFINITION",
+      "instrument": "published invariant catalog",
+      "self": true,
       "source": "thesis definition plus lutar-lean OuroLoopEarlyExit.lean"
+    },
+    {
+      "n": 11,
+      "claimed": "the 0.97 ceiling is principled",
+      "corrected_to": "it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM",
+      "instrument": "thesis corpus read",
+      "self": true,
+      "source": "lutar-lean Tier1Mathlib.lean"
     },
     {
       "n": 13,
       "claimed": "the min gate scores worse than the compensatory product on the yuyay eval split",
       "corrected_to": "my min gate was misspecified as min(scores) >= max(floors), a uniform threshold at the strictest floor. the correct analogue is per-axis margins, min(score-floor) >= 0, which is algebraically identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule nobody proposed",
+      "instrument": "three-rule comparison on labelled data",
+      "self": true,
       "source": "SZLHOLDINGS/yuyay-v3-axis-labels-v1 eval split, 100 rows"
     },
     {
       "n": 15,
       "claimed": "the corpus has 628 template families across 628 rows, so no families are shared",
       "corrected_to": "my family heuristic hashed the sorted unique token set, so one changed word produced a new family and the count necessarily equalled the row count. it could never detect a shared template. the family dimension of the leakage gate was inert; the refusal came from char-5gram Jaccard 0.8378 alone. the heuristic now keeps word positions and masks low-frequency content words",
+      "instrument": "leakage gate self-inspection",
+      "self": true,
       "source": "out/leakage_gate.json at the first run of the gate"
     },
     {
       "n": 16,
       "claimed": "35 of 100 compensation errors is this engine's measured cost of a compensatory aggregator",
       "corrected_to": "that figure is the cost on the doctrine's labelled corpus, whose scores are continuous and sit near their floors. shadowing the same comparison on this engine's own 1231 aggregated rows gives zero flips in either direction, because its axis scores are coarse and never enter the band where compensation is possible. the gate shape is wrong in principle and inert in practice here",
+      "instrument": "axis granularity measurement",
+      "self": true,
       "source": "out/conjunctive_shadow.json and out/axis_granularity.json"
     },
     {
       "n": 17,
       "claimed": "no row in this corpus enters the band where compensation is possible",
       "corrected_to": "238 of 1231 rows do enter it - breadth sits at 0.3333 on 238 rows while another axis is at or above tau. the two rules agree because the weighted product also refuses those rows, which is a property of the current weights and tau and not of the corpus. for one axis at value v with the others at 1.0 the product clears tau exactly when that axis weight is at most ln(tau)/ln(v), so the agreement is contingent and a reweighting could open the divergence silently",
+      "instrument": "axis granularity measurement",
+      "self": true,
       "source": "out/axis_granularity.json and out/rule_sensitivity.json"
     },
     {
       "n": 18,
       "claimed": "the engine's axes are provenance, containment, coherence and convergence",
       "corrected_to": "the axes are breadth, integrity, lexical and separation. the earlier names were assumed from the estate's vocabulary rather than read from policies/triage_policy.v3.json, and they were used in working notes throughout this session",
+      "instrument": "ratified probe set",
+      "self": true,
       "source": "policies/triage_policy.v3.json axis_weights"
-    },
-    {
-      "n": 11,
-      "claimed": "the 0.97 ceiling is principled",
-      "corrected_to": "it is a number I chose. the corpus says 'trust never 100%' and has derived ceilings in c1/c2_lutar_omega_*; 0.97 is UNBOUND_TO_THEOREM",
-      "source": "lutar-lean Tier1Mathlib.lean"
     }
   ],
-  "retractions_of_my_own_prior_claims_in_this_repo": [
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    13,
-    15,
-    16,
-    17,
-    18,
-    11
+  "retractions": 16,
+  "self_corrections": 12,
+  "measurements": [
+    {
+      "name": "Gate shape",
+      "value": "13 canonical axes, non-compensatory, against 4 deployed axes, compensatory",
+      "receipt": "out/yuyay_gate_conformance.json"
+    },
+    {
+      "name": "Compensation cost on labelled data",
+      "value": "35 of 100 rows",
+      "receipt": "out/yuyay_gate_conformance.json"
+    },
+    {
+      "name": "Compensation cost on this engine's own output",
+      "value": "0 flips of 1231 rows, with 238 rows inside the band where a divergence is structurally possible",
+      "receipt": "out/conjunctive_shadow.json, out/axis_granularity.json"
+    },
+    {
+      "name": "Fragility of that agreement",
+      "value": "breadth at 0.3333 gives product 0.6444 against tau 0.65; the rules diverge if breadth's weight falls below 0.3921 from 0.4000",
+      "receipt": "out/rule_sensitivity.json"
+    },
+    {
+      "name": "Axis granularity",
+      "value": "integrity and separation are two-valued; breadth takes four values, lexical eight",
+      "receipt": "out/axis_granularity.json"
+    },
+    {
+      "name": "Property conformance",
+      "value": "monotone, homogeneous, idempotent and bounded hold; symmetry fails on 447 of 895 vectors",
+      "receipt": "out/axiom_conformance.json"
+    },
+    {
+      "name": "Corpus contamination",
+      "value": "REFUSED at max char-5gram Jaccard 0.8378",
+      "receipt": "out/leakage_gate.json"
+    },
+    {
+      "name": "Effective sample size",
+      "value": "9 distinct engine configurations from 600 generated paraphrases, tightest margin 0.0056 to tau",
+      "receipt": "out/effective_n.json"
+    },
+    {
+      "name": "Estate scope",
+      "value": "88 public repositories audited, 689 distinct receipt schemas found",
+      "receipt": "out/estate_audit.json"
+    },
+    {
+      "name": "Language guard",
+      "value": "CLAIMED 0 after four iterations",
+      "receipt": "out/phrasing_guard.json"
+    }
   ],
-  "rule": "a retraction is appended, never an edit. the wrong claim stays legible next to what replaced it, because a ledger that silently improves is not a ledger.",
+  "authority_topology": [
+    {
+      "organ": "reasoning",
+      "estate_name": "BRAIN / YACHAY",
+      "authority": "may propose candidates and retrieve evidence",
+      "forbidden": "may not return a verdict",
+      "enforced_by": "Advisor.may_label is False for every advisor; a label raises AuthorityViolation",
+      "lean_witness": "p3b_retrieval_cannot_flip"
+    },
+    {
+      "organ": "trust gate",
+      "estate_name": "HEART / YUYAY",
+      "authority": "supplies the integrity axis by abstaining",
+      "forbidden": "may not raise a score, only lower a ceiling",
+      "enforced_by": "may_lower_axis requires the abstain-retrain or conscience tag",
+      "lean_witness": "deny_by_default_unique"
+    },
+    {
+      "organ": "receipt bus",
+      "estate_name": "CIRCULATORY / YAWAR",
+      "authority": "carries and seals evidence",
+      "forbidden": "may not alter a decision in transit",
+      "enforced_by": "hash-chained ledger; forgery loses every witness in both tamper arms",
+      "lean_witness": "hashchain_tamper_evident"
+    },
+    {
+      "organ": "consensus",
+      "estate_name": "SKELETON / Khipu",
+      "authority": "witnesses a decision with independent keys",
+      "forbidden": "may not manufacture a quorum",
+      "enforced_by": "distinct-key assertion across four witnesses",
+      "lean_witness": "khipu_consensus_safety"
+    },
+    {
+      "organ": "conscience",
+      "estate_name": "WILLAY",
+      "authority": "lowers the reported ceiling",
+      "forbidden": "may not raise anything, and is not an organ that proves",
+      "enforced_by": "apply_ceiling clamps to a declared value below one",
+      "lean_witness": "none; the ceiling is unbound to a theorem and recorded as such"
+    }
+  ],
+  "stack_order": null,
+  "stack_blocked_by": null,
+  "behaviour_gate": null,
+  "method_claim": "each correction in the ledger is attributable to a named instrument. a correction with no instrument behind it would be an anecdote, and the instrument column is therefore the paper's actual evidence that the apparatus works",
+  "anatomy_caveat": "the biological naming is a mnemonic carried from the estate and asserts nothing. what the topology encodes is an authority boundary per component: which verdict class each part may emit, and what it is forbidden to do. that is enforced in code and, for four of the five, witnessed by a named Lean symbol",
   "status": "MEASURED"
 }

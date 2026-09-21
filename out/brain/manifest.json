@@ -1,7 +1,7 @@
 {
   "schema": "szl.second-brain.frontier-state/v1",
   "lane": "triage",
-  "commit": "ad0e8de",
+  "commit": "7198224",
   "doctrine": "Handles-only projection of triage decision history. DATA, not a model. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness.",
   "chunk_count": 670,
   "bySource": {

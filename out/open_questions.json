@@ -1,6 +1,6 @@
 {
   "schema": "szl.open-questions/v1",
-  "commit": "ad0e8de",
+  "commit": "7198224",
   "count": 11,
   "doctrine": "every UNVERIFIED, UNAVAILABLE, PARTIAL or FAIL state in the receipt set appears here as a question with the experiment that would settle it. a system that cannot name what it does not know cannot be trusted about what it does.",
   "questions": [
@@ -35,14 +35,14 @@
     {
       "id": "Q-I7",
       "question": "What is required for invariant I7 (receipt-columns-consistent) to pass?",
-      "current_state": "PARTIAL - 36 of 92 readable receipts declare a schema; 0 unreadable",
+      "current_state": "PARTIAL - 37 of 93 readable receipts declare a schema; 0 unreadable",
       "what_would_settle_it": "execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap",
       "receipt": "out/yarqa_compartments.json"
     },
     {
       "id": "Q-I8",
       "question": "What is required for invariant I8 (flywheel-lineage) to pass?",
-      "current_state": "PARTIAL - 25 of 92 receipts name the commit that produced them",
+      "current_state": "PARTIAL - 26 of 93 receipts name the commit that produced them",
       "what_would_settle_it": "execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap",
       "receipt": "out/yarqa_compartments.json"
     },

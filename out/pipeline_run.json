@@ -1,11 +1,11 @@
 {
   "schema": "szl.pipeline-run/v1",
-  "stages_total": 37,
-  "stages_run": 37,
-  "stages_passed": 36,
+  "stages_total": 38,
+  "stages_run": 38,
+  "stages_passed": 37,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 67.17,
+  "seconds": 48.07,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: 86552c73b8f0679e334bad1ee55d1f14",
+        "head digest: 9aaf5208156f7f39f5f6b3630e7127fa",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest 5daf4a1f5c72a87d4df273bede0289ba)",
+        "WROTE out/anatomy_feed.v1.json (digest b1375868e02c5d487523d7ee7ffb667d)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.172 s for 1270 decisions",
+        "  wall clock 0.167 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []
@@ -337,7 +337,7 @@
       "produces": "out/phrasing_guard.json",
       "produced": true,
       "tail": [
-        "guard v4  META 59  QUOTED 288  DENIED 5  CLAIMED 0"
+        "guard v4  META 59  QUOTED 288  DENIED 9  CLAIMED 0"
       ],
       "stderr_tail": []
     },
@@ -465,6 +465,19 @@
       "tail": [
         "  lexical     low 0.6000   product alone 0.8801   diverges if weight < 0.8433   current 0.2500   WOULD FLIP",
         "RECEIPT out/rule_sensitivity.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "dissect",
+      "script": "scripts/session_dissection.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/session_dissection.json",
+      "produced": true,
+      "tail": [
+        "dissection: 16 retractions, 10 measurements, 5 components",
+        "DOC docs/SESSION_DISSECTION.md   RECEIPT out/session_dissection.json"
       ],
       "stderr_tail": []
     },

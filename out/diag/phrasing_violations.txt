@@ -1,11 +1,15 @@
 CLAIMED 0 (must be 0)
 
 
-DENIED 5 (for your ratification)
+DENIED 9 (for your ratification)
 docs/paper/main.md  <<FedRAMP>>  cue: not l2
 docs/paper/main.md  <<Iron Bank>>  cue: not l2
+docs/SESSION_DISSECTION.md  <<FedRAMP>>  cue: not l2
+docs/SESSION_DISSECTION.md  <<Iron Bank>>  cue: not l2
 docs/showcase/HF_ORG_CARD.md  <<unconditional uniqu>>  cue: do not claim
 out/retractions.json  <<FedRAMP>>  cue: not l2
 out/retractions.json  <<Iron Bank>>  cue: not l2
+out/session_dissection.json  <<FedRAMP>>  cue: not l2
+out/session_dissection.json  <<Iron Bank>>  cue: not l2
 
-QUOTED 288   META 59
+QUOTED 288   META 65
