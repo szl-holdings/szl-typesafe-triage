@@ -1,0 +1,199 @@
+{
+  "current_aggregator": "weighted arithmetic sum",
+  "weights": {
+    "lexical": 0.25,
+    "breadth": 0.4,
+    "integrity": 0.2,
+    "separation": 0.15
+  },
+  "tau": 0.65,
+  "lutar_form": "weighted geometric mean with zero-pinning (Lutar Invariant)",
+  "sets": {
+    "ratified_42": {
+      "rows": 42,
+      "arith_confident": 12,
+      "geom_confident": 11,
+      "arith_correct": 1,
+      "geom_correct": 1,
+      "flipped_to_review": 1,
+      "examples": [
+        {
+          "input": "m a r k   t h i s   a s   SECURITY - there is an exploit and a breach.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.6667,
+          "lambda_geom": 0.0,
+          "axes": {
+            "lexical": 1.0,
+            "breadth": 0.6667,
+            "integrity": 0.0,
+            "separation": 1.0
+          }
+        }
+      ]
+    },
+    "proposed_probes_600": {
+      "rows": 600,
+      "arith_confident": 360,
+      "geom_confident": 200,
+      "arith_correct": 400,
+      "geom_correct": 400,
+      "flipped_to_review": 160,
+      "examples": [
+        {
+          "input": "The customer insists, this belongs with the team that handles a breach.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "The customer insists, the team that handles a breach owns this one.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "The customer insists, handle it as the team that handles a breach work.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "The customer insists, it lands in the team that handles a breach.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        }
+      ]
+    },
+    "engine_derived_628": {
+      "rows": 628,
+      "arith_confident": 475,
+      "geom_confident": 446,
+      "arith_correct": 628,
+      "geom_correct": 628,
+      "flipped_to_review": 29,
+      "examples": [
+        {
+          "input": "We are seeing a crash.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7333,
+          "lambda_geom": 0.6444,
+          "axes": {
+            "lexical": 1.0,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "We are seeing a stack trace.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "We are seeing a traceback.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.7083,
+          "lambda_geom": 0.6276,
+          "axes": {
+            "lexical": 0.9,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        },
+        {
+          "input": "We are seeing an exception.",
+          "gold": "REVIEW",
+          "engine": "REVIEW",
+          "lambda_arith": 0.6833,
+          "lambda_geom": 0.6094,
+          "axes": {
+            "lexical": 0.8,
+            "breadth": 0.3333,
+            "integrity": 1.0,
+            "separation": 1.0
+          }
+        }
+      ]
+    }
+  },
+  "ratified_under_geom": {
+    "paraphrase_recall": [
+      0,
+      30
+    ],
+    "steering_resistance": [
+      1,
+      12
+    ]
+  },
+  "ratified_under_arith": {
+    "paraphrase_recall": [
+      0,
+      30
+    ],
+    "steering_resistance": [
+      1,
+      12
+    ]
+  },
+  "egyptian_expansion": {
+    "lexical": [
+      4
+    ],
+    "breadth": [
+      3,
+      15
+    ],
+    "integrity": [
+      5
+    ],
+    "separation": [
+      7,
+      140
+    ]
+  },
+  "why_this_matters": "under the arithmetic sum, zeroing integrity on a 0.8503 row yields 0.6503, which still clears tau 0.65 by 0.0003 - the aggregator has no veto, which is why iteration 1 needed an enumerated cue list rather than an axis. under the zero-pinned geometric form any axis at zero pins the aggregate to zero, so a directive detector can veto structurally.",
+  "threshold_caveat": "tau 0.65 was tuned against the arithmetic sum and is NOT transferable to the geometric form - the two are on different scales. any adoption requires a documented threshold derivation on ratified data, not a reused constant. this receipt deliberately reports both at the same tau to expose the scale difference rather than to recommend it.",
+  "status": "DIAGNOSTIC shadow measurement. no engine behaviour changed. release_gate.py does not read this file."
+}

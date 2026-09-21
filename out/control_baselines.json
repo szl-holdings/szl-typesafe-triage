@@ -75,5 +75,7 @@
   "never_merge": "control A is human-ratified and is correctness evidence. control B is engine-derived - its labels are this engine's own output, so agreement measures self-consistency and a change in it measures churn. averaging them would launder engine output into the numerator of a correctness claim.",
   "acceptance_rule": "a defence is accepted only if authority coverage passed_on_grounds increases, control A classifiable_correct does not decrease, and control B churn is reported with an explanation rather than silently absorbed.",
   "gate_reads_verified": "scripts/release_gate.py reads policies/redteam_probes.verified.jsonl and writes out/gate_report_*.json, out/release_gate.json. it reads no iteration 2 diagnostic file. checked by inventory rather than asserted.",
-  "status": "DIAGNOSTIC baselines. release_gate.py does not read this file."
+  "status": "DIAGNOSTIC baselines. release_gate.py does not read this file.",
+  "SUPERSEDED": "acceptance_rule in this file required control A classifiable_correct not to decrease. that value is 0/30, so the floor is vacuous. superseded by acceptance_rule_v2 in out/ratified_scoreboard.json. kept for history rather than edited away.",
+  "joint_scoreboard_script": "referenced in an earlier draft but never landed - the run that would have written scripts/joint_scoreboard.py aborted before that branch. the joint rule lives in out/ratified_scoreboard.json acceptance_rule_v2 until a script exists."
 }
