@@ -1,0 +1,5 @@
+{
+  "proposed_rows": 400,
+  "engine_confident_labels": 256,
+  "status": "DIAGNOSTIC - probes unratified, excluded from release_gate"
+}
