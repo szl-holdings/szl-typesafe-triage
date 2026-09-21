@@ -1,6 +1,6 @@
 {
   "schema": "szl.private-audit/v1",
-  "commit": "9ca3741",
+  "commit": "fda04f7",
   "method": "GitHub code search reaches private repositories with the owner's credentials, so the private tier was audited by matched fragments rather than by cloning. fragments are not whole files, and 30 of 165 leakage hits were read",
   "private_repos_reachable": [
     "szl-estate-os",

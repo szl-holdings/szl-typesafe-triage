@@ -1,6 +1,6 @@
 # Completion audit
 
-Generated at `9ca3741`. 30 estate artefacts, each judged against a named gap.
+Generated at `fda04f7`. 30 estate artefacts, each judged against a named gap.
 
 ## ADOPT_NOW (5)
 

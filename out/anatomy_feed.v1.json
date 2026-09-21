@@ -1,7 +1,7 @@
 {
   "schema": "szl.anatomy.organ-feed/v1",
   "producer": "szl-typesafe-triage",
-  "kernel_commit": "9ca3741",
+  "kernel_commit": "fda04f7",
   "policy_id": "triage_policy.v3",
   "doctrine": "v11 LOCKED",
   "proven_trust": false,
@@ -62,5 +62,5 @@
   "release_verdict": "BLOCKED",
   "consumer": "betterwithage/anatomy (docker, threejs) - this feed is data, not a rival renderer",
   "honesty": "MEASURED needs a receipt on disk. DEGRADED works below estate standard. UNWIRED exists outside the decision path. ABSENT was never built here. NOT_CLAIMED means this repository makes no claim on that organ. nothing glows that did not earn it.",
-  "feed_digest": "7f156b707a4b68f0edb6cee23927acd8"
+  "feed_digest": "99e4a0ffaa9cbfb8a0c4bea80cc7cbb3"
 }
