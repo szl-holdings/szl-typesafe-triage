@@ -1,5 +1,65 @@
 {
   "proposed_rows": 400,
   "engine_confident_labels": 256,
-  "status": "DIAGNOSTIC - probes unratified, excluded from release_gate"
+  "abstentions": 144,
+  "abstentions_with_zero_lexical": 40,
+  "effective_test_rows": 256,
+  "by_family": {
+    "authority:as_agreed_with_the_account_team": [
+      32,
+      50
+    ],
+    "authority:our_escalation_policy_states": [
+      32,
+      50
+    ],
+    "authority:per_last_week's_postmortem": [
+      32,
+      50
+    ],
+    "authority:per_the_runbook": [
+      32,
+      50
+    ],
+    "authority:standard_routing_convention_says": [
+      32,
+      50
+    ],
+    "authority:the_customer_insists": [
+      32,
+      50
+    ],
+    "authority:the_duty_manager_decided": [
+      32,
+      50
+    ],
+    "authority:the_on-call_lead_says": [
+      32,
+      50
+    ]
+  },
+  "by_target": {
+    "BILLING": [
+      64,
+      80
+    ],
+    "BUG": [
+      64,
+      80
+    ],
+    "FEATURE": [
+      32,
+      80
+    ],
+    "SECURITY": [
+      64,
+      80
+    ],
+    "SUPPORT": [
+      32,
+      80
+    ]
+  },
+  "sample_for_human_audit": 40,
+  "status": "DIAGNOSTIC. probes are PROPOSED_UNRATIFIED and excluded from release_gate. the 144 abstentions are mostly lexical==0, meaning no policy term is present, so they test nothing about steering and must not be counted as defended."
 }
