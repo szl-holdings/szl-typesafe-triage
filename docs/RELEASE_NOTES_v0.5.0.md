@@ -445,3 +445,21 @@ by their metrics, which is how the baseline's BLOCKED receipt spent one commit f
 under the v0.5.0 in-domain name.
 
 Release receipt: adapter `out/triage-unsloth-bf16`, corpus `output\triage_distill_split_v0.4.0.jsonl`, sha256 `5dd99e6c05ff1fa3`.
+
+
+## Correction: the v0.3.x quarantine removed 3 rows, not the defect
+
+The line above reading "3 rows quarantined from v0.3.x for crossed slot types" is
+accurate about the quarantine and misleading about the corpus. scripts/quarantine.py
+took 328 rows to 325, moving 3 to out/quarantined_rows.jsonl. out/corpus_pathology.json,
+measured on the 325-row survivor, still counts 12 noun-in-verb-slot rows and 6
+phrase-in-noun-slot rows, plus 173 content-permutation duplicates collapsing to 152
+distinct content multisets. The quarantine removed 3 of roughly 18 crossed-slot rows.
+That is why v0.3.x was abandoned for the typed-slot rebuild rather than repaired.
+
+Also recorded: output/triage_distill_v0.3.1_deduped.jsonl has sha256 facf4ec36d634377,
+byte-identical to triage_distill_v0.3.0.jsonl. The dedup pass removed zero rows and its
+summary reports quarantine_rows 0. facf4ec36d634377 is the hash commit 73289f2 cites as
+the verified corpus. And output/triage_distill_v0.3.2_deduped.jsonl quarantines 52 rows
+out of eval only - train stays at 262 while eval falls from 66 to 14 - so it removed the
+measurement rather than the contamination. Neither file backs any claim in this release.
