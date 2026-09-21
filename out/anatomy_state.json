@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-21T18:50:50+00:00",
+  "generated_utc": "2026-09-21T18:51:47+00:00",
   "subject": "szl-typesafe-triage",
   "organs": [
     {
@@ -55,5 +55,5 @@
   "probe_rows_unratified": 600,
   "honesty_contract": "MEASURED requires a named receipt on disk. DEGRADED works but below estate standard. UNWIRED exists outside the decision path. ABSENT was never built here. DEAD is present, running, detecting nothing. UNAVAILABLE has no evidence and is never rendered as health.",
   "not_a_product": "diagnostic organ map of one repository, generated from its own receipts. no claim about any other estate component. nothing glows that did not earn it.",
-  "state_digest": "d7cc45d56e313cb1b0ce32ec9e00d051"
+  "state_digest": "f994b78eaf966b53ba2ef583da04e80c"
 }

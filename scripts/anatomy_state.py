@@ -1,4 +1,4 @@
-import hashlib, json, sys
+import hashlib, json
 from datetime import datetime, timezone
 from pathlib import Path
 
