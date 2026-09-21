@@ -429,3 +429,19 @@ A BLOCKED result therefore registered as a PASSING pipeline stage - including th
 baseline adapter's 96/101 with 3 refusal breaches. Every "gate PROMOTABLE" claim
 prior to 2026-09-21 12:09 was made by a gate that could not fail a build. Now exits
 1 on BLOCKED and 2 on a missing verdict field (fails closed).
+
+
+## What the gate does and does not check
+
+The verdict is `malformed == 0 and false_label_on_refusal == 0 and ungrounded_spans == 0`.
+Label and state accuracy are measured and printed but do **not** enter the verdict. So
+101/101 in-domain is a separate fact from PROMOTABLE, and the red-team run's 8/42 label
+accuracy is not what blocked it - the 10 false labels on refusal did. Receipts now carry
+`verdict_basis` stating this inline.
+
+Receipts also now record `adapter`, `data_path`, `corpus_sha256`, and `run_utc`. Before
+this, two runs of different adapters produced byte-comparable files distinguishable only
+by their metrics, which is how the baseline's BLOCKED receipt spent one commit filed
+under the v0.5.0 in-domain name.
+
+Release receipt: adapter `out/triage-unsloth-bf16`, corpus `output\triage_distill_split_v0.4.0.jsonl`, sha256 `5dd99e6c05ff1fa3`.

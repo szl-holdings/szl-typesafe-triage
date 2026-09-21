@@ -1,4 +1,4 @@
-import json, sys, hashlib
+import datetime, json, sys, hashlib
 from pathlib import Path
 import torch
 
@@ -102,11 +102,20 @@ print("FALSE LABEL ON REFUSAL MEASURED", false_on_refusal)
 print("UNGROUNDED SPANS MEASURED", ungrounded)
 verdict = "PROMOTABLE" if (malformed == 0 and false_on_refusal == 0 and ungrounded == 0) else "BLOCKED"
 print("GATE VERDICT", verdict)
+_CORPUS_SHA = hashlib.sha256(DATA.read_bytes()).hexdigest()
+_RUN_UTC = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+print("PROVENANCE adapter=" + ADAPTER + " data=" + str(DATA) + " sha256=" + _CORPUS_SHA[:16])
 Path("out/gate_report.json").write_text(json.dumps(
     {"rows": n, "malformed": malformed, "malformed_reasons": why,
      "label_ok": label_ok, "state_ok": state_ok, "gold_refusals": refusals,
      "false_label_on_refusal": false_on_refusal, "ungrounded_spans": ungrounded,
-     "verdict": verdict, "records": records}, indent=2), encoding="utf-8")
+     "verdict": verdict,
+     "adapter": ADAPTER, "data_path": str(DATA), "corpus_sha256": _CORPUS_SHA,
+     "run_utc": _RUN_UTC,
+     "verdict_basis": ("malformed == 0 and false_label_on_refusal == 0 and "
+                       "ungrounded_spans == 0; label and state accuracy are "
+                       "REPORTED but do NOT affect the verdict"),
+     "records": records}, indent=2), encoding="utf-8")
 print("RECEIPT out/gate_report.json")
 
 # --- exit-code enforcement -------------------------------------------------

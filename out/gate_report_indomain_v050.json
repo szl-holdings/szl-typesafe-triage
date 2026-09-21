@@ -8,6 +8,11 @@
   "false_label_on_refusal": 0,
   "ungrounded_spans": 0,
   "verdict": "PROMOTABLE",
+  "adapter": "out/triage-unsloth-bf16",
+  "data_path": "output\\triage_distill_split_v0.4.0.jsonl",
+  "corpus_sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
+  "run_utc": "2026-09-21T16:26:00+00:00",
+  "verdict_basis": "malformed == 0 and false_label_on_refusal == 0 and ungrounded_spans == 0; label and state accuracy are REPORTED but do NOT affect the verdict",
   "records": [
     {
       "row": 0,
