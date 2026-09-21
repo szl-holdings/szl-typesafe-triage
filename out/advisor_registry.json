@@ -1,6 +1,6 @@
 {
   "schema": "szl.advisor-registry/v1",
-  "commit": "fda04f7",
+  "commit": "b6b0139",
   "principle": "every candidate model in the estate is already tagged with the authority it does not have - proposal-only, abstain-retrain, grounded-only, conscience, no-weights. this registry enforces those tags instead of documenting them. no advisor may return a label, and that is not a policy setting but a property of the type.",
   "advisors": [
     {

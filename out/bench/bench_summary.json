@@ -1,0 +1,45 @@
+{
+  "schema": "szl.bench/v1",
+  "commit": "b6b0139",
+  "gate_shape": {
+    "canonical_axes": 13,
+    "engine_axes": 4,
+    "agreement": {
+      "conjunctive_and": 100,
+      "geometric_product": 65,
+      "margin_min": 100,
+      "uniform_threshold_min_MISSPECIFIED": 53
+    },
+    "compensation_errors": 35,
+    "reading": "the doctrine gate is non-compensatory over 13 axes; this engine is compensatory over 4. the compensation-error count is the measured cost of that mismatch on the published eval split"
+  },
+  "axiom_properties": {
+    "A1_monotonicity": 0,
+    "A2_homogeneity": 0,
+    "A3_idempotence": 0,
+    "A4_boundedness": 0,
+    "A5_permutation_invariance": 447
+  },
+  "ratified": {
+    "rows": null,
+    "effective_n": null
+  },
+  "coverage": null,
+  "leakage": {
+    "verdict": "REFUSED",
+    "families": 628,
+    "max_jaccard": 0.8378,
+    "semantic_pass": "UNAVAILABLE"
+  },
+  "retractions": 12,
+  "no_winner_clause": "this bench names no winner and no baseline is beaten. it reports properties of one engine against one labelled corpus, and every number carries the receipt it came from",
+  "what_is_not_benchmarked": [
+    "no model weights are loaded",
+    "no public adversarial benchmark has been run",
+    "no latency or throughput measured",
+    "no energy measured",
+    "no comparison against any other system"
+  ],
+  "release": "BLOCKED 11/12",
+  "status": "MEASURED"
+}

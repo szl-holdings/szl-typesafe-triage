@@ -39,6 +39,9 @@ STAGES = [
     ("yuyay", "scripts/yuyay_gate.py", False, "out/yuyay_gate_conformance.json"),
     ("estaudit", "scripts/estate_audit.py", False, "out/estate_audit.json"),
     ("privaudit", "scripts/private_audit.py", True, "out/private_audit.json"),
+    ("leakage", "scripts/leakage_gate.py", False, "out/leakage_gate.json"),
+    ("bench", "scripts/bench.py", True, "out/bench/bench_summary.json"),
+    ("ossurface", "scripts/opensource_surface.py", True, "docs/DATASET_CARD.md"),
     ("claims",     "scripts/claims_ledger.py",          True,  "out/claims_ledger.json"),
 ]
 
