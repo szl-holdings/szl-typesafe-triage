@@ -5,7 +5,7 @@
   "stages_passed": 32,
   "halted_at": null,
   "verdict": "COMPLETE",
-  "seconds": 65.98,
+  "seconds": 51.11,
   "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
   "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
   "stages": [
@@ -82,7 +82,7 @@
       "produces": "out/estate_alignment.json",
       "produced": true,
       "tail": [
-        "head digest: dc387b4e97b8de104fa84de6e254acce",
+        "head digest: 8ff764831af8955f3c9e49f1b8fdbe38",
         "RECEIPT out/estate_alignment.json"
       ],
       "stderr_tail": []
@@ -95,7 +95,7 @@
       "produces": "out/anatomy_feed.v1.json",
       "produced": true,
       "tail": [
-        "WROTE out/anatomy_feed.v1.json (digest afcfc8eb0c527c9cf33394eb092b2821)",
+        "WROTE out/anatomy_feed.v1.json (digest 4aa6873ac8ec616de522cde2a603d897)",
         "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
       ],
       "stderr_tail": []
@@ -236,7 +236,7 @@
       "produces": "out/physics_information.json",
       "produced": true,
       "tail": [
-        "  wall clock 0.173 s for 1270 decisions",
+        "  wall clock 0.164 s for 1270 decisions",
         "RECEIPT out/physics_information.json"
       ],
       "stderr_tail": []

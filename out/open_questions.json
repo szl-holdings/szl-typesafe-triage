@@ -1,6 +1,6 @@
 {
   "schema": "szl.open-questions/v1",
-  "commit": "b077521",
+  "commit": "8ee7817",
   "count": 11,
   "doctrine": "every UNVERIFIED, UNAVAILABLE, PARTIAL or FAIL state in the receipt set appears here as a question with the experiment that would settle it. a system that cannot name what it does not know cannot be trusted about what it does.",
   "questions": [
