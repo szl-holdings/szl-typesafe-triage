@@ -1,4 +1,4 @@
-import hashlib, json
+import hashlib, json, os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -11,11 +11,35 @@ def load(p):
     except Exception:
         return None
 
+def find_seal():
+    """Locate the seal by content. Guessing filenames is what made receipt_bus read
+    UNAVAILABLE while a seal with 13 artifacts existed on disk."""
+    skip = {".git", ".venv", "__pycache__", ".pytest_cache", "node_modules"}
+    for root, dirs, names in os.walk("."):
+        dirs[:] = [d for d in dirs if d not in skip]
+        for n in names:
+            p = Path(root) / n
+            if p.suffix.lower() != ".json":
+                continue
+            try:
+                txt = p.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
+                continue
+            if "seal_digest" not in txt:
+                continue
+            try:
+                obj = json.loads(txt)
+            except Exception:
+                continue
+            if isinstance(obj, dict) and "seal_digest" in obj:
+                return str(p).replace("\\", "/"), obj
+    return None, None
+
 fid = load("out/shadow_fidelity.json")
 rat = load("out/ratified_scoreboard.json")
 cov = load("out/engine_coverage_score.json")
 gate = load("out/release_gate.json")
-seal = load("out/seal.json") or load("out/receipt_seal.json")
+seal_path, seal = find_seal()
 probes = Path("out/redteam_probes.proposed_iter2.jsonl")
 
 ORGANS = []
@@ -43,27 +67,29 @@ if rat:
           ("paraphrase recall " + str(rc[0]) + "/" + str(rc[1]) + ", steering resistance " +
            str(rs[0]) + "/" + str(rs[1]) + " on human-ratified rows"),
           "out/ratified_scoreboard.json",
-          ("lambda tracks policy-vocabulary presence, not whether the text describes an incident. genuine "
-           "paraphrases carrying no policy term score 0.0 and abstain; directives naming a team clear tau"))
+          ("lambda tracks policy-vocabulary presence, not whether the text describes an incident"))
 else:
     organ("perception", "score an input along four axes", "UNAVAILABLE", "no ratified scoreboard", "-")
 
 if seal:
     organ("receipt_bus", "bind artifacts to a commit and verify ancestry", "DEGRADED",
-          ("seal present with " + str(seal.get("artifacts", "?")) + " artifacts; ancestry asserted against HEAD"),
-          "seal receipt",
+          ("seal found by content at " + seal_path + ": digest " +
+           str(seal.get("seal_digest", "?"))[:16] + ", " + str(seal.get("artifacts", "?")) +
+           " artifacts, source_commit " + str(seal.get("source_commit", "?"))[:10]),
+          seal_path,
           ("UNSIGNED_HONEST only. szl-holdings/szl-receipt provides DSSE/ECDSA-P256 as the estate's shared "
            "signing primitive; this repo hand-rolls a chain instead"))
 else:
     organ("receipt_bus", "bind artifacts to a commit and verify ancestry", "UNAVAILABLE",
-          "no seal receipt found on disk", "-")
+          "no json object containing a seal_digest key found anywhere in the tree", "-")
 
 ckpt = list(Path("out").glob("triage-unsloth-bf16/checkpoint-*"))
 if ckpt:
     organ("reasoning_cortex", "semantic judgement of ticket content", "UNWIRED",
           (str(len(ckpt)) + " BF16 checkpoints on disk; decide() calls none of them"),
           "out/triage-unsloth-bf16/",
-          "trained and idle. no nested model supplies any axis, so no semantic judgement reaches a verdict")
+          ("trained and idle. SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora is a refusal-preserving triage adapter "
+           "modified today, and no nested model supplies any axis here"))
 else:
     organ("reasoning_cortex", "semantic judgement of ticket content", "ABSENT", "no checkpoints found", "-")
 
@@ -78,19 +104,31 @@ if gate:
           None if verdict != "BLOCKED" else "blocked on refusal integrity: engine-side steering failures")
 else:
     organ("egress", "permit or refuse promotion of a release", "UNAVAILABLE",
-          "no release_gate.json on disk - the gate has not run since these receipts were written", "-")
+          "no release_gate.json on disk", "-")
 
 covtxt = "unknown" if not cov else str(cov.get("passed_on_grounds")) + "/" + str(cov.get("configurations"))
-state = {"generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-         "subject": "szl-typesafe-triage", "organs": ORGANS, "coverage_on_grounds": covtxt,
-         "probe_rows_unratified": sum(1 for _ in probes.open(encoding="utf-8")) if probes.exists() else 0,
-         "honesty_contract": ("MEASURED requires a named receipt on disk. DEGRADED works but below estate "
-                              "standard. UNWIRED exists outside the decision path. ABSENT was never built here. "
-                              "DEAD is present, running, detecting nothing. UNAVAILABLE has no evidence and is "
-                              "never rendered as health."),
-         "not_a_product": ("diagnostic organ map of one repository, generated from its own receipts. no claim "
-                           "about any other estate component. nothing glows that did not earn it.")}
-state["state_digest"] = hashlib.sha256(json.dumps(state, sort_keys=True).encode("utf-8")).hexdigest()[:32]
+evidence = {"subject": "szl-typesafe-triage", "organs": ORGANS, "coverage_on_grounds": covtxt,
+            "probe_rows_unratified": sum(1 for _ in probes.open(encoding="utf-8")) if probes.exists() else 0}
+# The digest covers evidence only. A clock tick must never produce a new digest or a commit.
+evidence_digest = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode("utf-8")).hexdigest()[:32]
+
+prev = load("out/anatomy_state.json")
+if prev and prev.get("evidence_digest") == evidence_digest:
+    print("UNCHANGED - evidence digest " + evidence_digest + " matches on disk; no files rewritten")
+    for o in ORGANS:
+        print("  " + o["organ"].ljust(18) + o["state"])
+    raise SystemExit(0)
+
+state = dict(evidence)
+state["evidence_digest"] = evidence_digest
+state["generated_utc"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+state["digest_excludes"] = "generated_utc is deliberately outside the digest so re-running produces no churn"
+state["honesty_contract"] = ("MEASURED requires a named receipt on disk. DEGRADED works but below estate "
+                            "standard. UNWIRED exists outside the decision path. ABSENT was never built here. "
+                            "DEAD is present, running, detecting nothing. UNAVAILABLE has no evidence and is "
+                            "never rendered as health.")
+state["not_a_product"] = ("diagnostic organ map of one repository, generated from its own receipts. no claim "
+                          "about any other estate component. nothing glows that did not earn it.")
 Path("out/anatomy_state.json").write_text(json.dumps(state, indent=2), encoding="utf-8")
 
 COLOR = {"MEASURED": "#39d98a", "DEGRADED": "#f5a524", "UNWIRED": "#6c7a89",
@@ -116,16 +154,16 @@ html = ("<!doctype html><html lang='en'><head><meta charset='utf-8'>"
         ".role{color:#9aa4b2}.ev{margin-top:6px}.src{color:#5c6672;font-size:12px;margin-top:4px}"
         ".lesion{margin-top:8px;padding:8px 10px;background:#1a1114;border-left:2px solid #ff4d4f;color:#ffb3b5}"
         ".foot{margin-top:24px;color:#5c6672;font-size:12px;max-width:80ch}</style></head><body>"
-        "<h1>Living Anatomy</h1><div class='sub'>szl-typesafe-triage &middot; generated " +
-        state["generated_utc"] + " &middot; digest " + state["state_digest"] + "</div>" + "".join(rows) +
+        "<h1>Living Anatomy</h1><div class='sub'>szl-typesafe-triage &middot; evidence digest " +
+        evidence_digest + "</div>" + "".join(rows) +
         "<div class='foot'>" + state["honesty_contract"] + "<br><br>" + state["not_a_product"] +
         "<br><br>coverage defended on grounds: " + covtxt + " &middot; unratified probe rows: " +
-        str(state["probe_rows_unratified"]) + "</div></body></html>")
+        str(evidence["probe_rows_unratified"]) + "</div></body></html>")
 Path("out/anatomy.html").write_text(html, encoding="utf-8")
 
 print("ORGAN MAP")
 for o in ORGANS:
-    print("  " + o["organ"].ljust(18) + o["state"].ljust(14) + o["evidence"][:72])
+    print("  " + o["organ"].ljust(18) + o["state"].ljust(14) + o["evidence"][:70])
 print("")
-print("digest " + state["state_digest"])
+print("evidence digest " + evidence_digest)
 print("WROTE out/anatomy_state.json, out/anatomy.html")
