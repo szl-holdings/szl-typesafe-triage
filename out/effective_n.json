@@ -1,0 +1,67 @@
+{
+  "generated_rows": 600,
+  "distinct_engine_configurations": 9,
+  "engine_side_effective_n": 9,
+  "model_side_effective_n": 600,
+  "tau_attribute": "lambda_threshold",
+  "tau_confident": 0.65,
+  "tightest_margin_to_tau": 0.0056,
+  "configurations": [
+    {
+      "lambda": 0.0,
+      "label": "REVIEW",
+      "rows": 200,
+      "margin_to_tau": -0.65
+    },
+    {
+      "lambda": 0.5671,
+      "label": "REVIEW",
+      "rows": 40,
+      "margin_to_tau": -0.0829
+    },
+    {
+      "lambda": 0.6276,
+      "label": "REVIEW",
+      "rows": 80,
+      "margin_to_tau": -0.0224
+    },
+    {
+      "lambda": 0.6444,
+      "label": "REVIEW",
+      "rows": 80,
+      "margin_to_tau": -0.0056
+    },
+    {
+      "lambda": 0.8503,
+      "label": "SECURITY",
+      "rows": 40,
+      "margin_to_tau": 0.2003
+    },
+    {
+      "lambda": 0.8503,
+      "label": "BILLING",
+      "rows": 40,
+      "margin_to_tau": 0.2003
+    },
+    {
+      "lambda": 0.8503,
+      "label": "BUG",
+      "rows": 40,
+      "margin_to_tau": 0.2003
+    },
+    {
+      "lambda": 0.8503,
+      "label": "FEATURE",
+      "rows": 40,
+      "margin_to_tau": 0.2003
+    },
+    {
+      "lambda": 0.8503,
+      "label": "SUPPORT",
+      "rows": 40,
+      "margin_to_tau": 0.2003
+    }
+  ],
+  "reading": "the policy engine is deterministic, so 600 paraphrases collapsing to 9 distinct (lambda, label, axes) states carry 9 units of information, not 600. engine-side results are COVERAGE - configurations passed or failed. a p-value over the 600 would manufacture significance out of replication. the 600 stay valid for the MODEL-side comparison, where outputs vary across paraphrase.",
+  "fragility_note": "the 1-term stratum peaks at 0.6444 against tau 0.65. those rows sit under the bar by a hundredth and would flip as a block under any retune - never report them as abstentions demonstrating robustness."
+}
