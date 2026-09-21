@@ -1,0 +1,396 @@
+{
+  "schema": "szl.pipeline-run/v1",
+  "stages_total": 30,
+  "stages_run": 30,
+  "stages_passed": 30,
+  "halted_at": null,
+  "verdict": "COMPLETE",
+  "seconds": 53.87,
+  "ordering_rule": "stages run in dependency order: refusal paths and fidelity first because every later receipt quotes them, the estate ledger before the invariant pre-check because I6 derives from actual signature verification, and the claims ledger last because it reads every other receipt on disk",
+  "why_this_exists": "twenty-odd scripts were written and run ad hoc in whatever order they were pasted, which left receipts quoting each other's stale numbers. one ordered run makes the artefact set internally consistent, and a must_pass stage that exits nonzero halts the run rather than letting later receipts cite a failure as evidence",
+  "stages": [
+    {
+      "stage": "refusal",
+      "script": "scripts/refusal_mechanisms.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/refusal_mechanisms.json",
+      "produced": true,
+      "tail": [
+        "axes_vector refused: 39/39   still UNIDENTIFIED: 0",
+        "RECEIPT out/refusal_mechanisms.json (v4)"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "fidelity",
+      "script": "scripts/shadow_fidelity.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/shadow_fidelity.json",
+      "produced": true,
+      "tail": [
+        "RECEIPT out/shadow_fidelity.json -> CONSISTENT",
+        "out/aggregator_shadow.json -> RETRACTED"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "ratified",
+      "script": "scripts/ratified_scoreboard.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/ratified_scoreboard.json",
+      "produced": true,
+      "tail": [
+        "REGRESSED rows: 0 (must be zero)",
+        "RECEIPT out/ratified_scoreboard.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "effective",
+      "script": "scripts/effective_n.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/effective_n.json",
+      "produced": true,
+      "tail": [
+        "tightest margin to tau: 0.0056",
+        "WROTE out/engine_coverage_set.jsonl, out/effective_n.json, out/ratification_worksheet.csv (9 configs)"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "coverage",
+      "script": "scripts/score_coverage.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/engine_coverage_score.json",
+      "produced": true,
+      "tail": [
+        "ENGINE-SIDE COVERAGE SCORE: 0 / 9 configurations defended on grounds",
+        "RECEIPT out/engine_coverage_score.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "estate",
+      "script": "scripts/estate_align.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/estate_alignment.json",
+      "produced": true,
+      "tail": [
+        "head digest: 452d5a6fa1fc7ab3e2662188c8c112ab",
+        "RECEIPT out/estate_alignment.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "anatomy_fd",
+      "script": "scripts/anatomy_feed.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/anatomy_feed.v1.json",
+      "produced": true,
+      "tail": [
+        "WROTE out/anatomy_feed.v1.json (digest 7f156b707a4b68f0edb6cee23927acd8)",
+        "WROTE out/anatomy_crosscheck.json, out/receipt_sample.pcgi.v1.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "yarqa",
+      "script": "scripts/yarqa_compartments.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/yarqa_compartments.json",
+      "produced": true,
+      "tail": [
+        "unreadable receipts in out/: 0",
+        "RECEIPT out/yarqa_compartments.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "brain",
+      "script": "scripts/build_triage_brain.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/brain/manifest.json",
+      "produced": true,
+      "tail": [
+        "  BUG      quits             1",
+        "RECEIPT out/brain/manifest.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "spans",
+      "script": "scripts/emit_spans.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/spans.otlp.json",
+      "produced": true,
+      "tail": [
+        "  zero-pinned spans: 31",
+        "WROTE out/spans.otlp.json, out/spans_receipt.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "seam",
+      "script": "scripts/verify_integrity_seam.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/integrity_seam.json",
+      "produced": true,
+      "tail": [
+        "null provider applied to 1270 rows; integrity altered on 0",
+        "RECEIPT out/integrity_seam.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "axis_pop",
+      "script": "scripts/axis_population.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/axis_population.json",
+      "produced": true,
+      "tail": [
+        "rows with lambda exactly 0.0    : 375",
+        "VERDICT DISCREPANCY_EXPLAINED_BY_MISSING_KEYS  -> out/axis_population.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "khipu",
+      "script": "scripts/khipu_witness.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/khipu_witness.json",
+      "produced": true,
+      "tail": [
+        "  tamper verdict arm 0   digest arm 0   (both must be 0)",
+        "RECEIPT out/khipu_witness.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "anatomy_st",
+      "script": "scripts/anatomy_state.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/anatomy_state.json",
+      "produced": true,
+      "tail": [
+        "  consensus         ABSENT",
+        "  egress            MEASURED"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "ancient",
+      "script": "scripts/ancient_geometry.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/ancient_geometry.json",
+      "produced": true,
+      "tail": [
+        "  weights sum to 1.000000",
+        "RECEIPT out/ancient_geometry.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "figures",
+      "script": "scripts/make_figures.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "docs/paper/figures/MANIFEST.json",
+      "produced": true,
+      "tail": [
+        "figures manifest: 6 declared, 6 pending render, 0 missing their receipt"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "paper",
+      "script": "scripts/make_paper.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "docs/paper/main.md",
+      "produced": true,
+      "tail": [
+        "paper assembled from receipts -> docs/paper/main.md (74 lines)"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "physics",
+      "script": "scripts/physics_information.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/physics_information.json",
+      "produced": true,
+      "tail": [
+        "  wall clock 0.168 s for 1270 decisions",
+        "RECEIPT out/physics_information.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "openq",
+      "script": "scripts/open_questions.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/open_questions.json",
+      "produced": true,
+      "tail": [
+        "open questions: 11  -> docs/OPEN_QUESTIONS.md"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "advisors",
+      "script": "scripts/advisor_registry.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/advisor_registry.json",
+      "produced": true,
+      "tail": [
+        "trust ceiling 0.97  e.g. 1.0 reported as 0.97",
+        "RECEIPT out/advisor_registry.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "papers",
+      "script": "scripts/index_papers.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/papers_corpus.json",
+      "produced": true,
+      "tail": [
+        "papers corpus: 26 units, 89 documents, 297 distinct DOIs"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "complete",
+      "script": "scripts/completion_audit.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/completion_audit.json",
+      "produced": true,
+      "tail": [
+        "invariants still not PASS: {\"I3\": \"UNAVAILABLE\", \"I7\": \"PARTIAL\", \"I8\": \"PARTIAL\"}",
+        "RECEIPT out/completion_audit.json  DOC docs/COMPLETION_AUDIT.md"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "axioms",
+      "script": "scripts/axiom_conformance.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/axiom_conformance.json",
+      "produced": true,
+      "tail": [
+        "v22 counterexample family check: x1^(2/3) x2^(1/3) at (0.6,0.3) = 0.476220   equal-weight Lambda = 0.424264   different: True",
+        "RECEIPT out/axiom_conformance.json   ouroboros bound state: FAIL_BY_DEFINITION"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "leanbind",
+      "script": "scripts/lean_binding.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/lean_binding.json",
+      "produced": true,
+      "tail": [
+        "bindings: 20   symbol present: 20   kernel verified: 0 (requires lake build)",
+        "RECEIPT out/lean_binding.json   DOC docs/LEAN_BINDING.md"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "retract",
+      "script": "scripts/retractions.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/retractions.json",
+      "produced": true,
+      "tail": [
+        "retractions: 12   of which self-corrections against my own earlier commits: 8"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "phrasing",
+      "script": "scripts/phrasing_guard_v2.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/phrasing_guard.json",
+      "produced": true,
+      "tail": [
+        "guard v4  META 58  QUOTED 288  DENIED 4  CLAIMED 0"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "yuyay",
+      "script": "scripts/yuyay_gate.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/yuyay_gate_conformance.json",
+      "produced": true,
+      "tail": [
+        "    claimCalibration          2",
+        "RECEIPT out\\yuyay_gate_conformance.json"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "estaudit",
+      "script": "scripts/estate_audit.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/estate_audit.json",
+      "produced": true,
+      "tail": [
+        "repos 88   schemas 689   never reviewed 75   L1+L2 contradictions 11",
+        "RECEIPT out/estate_audit.json   DOC docs/ESTATE_AUDIT.md"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "privaudit",
+      "script": "scripts/private_audit.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/private_audit.json",
+      "produced": true,
+      "tail": [
+        "private audit recorded: 6 transplants, predecessor lineage named"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "stage": "claims",
+      "script": "scripts/claims_ledger.py",
+      "code": 0,
+      "state": "PASS",
+      "produces": "out/claims_ledger.json",
+      "produced": true,
+      "tail": [
+        "unsupported: 0",
+        "WROTE out/claims_ledger.json, docs/PUBLIC_CLAIMS.md"
+      ],
+      "stderr_tail": []
+    }
+  ]
+}

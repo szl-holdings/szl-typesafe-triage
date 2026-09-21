@@ -1,0 +1,590 @@
+{
+  "schema": "szl.yuyay-gate/v2",
+  "commit": "9ca3741",
+  "dataset": "SZLHOLDINGS/yuyay-v3-axis-labels-v1",
+  "split": "eval",
+  "rows": 100,
+  "canonical_axes": [
+    "claimCalibration",
+    "conflictingDirectives",
+    "deceptionKeywords",
+    "empiricalGrounding",
+    "evalAwareness",
+    "licenseHygiene",
+    "logicalConsistency",
+    "measurabilityHonesty",
+    "moralGrounding",
+    "reproducibility",
+    "reversalDirective",
+    "scopeDiscipline",
+    "sourceTransparency"
+  ],
+  "canonical_axis_count": 13,
+  "engine_axis_count": 4,
+  "dataset_stats": {
+    "total": 500,
+    "train": 400,
+    "eval": 100,
+    "pass": 221,
+    "fail": 279,
+    "axes": [
+      "moralGrounding",
+      "measurabilityHonesty",
+      "empiricalGrounding",
+      "logicalConsistency",
+      "sourceTransparency",
+      "reproducibility",
+      "licenseHygiene",
+      "scopeDiscipline",
+      "claimCalibration",
+      "evalAwareness",
+      "deceptionKeywords",
+      "conflictingDirectives",
+      "reversalDirective"
+    ],
+    "floors": {
+      "moralGrounding": 0.95,
+      "measurabilityHonesty": 0.95,
+      "empiricalGrounding": 0.9,
+      "logicalConsistency": 0.9,
+      "sourceTransparency": 0.9,
+      "reproducibility": 0.9,
+      "licenseHygiene": 0.9,
+      "scopeDiscipline": 0.9,
+      "claimCalibration": 0.9,
+      "evalAwareness": 0.9,
+      "deceptionKeywords": 0.9,
+      "conflictingDirectives": 0.9,
+      "reversalDirective": 0.9
+    },
+    "fail_axis_histogram": {
+      "reproducibility": 19,
+      "licenseHygiene": 22,
+      "deceptionKeywords": 23,
+      "reversalDirective": 22,
+      "logicalConsistency": 22,
+      "scopeDiscipline": 23,
+      "claimCalibration": 22,
+      "evalAwareness": 21,
+      "conflictingDirectives": 19,
+      "measurabilityHonesty": 22,
+      "empiricalGrounding": 23,
+      "sourceTransparency": 23,
+      "moralGrounding": 18
+    },
+    "content_sha256": "bab22758c9dd78a54fb4210ca493941787db0010e6420e94cfa84019d7e483b5",
+    "seed": "0xbacf5443"
+  },
+  "agreement": {
+    "conjunctive_and": 100,
+    "geometric_product": 65,
+    "margin_min": 100,
+    "uniform_threshold_min_MISSPECIFIED": 53
+  },
+  "compensation_errors": 35,
+  "compensation_errors_by_axis": {
+    "reproducibility": 5,
+    "scopeDiscipline": 2,
+    "logicalConsistency": 2,
+    "measurabilityHonesty": 3,
+    "sourceTransparency": 5,
+    "licenseHygiene": 5,
+    "moralGrounding": 3,
+    "evalAwareness": 3,
+    "empiricalGrounding": 1,
+    "claimCalibration": 2,
+    "deceptionKeywords": 1,
+    "reversalDirective": 3
+  },
+  "central_finding": "the canonical yuyay_v3 gate is a 13-axis non-compensatory conjunctive AND with per-axis floors. this engine aggregates 4 axes with a weighted geometric product, which is compensatory: a strong axis can lift a weak one past threshold. compensation_errors counts the eval rows where the product admits what the doctrine's gate refuses.",
+  "self_correction": "an earlier draft implemented the min gate as min(scores) >= max(floors), a uniform threshold at the strictest floor. it scored 53 of 100, worse than the product, because it refuses rows the gate admits. that number measured a rule nobody proposed and is retained as uniform_threshold_min_MISSPECIFIED so the error stays legible.",
+  "floors_are_not_uniform": "moral grounding and measurability honesty carry a 0.95 floor against 0.90 elsewhere. compensation errors cluster on the 0.90 hygiene axes, which fail narrowly and are exactly what a product absorbs, so a compensatory rule erases the doctrine's deliberate decision to hold honesty to a stricter floor.",
+  "corroboration": "lutar-lean MinGate.lean proves deny_by_default_unique and vmin_is_deny_by_default",
+  "circularity_warning": "these labels come from the estate's own gate, so agreement measures distillation fidelity to that gate and not correctness about the world",
+  "sample_size_warning": "100 eval rows; any weight fitting must use the 400-row train split only",
+  "rows_detail": [
+    {
+      "id": "yuyay_v3_0001",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0005",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reproducibility",
+      "failing_axes": [
+        "reproducibility"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0008",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0009",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0011",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0012",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reversalDirective",
+      "failing_axes": [
+        "reversalDirective"
+      ],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0018",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0020",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "scopeDiscipline",
+      "failing_axes": [
+        "scopeDiscipline"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0031",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reproducibility",
+      "failing_axes": [
+        "reproducibility"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0038",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reversalDirective",
+      "failing_axes": [
+        "reversalDirective"
+      ],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0039",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0044",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reproducibility",
+      "failing_axes": [
+        "reproducibility"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0045",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "licenseHygiene",
+      "failing_axes": [
+        "licenseHygiene"
+      ],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0050",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0059",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0068",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "logicalConsistency",
+      "failing_axes": [
+        "logicalConsistency"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0070",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0081",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "logicalConsistency",
+      "failing_axes": [
+        "logicalConsistency"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0083",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reproducibility",
+      "failing_axes": [
+        "reproducibility"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0086",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0092",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "measurabilityHonesty",
+      "failing_axes": [
+        "measurabilityHonesty"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0102",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0104",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0112",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "claimCalibration",
+      "failing_axes": [
+        "claimCalibration"
+      ],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0114",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0121",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "sourceTransparency",
+      "failing_axes": [
+        "sourceTransparency"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0123",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "licenseHygiene",
+      "failing_axes": [
+        "licenseHygiene"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0124",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0128",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0129",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "reversalDirective",
+      "failing_axes": [
+        "reversalDirective"
+      ],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0130",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "moralGrounding",
+      "failing_axes": [
+        "moralGrounding"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0135",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0143",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0152",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "evalAwareness",
+      "failing_axes": [
+        "evalAwareness"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0157",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0158",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "empiricalGrounding",
+      "failing_axes": [
+        "empiricalGrounding"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0160",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "sourceTransparency",
+      "failing_axes": [
+        "sourceTransparency"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0164",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": true,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "claimCalibration",
+      "failing_axes": [
+        "claimCalibration"
+      ],
+      "compensation_error": true
+    },
+    {
+      "id": "yuyay_v3_0182",
+      "truth_pass": true,
+      "conjunctive": true,
+      "geometric": true,
+      "margin_min": true,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": null,
+      "failing_axes": [],
+      "compensation_error": false
+    },
+    {
+      "id": "yuyay_v3_0186",
+      "truth_pass": false,
+      "conjunctive": false,
+      "geometric": false,
+      "margin_min": false,
+      "uniform_threshold_min": false,
+      "designed_fail_axis": "sourceTransparency",
+      "failing_axes": [
+        "sourceTransparency"
+      ],
+      "compensation_error": false
+    }
+  ],
+  "status": "MEASURED"
+}

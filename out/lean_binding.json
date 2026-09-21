@@ -1,0 +1,201 @@
+{
+  "schema": "szl.lean-binding/v1",
+  "commit": "9ca3741",
+  "lutar_lean_commit": "5341b7a",
+  "lean_symbols_indexed": 2068,
+  "bindings": [
+    {
+      "local": "scripts/axiom_conformance.py :: A5 permutation check",
+      "lean": "th_v18_09d_four_axis_invariant",
+      "property": "permutation invariance on four axes",
+      "note": "the engine's weighted rule breaks this; the Lean theorem is about equal-weight Lambda",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Thesis/TH_V18_09_PermutationInvariance.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "scripts/axiom_conformance.py :: symmetry violation count",
+      "lean": "A1_Symmetry",
+      "property": "Set-alpha calls symmetry A1, not A5",
+      "note": "NUMBERING CORRECTION: under SetAlphaUniqueness the engine satisfies A5_Multiplicativity and violates A1_Symmetry. earlier receipts in this repo said 'violates A5' using the thesis-prose numbering. the measurement stands, the label was wrong, and this repository now names properties rather than numbers",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave6/SetAlphaUniqueness.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "weighted geometric aggregation with unequal weights",
+      "lean": "th_v18_04b_nine_axis_weight_sum",
+      "property": "unequal decreasing weights summing to one are a formalized estate object",
+      "note": "Egyptian-fraction weight sums are proven; this engine's four weights are an unproven instance of that structure, not a violation of it",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Thesis/TH_V18_04_EgyptianWeightSum.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "src/szl_triage/providers/registry.py :: may_label is False",
+      "lean": "advise_never_executes",
+      "property": "an advisory verdict can never execute",
+      "note": "CredoVerdictWitness proves the property my registry enforces in Python",
+      "lean_symbol_present": true,
+      "lean_file": "Showcase/Frontier/CredoVerdictWitness.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "registry :: AuthorityViolation on a label from an advisor",
+      "lean": "hard_deny_unliftable",
+      "property": "a hard deny cannot be lifted by any later stage",
+      "note": "same shape as the seam's veto-only axis",
+      "lean_symbol_present": true,
+      "lean_file": "Showcase/Frontier/CredoVerdictWitness.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "decision rule: abstain when evidence is missing",
+      "lean": "missing_evidence_not_allow",
+      "property": "absent evidence must not yield ALLOW",
+      "note": "fail-closed, proven rather than asserted",
+      "lean_symbol_present": true,
+      "lean_file": "Showcase/Frontier/CredoVerdictWitness.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "decision rule: abstain when an axis floor is missed",
+      "lean": "floor_miss_not_allow",
+      "property": "a floor miss must not yield ALLOW",
+      "note": "",
+      "lean_symbol_present": true,
+      "lean_file": "Showcase/Frontier/CredoVerdictWitness.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "the min-gate fallback in the aggregator",
+      "lean": "deny_by_default_unique",
+      "property": "vmin is the unique deny-by-default conservative gate",
+      "note": "MinGate proves uniqueness; if this engine wants deny-by-default it should use vmin, not a weighted product",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave8/MinGate.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "out/state_estimation.json :: scalar Kalman fusion of repeated calls",
+      "lean": "conformal_marginal_coverage",
+      "property": "distribution-free marginal coverage",
+      "note": "SUPERSEDES MY ESTIMATOR: conformal coverage is proven in-estate and needs no Gaussian assumption on a quantity bounded in [0,1]. the Kalman receipt's named next step should be conformal, not Beta-Binomial",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave8/Conformal.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "repeated advisor sampling at a pinned model version",
+      "lean": "ville_markov_bound",
+      "property": "time-uniform supermartingale bound",
+      "note": "anytime-valid: lets sampling stop adaptively without invalidating the interval, which fixed-n averaging cannot",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave9/Ville.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "out/brain/manifest.json :: candidates_per_pass_cap",
+      "lean": "ouro_loop_unique_fixedPoint",
+      "property": "the bounded loop is a contraction with a unique fixed point",
+      "note": "CONFIRMS B2: boundedness comes from contraction and an early-exit error bound (ouro_early_exit_error_bound), not from a cap. I5 must not pass on a cap",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave11/OuroLoopEarlyExit.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "khipu witness receipt chain",
+      "lean": "hashchain_tamper_evident",
+      "property": "tamper-evidence of a hash chain",
+      "note": "",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave8/HashChain.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "receipt ledger append semantics",
+      "lean": "merkle_append_only",
+      "property": "append-only Merkle root binding",
+      "note": "",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave9/Merkle.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "signing envelope (currently hand-rolled)",
+      "lean": "dsse_token_injective",
+      "property": "DSSE token injectivity",
+      "note": "argues for szl-govsign over the hand-rolled signer, bandaid B4",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave10/DSSEToken.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "TRUST_CEILING = 0.97 in registry.py",
+      "lean": "c2_lutar_omega_classical_ceiling",
+      "property": "the estate's ceiling is a classical/Tsirelson bound",
+      "note": "MY CEILING IS AD HOC: 0.97 is a chosen number with no theorem behind it, while the estate has a derived ceiling. recorded as UNBOUND_TO_THEOREM rather than dressed up",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave3/Tier1Mathlib.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "locked-formula count discrepancy G6",
+      "lean": "locked_count_eight",
+      "property": "the locked set has exactly eight members, machine-checked",
+      "note": "RESOLVES G6: locked_count_eight appears in AxiomCheck.lean and four AxiomDisclosure.lean files. the count is eight and the v23 prose line saying five is stale. the kernel is the authority",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Uniqueness/AxiomCheck.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "uniqueness claims in out/axiom_conformance.json",
+      "lean": "TheoremU_LambdaUnique",
+      "property": "identifiability forces Lambda, kernel-only axioms",
+      "note": "the current frontier is Theorem U with IdentifiabilityAssumptions, beyond the v24 text; theoremU_excluded_from_locked and conjecture1_still_open both exist, so Conjecture 1 remains open",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Uniqueness/TheoremU.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "F18 parity language avoided in this repo",
+      "lean": "rs_distance_lower_bound",
+      "property": "Reed-Solomon distance bound",
+      "note": "confirms F18 is parity, not a seal",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave14/ReedSolomonDistance.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "fail-closed abstention under measurement noise",
+      "lean": "fail_closed_zero_test",
+      "property": "a zero test is fail-closed",
+      "note": "",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave11/ImmuneNeymanPearsonOpt.lean",
+      "kernel_verified": false
+    },
+    {
+      "local": "advisor drift between identical calls",
+      "lean": "replay_deterministic",
+      "property": "replay determinism",
+      "note": "the estate proves replay is deterministic for governed runs; a hosted advisor that drifts at the second decimal is therefore outside the governed-run model, which is the real argument for a sovereign adapter",
+      "lean_symbol_present": true,
+      "lean_file": "Lutar/Wave10/ReplayDeterminism.lean",
+      "kernel_verified": false
+    }
+  ],
+  "symbols_present": 20,
+  "kernel_verified_count": 0,
+  "kernel_state": "UNVERIFIED_LOCALLY",
+  "what_this_proves": "that the estate has theorems of these names at this commit. it does not prove the theorems hold. kernel verification needs lake build and #print axioms, which no Python test can do, and pretending otherwise would be the exact failure this repository exists to avoid.",
+  "numbering_correction": "axiom numbers are not stable across the estate's own formalizations. thesis prose numbers permutation invariance A5; SetAlphaUniqueness.lean numbers symmetry A1 and multiplicativity A5. under Set-alpha this engine SATISFIES A5 and VIOLATES A1. earlier receipts here said 'violates A5' from the prose numbering - the measurement of 447 of 895 vectors stands unchanged, only the name was wrong. this repository now cites properties, not numbers.",
+  "supersessions": [
+    "conformal_marginal_coverage supersedes the Gaussian Kalman posterior as the next step",
+    "ville_markov_bound supersedes fixed-n averaging for repeated advisor calls",
+    "ouro_loop_unique_fixedPoint supersedes the per-pass cap as the boundedness argument",
+    "deny_by_default_unique means vmin, not a weighted product, is the conservative gate",
+    "locked_count_eight resolves the five-versus-eight discrepancy in the kernel's favour"
+  ],
+  "status": "MEASURED"
+}

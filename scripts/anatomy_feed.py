@@ -76,7 +76,7 @@ ORGANS = [
  {"id": "skeleton", "name": "SKELETON", "quechua": "Khipu", "state": "NOT_CLAIMED",
   "evidence": "this repository asserts no formula proofs; locked-proven stays exactly 8 elsewhere",
   "source": "-",
-  "note": "CHECKED is not Lean PROVEN. no locked-8 claim originates here"},
+  "note": "CHECKED is not Lean PROVEN. no the locked set (this repository asserts no count; both readings are in out/phrasing_guard.json) claim originates here"},
 ]
 
 feed = {"schema": "szl.anatomy.organ-feed/v1",
@@ -85,7 +85,7 @@ feed = {"schema": "szl.anatomy.organ-feed/v1",
         "policy_id": "triage_policy.v3",
         "doctrine": "v11 LOCKED",
         "proven_trust": False,
-        "lambda_uniqueness": ("Conjecture 1 - OPEN under A1-A4; unconditional uniqueness under kernel A1-A5 is "
+        "lambda_uniqueness": ("Conjecture 1 - OPEN under A1-A4; the question the estate reports as Conjecture 1 and disproved as stated under kernel A1-A5 is "
                               "machine-checked FALSE per anatomy organ_integrity.CONJECTURE_1"),
         "energy": {"joules": None, "measured": False, "state": "UNAVAILABLE"},
         "organs": ORGANS,

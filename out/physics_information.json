@@ -1,0 +1,30 @@
+{
+  "schema": "szl.physics-information/v1",
+  "commit": "9ca3741",
+  "rows": 1270,
+  "distinct_configurations": 21,
+  "entropy_bits": {
+    "over_configurations": 3.801637,
+    "maximum_for_support": 4.392317,
+    "over_refusal_paths": 1.606462,
+    "bits_per_row": 0.00299342,
+    "rows_per_bit": 334.067
+  },
+  "interpretation": "a corpus of 1270 inputs carries 3.80 bits about this deterministic engine, against a ceiling of 4.39 bits for its support. effective sample size was an argument in words; this is the measurement. adding paraphrases that land in existing configurations adds rows and no bits.",
+  "energy": {
+    "joules": null,
+    "measured": false,
+    "state": "UNAVAILABLE",
+    "sources_tried": [
+      "nvml:ModuleNotFoundError",
+      "rapl:absent"
+    ]
+  },
+  "energy_doctrine": "joules are measured or null. no estimate, no model, no zero standing in for an unmeasured quantity. szl-holdings/szl-energy-attest is the estate component that does this properly with NVML and an honest UNAVAILABLE.",
+  "timing": {
+    "wall_seconds": 0.1685,
+    "decisions_per_second": 7538.2,
+    "caveat": "single-process wall clock on one host; not a benchmark and not comparable across machines"
+  },
+  "status": "MEASURED"
+}

@@ -3,10 +3,8 @@ scores in [0,1], zero-pinned, reported rounded to 4 decimals. The precision is d
 in scripts/shadow_fidelity.py from the data, not chosen to make a test pass.
 """
 import json
-import sys
 from pathlib import Path
 
-sys.path.insert(0, "src")
 from szl_triage import policy as policy_mod
 from szl_triage.pipeline import decide
 

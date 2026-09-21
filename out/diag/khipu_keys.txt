@@ -1,0 +1,55 @@
+[
+  "schema",
+  "commit",
+  "pattern_from",
+  "threshold",
+  "witnesses",
+  "distinct_keys",
+  "records",
+  "confident_decisions",
+  "confident_upheld_by_quorum",
+  "confident_downgraded_to_review",
+  "tamper_trial",
+  "honesty_state",
+  "honesty_detail",
+  "fail_closed",
+  "next_step_for_real"
+]
+
+sample:
+{
+  "schema": "szl.khipu-witness/v2",
+  "commit": "9ca3741",
+  "pattern_from": "szl-holdings/khipu-consensus - BFT 3-of-4 multi-party-witnessed agreement, ECDSA P-256 cosign over DSSE",
+  "threshold": "3-of-4",
+  "witnesses": [
+    "amaru",
+    "sentra",
+    "yawar",
+    "hukulla"
+  ],
+  "distinct_keys": true,
+  "records": 42,
+  "confident_decisions": 11,
+  "confident_upheld_by_quorum": 11,
+  "confident_downgraded_to_review": 0,
+  "tamper_trial": {
+    "attempted": true,
+    "original_verdict": "SECURITY",
+    "forged_verdict": "BILLING",
+    "vacuity_guard": "forged bytes asserted different from honest bytes before verifying",
+    "verdict_arm": {
+      "witnesses_still_verifying": [],
+      "quorum_survives": false
+    },
+    "digest_arm": {
+      "witnesses_still_verifying": [],
+      "quorum_survives": false
+    },
+    "quorum_survives": false
+  },
+  "honesty_state": "SOFTWARE",
+  "honesty_detail": "four keys generated and held on ONE host in ONE process is a quorum SHAPE, not byzantine fault tolerance and not multi-party witnessing - a single compromised host forges all four signatures at once. real BFT needs independent operators, which is what szl-holdings/khipu-consensus is for.",
+  "fail_closed": "a confident decision without quorum is downgraded to REVIEW; absence of witnesses never promotes",
+  "next_step_for_real": "emit into szl-holdings/szl-lake and run witnesses as independent operators"
+}

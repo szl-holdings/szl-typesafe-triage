@@ -29,7 +29,7 @@ from the SZL formula corpus:
 
 Earlier revisions of this file said "uniqueness remains Conjecture 1 (OPEN)".
 That was softer than the doctrine it cited: "open" implies undecided, whereas
-unconditional uniqueness is *disproven* by a named counterexample. A1-A4
+the question of the question the estate reports as Conjecture 1 and disproved as stated, which the estate reports as Conjecture 1 and disproved as stated is *disproven* by a named counterexample. A1-A4
 (Monotonicity, IsHomogeneous, Egyptian inspectability, IsBounded) are PROVEN in
 Lean. See `szl-holdings/lutar-lean`, DOI 10.5281/zenodo.20434308.
 

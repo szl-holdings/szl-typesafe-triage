@@ -1,0 +1,91 @@
+{
+  "schema": "szl.compartment-balance/v1",
+  "commit": "9ca3741",
+  "borrowed_from": "szl-holdings/yarqa - plug-flow compartmentalization with signed provenance receipts. the concept transferred is conservation accounting over a divided flow, not CFD and not the YARQA-ATTN attention kernel, which has no place in a deterministic keyword engine",
+  "inflow": 1270,
+  "compartments": {
+    "PRE_AGGREGATION": 39,
+    "ZERO_PINNED": 336,
+    "BELOW_THRESHOLD": 238,
+    "NONE": 657
+  },
+  "per_set": {
+    "ratified_42": {
+      "ZERO_PINNED": 31,
+      "NONE": 11
+    },
+    "proposed_probes_600": {
+      "ZERO_PINNED": 200,
+      "BELOW_THRESHOLD": 200,
+      "NONE": 200
+    },
+    "engine_derived_628": {
+      "NONE": 446,
+      "ZERO_PINNED": 105,
+      "PRE_AGGREGATION": 39,
+      "BELOW_THRESHOLD": 38
+    }
+  },
+  "accounted": 1270,
+  "unaccounted": 0,
+  "multiply_assigned": 0,
+  "bypass_rows": 39,
+  "bypass_fraction": 0.030709,
+  "aggregated_rows": 1231,
+  "mass_balance_holds": true,
+  "why_bypass_matters": "a bypass channel carries 39 of 1270 decisions around the aggregator, so any claim about aggregator behaviour covers the remaining 1231 only",
+  "unreadable_receipts": [],
+  "unreadable_note": "a receipt that cannot be parsed is not provenance; these are counted, not skipped",
+  "invariants_i1_i8": [
+    {
+      "id": "I1",
+      "name": "receipt-chain-continuity",
+      "state": "PASS",
+      "detail": "sha3_256 ledger replays from genesis with zero continuity breaks"
+    },
+    {
+      "id": "I2",
+      "name": "ledger-failure-shape",
+      "state": "PASS",
+      "detail": "a failed provider trial is recorded with status and unchanged metrics rather than omitted"
+    },
+    {
+      "id": "I3",
+      "name": "served-run-has-model",
+      "state": "UNAVAILABLE",
+      "detail": "no model sits in the decision path; decide() is deterministic and the checkpoints are UNWIRED"
+    },
+    {
+      "id": "I4",
+      "name": "signed-columns-atomic",
+      "state": "PASS",
+      "detail": "signature, digest and prev_digest are written together or not at all"
+    },
+    {
+      "id": "I5",
+      "name": "loop-steps-positive",
+      "state": "PASS",
+      "detail": "the brain lane records a positive per-pass candidate cap"
+    },
+    {
+      "id": "I6",
+      "name": "receipt-signature-verify",
+      "state": "PASS",
+      "detail": "verified 42 of 42 records offline; state derived from actual verification, never asserted"
+    },
+    {
+      "id": "I7",
+      "name": "receipt-columns-consistent",
+      "state": "PARTIAL",
+      "detail": "31 of 87 readable receipts declare a schema; 0 unreadable"
+    },
+    {
+      "id": "I8",
+      "name": "flywheel-lineage",
+      "state": "PARTIAL",
+      "detail": "20 of 87 receipts name the commit that produced them"
+    }
+  ],
+  "invariant_note": "the I1-I8 catalog is published on SZLHOLDINGS/YARQA-ATTN and executed by SZLHOLDINGS/szl-invariants; this is a local pre-check and statuses are not coerced",
+  "status": "MEASURED"
+}

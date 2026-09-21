@@ -1,10 +1,8 @@
 """A secret must never survive into a receipt."""
 import json
 import os
-import sys
 from pathlib import Path
 
-sys.path.insert(0, "src")
 from szl_triage.providers.jev import PINNED_MODEL, JevNoulBackend, redact
 
 FAKE = "apikey_2113be73fbc4d2304e438dbef89e3406963b"

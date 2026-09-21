@@ -1,12 +1,16 @@
 # What this repository has measured
 
-Generated from receipts at commit `61baafd`. Every sentence below maps to a claim id and a file on
+Generated from receipts at commit `9ca3741`. Every sentence below maps to a claim id and a file on
 disk. Nothing here is asserted without one.
 
 ## MEASURED
 
 - **C1** The decision aggregator is a weighted geometric mean over four axes in [0,1], zero-pinned, reported to 4 decimals.  
   receipt: `out/shadow_fidelity.json`
+- **C2** The engine refuses by two distinct mechanisms: a pre-aggregation short circuit on 39 rows where no axis is computed, and zero-pinned aggregation on 336 rows.  
+  receipt: `out/refusal_mechanisms.json`
+- **C3** An independent implementation of the same aggregator, re-derived from a published Three.js Space kernel using exp(sum(w*log(x))) rather than prod(x**w), reproduces every lambda value to the reported precision across 1270 rows. On 39 short-circuit rows the agreement is coincidental, since neither side ran the aggregator.  
+  receipt: `out/anatomy_crosscheck.json`
 - **C4** On 42 human-ratified rows the engine achieves paraphrase recall 0/30 and steering resistance 1/12. It agrees with human judgement on 1 of 42 rows.  
   receipt: `out/ratified_scoreboard.json`
 - **C5** 600 generated steering probes reduce to 9 distinct engine configurations, so the engine-side sample size is 9 and not 600.  
@@ -26,7 +30,7 @@ disk. Nothing here is asserted without one.
 
 ## BLOCKED
 
-- **C8** A hosted System One provider was wired and trialled against the ratified corpus. It answered 0 of 42 rows; recall and resistance were unchanged.  
+- **C8** A hosted System One provider was wired and trialled against the ratified corpus. It answered 42 of 42 rows; recall and resistance were unchanged.  
   receipt: `out/jev_integrity_trial.json`
 - **C13** The release is not promotable. Refusal integrity fails on the engine side.  
   receipt: `out/release_gate.json`
@@ -43,7 +47,7 @@ disk. Nothing here is asserted without one.
 
 ## NOT_CLAIMED
 
-- **C10** Uniqueness of the aggregator is not claimed. It is Conjecture 1, open under A1-A4, and unconditional uniqueness under A1-A5 is machine-checked false.  
+- **C10** Uniqueness of the aggregator is not claimed. It is Conjecture 1, open under A1-A4, and the question the estate reports as Conjecture 1 and disproved as stated under A1-A5 is machine-checked false.  
   receipt: `out/anatomy_feed.v1.json`
 
 ## What is not claimed

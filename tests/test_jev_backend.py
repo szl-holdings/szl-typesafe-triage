@@ -1,9 +1,7 @@
 """A hosted provider must fail closed and must never be mistaken for sovereign."""
 import json
-import sys
 from pathlib import Path
 
-sys.path.insert(0, "src")
 from szl_triage.providers.jev import JevNoulBackend, PINNED_MODEL
 from szl_triage.providers.systemone import DIRECTIVE_NOUL, noul_to_integrity
 

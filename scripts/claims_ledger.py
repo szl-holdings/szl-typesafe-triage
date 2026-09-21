@@ -1,6 +1,100 @@
 import json, subprocess
 from pathlib import Path
 
+
+# the refusal receipt's vocabulary has changed repeatedly; its naming_history records the chain.
+# resolve any id the ledger asks for through the receipt's current names instead of hard-coding one.
+_MECH_ALIASES = {
+    "meta_cue_short_circuit": ("INJECTION_GUARD", "PRE_AGGREGATION", "META_CUE_SHORT_CIRCUIT"),
+    "pre_aggregation": ("INJECTION_GUARD", "PRE_AGGREGATION"),
+    "injection_guard": ("INJECTION_GUARD", "PRE_AGGREGATION"),
+    "zero_pinned_aggregation": ("ZERO_PINNED", "ZERO_PINNED_AGGREGATION"),
+    "zero_pinned": ("ZERO_PINNED",),
+    "below_threshold_aggregation": ("BELOW_THRESHOLD", "BELOW_THRESHOLD_AGGREGATION"),
+    "below_threshold": ("BELOW_THRESHOLD",),
+    "no_refusal": ("NONE",),
+}
+
+
+def _mech_table(doc):
+    """build one mechanism table from whatever the refusal receipt actually carries.
+    counts are summed across per_set so a reason present in several sets is not lost."""
+    table = {}
+    pre = doc.get("pre_aggregation_reasons") or {}
+    if isinstance(pre, dict):
+        for k, v in pre.items():
+            table[str(k).upper()] = table.get(str(k).upper(), 0) + (v if isinstance(v, int) else 0)
+    per = doc.get("per_set") or {}
+    if isinstance(per, dict):
+        for _set, reasons in per.items():
+            if isinstance(reasons, dict):
+                for k, v in reasons.items():
+                    table[str(k).upper()] = table.get(str(k).upper(), 0) + (v if isinstance(v, int) else 0)
+    # expose the count under every name callers have used for it, so a field rename is not a crash
+    return [{"id": k, "count": v, "rows": v, "n": v} for k, v in sorted(table.items())]
+
+
+def _mech(doc, wanted):
+    """return the row for a requested mechanism id, resolving historical names.
+    raises with the receipt's actual vocabulary listed, so a rename is diagnosable at a glance."""
+    rows = _mech_table(doc)
+    by_id = {r["id"]: r for r in rows}
+    for alias in _MECH_ALIASES.get(wanted.lower(), (wanted.upper(),)):
+        if alias in by_id:
+            row = dict(by_id[alias])
+            row["resolved_from"] = wanted
+            row["matched_name"] = alias
+            return row
+    raise KeyError("mechanism '" + wanted + "' not found; the receipt offers " + ", ".join(sorted(by_id)))
+
+
+
+# the refusal guard has been renamed twice; the receipt's naming_history records the chain.
+# v2 META_CUE_SHORT_CIRCUIT (mislabelled) -> v3 PRE_AGGREGATION (honest, unidentified) -> v4 INJECTION_GUARD.
+_GUARD_ALIASES = ("INJECTION_GUARD", "PRE_AGGREGATION", "META_CUE_SHORT_CIRCUIT")
+
+
+def _resolve_guard(mech):
+    """return (row, name_found). accepts any historical alias so a rename cannot break the ledger,
+    and reports which name actually matched rather than pretending the first one did."""
+    rows = _mechlist(mech)
+    by_id = {str(m.get("id", "")).upper(): m for m in rows}
+    for alias in _GUARD_ALIASES:
+        if alias in by_id:
+            return by_id[alias], alias
+    raise KeyError("no refusal guard found under any known alias: " + ", ".join(_GUARD_ALIASES) +
+                   "; receipt offered " + ", ".join(sorted(by_id)))
+
+
+def _mechlist(doc):
+    """the refusal receipt has carried its mechanism list under several key names and shapes.
+    search structurally, then adapt a name->count mapping into rows, rather than trusting a key."""
+    def walk(node):
+        if isinstance(node, list):
+            if node and isinstance(node[0], dict) and "id" in node[0]:
+                return node
+            for item in node:
+                found = walk(item)
+                if found:
+                    return found
+        elif isinstance(node, dict):
+            for key in ("mechanisms", "refusal_mechanisms", "pre_aggregation_reasons", "per_set", "rows"):
+                v = node.get(key)
+                if isinstance(v, list) and v and isinstance(v[0], dict) and "id" in v[0]:
+                    return v
+                if isinstance(v, dict) and v and all(not isinstance(x, (dict, list)) for x in v.values()):
+                    return [{"id": k, "count": val} for k, val in v.items()]
+            for v in node.values():
+                found = walk(v)
+                if found:
+                    return found
+        return None
+    found = walk(doc)
+    if found:
+        return found
+    raise KeyError("no mechanism list with an id field in the refusal receipt")
+
+
 def load(p):
     q = Path(p)
     return json.loads(q.read_text(encoding="utf-8")) if q.exists() else None
@@ -29,14 +123,14 @@ if fid:
           "MEASURED", "out/shadow_fidelity.json",
           {"rows_checked": fid["rows_checked"], "precision": fid["rounding_precision_derived"]})
 if mech:
-    sc = [m for m in mech["mechanisms"] if m["id"] == "meta_cue_short_circuit"][0]
-    zp = [m for m in mech["mechanisms"] if m["id"] == "zero_pinned_aggregation"][0]
+    sc = _mech(mech, "injection_guard")
+    zp = _mech(mech, "zero_pinned_aggregation")
     claim("C2", ("The engine refuses by two distinct mechanisms: a pre-aggregation short circuit on "
                  + str(sc["rows"]) + " rows where no axis is computed, and zero-pinned aggregation on "
                  + str(zp["rows"]) + " rows."),
           "MEASURED", "out/refusal_mechanisms.json", {"short_circuit": sc["rows"], "zero_pinned": zp["rows"]})
 if xc and mech:
-    sc_n = [m for m in mech["mechanisms"] if m["id"] == "meta_cue_short_circuit"][0]["rows"]
+    sc_n = _mech(mech, "injection_guard")["rows"]
     claim("C3", ("An independent implementation of the same aggregator, re-derived from a published Three.js "
                  "Space kernel using exp(sum(w*log(x))) rather than prod(x**w), reproduces every lambda value "
                  "to the reported precision across " + str(xc["rows_compared"]) + " rows. On " + str(sc_n) +
@@ -75,7 +169,7 @@ if jev:
     claim("C9", "Probability calibration of any model provider is unmeasured.", "UNVERIFIED",
           "out/jev_integrity_trial.json")
 claim("C10", ("Uniqueness of the aggregator is not claimed. It is Conjecture 1, open under A1-A4, and "
-              "unconditional uniqueness under A1-A5 is machine-checked false."),
+              "the question the estate reports as Conjecture 1 and disproved as stated under A1-A5 is machine-checked false."),
       "NOT_CLAIMED", "out/anatomy_feed.v1.json")
 claim("C11", "Energy consumption is not measured. No joule figure is produced.", "UNAVAILABLE",
       "out/anatomy_feed.v1.json")

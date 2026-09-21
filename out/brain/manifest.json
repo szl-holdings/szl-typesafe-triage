@@ -1,9 +1,8 @@
 {
   "schema": "szl.second-brain.frontier-state/v1",
-  "datasetName": "SZL Second Brain - triage lane (handles-only projection)",
   "lane": "triage",
-  "doctrine": "Handles-only projection of triage decision history. It is DATA, not a model - a retrieval corpus, never weights. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness. Nothing here trains a model, promotes a label, or upgrades Lambda (Conjecture-1).",
-  "commit": "6d31e1d",
+  "commit": "9ca3741",
+  "doctrine": "Handles-only projection of triage decision history. DATA, not a model. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness.",
   "chunk_count": 670,
   "bySource": {
     "ratified": 42,
@@ -11,7 +10,7 @@
   },
   "projection_sha256": "2afac5c1af74bb19279062d7a3fd43891c93e5e948aa54b27d593346160fe0ef",
   "candidate_count": 40,
-  "candidate_set_sha256": "dc5898f2c5a96dbc0eec38b5ac0fe3b3378a12d45e5fce6ffb61cec465657af0",
+  "candidate_set_sha256": "00eeee8658af129d744262194bc914707606c87b659fac2687cb7bc4427963d3",
   "public_content_access": "HANDLES_ONLY",
   "promotion_authority": "NONE",
   "merge_authority": "NONE",
@@ -22,9 +21,8 @@
   "ouroboros_bound": {
     "candidates_per_pass_cap": 40,
     "proposed_this_pass": 40,
-    "loop_tax": "a pass may propose at most the cap. an unbounded proposal loop would let the engine grow its own vocabulary until every input matched something, which is how a keyword engine launders itself into looking semantic"
+    "loop_tax": "an unbounded proposal loop would let the engine grow its own vocabulary until every input matched something"
   },
-  "why_this_lane_exists": "paraphrase recall is 0/30 because a genuine report carrying no policy term scores lexical 0.0 and can only be abstained on. the existing brain lanes hold docs, formulas, ingest takeaways and invariants - no tickets - so their content cannot answer a triage paraphrase. what transfers is the covenant: handles only, zero promotion authority, candidates proposed for human ratification.",
-  "secretScan": "PASS_PATTERN_BASED",
-  "secretScanPatternCount": 3
+  "why_this_lane_exists": "paraphrase recall is 0/30 because a report carrying no policy term scores lexical 0.0. the existing brain lanes hold docs, formulas, ingest takeaways and invariants - no tickets - so their content cannot answer a triage paraphrase. what transfers is the covenant: handles only, zero promotion authority, candidates proposed for ratification",
+  "secretScan": "PASS_PATTERN_BASED"
 }

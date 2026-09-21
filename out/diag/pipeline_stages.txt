@@ -1,0 +1,27 @@
+refusal     scripts/refusal_mechanisms.py           required  out/refusal_mechanisms.json
+fidelity    scripts/shadow_fidelity.py              required  out/shadow_fidelity.json
+ratified    scripts/ratified_scoreboard.py          required  out/ratified_scoreboard.json
+effective   scripts/effective_n.py                  required  out/effective_n.json
+coverage    scripts/score_coverage.py               required  out/engine_coverage_score.json
+estate      scripts/estate_align.py                 required  out/estate_alignment.json
+anatomy_fd  scripts/anatomy_feed.py                 required  out/anatomy_feed.v1.json
+yarqa       scripts/yarqa_compartments.py           required  out/yarqa_compartments.json
+brain       scripts/build_triage_brain.py           required  out/brain/manifest.json
+spans       scripts/emit_spans.py                   required  out/spans.otlp.json
+seam        scripts/verify_integrity_seam.py        required  out/integrity_seam.json
+axis_pop    scripts/axis_population.py              required  out/axis_population.json
+khipu       scripts/khipu_witness.py                required  out/khipu_witness.json
+anatomy_st  scripts/anatomy_state.py                required  out/anatomy_state.json
+ancient     scripts/ancient_geometry.py             required  out/ancient_geometry.json
+figures     scripts/make_figures.py                 required  docs/paper/figures/MANIFEST.json  SCRIPT MISSING
+paper       scripts/make_paper.py                   required  docs/paper/main.md  SCRIPT MISSING  ARTEFACT MISSING
+physics     scripts/physics_information.py          required  out/physics_information.json  ARTEFACT MISSING
+openq       scripts/open_questions.py               required  out/open_questions.json  ARTEFACT MISSING
+advisors    scripts/advisor_registry.py             advisory  out/advisor_registry.json
+papers      scripts/index_papers.py                 advisory  out/papers_corpus.json  SCRIPT MISSING  ARTEFACT MISSING
+complete    scripts/completion_audit.py             required  out/completion_audit.json
+axioms      scripts/axiom_conformance.py            required  out/axiom_conformance.json
+leanbind    scripts/lean_binding.py                 advisory  out/lean_binding.json
+retract     scripts/retractions.py                  required  out/retractions.json
+phrasing    scripts/phrasing_guard_v2.py            required  out/phrasing_guard.json
+claims      scripts/claims_ledger.py                required  out/claims_ledger.json

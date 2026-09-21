@@ -1,7 +1,5 @@
 """The System One contract must make out-of-schema answers impossible to apply."""
-import sys
 
-sys.path.insert(0, "src")
 from szl_triage.providers.systemone import (DIRECTIVE_NOUL, Choice, DeterministicBaselineBackend,
                                             answer_receipt, noul_to_integrity, validate_answer)
 

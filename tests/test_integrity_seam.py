@@ -1,8 +1,6 @@
 """The integrity seam must be incapable of raising integrity, and must refuse a lowering
 that cites a span not present in the input."""
-import sys
 
-sys.path.insert(0, "src")
 from szl_triage.providers.integrity import NullIntegrityProvider, apply_provider
 
 

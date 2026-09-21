@@ -1,8 +1,6 @@
 import json
-import sys
 from pathlib import Path
 
-sys.path.insert(0, "src")
 from szl_triage import policy as policy_mod
 from szl_triage.decision import (AxesUnavailable, INJECTION_GUARD, PATHS, PRE_AGGREGATION, REASONS,
                                  UNIDENTIFIED, classify, to_receipt_payload)

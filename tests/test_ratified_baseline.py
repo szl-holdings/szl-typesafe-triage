@@ -5,10 +5,8 @@ since, so requiring byte-equality with that column would forbid improvement - it
 rejected the whitespace-normalisation fix. The invariant is directional instead.
 """
 import json
-import sys
 from pathlib import Path
 
-sys.path.insert(0, "src")
 from szl_triage import policy as policy_mod
 from szl_triage.pipeline import decide
 

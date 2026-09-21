@@ -1,0 +1,263 @@
+{
+  "schema": "szl.completion-audit/v1",
+  "commit": "9ca3741",
+  "artifacts_reviewed": 30,
+  "decision_counts": {
+    "ADOPT_NOW": 5,
+    "ADOPT_NEXT": 9,
+    "DEFER": 3,
+    "EXCLUDE": 13
+  },
+  "invariants_not_passing": {
+    "I3": "UNAVAILABLE",
+    "I7": "PARTIAL",
+    "I8": "PARTIAL"
+  },
+  "open_question_count": 11,
+  "rule": "an artefact is adopted only against a named invariant or open question. an artefact with no gap to close is EXCLUDE with a stated reason, never a maybe, so the audit cannot become a wish list.",
+  "ordering": "szl-calibration and szl-invariants first because they settle questions rather than add surface; then the triage adapter and khipu-r3 because I3 is the only invariant blocked on a missing capability rather than on plumbing; signing and provenance kernels after, since the local chain already verifies offline and the gain is joinability to szl-lake",
+  "artifacts": [
+    {
+      "artifact": "SZLHOLDINGS/szl-invariants",
+      "kind": "kernel (Kernel Hub)",
+      "gap_it_closes": "I1-I8 are evaluated by my local pre-check, not by the authoritative executor",
+      "target": "I1,I2,I3,I4,I5,I6,I7,I8",
+      "decision": "ADOPT_NOW",
+      "reason": "get_kernel with trust_remote_code, run the published suite, replace my approximation. the card states statuses are never coerced, which is the property my pre-check imitates"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-lambda-gate",
+      "kind": "kernel (torch surrogate)",
+      "gap_it_closes": "the aggregator is reimplemented inline in this repo instead of imported",
+      "target": "duplication of the canonical Lambda",
+      "decision": "ADOPT_NOW",
+      "reason": "the cross-check already showed exact agreement over 1270 rows, so swapping my inline wgm for the published kernel is behaviour-preserving and removes a second implementation of the estate's flagship formula"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-govsign",
+      "kind": "kernel (DSSE/in-toto)",
+      "gap_it_closes": "signing is hand-rolled with cryptography rather than the shared primitive",
+      "target": "I4,I6",
+      "decision": "ADOPT_NEXT",
+      "reason": "my ECDSA P-256 chain verifies offline, but szl-receipt and szl-govsign are the estate primitives; adopting them makes the ledger joinable to szl-lake instead of private"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-provctl",
+      "kind": "kernel (in-toto/SLSA)",
+      "gap_it_closes": "receipts name a commit but carry no build provenance",
+      "target": "I8",
+      "decision": "ADOPT_NEXT",
+      "reason": "flywheel-lineage is PARTIAL because lineage stops at a commit string"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-ouroboros",
+      "kind": "kernel (loop-tax)",
+      "gap_it_closes": "the per-pass cap is a local integer rather than accounted loop tax",
+      "target": "I5",
+      "decision": "ADOPT_NEXT",
+      "reason": "I5 passes on a homemade cap; the kernel is the accounted version"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-blocked",
+      "kind": "kernel (EU AI Act Annex IV)",
+      "gap_it_closes": "BLOCKED is a local label with no regulatory mapping",
+      "target": "publication readiness",
+      "decision": "ADOPT_NEXT",
+      "reason": "the claims ledger already emits BLOCKED states; Annex IV mapping turns them into filings rather than notes"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-formulas",
+      "kind": "kernel (21 formulas, the locked set (this repository asserts no count; both readings are in out/phrasing_guard.json))",
+      "gap_it_closes": "this repo makes no formula claim and should not start",
+      "target": "-",
+      "decision": "DEFER",
+      "reason": "adopting it would tempt an F-number claim. a-11-oy.com warns F18 is Reed-Solomon parity and not a DSSE seal"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora",
+      "kind": "LoRA adapter (private)",
+      "gap_it_closes": "no model sits in the decision path; the integrity axis detects nothing",
+      "target": "I3,Q6",
+      "decision": "ADOPT_NOW",
+      "reason": "refusal-preserving triage adapter on Qwen3.5-0.8B modified today. wired through the existing seam it is the sovereign replacement for the hosted advisor"
+    },
+    {
+      "artifact": "SZLHOLDINGS/khipu-r3",
+      "kind": "LoRA adapter",
+      "gap_it_closes": "the integrity axis needs an abstaining provider, not a labelling one",
+      "target": "I3,Q6",
+      "decision": "ADOPT_NOW",
+      "reason": "abstain-retrain is exactly the veto-only shape the seam requires; already in the advisor registry as UNWIRED"
+    },
+    {
+      "artifact": "SZLHOLDINGS/brain-navigator-r2",
+      "kind": "LoRA adapter",
+      "gap_it_closes": "the handles-only lane has no retriever",
+      "target": "Q1",
+      "decision": "ADOPT_NEXT",
+      "reason": "grounded-only retrieval feeds the vocabulary-gap lane without ever labelling"
+    },
+    {
+      "artifact": "SZLHOLDINGS/MiniEmbed-Nano",
+      "kind": "numpy embedding silhouette",
+      "gap_it_closes": "retrieval currently ranks by token overlap only",
+      "target": "Q1",
+      "decision": "ADOPT_NEXT",
+      "reason": "a local embedding with no network keeps the lane air-gapped; overlap is never correctness and neither is cosine"
+    },
+    {
+      "artifact": "SZLHOLDINGS/A11OY-MINI",
+      "kind": "GGUF (llama.cpp)",
+      "gap_it_closes": "no local generative fallback exists for the advisory role",
+      "target": "Q6",
+      "decision": "DEFER",
+      "reason": "useful as a CPU comparison arm, but khipu-r3 is purpose-trained for abstention and goes first"
+    },
+    {
+      "artifact": "SZLHOLDINGS/ReceiptAgent-Nano",
+      "kind": "numpy test fixture",
+      "gap_it_closes": "receipt tests use fixtures I wrote today",
+      "target": "test independence",
+      "decision": "ADOPT_NEXT",
+      "reason": "an estate-published fixture is a stronger witness than one authored alongside the code it checks"
+    },
+    {
+      "artifact": "SZLHOLDINGS/TinyKhipu-Nano",
+      "kind": "numpy test fixture",
+      "gap_it_closes": "same",
+      "target": "test independence",
+      "decision": "ADOPT_NEXT",
+      "reason": "second independent fixture for the chain tests"
+    },
+    {
+      "artifact": "SZLHOLDINGS/Moons-Nano",
+      "kind": "numpy MLP silhouette",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "DEFER",
+      "reason": "a toy classifier with no triage relevance; listing it as useful would be padding"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-nemo",
+      "kind": "doctrine rule_check surrogate",
+      "gap_it_closes": "training corpora are gated by scripts in this repo",
+      "target": "corpus gating",
+      "decision": "ADOPT_NEXT",
+      "reason": "szl-forge already gates training JSONL through the nemo doctrine gate; the distillation corpus should pass the same gate rather than a local one"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-calibration",
+      "kind": "service (ECE/MCE/Brier/NLL/AUROC)",
+      "gap_it_closes": "advisor probabilities are UNVERIFIED",
+      "target": "Q2",
+      "decision": "ADOPT_NOW",
+      "reason": "the only component that can settle whether a probability means what it says; exact metrics with hash-chained receipts, which is precisely what the open question asks for"
+    },
+    {
+      "artifact": "SZLHOLDINGS/YARQA-ATTN",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "attention kernel; there is no attention in a deterministic policy engine"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-block-kv",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "paged KV cache; nothing here serves tokens"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-maskmod",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "score_mod and block-sparse masks; no attention to mask"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-receipt-attn",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "tiled fused attention; same"
+    },
+    {
+      "artifact": "SZLHOLDINGS/szl-governed-norm",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "deprecated by szl-lambda-gate on its own card"
+    },
+    {
+      "artifact": "SZLHOLDINGS/oac-system-health-v1",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "operations observability, unrelated to triage inputs"
+    },
+    {
+      "artifact": "SZLHOLDINGS/oac-clinical-transport-health-v1",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "clinical transport domain, unrelated"
+    },
+    {
+      "artifact": "SZLHOLDINGS/waman",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "roadmap placeholder, not a capability"
+    },
+    {
+      "artifact": "SZLHOLDINGS/tinku",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "roadmap placeholder"
+    },
+    {
+      "artifact": "SZLHOLDINGS/qantu",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "roadmap placeholder"
+    },
+    {
+      "artifact": "SZLHOLDINGS/chakana",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "roadmap placeholder"
+    },
+    {
+      "artifact": "SZLHOLDINGS/KILLINCHU-EYE",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "counter-UAS alias, no triage surface"
+    },
+    {
+      "artifact": "SZLHOLDINGS/SZLHOLDINGS",
+      "kind": "excluded",
+      "gap_it_closes": "none",
+      "target": "-",
+      "decision": "EXCLUDE",
+      "reason": "org stub, explicitly not a model"
+    }
+  ],
+  "what_would_make_us_whole": "five of eight invariants would reach PASS by adopting szl-invariants, szl-govsign and szl-provctl; I3 needs a model actually in the decision path, which is the triage adapter or khipu-r3; Q2 needs szl-calibration. nothing on this list makes the engine classify correctly - that remains the vocabulary and recall problem.",
+  "status": "MEASURED"
+}

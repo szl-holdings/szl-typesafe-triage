@@ -1,0 +1,2413 @@
+{
+  "schema": "szl.estate-audit/v1",
+  "commit": "9ca3741",
+  "org": "szl-holdings",
+  "public_repos_cloned": 88,
+  "passes": 10,
+  "audit": {
+    "1_inventory": {
+      "repos": 88,
+      "detail": {
+        ".github": {
+          "head": "86b933b",
+          "files": 561,
+          "lines": 94700
+        },
+        "a11oy": {
+          "head": "d009339",
+          "files": 4396,
+          "lines": 253310
+        },
+        "a11oy-factory": {
+          "head": "ff484bf",
+          "files": 130,
+          "lines": 27933
+        },
+        "a11oy-net": {
+          "head": "15cc13e",
+          "files": 158,
+          "lines": 25378
+        },
+        "anatomy": {
+          "head": "46499af",
+          "files": 36,
+          "lines": 9477
+        },
+        "ayllu": {
+          "head": "ae8ff08",
+          "files": 99,
+          "lines": 10236
+        },
+        "ayllu-hf-space": {
+          "head": "4ab0f24",
+          "files": 7,
+          "lines": 307
+        },
+        "david-leads": {
+          "head": "40f0ac9",
+          "files": 136,
+          "lines": 30275
+        },
+        "evidence-doctrine": {
+          "head": "a073573",
+          "files": 13,
+          "lines": 1566
+        },
+        "evidence-studio": {
+          "head": "6098d59",
+          "files": 5,
+          "lines": 242
+        },
+        "frontier-bench": {
+          "head": "6a81359",
+          "files": 34,
+          "lines": 6869
+        },
+        "governance-as-code": {
+          "head": "e1e1078",
+          "files": 85,
+          "lines": 11423
+        },
+        "governed-receipt-spec": {
+          "head": "8074121",
+          "files": 48,
+          "lines": 5459
+        },
+        "hatun-mcp": {
+          "head": "cbb8f26",
+          "files": 76,
+          "lines": 10300
+        },
+        "holographic-unify": {
+          "head": "7d03a8c",
+          "files": 32,
+          "lines": 5387
+        },
+        "immune": {
+          "head": "4c3040c",
+          "files": 131,
+          "lines": 27720
+        },
+        "khipu-consensus": {
+          "head": "88e0c0d",
+          "files": 43,
+          "lines": 4096
+        },
+        "khipu-sda-core": {
+          "head": "4b1254b",
+          "files": 25,
+          "lines": 3977
+        },
+        "khipu-x1": {
+          "head": "360bb6c",
+          "files": 43,
+          "lines": 6341
+        },
+        "killinchu": {
+          "head": "5aed6b0",
+          "files": 705,
+          "lines": 175620
+        },
+        "lutar-lean": {
+          "head": "5341b7a",
+          "files": 427,
+          "lines": 51721
+        },
+        "lyte-lattice": {
+          "head": "fac651e",
+          "files": 118,
+          "lines": 22752
+        },
+        "lyte-services": {
+          "head": "9ce4e6b",
+          "files": 171,
+          "lines": 25631
+        },
+        "nexus": {
+          "head": "d5a7b9c",
+          "files": 59,
+          "lines": 18339
+        },
+        "platform": {
+          "head": "ff8e295",
+          "files": 6880,
+          "lines": 106164
+        },
+        "puriq-live": {
+          "head": "9171797",
+          "files": 26,
+          "lines": 3573
+        },
+        "quant-curve": {
+          "head": "8dc22d3",
+          "files": 16,
+          "lines": 799
+        },
+        "retrieval-bench": {
+          "head": "e4c6217",
+          "files": 24,
+          "lines": 1441
+        },
+        "sda": {
+          "head": "459e80f",
+          "files": 17,
+          "lines": 1275
+        },
+        "szl-atelier": {
+          "head": "508ec89",
+          "files": 107,
+          "lines": 14683
+        },
+        "szl-block-kv": {
+          "head": "7aa9c24",
+          "files": 22,
+          "lines": 1469
+        },
+        "szl-blocked": {
+          "head": "fb55b20",
+          "files": 30,
+          "lines": 3341
+        },
+        "szl-brand": {
+          "head": "d54922b",
+          "files": 110,
+          "lines": 17921
+        },
+        "szl-build-env": {
+          "head": "f5c9408",
+          "files": 38,
+          "lines": 4351
+        },
+        "szl-calibration": {
+          "head": "f3b3a87",
+          "files": 21,
+          "lines": 956
+        },
+        "szl-ci-witness": {
+          "head": "bd49926",
+          "files": 13,
+          "lines": 1474
+        },
+        "szl-command-lab": {
+          "head": "88dc7c6",
+          "files": 98,
+          "lines": 33822
+        },
+        "szl-constellation": {
+          "head": "1047223",
+          "files": 45,
+          "lines": 5163
+        },
+        "szl-crosscheck": {
+          "head": "47726ba",
+          "files": 16,
+          "lines": 7437
+        },
+        "szl-doctrine": {
+          "head": "4cf66f6",
+          "files": 22,
+          "lines": 9689
+        },
+        "szl-drift": {
+          "head": "ff7aef5",
+          "files": 6,
+          "lines": 476
+        },
+        "szl-eclipse": {
+          "head": "8d3899e",
+          "files": 12,
+          "lines": 1153
+        },
+        "szl-energy-attest": {
+          "head": "2954935",
+          "files": 45,
+          "lines": 6503
+        },
+        "szl-engine-bench": {
+          "head": "2f550e0",
+          "files": 8,
+          "lines": 2010
+        },
+        "szl-evidence-litellm": {
+          "head": "5782284",
+          "files": 44,
+          "lines": 7378
+        },
+        "szl-forge": {
+          "head": "7a5b1d4",
+          "files": 834,
+          "lines": 83593
+        },
+        "szl-formulas": {
+          "head": "d0e8110",
+          "files": 30,
+          "lines": 4298
+        },
+        "szl-frontier": {
+          "head": "d24d7a2",
+          "files": 284,
+          "lines": 41501
+        },
+        "szl-gov": {
+          "head": "4572983",
+          "files": 64,
+          "lines": 9862
+        },
+        "szl-govsign": {
+          "head": "bd23e8e",
+          "files": 26,
+          "lines": 1659
+        },
+        "szl-gpu-bridge": {
+          "head": "71d8609",
+          "files": 126,
+          "lines": 24392
+        },
+        "szl-hf-frontier": {
+          "head": "d63138c",
+          "files": 68,
+          "lines": 18030
+        },
+        "szl-holdings.github.io": {
+          "head": "f716a58",
+          "files": 24,
+          "lines": 1925
+        },
+        "szl-invariants": {
+          "head": "a88731a",
+          "files": 38,
+          "lines": 5319
+        },
+        "szl-kernels": {
+          "head": "13668fd",
+          "files": 117,
+          "lines": 33076
+        },
+        "szl-khipu": {
+          "head": "e438dd1",
+          "files": 266,
+          "lines": 32966
+        },
+        "szl-lake": {
+          "head": "d16ffad",
+          "files": 449,
+          "lines": 11351
+        },
+        "szl-lambda-gate": {
+          "head": "8e91e42",
+          "files": 31,
+          "lines": 3401
+        },
+        "szl-maskmod": {
+          "head": "06723e5",
+          "files": 16,
+          "lines": 510
+        },
+        "szl-mesh": {
+          "head": "4d5a0d3",
+          "files": 74,
+          "lines": 11279
+        },
+        "szl-nemo": {
+          "head": "158fd7e",
+          "files": 35,
+          "lines": 3766
+        },
+        "szl-ouroboros": {
+          "head": "90f36b3",
+          "files": 37,
+          "lines": 4861
+        },
+        "szl-papers": {
+          "head": "74ab598",
+          "files": 75,
+          "lines": 12961
+        },
+        "szl-pin": {
+          "head": "40e61f2",
+          "files": 0,
+          "lines": 0
+        },
+        "szl-platform": {
+          "head": "f41a02a",
+          "files": 385,
+          "lines": 53025
+        },
+        "szl-provctl": {
+          "head": "7e41647",
+          "files": 26,
+          "lines": 2657
+        },
+        "szl-quant": {
+          "head": "a631701",
+          "files": 37,
+          "lines": 1938
+        },
+        "szl-quant-bench": {
+          "head": "45b4a4e",
+          "files": 10,
+          "lines": 527
+        },
+        "szl-quant-witness": {
+          "head": "40553f4",
+          "files": 5,
+          "lines": 166
+        },
+        "szl-real-estate": {
+          "head": "8961ba7",
+          "files": 17,
+          "lines": 1036
+        },
+        "szl-receipt": {
+          "head": "7d8532e",
+          "files": 62,
+          "lines": 6709
+        },
+        "szl-receipt-attn": {
+          "head": "dd0b8c8",
+          "files": 26,
+          "lines": 1089
+        },
+        "szl-retrieval-bench": {
+          "head": "3c463a5",
+          "files": 12,
+          "lines": 772
+        },
+        "szl-router": {
+          "head": "948ec5f",
+          "files": 70,
+          "lines": 12813
+        },
+        "szl-runbook-catalog": {
+          "head": "0377faa",
+          "files": 11,
+          "lines": 767
+        },
+        "szl-second-brain": {
+          "head": "25c1230",
+          "files": 53,
+          "lines": 7324
+        },
+        "szl-serve": {
+          "head": "d2afb09",
+          "files": 28,
+          "lines": 3248
+        },
+        "szl-sovereign-os": {
+          "head": "a18f76e",
+          "files": 15,
+          "lines": 1084
+        },
+        "szl-substrate": {
+          "head": "ad2e043",
+          "files": 100,
+          "lines": 39890
+        },
+        "szl-trust": {
+          "head": "254a2cf",
+          "files": 37,
+          "lines": 2763
+        },
+        "szl-vertical-forge": {
+          "head": "6a05a17",
+          "files": 17,
+          "lines": 1072
+        },
+        "szl-wave1-report": {
+          "head": "f5370d5",
+          "files": 9,
+          "lines": 883
+        },
+        "the-grid": {
+          "head": "7395a69",
+          "files": 7,
+          "lines": 196
+        },
+        "uds-bundles": {
+          "head": "a1ebc4b",
+          "files": 365,
+          "lines": 28016
+        },
+        "vertical-services": {
+          "head": "6e7ee79",
+          "files": 106,
+          "lines": 20268
+        },
+        "vsp-otel": {
+          "head": "acbc650",
+          "files": 84,
+          "lines": 8658
+        },
+        "yarqa": {
+          "head": "f925a49",
+          "files": 49,
+          "lines": 6851
+        },
+        "YARQA-ATTN": {
+          "head": "bb15b7d",
+          "files": 19,
+          "lines": 989
+        }
+      }
+    },
+    "2_honesty_vocabulary": {
+      "per_repo": {
+        ".github": {
+          "MEASURED": 4,
+          "BLOCKED": 18,
+          "UNAVAILABLE": 61,
+          "FAILED": 17,
+          "UNKNOWN": 13
+        },
+        "a11oy": {
+          "MEASURED": 576,
+          "BLOCKED": 43,
+          "UNAVAILABLE": 800,
+          "INVALID": 34,
+          "FAILED": 97,
+          "SURROGATE": 1,
+          "UNKNOWN": 186,
+          "REVIEW": 16
+        },
+        "a11oy-factory": {
+          "MEASURED": 37,
+          "BLOCKED": 93,
+          "UNAVAILABLE": 55,
+          "INVALID": 1,
+          "UNKNOWN": 17,
+          "REVIEW": 4
+        },
+        "a11oy-net": {
+          "MEASURED": 556,
+          "BLOCKED": 36,
+          "UNAVAILABLE": 473,
+          "UNSIGNED_HONEST": 1,
+          "INVALID": 4,
+          "FAILED": 6,
+          "PROMOTED": 2,
+          "SOFTWARE_EMULATED": 1,
+          "SURROGATE": 3,
+          "UNKNOWN": 34,
+          "REVIEW": 3
+        },
+        "anatomy": {
+          "MEASURED": 14,
+          "BLOCKED": 5,
+          "UNAVAILABLE": 74,
+          "FAILED": 10,
+          "PROMOTED": 1,
+          "UNKNOWN": 1
+        },
+        "ayllu": {
+          "MEASURED": 124,
+          "BLOCKED": 42,
+          "UNAVAILABLE": 128,
+          "FAILED": 1,
+          "UNKNOWN": 1
+        },
+        "ayllu-hf-space": {
+          "MEASURED": 5,
+          "BLOCKED": 1,
+          "UNAVAILABLE": 5,
+          "FAILED": 1
+        },
+        "david-leads": {
+          "MEASURED": 2,
+          "BLOCKED": 55,
+          "UNAVAILABLE": 93,
+          "FAILED": 13,
+          "UNKNOWN": 19,
+          "REVIEW": 27
+        },
+        "evidence-doctrine": {},
+        "evidence-studio": {
+          "BLOCKED": 3,
+          "UNAVAILABLE": 3
+        },
+        "frontier-bench": {
+          "MEASURED": 40,
+          "BLOCKED": 22,
+          "UNAVAILABLE": 3,
+          "INVALID": 3,
+          "FAILED": 7,
+          "PROMOTED": 3,
+          "UNKNOWN": 7
+        },
+        "governance-as-code": {
+          "MEASURED": 12,
+          "BLOCKED": 1,
+          "UNAVAILABLE": 9,
+          "INVALID": 2,
+          "UNKNOWN": 63,
+          "REVIEW": 17
+        },
+        "governed-receipt-spec": {
+          "MEASURED": 2,
+          "UNAVAILABLE": 6,
+          "UNKNOWN": 9
+        },
+        "hatun-mcp": {
+          "MEASURED": 12,
+          "UNAVAILABLE": 100,
+          "FAILED": 7,
+          "UNKNOWN": 5
+        },
+        "holographic-unify": {
+          "MEASURED": 25,
+          "BLOCKED": 5,
+          "UNAVAILABLE": 106,
+          "FAILED": 5,
+          "UNKNOWN": 6
+        },
+        "immune": {
+          "MEASURED": 33,
+          "BLOCKED": 1,
+          "UNAVAILABLE": 132,
+          "INVALID": 1,
+          "FAILED": 16,
+          "SURROGATE": 2,
+          "UNKNOWN": 22,
+          "REVIEW": 1
+        },
+        "khipu-consensus": {
+          "UNAVAILABLE": 8
+        },
+        "khipu-sda-core": {
+          "MEASURED": 1,
+          "UNAVAILABLE": 11,
+          "UNKNOWN": 2
+        },
+        "khipu-x1": {
+          "MEASURED": 40,
+          "BLOCKED": 26,
+          "UNAVAILABLE": 71,
+          "SOFTWARE_EMULATED": 7,
+          "SURROGATE": 2,
+          "UNKNOWN": 6
+        },
+        "killinchu": {
+          "MEASURED": 256,
+          "BLOCKED": 11,
+          "UNAVAILABLE": 191,
+          "INVALID": 6,
+          "FAILED": 40,
+          "PROMOTED": 2,
+          "UNKNOWN": 47,
+          "REVIEW": 20
+        },
+        "lutar-lean": {
+          "BLOCKED": 6,
+          "FAILED": 12
+        },
+        "lyte-lattice": {
+          "MEASURED": 36,
+          "BLOCKED": 13,
+          "UNAVAILABLE": 105,
+          "UNKNOWN": 1
+        },
+        "lyte-services": {
+          "MEASURED": 109,
+          "BLOCKED": 8,
+          "UNAVAILABLE": 139,
+          "FAILED": 9,
+          "REVIEW": 17
+        },
+        "nexus": {
+          "MEASURED": 10,
+          "BLOCKED": 2,
+          "UNAVAILABLE": 72
+        },
+        "platform": {
+          "MEASURED": 40,
+          "BLOCKED": 3,
+          "UNAVAILABLE": 11,
+          "FAILED": 14,
+          "UNKNOWN": 29
+        },
+        "puriq-live": {
+          "MEASURED": 11,
+          "UNAVAILABLE": 27,
+          "INVALID": 1,
+          "FAILED": 37,
+          "REVIEW": 6
+        },
+        "quant-curve": {
+          "MEASURED": 19,
+          "BLOCKED": 10,
+          "INVALID": 7,
+          "FAILED": 3,
+          "PROMOTED": 6
+        },
+        "retrieval-bench": {
+          "MEASURED": 31,
+          "BLOCKED": 20,
+          "UNSIGNED_HONEST": 1,
+          "INVALID": 14,
+          "FAILED": 9,
+          "PROMOTED": 3
+        },
+        "sda": {
+          "MEASURED": 4,
+          "UNAVAILABLE": 13
+        },
+        "szl-atelier": {
+          "MEASURED": 130,
+          "BLOCKED": 7,
+          "UNAVAILABLE": 99,
+          "INVALID": 1,
+          "UNKNOWN": 1
+        },
+        "szl-block-kv": {
+          "MEASURED": 8,
+          "UNAVAILABLE": 14,
+          "UNKNOWN": 7
+        },
+        "szl-blocked": {
+          "MEASURED": 30,
+          "BLOCKED": 57,
+          "UNAVAILABLE": 5,
+          "UNKNOWN": 4
+        },
+        "szl-brand": {
+          "MEASURED": 25,
+          "BLOCKED": 2,
+          "UNAVAILABLE": 43,
+          "PROMOTED": 1,
+          "UNKNOWN": 10,
+          "REVIEW": 3
+        },
+        "szl-build-env": {
+          "UNAVAILABLE": 2
+        },
+        "szl-calibration": {
+          "UNAVAILABLE": 2,
+          "UNSIGNED_HONEST": 9,
+          "REVIEW": 14
+        },
+        "szl-ci-witness": {
+          "MEASURED": 5,
+          "UNAVAILABLE": 2,
+          "UNSIGNED_HONEST": 2,
+          "INVALID": 3
+        },
+        "szl-command-lab": {
+          "MEASURED": 100,
+          "BLOCKED": 82,
+          "UNAVAILABLE": 115,
+          "SURROGATE": 4,
+          "UNKNOWN": 20,
+          "REVIEW": 2
+        },
+        "szl-constellation": {
+          "MEASURED": 79,
+          "BLOCKED": 25,
+          "UNAVAILABLE": 46,
+          "UNSIGNED_HONEST": 6,
+          "INVALID": 33,
+          "UNKNOWN": 2
+        },
+        "szl-crosscheck": {
+          "MEASURED": 620,
+          "UNSIGNED_HONEST": 6,
+          "INVALID": 13
+        },
+        "szl-doctrine": {
+          "UNAVAILABLE": 3,
+          "FAILED": 6
+        },
+        "szl-drift": {
+          "UNAVAILABLE": 1
+        },
+        "szl-eclipse": {
+          "MEASURED": 11,
+          "INVALID": 10,
+          "BLIND-SPOT": 9
+        },
+        "szl-energy-attest": {
+          "MEASURED": 163,
+          "BLOCKED": 1,
+          "UNAVAILABLE": 110,
+          "FAILED": 2,
+          "UNKNOWN": 14
+        },
+        "szl-engine-bench": {
+          "MEASURED": 38,
+          "BLOCKED": 18,
+          "UNAVAILABLE": 4,
+          "UNSIGNED_HONEST": 3,
+          "INVALID": 57,
+          "FAILED": 12
+        },
+        "szl-evidence-litellm": {
+          "BLOCKED": 13,
+          "FAILED": 1,
+          "UNKNOWN": 21
+        },
+        "szl-forge": {
+          "MEASURED": 244,
+          "BLOCKED": 1,
+          "UNAVAILABLE": 176,
+          "INVALID": 2,
+          "FAILED": 29,
+          "UNKNOWN": 152
+        },
+        "szl-formulas": {
+          "MEASURED": 16,
+          "UNAVAILABLE": 4,
+          "UNKNOWN": 4
+        },
+        "szl-frontier": {
+          "MEASURED": 34,
+          "BLOCKED": 5,
+          "UNAVAILABLE": 122,
+          "UNSIGNED_HONEST": 3,
+          "INVALID": 2,
+          "FAILED": 1,
+          "UNKNOWN": 11
+        },
+        "szl-gov": {
+          "MEASURED": 12,
+          "BLOCKED": 11,
+          "UNAVAILABLE": 20,
+          "SURROGATE": 1,
+          "UNKNOWN": 431
+        },
+        "szl-govsign": {
+          "MEASURED": 19,
+          "BLOCKED": 50,
+          "UNAVAILABLE": 3
+        },
+        "szl-gpu-bridge": {
+          "MEASURED": 20,
+          "BLOCKED": 51,
+          "UNAVAILABLE": 6,
+          "SURROGATE": 1,
+          "UNKNOWN": 2
+        },
+        "szl-hf-frontier": {
+          "MEASURED": 402,
+          "BLOCKED": 21,
+          "UNAVAILABLE": 47,
+          "INVALID": 1,
+          "UNKNOWN": 77
+        },
+        "szl-holdings.github.io": {
+          "MEASURED": 1,
+          "UNAVAILABLE": 3,
+          "FAILED": 4,
+          "UNKNOWN": 7
+        },
+        "szl-invariants": {
+          "MEASURED": 14,
+          "UNAVAILABLE": 52,
+          "UNKNOWN": 5
+        },
+        "szl-kernels": {
+          "MEASURED": 126,
+          "BLOCKED": 71,
+          "UNAVAILABLE": 38,
+          "UNSIGNED_HONEST": 6,
+          "FAILED": 4,
+          "SURROGATE": 2,
+          "UNKNOWN": 35,
+          "REVIEW": 2
+        },
+        "szl-khipu": {
+          "MEASURED": 140,
+          "BLOCKED": 14,
+          "UNAVAILABLE": 215,
+          "FAILED": 2,
+          "SOFTWARE_EMULATED": 17,
+          "UNKNOWN": 7
+        },
+        "szl-lake": {
+          "MEASURED": 7,
+          "BLOCKED": 2,
+          "UNAVAILABLE": 15,
+          "FAILED": 1,
+          "UNKNOWN": 5
+        },
+        "szl-lambda-gate": {
+          "BLOCKED": 2,
+          "UNAVAILABLE": 10
+        },
+        "szl-maskmod": {},
+        "szl-mesh": {
+          "MEASURED": 14,
+          "UNAVAILABLE": 15,
+          "INVALID": 1,
+          "FAILED": 10
+        },
+        "szl-nemo": {
+          "MEASURED": 25,
+          "UNAVAILABLE": 13,
+          "UNSIGNED_HONEST": 11,
+          "SURROGATE": 3,
+          "UNKNOWN": 35,
+          "REVIEW": 32
+        },
+        "szl-ouroboros": {
+          "MEASURED": 59,
+          "BLOCKED": 10,
+          "UNAVAILABLE": 15,
+          "UNKNOWN": 5
+        },
+        "szl-papers": {
+          "MEASURED": 6,
+          "REVIEW": 5
+        },
+        "szl-pin": {},
+        "szl-platform": {
+          "MEASURED": 15,
+          "BLOCKED": 12,
+          "UNAVAILABLE": 15,
+          "INVALID": 1,
+          "SURROGATE": 3,
+          "UNKNOWN": 393,
+          "REVIEW": 4
+        },
+        "szl-provctl": {
+          "MEASURED": 42,
+          "BLOCKED": 44,
+          "UNAVAILABLE": 15,
+          "UNKNOWN": 2
+        },
+        "szl-quant": {
+          "MEASURED": 32,
+          "BLOCKED": 19,
+          "UNAVAILABLE": 14,
+          "UNKNOWN": 1
+        },
+        "szl-quant-bench": {
+          "MEASURED": 8,
+          "BLOCKED": 9,
+          "UNSIGNED_HONEST": 2,
+          "INVALID": 9,
+          "FAILED": 3
+        },
+        "szl-quant-witness": {
+          "UNAVAILABLE": 2
+        },
+        "szl-real-estate": {
+          "MEASURED": 12,
+          "BLOCKED": 3,
+          "UNAVAILABLE": 28
+        },
+        "szl-receipt": {
+          "MEASURED": 4,
+          "UNAVAILABLE": 49,
+          "FAILED": 2,
+          "UNKNOWN": 8
+        },
+        "szl-receipt-attn": {
+          "UNKNOWN": 7
+        },
+        "szl-retrieval-bench": {
+          "MEASURED": 32,
+          "BLOCKED": 13,
+          "UNSIGNED_HONEST": 3,
+          "INVALID": 27,
+          "FAILED": 3
+        },
+        "szl-router": {
+          "MEASURED": 12,
+          "UNAVAILABLE": 62,
+          "FAILED": 33,
+          "UNKNOWN": 8
+        },
+        "szl-runbook-catalog": {
+          "BLOCKED": 8,
+          "INVALID": 2
+        },
+        "szl-second-brain": {
+          "MEASURED": 22,
+          "BLOCKED": 6,
+          "UNAVAILABLE": 46,
+          "FAILED": 2,
+          "UNKNOWN": 3
+        },
+        "szl-serve": {
+          "MEASURED": 51,
+          "UNAVAILABLE": 32,
+          "UNKNOWN": 4
+        },
+        "szl-sovereign-os": {
+          "MEASURED": 2,
+          "BLOCKED": 14,
+          "UNAVAILABLE": 21,
+          "UNKNOWN": 1
+        },
+        "szl-substrate": {
+          "MEASURED": 209,
+          "BLOCKED": 4,
+          "UNAVAILABLE": 27,
+          "INVALID": 1,
+          "FAILED": 1,
+          "UNKNOWN": 11,
+          "REVIEW": 2
+        },
+        "szl-trust": {
+          "MEASURED": 2,
+          "UNAVAILABLE": 5,
+          "FAILED": 1
+        },
+        "szl-vertical-forge": {
+          "UNAVAILABLE": 5,
+          "INVALID": 16
+        },
+        "szl-wave1-report": {
+          "MEASURED": 23,
+          "BLOCKED": 9,
+          "UNAVAILABLE": 2,
+          "UNSIGNED_HONEST": 2,
+          "INVALID": 24,
+          "FAILED": 2
+        },
+        "the-grid": {},
+        "uds-bundles": {
+          "FAILED": 2
+        },
+        "vertical-services": {
+          "MEASURED": 45,
+          "BLOCKED": 22,
+          "UNAVAILABLE": 76,
+          "INVALID": 7,
+          "FAILED": 5,
+          "UNKNOWN": 1,
+          "REVIEW": 9
+        },
+        "vsp-otel": {
+          "BLOCKED": 2,
+          "UNAVAILABLE": 1,
+          "FAILED": 5
+        },
+        "yarqa": {
+          "MEASURED": 3,
+          "UNAVAILABLE": 32,
+          "FAILED": 3
+        },
+        "YARQA-ATTN": {
+          "MEASURED": 7,
+          "UNAVAILABLE": 8
+        }
+      },
+      "totals": {
+        "MEASURED": 4868,
+        "UNAVAILABLE": 4336,
+        "UNKNOWN": 1762,
+        "BLOCKED": 1032,
+        "FAILED": 438,
+        "INVALID": 283,
+        "REVIEW": 184,
+        "UNSIGNED_HONEST": 55,
+        "SOFTWARE_EMULATED": 25,
+        "SURROGATE": 22,
+        "PROMOTED": 18,
+        "BLIND-SPOT": 9
+      }
+    },
+    "3_lambda_naming": {
+      "per_repo": {
+        ".github": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 2,
+          "conjecture_1": 48
+        },
+        "a11oy": {
+          "weighted_geometric": 14,
+          "equal_weight": 5,
+          "egyptian": 17,
+          "A1-A4_only": 3,
+          "A5_or_perm": 978,
+          "conjecture_1": 806
+        },
+        "a11oy-factory": {
+          "weighted_geometric": 1,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 501,
+          "conjecture_1": 14
+        },
+        "a11oy-net": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 1,
+          "A5_or_perm": 149,
+          "conjecture_1": 147
+        },
+        "anatomy": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 1,
+          "A5_or_perm": 11,
+          "conjecture_1": 35
+        },
+        "ayllu": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 31,
+          "conjecture_1": 51
+        },
+        "ayllu-hf-space": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 6
+        },
+        "david-leads": {
+          "weighted_geometric": 8,
+          "equal_weight": 0,
+          "egyptian": 3,
+          "A1-A4_only": 0,
+          "A5_or_perm": 10,
+          "conjecture_1": 25
+        },
+        "evidence-doctrine": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 4
+        },
+        "evidence-studio": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 4
+        },
+        "frontier-bench": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 7,
+          "conjecture_1": 0
+        },
+        "governance-as-code": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 78,
+          "conjecture_1": 14
+        },
+        "governed-receipt-spec": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 15,
+          "conjecture_1": 4
+        },
+        "hatun-mcp": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 20
+        },
+        "holographic-unify": {
+          "weighted_geometric": 5,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 4,
+          "A5_or_perm": 0,
+          "conjecture_1": 30
+        },
+        "immune": {
+          "weighted_geometric": 5,
+          "equal_weight": 0,
+          "egyptian": 4,
+          "A1-A4_only": 2,
+          "A5_or_perm": 406,
+          "conjecture_1": 55
+        },
+        "khipu-consensus": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 6,
+          "conjecture_1": 8
+        },
+        "khipu-sda-core": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 36
+        },
+        "khipu-x1": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 1,
+          "A5_or_perm": 27,
+          "conjecture_1": 64
+        },
+        "killinchu": {
+          "weighted_geometric": 15,
+          "equal_weight": 2,
+          "egyptian": 9,
+          "A1-A4_only": 4,
+          "A5_or_perm": 183,
+          "conjecture_1": 918
+        },
+        "lutar-lean": {
+          "weighted_geometric": 4,
+          "equal_weight": 4,
+          "egyptian": 42,
+          "A1-A4_only": 5,
+          "A5_or_perm": 119,
+          "conjecture_1": 216
+        },
+        "lyte-lattice": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 518,
+          "conjecture_1": 26
+        },
+        "lyte-services": {
+          "weighted_geometric": 2,
+          "equal_weight": 1,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 22,
+          "conjecture_1": 7
+        },
+        "nexus": {
+          "weighted_geometric": 5,
+          "equal_weight": 0,
+          "egyptian": 16,
+          "A1-A4_only": 0,
+          "A5_or_perm": 507,
+          "conjecture_1": 29
+        },
+        "platform": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 5,
+          "A1-A4_only": 11,
+          "A5_or_perm": 1889,
+          "conjecture_1": 57
+        },
+        "puriq-live": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 20,
+          "A1-A4_only": 0,
+          "A5_or_perm": 10,
+          "conjecture_1": 14
+        },
+        "quant-curve": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 5,
+          "conjecture_1": 0
+        },
+        "retrieval-bench": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 6,
+          "conjecture_1": 0
+        },
+        "sda": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 3
+        },
+        "szl-atelier": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 4,
+          "A1-A4_only": 1,
+          "A5_or_perm": 9,
+          "conjecture_1": 67
+        },
+        "szl-block-kv": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 17
+        },
+        "szl-blocked": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 24
+        },
+        "szl-brand": {
+          "weighted_geometric": 4,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 12,
+          "conjecture_1": 18
+        },
+        "szl-build-env": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 7,
+          "conjecture_1": 15
+        },
+        "szl-calibration": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 3
+        },
+        "szl-command-lab": {
+          "weighted_geometric": 4,
+          "equal_weight": 0,
+          "egyptian": 2,
+          "A1-A4_only": 6,
+          "A5_or_perm": 525,
+          "conjecture_1": 83
+        },
+        "szl-constellation": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 2,
+          "A1-A4_only": 0,
+          "A5_or_perm": 9,
+          "conjecture_1": 5
+        },
+        "szl-crosscheck": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 14,
+          "conjecture_1": 0
+        },
+        "szl-doctrine": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 23,
+          "conjecture_1": 9
+        },
+        "szl-drift": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 1
+        },
+        "szl-eclipse": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 11,
+          "conjecture_1": 0
+        },
+        "szl-energy-attest": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 0,
+          "A5_or_perm": 10,
+          "conjecture_1": 30
+        },
+        "szl-engine-bench": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 1,
+          "conjecture_1": 0
+        },
+        "szl-evidence-litellm": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 0
+        },
+        "szl-forge": {
+          "weighted_geometric": 1,
+          "equal_weight": 0,
+          "egyptian": 15,
+          "A1-A4_only": 1,
+          "A5_or_perm": 79,
+          "conjecture_1": 44
+        },
+        "szl-formulas": {
+          "weighted_geometric": 15,
+          "equal_weight": 0,
+          "egyptian": 27,
+          "A1-A4_only": 14,
+          "A5_or_perm": 9,
+          "conjecture_1": 40
+        },
+        "szl-frontier": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 653,
+          "conjecture_1": 18
+        },
+        "szl-gov": {
+          "weighted_geometric": 1,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 1,
+          "A5_or_perm": 9,
+          "conjecture_1": 45
+        },
+        "szl-govsign": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 12
+        },
+        "szl-gpu-bridge": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 218,
+          "conjecture_1": 4
+        },
+        "szl-hf-frontier": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 1,
+          "A5_or_perm": 359,
+          "conjecture_1": 18
+        },
+        "szl-holdings.github.io": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 5
+        },
+        "szl-invariants": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 15,
+          "conjecture_1": 17
+        },
+        "szl-kernels": {
+          "weighted_geometric": 12,
+          "equal_weight": 0,
+          "egyptian": 4,
+          "A1-A4_only": 2,
+          "A5_or_perm": 91,
+          "conjecture_1": 108
+        },
+        "szl-khipu": {
+          "weighted_geometric": 2,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 2,
+          "A5_or_perm": 17,
+          "conjecture_1": 130
+        },
+        "szl-lake": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 385,
+          "conjecture_1": 65
+        },
+        "szl-lambda-gate": {
+          "weighted_geometric": 22,
+          "equal_weight": 0,
+          "egyptian": 23,
+          "A1-A4_only": 11,
+          "A5_or_perm": 0,
+          "conjecture_1": 39
+        },
+        "szl-maskmod": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 5
+        },
+        "szl-mesh": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 1,
+          "conjecture_1": 62
+        },
+        "szl-nemo": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 4,
+          "conjecture_1": 12
+        },
+        "szl-ouroboros": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 17
+        },
+        "szl-papers": {
+          "weighted_geometric": 6,
+          "equal_weight": 32,
+          "egyptian": 6,
+          "A1-A4_only": 37,
+          "A5_or_perm": 465,
+          "conjecture_1": 302
+        },
+        "szl-platform": {
+          "weighted_geometric": 3,
+          "equal_weight": 0,
+          "egyptian": 3,
+          "A1-A4_only": 3,
+          "A5_or_perm": 36,
+          "conjecture_1": 45
+        },
+        "szl-provctl": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 14
+        },
+        "szl-quant": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 32,
+          "conjecture_1": 6
+        },
+        "szl-real-estate": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 1,
+          "conjecture_1": 4
+        },
+        "szl-receipt": {
+          "weighted_geometric": 3,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 10
+        },
+        "szl-receipt-attn": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 6
+        },
+        "szl-retrieval-bench": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 2,
+          "conjecture_1": 0
+        },
+        "szl-router": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 6
+        },
+        "szl-runbook-catalog": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 2,
+          "conjecture_1": 0
+        },
+        "szl-second-brain": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 36,
+          "conjecture_1": 21
+        },
+        "szl-serve": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 12
+        },
+        "szl-sovereign-os": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 1,
+          "A5_or_perm": 6,
+          "conjecture_1": 8
+        },
+        "szl-substrate": {
+          "weighted_geometric": 7,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 3,
+          "A5_or_perm": 1258,
+          "conjecture_1": 218
+        },
+        "szl-trust": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 14
+        },
+        "szl-vertical-forge": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 1,
+          "A1-A4_only": 0,
+          "A5_or_perm": 19,
+          "conjecture_1": 1
+        },
+        "uds-bundles": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 13,
+          "conjecture_1": 77
+        },
+        "vertical-services": {
+          "weighted_geometric": 1,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 3,
+          "conjecture_1": 14
+        },
+        "vsp-otel": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 216,
+          "conjecture_1": 28
+        },
+        "yarqa": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 5
+        },
+        "YARQA-ATTN": {
+          "weighted_geometric": 0,
+          "equal_weight": 0,
+          "egyptian": 0,
+          "A1-A4_only": 0,
+          "A5_or_perm": 0,
+          "conjecture_1": 8
+        }
+      },
+      "finding": "szl-lambda-gate describes itself as a weighted geometric mean with A1-A4 self-checks, so the estate's own flagship aggregator is not the thesis Lambda either - the thesis defines Lambda as the equal-weight geometric mean and A5 is permutation invariance. puriq-live already carries the correct vocabulary, Symmetric versus Egyptian Lambda. this repository's aggregator reproduces the estate kernel rather than deviating from it, and neither is Lambda."
+    },
+    "4_locked_count_evidence": {
+      "per_repo": {
+        ".github": {
+          "8": 23,
+          "5": 4,
+          "eight": 2
+        },
+        "a11oy": {
+          "8": 597,
+          "5": 5,
+          "eight": 4,
+          "five": 1
+        },
+        "a11oy-factory": {
+          "8": 12
+        },
+        "a11oy-net": {
+          "8": 34,
+          "eight": 1
+        },
+        "anatomy": {
+          "8": 28,
+          "eight": 5
+        },
+        "ayllu": {
+          "8": 18
+        },
+        "ayllu-hf-space": {
+          "8": 1
+        },
+        "frontier-bench": {
+          "5": 1,
+          "8": 1
+        },
+        "governance-as-code": {
+          "8": 5
+        },
+        "governed-receipt-spec": {
+          "five": 1
+        },
+        "holographic-unify": {
+          "8": 3
+        },
+        "immune": {
+          "8": 6
+        },
+        "khipu-sda-core": {
+          "8": 5
+        },
+        "khipu-x1": {
+          "5": 2,
+          "8": 7
+        },
+        "killinchu": {
+          "8": 593,
+          "5": 4,
+          "eight": 1
+        },
+        "lutar-lean": {
+          "8": 80,
+          "eight": 7,
+          "five": 2,
+          "5": 19
+        },
+        "lyte-lattice": {
+          "8": 1
+        },
+        "nexus": {
+          "8": 9,
+          "eight": 1
+        },
+        "platform": {
+          "8": 28
+        },
+        "puriq-live": {
+          "8": 3
+        },
+        "sda": {
+          "8": 1
+        },
+        "szl-atelier": {
+          "8": 51
+        },
+        "szl-build-env": {
+          "five": 1
+        },
+        "szl-command-lab": {
+          "8": 25,
+          "5": 1
+        },
+        "szl-doctrine": {
+          "8": 1
+        },
+        "szl-drift": {
+          "8": 2
+        },
+        "szl-forge": {
+          "five": 1,
+          "eight": 1,
+          "8": 7
+        },
+        "szl-formulas": {
+          "8": 40
+        },
+        "szl-frontier": {
+          "8": 8,
+          "eight": 2
+        },
+        "szl-gov": {
+          "8": 8,
+          "5": 1
+        },
+        "szl-hf-frontier": {
+          "8": 2,
+          "5": 1,
+          "21": 1
+        },
+        "szl-holdings.github.io": {
+          "8": 1
+        },
+        "szl-kernels": {
+          "8": 14,
+          "5": 4,
+          "21": 2
+        },
+        "szl-khipu": {
+          "8": 116,
+          "5": 1,
+          "21": 1
+        },
+        "szl-mesh": {
+          "8": 3
+        },
+        "szl-nemo": {
+          "eight": 4,
+          "8": 2,
+          "5": 1
+        },
+        "szl-ouroboros": {
+          "eight": 2
+        },
+        "szl-papers": {
+          "eight": 44,
+          "8": 55,
+          "5": 35,
+          "five": 56
+        },
+        "szl-platform": {
+          "8": 11
+        },
+        "szl-quant": {
+          "8": 1
+        },
+        "szl-real-estate": {
+          "8": 1
+        },
+        "szl-receipt": {
+          "5": 1,
+          "8": 1
+        },
+        "szl-second-brain": {
+          "eight": 3,
+          "8": 2,
+          "5": 1
+        },
+        "szl-sovereign-os": {
+          "8": 3,
+          "5": 1
+        },
+        "szl-substrate": {
+          "8": 128,
+          "5": 1,
+          "eight": 1
+        },
+        "szl-trust": {
+          "8": 1
+        },
+        "uds-bundles": {
+          "8": 2,
+          "eight": 1,
+          "5": 1
+        },
+        "vertical-services": {
+          "eight": 1
+        },
+        "yarqa": {
+          "8": 4
+        }
+      },
+      "state": "UNRESOLVED",
+      "note": "this repository asserts no count. the evidence is tallied only: szl-formulas states 21 canonical with locked-proven exactly 8, lutar-lean carries the theorem locked_count_eight, anatomy states 8 proven formulas, and thesis v24's binding honesty doctrine states exactly five. four sources to one, and the one is the most recent, which is why this stays unresolved rather than settled by majority."
+    },
+    "5_bounded_loop": {
+      "per_repo": {
+        ".github": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 5,
+          "invariant_count_8": 0
+        },
+        "a11oy": {
+          "loop_tax": 3,
+          "well_founded": 0,
+          "fixed_point": 25,
+          "cap": 100,
+          "invariant_count_8": 1
+        },
+        "a11oy-factory": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 0
+        },
+        "a11oy-net": {
+          "loop_tax": 7,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 8,
+          "invariant_count_8": 2
+        },
+        "anatomy": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "ayllu": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 5,
+          "invariant_count_8": 0
+        },
+        "david-leads": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 6,
+          "invariant_count_8": 0
+        },
+        "frontier-bench": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 1,
+          "invariant_count_8": 0
+        },
+        "governance-as-code": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 8,
+          "invariant_count_8": 0
+        },
+        "governed-receipt-spec": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 2,
+          "invariant_count_8": 0
+        },
+        "hatun-mcp": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 10,
+          "invariant_count_8": 0
+        },
+        "holographic-unify": {
+          "loop_tax": 4,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 1
+        },
+        "immune": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 1,
+          "invariant_count_8": 0
+        },
+        "khipu-x1": {
+          "loop_tax": 4,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 1
+        },
+        "killinchu": {
+          "loop_tax": 1,
+          "well_founded": 1,
+          "fixed_point": 15,
+          "cap": 166,
+          "invariant_count_8": 0
+        },
+        "lutar-lean": {
+          "loop_tax": 0,
+          "well_founded": 6,
+          "fixed_point": 45,
+          "cap": 22,
+          "invariant_count_8": 0
+        },
+        "lyte-lattice": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 1,
+          "invariant_count_8": 0
+        },
+        "nexus": {
+          "loop_tax": 5,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 5,
+          "invariant_count_8": 1
+        },
+        "platform": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 111,
+          "invariant_count_8": 0
+        },
+        "szl-atelier": {
+          "loop_tax": 7,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-brand": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 0
+        },
+        "szl-ci-witness": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 9,
+          "invariant_count_8": 0
+        },
+        "szl-command-lab": {
+          "loop_tax": 8,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 4
+        },
+        "szl-constellation": {
+          "loop_tax": 14,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-energy-attest": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 2,
+          "invariant_count_8": 0
+        },
+        "szl-forge": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 3,
+          "invariant_count_8": 0
+        },
+        "szl-frontier": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 2,
+          "invariant_count_8": 0
+        },
+        "szl-gov": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 1
+        },
+        "szl-gpu-bridge": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 2,
+          "invariant_count_8": 0
+        },
+        "szl-hf-frontier": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 6,
+          "invariant_count_8": 0
+        },
+        "szl-invariants": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 2
+        },
+        "szl-kernels": {
+          "loop_tax": 10,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 9,
+          "invariant_count_8": 2
+        },
+        "szl-khipu": {
+          "loop_tax": 8,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-lake": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 3,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-mesh": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 0
+        },
+        "szl-ouroboros": {
+          "loop_tax": 33,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-papers": {
+          "loop_tax": 0,
+          "well_founded": 26,
+          "fixed_point": 87,
+          "cap": 10,
+          "invariant_count_8": 0
+        },
+        "szl-platform": {
+          "loop_tax": 6,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 4,
+          "invariant_count_8": 0
+        },
+        "szl-quant": {
+          "loop_tax": 4,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "szl-quant-bench": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 1,
+          "invariant_count_8": 0
+        },
+        "szl-router": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 27,
+          "invariant_count_8": 0
+        },
+        "szl-second-brain": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 2,
+          "invariant_count_8": 0
+        },
+        "szl-serve": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 10,
+          "invariant_count_8": 0
+        },
+        "szl-sovereign-os": {
+          "loop_tax": 2,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 3,
+          "invariant_count_8": 0
+        },
+        "szl-substrate": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 2,
+          "cap": 45,
+          "invariant_count_8": 0
+        },
+        "szl-vertical-forge": {
+          "loop_tax": 1,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 0,
+          "invariant_count_8": 0
+        },
+        "vertical-services": {
+          "loop_tax": 2,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 10,
+          "invariant_count_8": 0
+        },
+        "vsp-otel": {
+          "loop_tax": 0,
+          "well_founded": 0,
+          "fixed_point": 0,
+          "cap": 28,
+          "invariant_count_8": 0
+        }
+      },
+      "finding": "szl-ouroboros is described as bounded loop-tax accounting and lutar-lean proves loop boundedness as contraction to a unique fixed point. a per-pass cap is neither, which is why I5 here is FAIL_BY_DEFINITION."
+    },
+    "6_canonical_pointers": {
+      "szl-mesh": {
+        "state": "ARCHIVED",
+        "canonical": ".md`](https://github.com/szl-holdings/szl-otel-mesh/blob/main/CANONICAL.md)."
+      },
+      "szl-substrate": {
+        "state": "ARCHIVED",
+        "canonical": "|"
+      }
+    },
+    "7_receipt_schemas": {
+      "distinct": 689,
+      "top": {
+        "szl.ayllu.model-family-binding/v1": 81,
+        "szl.frontier.integration-wave.v1": 71,
+        "szl.a11oy.corpus.record/v1": 16,
+        "szl.hf.bucket.record/v1": 16,
+        "szl.forge.postpublish-eval.v1": 16,
+        "szl.training_receipt.v2": 15,
+        "szl.forge.profile-runtime-status/v1": 9,
+        "szl.build-env.fanout-ack/v1": 8,
+        "szl.chaski-named-n-bakeoff/v1": 8,
+        "szl.frontier.wave/v1": 8,
+        "szl.vertical-forge.artifact/v1": 8,
+        "szl.estate.binding/v1": 7,
+        "szl.vertical-cell/v1": 7,
+        "szl.hf-deploy-manifest/v1": 7,
+        "szl.khipu.organ_verdict/v1": 7,
+        "szl.eclipse.native-plane.v1": 7,
+        "szl.build-info/v1": 7,
+        "szl_energy_attest/receipt@1": 7,
+        "szl.frontier-training-run/v1": 7,
+        "szl.codex.frontier-review/v1": 7,
+        "szl.llm_route.lambda_receipt/v1": 6,
+        "a11oy.factory.profile/v1": 6,
+        "szl.second-brain.frontier-state/v1": 6,
+        "szl.deployment-source/v1": 6,
+        "szl.hf-space-consolidation.predelete.v3": 6
+      }
+    },
+    "8_supply_chain_contradiction": {
+      "repos_claiming_L1_plus_L2": {
+        "a11oy-net": {
+          "L1_honest": 2,
+          "L2_roadmap": 0,
+          "L2_claimed": 1,
+          "L3": 2
+        },
+        "hatun-mcp": {
+          "L1_honest": 9,
+          "L2_roadmap": 1,
+          "L2_claimed": 1,
+          "L3": 0
+        },
+        "khipu-x1": {
+          "L1_honest": 7,
+          "L2_roadmap": 2,
+          "L2_claimed": 2,
+          "L3": 0
+        },
+        "killinchu": {
+          "L1_honest": 125,
+          "L2_roadmap": 6,
+          "L2_claimed": 1,
+          "L3": 8
+        },
+        "lutar-lean": {
+          "L1_honest": 0,
+          "L2_roadmap": 0,
+          "L2_claimed": 1,
+          "L3": 0
+        },
+        "szl-command-lab": {
+          "L1_honest": 20,
+          "L2_roadmap": 12,
+          "L2_claimed": 8,
+          "L3": 0
+        },
+        "szl-gov": {
+          "L1_honest": 13,
+          "L2_roadmap": 1,
+          "L2_claimed": 1,
+          "L3": 5
+        },
+        "szl-papers": {
+          "L1_honest": 115,
+          "L2_roadmap": 16,
+          "L2_claimed": 80,
+          "L3": 12
+        },
+        "szl-platform": {
+          "L1_honest": 6,
+          "L2_roadmap": 3,
+          "L2_claimed": 3,
+          "L3": 0
+        },
+        "szl-trust": {
+          "L1_honest": 3,
+          "L2_roadmap": 0,
+          "L2_claimed": 1,
+          "L3": 0
+        },
+        "uds-bundles": {
+          "L1_honest": 46,
+          "L2_roadmap": 1,
+          "L2_claimed": 1,
+          "L3": 2
+        }
+      },
+      "note": "uds-bundles states SLSA L1+L2 while thesis v24 corrects the estate to L1 honest, L2 roadmap and explicitly does not claim L2-verified. this is a live cross-repo contradiction and is reported, not resolved here."
+    },
+    "9_audit_coverage": {
+      "estate_public_repos": 88,
+      "reviewed_in_completion_audit": 13,
+      "never_reviewed": [
+        ".github",
+        "a11oy",
+        "a11oy-factory",
+        "a11oy-net",
+        "anatomy",
+        "ayllu",
+        "ayllu-hf-space",
+        "david-leads",
+        "evidence-doctrine",
+        "evidence-studio",
+        "frontier-bench",
+        "governance-as-code",
+        "governed-receipt-spec",
+        "hatun-mcp",
+        "holographic-unify",
+        "immune",
+        "khipu-consensus",
+        "khipu-sda-core",
+        "khipu-x1",
+        "killinchu",
+        "lutar-lean",
+        "lyte-lattice",
+        "lyte-services",
+        "nexus",
+        "platform",
+        "puriq-live",
+        "quant-curve",
+        "retrieval-bench",
+        "sda",
+        "szl-atelier",
+        "szl-brand",
+        "szl-build-env",
+        "szl-ci-witness",
+        "szl-command-lab",
+        "szl-constellation",
+        "szl-crosscheck",
+        "szl-doctrine",
+        "szl-drift",
+        "szl-eclipse",
+        "szl-energy-attest",
+        "szl-engine-bench",
+        "szl-evidence-litellm",
+        "szl-forge",
+        "szl-frontier",
+        "szl-gov",
+        "szl-gpu-bridge",
+        "szl-hf-frontier",
+        "szl-holdings.github.io",
+        "szl-kernels",
+        "szl-khipu",
+        "szl-lake",
+        "szl-mesh",
+        "szl-papers",
+        "szl-pin",
+        "szl-platform",
+        "szl-quant",
+        "szl-quant-bench",
+        "szl-quant-witness",
+        "szl-real-estate",
+        "szl-receipt",
+        "szl-retrieval-bench",
+        "szl-router",
+        "szl-runbook-catalog",
+        "szl-second-brain",
+        "szl-serve",
+        "szl-sovereign-os",
+        "szl-substrate",
+        "szl-trust",
+        "szl-vertical-forge",
+        "szl-wave1-report",
+        "the-grid",
+        "uds-bundles",
+        "vertical-services",
+        "vsp-otel",
+        "yarqa"
+      ],
+      "note": "the completion audit judged a fraction of the estate; everything below was never assessed"
+    },
+    "10_limits": {
+      "private_repos_not_cloned": [
+        "szl-safe-stack",
+        "szl-estate-os",
+        "szl-org-health",
+        "szl-v14",
+        "szl-defensive-control-plane",
+        "gdw-frontier",
+        "pitch-collateral"
+      ],
+      "shallow_clones": "depth 1, so history and CI logs are not audited",
+      "text_only": "binary artefacts, weights and images are not read",
+      "no_execution": "nothing was run; no claim here is a behavioural verification",
+      "honest_state": "this is an inventory and a language audit, not a proof of anything"
+    }
+  },
+  "status": "MEASURED"
+}

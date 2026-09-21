@@ -1,11 +1,11 @@
 {
   "schema": "szl.anatomy.organ-feed/v1",
   "producer": "szl-typesafe-triage",
-  "kernel_commit": "7178cd2",
+  "kernel_commit": "9ca3741",
   "policy_id": "triage_policy.v3",
   "doctrine": "v11 LOCKED",
   "proven_trust": false,
-  "lambda_uniqueness": "Conjecture 1 - OPEN under A1-A4; unconditional uniqueness under kernel A1-A5 is machine-checked FALSE per anatomy organ_integrity.CONJECTURE_1",
+  "lambda_uniqueness": "Conjecture 1 - OPEN under A1-A4; the question the estate reports as Conjecture 1 and disproved as stated under kernel A1-A5 is machine-checked FALSE per anatomy organ_integrity.CONJECTURE_1",
   "energy": {
     "joules": null,
     "measured": false,
@@ -56,11 +56,11 @@
       "state": "NOT_CLAIMED",
       "evidence": "this repository asserts no formula proofs; locked-proven stays exactly 8 elsewhere",
       "source": "-",
-      "note": "CHECKED is not Lean PROVEN. no locked-8 claim originates here"
+      "note": "CHECKED is not Lean PROVEN. no the locked set (this repository asserts no count; both readings are in out/phrasing_guard.json) claim originates here"
     }
   ],
   "release_verdict": "BLOCKED",
   "consumer": "betterwithage/anatomy (docker, threejs) - this feed is data, not a rival renderer",
   "honesty": "MEASURED needs a receipt on disk. DEGRADED works below estate standard. UNWIRED exists outside the decision path. ABSENT was never built here. NOT_CLAIMED means this repository makes no claim on that organ. nothing glows that did not earn it.",
-  "feed_digest": "481d18b64da18121d3746ce43ea049ab"
+  "feed_digest": "7f156b707a4b68f0edb6cee23927acd8"
 }

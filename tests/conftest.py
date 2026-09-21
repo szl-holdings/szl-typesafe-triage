@@ -62,3 +62,10 @@ class FakeModel:
     def propose(self, text, allowed_labels):
         self.calls += 1
         return self._proposal
+
+# SZL_SRC_PATH_SHIM
+import sys as _sys
+from pathlib import Path as _Path
+_SRC = _Path(__file__).resolve().parent.parent / "src"
+if str(_SRC) not in _sys.path:
+    _sys.path.insert(0, str(_SRC))
