@@ -2,7 +2,7 @@
   {
     "seed": 11,
     "local_path": "out/train/adapter",
-    "adapter_sha256": "df512082e7ac944c9f09a610fda6acb5e06ab3b828d539c697ce259fef58f4f7",
+    "adapter_sha256": "9d5193bc8bde234441fd7499cb578e13d90d8d31e432dc03f28d3552ac73d730",
     "final_training_loss": 0.05856798807139814,
     "seconds": 474.4,
     "binding_check": "PASS",
