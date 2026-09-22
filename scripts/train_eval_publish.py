@@ -14,6 +14,28 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+
+# --- szl guard -----------------------------------------------------------
+def szl_text_tokenizer(obj):
+    """A VL processor __call__ is (images, text, videos); unsloth_zoo
+    re-dispatches positionally, so a bare string lands in the images slot.
+    Resolve the text-modality tokenizer and refuse anything that can still
+    reach an image processor."""
+    tok = getattr(obj, "tokenizer", obj)
+    if hasattr(tok, "image_processor"):
+        raise RuntimeError("szl guard: object still exposes image_processor")
+    if not callable(tok):
+        raise RuntimeError("szl guard: resolved object is not callable")
+    return tok
+
+def szl_b64_fix(s):
+    if isinstance(s, bytes):
+        s = s.decode("ascii", "ignore")
+    s = "".join(s.split())
+    return s + "=" * (-len(s) % 4)
+# -------------------------------------------------------------------------
+
+
 ROOT = Path.cwd()
 PYTHON = Path(sys.executable)
 BASE_MODEL = "unsloth/Qwen3.5-0.8B"
@@ -42,6 +64,33 @@ RUN1_RECEIPT = ROOT / "out" / "train" / "training_receipt.json"
 
 for directory in (STUDY, CONTROL, FROZEN, EVALUATION):
     directory.mkdir(parents=True, exist_ok=True)
+
+
+def assert_text_only_tokenizer(tok):
+    """Preflight guard: refuse a VL Processor being called positionally as a tokenizer.
+
+    Qwen3VLProcessor.__call__ has signature (images, text, videos, ...), so a bare
+    positional call routes the rendered chat string into `images`, which then fails
+    inside load_image() as "Incorrect image source" / "Incorrect padding".
+    """
+    import inspect
+    if getattr(tok, "tokenizer", None) is None:
+        return "plain-tokenizer"
+    params = list(inspect.signature(type(tok).__call__).parameters)
+    if len(params) > 1 and params[1] == "images":
+        raise RuntimeError(
+            f"{type(tok).__name__} takes `images` as its first positional parameter. "
+            "Call with text= keyword, or use tok.tokenizer for text-only evaluation."
+        )
+    return "processor-ok"
+
+
+def text_only_encode(tok, rendered, return_tensors="pt"):
+    """Bind text by keyword, never positionally. Falls back to the inner tokenizer."""
+    inner = getattr(tok, "tokenizer", None)
+    if inner is not None:
+        return szl_text_tokenizer(inner)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
+    return szl_text_tokenizer(tok)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
 
 
 def log(message: str) -> None:
@@ -1235,7 +1284,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage · Five-Seed LoRA Study
+# SZL TypeSafe Triage Â· Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1251,7 +1300,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED — 11/12** |
+| Release gate | **BLOCKED â€” 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
@@ -1363,7 +1412,7 @@ prompt = tokenizer.apply_chat_template(
     add_generation_prompt=True,
 )
 
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+inputs = tokenizer(text=prompt, return_tensors="pt").to(model.device)
 
 with torch.no_grad():
     output = model.generate(
