@@ -1,7 +1,7 @@
 {
   "schema": "szl.five-seed-environment/v1",
-  "generated_at_utc": "2026-09-22T15:11:00.278287+00:00",
-  "repository_commit_before_study_commit": "1f215c3bbaaa18a336a7e4e51b8ba4a01d5e62f9",
+  "generated_at_utc": "2026-09-22T15:13:26.046324+00:00",
+  "repository_commit_before_study_commit": "9eaf431715ea7d09d39a331e604e273ab2b34e48",
   "branch": "main",
   "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
   "pip_freeze": [
@@ -81,7 +81,7 @@
     "six==1.17.0",
     "structlog==26.1.0",
     "sympy==1.14.0",
-    "-e git+https://github.com/stephenlutar2-hash/szl-typesafe-triage.git@1f215c3bbaaa18a336a7e4e51b8ba4a01d5e62f9#egg=szl_triage",
+    "-e git+https://github.com/stephenlutar2-hash/szl-typesafe-triage.git@9eaf431715ea7d09d39a331e604e273ab2b34e48#egg=szl_triage",
     "tenacity==9.1.4",
     "tokenizers==0.22.2",
     "torch @ file:///C:/Users/steph/szl-typesafe-triage/wheels/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl#sha256=00fb5440e7560b3b21e5e24567c6096fec4ef65b50a7ef1a105ebed5755eef7e",
@@ -107,7 +107,7 @@
     "yarl==1.25.1",
     "zipp==4.1.0"
   ],
-  "nvidia_smi": "Tue Sep 22 11:10:59 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.47                 KMD Version: 610.47        CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 5050 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |\n| N/A   45C    P4              9W /   55W |     136MiB /   8151MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A           32316      C   ...s\\Python\\Python311\\python.exe      N/A      |\n+-----------------------------------------------------------------------------------------+",
+  "nvidia_smi": "Tue Sep 22 11:13:25 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.47                 KMD Version: 610.47        CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 5050 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |\n| N/A   44C    P4              9W /   70W |     136MiB /   8151MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A           21460      C   ...s\\Python\\Python311\\python.exe      N/A      |\n+-----------------------------------------------------------------------------------------+",
   "hub_repository": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
   "release_gate": "11/12",
   "release_status": "BLOCKED",

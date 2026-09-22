@@ -46,7 +46,7 @@ HF_REPO = os.environ.get(
 
 RUN1_COMMIT = "427a70eb0804d814bf32d2cfc2713e230e468691"
 RUN1_TAG = "triage-lora-run1"
-STUDY_TAG = "triage-lora-study5-measured"
+STUDY_TAG = "triage-lora-study5-measured-20260922-111314"
 
 SEEDS = [11, 23, 37, 53, 71]
 NEW_SEEDS = [23, 37, 53, 71]
@@ -1284,7 +1284,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage Â· Five-Seed LoRA Study
+# SZL TypeSafe Triage Ã‚Â· Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1300,7 +1300,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED â€” 11/12** |
+| Release gate | **BLOCKED Ã¢â‚¬â€ 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
