@@ -1,0 +1,40 @@
+name: release-receipts
+
+on: [push, pull_request]
+
+jobs:
+  verify-receipts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python scripts/verify_release_receipts.py
+
+  verify-seal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python scripts/verify_seal.py
+
+  release-promotable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fail while any gate stage is BLOCKED
+        run: |
+          python - <<'PY'
+          import json, sys
+          r = json.load(open("out/release_gate.json"))
+          print("release_verdict:", r.get("release_verdict"))
+          for n, s in r.get("stages", {}).items():
+              print(n, s.get("verdict"), s.get("breaches"))
+          sys.exit(0 if r.get("release_verdict") == "PROMOTABLE" else 1)
+          PY

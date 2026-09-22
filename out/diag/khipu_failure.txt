@@ -1,0 +1,10 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____________________ test_forgery_loses_every_signature ______________________
+tests\test_khipu_witness.py:12: in test_forgery_loses_every_signature
+    assert t["witnesses_still_verifying"] == [] and t["quorum_survives"] is False
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'witnesses_still_verifying'
+=========================== short test summary info ===========================
+FAILED tests/test_khipu_witness.py::test_forgery_loses_every_signature - KeyE...
+1 failed in 0.07s

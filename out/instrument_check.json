@@ -1,0 +1,26 @@
+{
+  "qwen_meanpool_raw": {
+    "in_corpus": 0.8165,
+    "corpus_distractor": 0.6328,
+    "auc": 0.9626,
+    "length_r": 0.6009
+  },
+  "qwen_centered": {
+    "in_corpus": 0.0002,
+    "corpus_distractor": -0.0265,
+    "auc": 0.4845,
+    "length_r": 0.8016
+  },
+  "qwen_whitened_k32": {
+    "in_corpus": -0.0008,
+    "corpus_distractor": -0.0185,
+    "auc": 0.4825,
+    "length_r": 0.6752
+  },
+  "bge_small_cls": {
+    "in_corpus": 0.5859,
+    "corpus_distractor": 0.398,
+    "auc": 0.9725,
+    "length_r": 0.0762
+  }
+}

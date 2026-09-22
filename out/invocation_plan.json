@@ -1,0 +1,32 @@
+{
+  "train_script": "scripts/train_triage_unsloth.py",
+  "train_detected": {
+    "args": [],
+    "jsonls": [
+      "output/triage_distill_split_v0.4.0.jsonl"
+    ],
+    "dirs": [
+      "output/triage_distill_split_v0.4.0.jsonl"
+    ]
+  },
+  "train_args": [],
+  "adapter_dir_guess": null,
+  "gate_script": "scripts/gate.py",
+  "gate_detected": {
+    "args": [],
+    "jsonls": [
+      "output/triage_distill_split_v0.4.0.jsonl"
+    ],
+    "dirs": [
+      "lora_B",
+      "out/gate_report.json",
+      "out/triage-unsloth-bf16",
+      "output/triage_distill_split_v0.4.0.jsonl"
+    ]
+  },
+  "gate_args": [],
+  "notes": [
+    "train hardcodes the correct split path"
+  ],
+  "fatal": []
+}

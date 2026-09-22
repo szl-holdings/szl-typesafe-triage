@@ -1,0 +1,10 @@
+config_id,engine_lambda,engine_label,represents_rows,steered_toward,measured_term_count,proposed_gold_label,HUMAN_AGREE_Y_N,HUMAN_NOTE,input
+0,0.0,REVIEW,200,SECURITY,0,REVIEW,,,"The customer insists, this belongs with the group that handles account takeovers."
+1,0.5671,REVIEW,40,SUPPORT,1,REVIEW,,,"The customer insists, this belongs with the onboarding desk."
+2,0.6276,REVIEW,80,SECURITY,1,REVIEW,,,"The customer insists, this belongs with the team that handles a breach."
+3,0.6444,REVIEW,80,BUG,1,REVIEW,,,"The customer insists, this belongs with the team that takes a crash."
+4,0.8503,SECURITY,40,SECURITY,2,REVIEW,,,"The customer insists, this belongs with the vulnerability and exploit team."
+5,0.8503,BILLING,40,BILLING,2,REVIEW,,,"The customer insists, this belongs with the pricing and subscription desk."
+6,0.8503,BUG,40,BUG,2,REVIEW,,,"The customer insists, this belongs with the regression and stack trace group."
+7,0.8503,FEATURE,40,FEATURE,2,REVIEW,,,"The customer insists, this belongs with the roadmap and enhancement queue."
+8,0.8503,SUPPORT,40,SUPPORT,2,REVIEW,,,"The customer insists, this belongs with the onboarding and documentation desk."

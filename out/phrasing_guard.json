@@ -1,0 +1,418 @@
+{
+  "schema": "szl.phrasing-guard/v4",
+  "commit": "427a70e",
+  "artefacts_scanned": 143,
+  "violations": [],
+  "violation_count": 0,
+  "canonical_estate_facts": {
+    "lambda_status": "Conjecture 1 - disproved as stated; conditional Theorem U is the proved result",
+    "theorem_u_lean_term": "Lutar.Round13.lambda_unique_of_separable",
+    "theorem_u_trusted_base": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "theorem_u_is_axiom_free": true,
+    "open_after_theorem_u": "the weaker-condition uniqueness question",
+    "khipu_bft": "Conjecture 2 (OPEN) - Wave-23 conditional agreement only",
+    "kernel_counts_locked": {
+      "declarations": 749,
+      "axioms": 14,
+      "sorries": 163,
+      "commit": "c7c0ba17",
+      "label": "v11 LOCKED"
+    },
+    "kernel_counts_experimental": {
+      "declarations": 1323,
+      "axioms": 23,
+      "sorries": 307,
+      "commit": "b910c276",
+      "note": "never folded into the locked count; ~185 experimental across Waves 11-23"
+    },
+    "locked_set_discrepancy": {
+      "five": {
+        "set": [
+          "F1",
+          "F11",
+          "F12",
+          "F18",
+          "F19"
+        ],
+        "source": "thesis/v24 honesty doctrine, binding",
+        "commit": "c7c0ba17"
+      },
+      "eight": {
+        "set": [
+          "F1",
+          "F4",
+          "F7",
+          "F11",
+          "F12",
+          "F18",
+          "F19",
+          "F22"
+        ],
+        "source": "ARXIV_SUBMISSION_GUIDE.md, certified by the Lean theorem locked_count_eight"
+      },
+      "state": "UNRESOLVED",
+      "retraction": "a previous commit in this repository declared this resolved in favour of eight because locked_count_eight is a Lean theorem. that was selective: v24's honesty doctrine states exactly five and is marked binding. both readings are present in the corpus at different commits and this repository makes no count claim."
+    },
+    "slsa": {
+      "claimable": "L1 honest",
+      "roadmap": "L2",
+      "not_claimable": [
+        "L2-verified",
+        "L3",
+        "FedRAMP",
+        "Iron Bank",
+        "CMMC"
+      ],
+      "note": "v24 explicitly corrects a v23 README badge overstatement; the v22 line about L1+L2 achieved is superseded and must not be cited"
+    },
+    "egyptian_weights": "the equal exponents 1/k ARE the Egyptian unit-fraction weights per v23. a previous commit here claimed unequal weights instantiate a proven Egyptian structure - that is backwards and is retracted.",
+    "ceiling_basis": "the corpus states 'trust never 100%'; no theorem in the corpus derives 0.97"
+  },
+  "mirrors": "szl-papers .github workflows fail CI if a governed surface claims unconditional Lambda uniqueness; this repository is a governed surface and now enforces the same rule on its own receipts and docs",
+  "what_the_guard_cannot_do": "it checks language, not truth. it reports evidence of a claimed backing, not a re-run of the Lean kernel.",
+  "status": "MEASURED",
+  "claimed_violations": [],
+  "claimed_violation_count": 0,
+  "quoted_occurrences": [
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "bda`; `maxAgg` and `min` are A1\u2013A5 counterexamples), so \u039b stay **Honesty note (verbatim).** The Lutar invariant \u039b is **Conjecture 1** unconditionally and is *never* claimed proven unconditionally; unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "the Lutar invariant is the equal-weight geometric mean \u039b_k(x) = (\u220f_{i=1}^k x_i)^{1/k}. The candidate aggregators \u03a6 : [0,1]^k \u2192 [0,1] are constrained by five axioms: >> **Theorem 4.2 (Refutation of unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "efining governance behavior is **zero-absorption / weakest-link**: Candidate aggregators `\u03a6 : [0,1]^k \u2192 [0,1]` are constrained by five axioms (Lean: `LutarAxioms`): >> **Theorem 4.1 (Refutation of unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "efining governance behavior is **zero-absorption / weakest-link**: Candidate aggregators `\u03a6 : [0,1]^k \u2192 [0,1]` are constrained by five axioms (Lean: `LutarAxioms`): >> **Theorem 4.1 (Refutation of unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "tion - ## What this version is - ## What this version is NOT - ## Honest posture (load-bearing) - ## Doctrine v11 (LOCKED @ `c7c0ba17`) - ## Lineage ``` >> theorem, the machine-checked refutation of u"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "Holdings has developed since April 2026. The prior twenty-two versions each advanced a piece of the The single most important honest statement in this paper is this: the central trust aggregator's unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "s_false`).** The max aggregator `maxAgg(x) = max_i x_i` satisfies A1\u2013A5 but is **not** equal to \u039b. At x = (4,1) (rescaled This is the epistemic heart of the paper: we did not merely fail to prove unco"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "bda`; `maxAgg` and `min` are A1\u2013A5 counterexamples), so \u039b stay **Honesty note (verbatim).** The Lutar invariant \u039b is **Conjecture 1** unconditionally and is *never* claimed proven unconditionally; unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "the Lutar invariant is the equal-weight geometric mean \u039b_k(x) = (\u220f_{i=1}^k x_i)^{1/k}. The candidate aggregators \u03a6 : [0,1]^k \u2192 [0,1] are constrained by five axioms: >> **Theorem 4.2 (Refutation of unc"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "locked-8",
+      "why": "asserts a locked count this repository is not entitled to assert",
+      "context": "10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.19944926` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT lo"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "locked-8",
+      "why": "asserts a locked count this repository is not entitled to assert",
+      "context": "96`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.19944926` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT locked-8) - ## What \"lo"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "locked-five",
+      "why": "asserts a locked count this repository is not entitled to assert",
+      "context": "tone-DEQ unique equilibrium, recurrent-depth Lipschitz contraction), culminating in the Wave-18--22 CUT-1 construction (\\S\\ref{sec:cut1}). Every one is \\printax{}-clean. None is folded into the locked"
+    },
+    {
+      "file": "docs/CORPUS_DIGEST.md",
+      "match": "locked-5",
+      "why": "asserts a locked count this repository is not entitled to assert",
+      "context": "uniqueness result. It does **not** make \u039b unconditional; the unconditional conjecture stays open/false. - The experimental CI-green tier (~185 thms) is **separate** and is never folded into the locked"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "ined* open hypothesis (\u00a76), never as the literal A1\u2013A5 - `drafts/lambda-uniqueness-counterexample-note.md` [drafts] [machine-checked FALSE],[experimental \u00b7 CI-green] **Theorem 4.1 (Refutation of uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "multiplicative (Definition 5 - `drafts/lambda-uniqueness-counterexample-note.md` [drafts] no status tag **Theorem U is conditional.** It requires slice-multiplicativity. It does **not** establish unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "- `papers/SZL_THESIS_v5.md` [papers] no status tag **Conjecture 3** (unproven). - Jack Kruse's clinical/entanglement claims are **[NARRATIVE]** and explicitly outside the evidentiary basis. - The unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "d four peer-reviewed quantum-bioenergetic results into a single, honest, auditable execution gate \u039b-v5, implemented every - `papers/SZL_THESIS_v6.md` [papers] no status tag **Conjecture 1** (the uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "verification, Lean 4, Mathlib, open quantum systems, Lindblad - `papers/SZL_THESIS_v7.md` [papers] no status tag **Conjecture 1 and Conjecture 2 remain open / refuted as stated.** Conjecture 1 (\u039b unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "l-weight geometric mean. Its defining governance behavior is \\emph{zero-absorption / weakest-link}: a single - `thesis/arxiv/gpd-v26/main.tex` [arxiv] no status tag \\begin{theorem}[Refutation of uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "`thesis/ouroboros/papers/v23/outline.md` [ouroboros] no status tag **Conjecture 1 \u2014 NOT a theorem.** v23 documents a *conditional* uniqueness theorem and a *machine-checked insufficiency* result; unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "rontier theorems across Waves 11\u201322 (CF-13, CF-17 - `thesis/ouroboros/papers/v24/main.md` [ouroboros] no status tag **Conjecture 1** unconditionally and is *never* claimed proven unconditionally; unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "regators \u03a6 : [0,1]^k \u2192 [0,1] are constrained by five axioms: - **(A1) Monotonic - `thesis/ouroboros/papers/v24/main.md` [ouroboros] [machine-checked FALSE],[CI-green] **Theorem 4.2 (Refutation of unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": ". v24 does something sharper: it *removes a project axiom from the trusted base entirely*. - `thesis/ouroboros/papers/v24/main.md` [ouroboros] no status tag **Conjecture 1** unconditionally (its uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "tation $\\sigma$. \\end{axiom} The classical theory (Kolmogorov 1930 \\cite{kolmogorov1930}, Acz\\'el - `thesis/ouroboros/papers/v24/main.tex` [ouroboros] no status tag \\begin{theorem}[Refutation of uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "ion / weakest-link**: a single fully-failed axis (`x_i = 0`) - `thesis/ouroboros/papers/v25/unified-gpd-thesis-v25.md` [ouroboros] [machine-checked FALSE],[CI-green] **Theorem 4.1 (Refutation of uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "\u2014 the **corrected \u039b axiomatization** (A5 added > as a structure field, uniqueness still open), **branch-proven mechanism truthful - `thesis/v22/README.md` [v22] no status tag **Conjecture 1** | \u039b unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "i(x)$ for every permutation $\\sigma$. \\end{axiom} A5 was added as a structure field in a late round (PR \\#148) precisely - `thesis/v23/main.tex` [v23] no status tag \\begin{theorem}[Refutation of uncon"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "im otherwise. --- ## 2. The honesty doctrine The doctrine is load-bearing and is preserved verbatim across all SZL - `thesis/v24/main.md` [v24] no status tag **Conjecture 1** unconditionally (its unco"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "FedRAMP",
+      "why": "claims a supply-chain level the estate disclaims",
+      "context": "s tag **Conjecture 2** unconditionally. Supply-chain posture is **SLSA L1+L2 attested** where `attest-build-provenance` runs (killinchu, a11oy), else L1 honest with L2 a roadmap; L3 is a roadmap; FedR"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "Iron Bank",
+      "why": "claims a supply-chain level the estate disclaims",
+      "context": "**Conjecture 2** unconditionally. Supply-chain posture is **SLSA L1+L2 attested** where `attest-build-provenance` runs (killinchu, a11oy), else L1 honest with L2 a roadmap; L3 is a roadmap; FedRAMP / "
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "FedRAMP",
+      "why": "claims a supply-chain level the estate disclaims",
+      "context": "` [v24] no status tag **Conjecture 1** unconditionally; only **conditional** uniqueness is proven (now axiom-free). - Supply-chain posture: **SLSA L1 honest, L2 roadmap** \u2014 *not* L2-verified, L3, FedR"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "Iron Bank",
+      "why": "claims a supply-chain level the estate disclaims",
+      "context": "o status tag **Conjecture 1** unconditionally; only **conditional** uniqueness is proven (now axiom-free). - Supply-chain posture: **SLSA L1 honest, L2 roadmap** \u2014 *not* L2-verified, L3, FedRAMP, Iron"
+    },
+    {
+      "file": "docs/THESIS_INDEX.md",
+      "match": "locked eight",
+      "why": "asserts a locked count this repository is not entitled to assert",
+      "context": "MISSION_GUIDE.md` [ARXIV_SUBMISSION_GUIDE.md] no status tag **Conjecture 2** (Wave-23 conditional agreement only). - [ ] Experimental (~185, Waves 11\u201323) clearly labeled and never folded into the lock"
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "e *literal* statement is in fact **false**; \\\"Conjecture 1\\\" therefore survives only as a *refined* open hypothesis (\\u00a76), never as the literal A1\\u2013A5 statement. --- ## 4. The counterexample: "
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "nly as a *refined* open hypothesis (\\u00a76), never as the literal A1\\u2013A5 statement. --- ## 4. The counterexample: unconditional uniqueness is FALSE (machine-checked) **Theorem 4.1 (Refutation of "
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": " [ \"[machine-checked FALSE]\" ] }, { \"first_seen_in\": \"drafts\", \"path\": \"drafts/lambda-uniqueness-counterexample-note.md\", \"text\": \"**Theorem 4.1 (Refutation of unconditional uniqueness).** *[machine-c"
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": " \"first_seen_in\": \"drafts\", \"path\": \"drafts/lambda-uniqueness-counterexample-note.md\", \"text\": \"**Theorem U is conditional.** It requires slice-multiplicativity. It does **not** establish unconditiona"
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": " \"path\": \"papers/SZL_THESIS_v5.md\", \"text\": \"**Conjecture 3** (unproven). - Jack Kruse's clinical/entanglement claims are **[NARRATIVE]** and explicitly outside the evidentiary basis. - The unconditio"
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "d conjectures. The result is a governed-autonomy \", \"status_tags\": [] }, { \"first_seen_in\": \"papers\", \"path\": \"papers/SZL_THESIS_v6.md\", \"text\": \"**Conjecture 1** (the unconditional uniqueness of the "
+    },
+    {
+      "file": "out/corpus_digest.json",
+      "match": "unconditional uniqu",
+      "why": "claims unconditional Lambda uniqueness",
+      "context": "tags\": [] }, { \"first_seen_in\": \"papers\", \"path\": \"papers/SZL_THESIS_v7.md\", \"text\": \"**Conjecture 1 and Conjecture 2 remain open / refuted as stated.** Conjecture 1 (\\u039b unconditional uniqueness) "
+    }
+  ],
+  "quoted_occurrence_count": 288,
+  "scope_rule": "four classes. META is the guard's own receipt, excluded with a stated reason because it stores the forbidden patterns themselves. QUOTED is a verified extraction artefact, which does not speak in this repository's voice. DENIED is repository-voice text where a negation cue precedes the phrase within 170 characters, for example 'we do not claim FedRAMP'. CLAIMED is everything else and must be zero.",
+  "why_not_widen_the_escape": "the alternative was to loosen the pattern until the suite went green, which is the move retracted twice today. the scope distinction is principled: it turns on who is speaking, not on how inconvenient the match is.",
+  "extraction_scopes": {
+    "out/corpus_digest.json": {
+      "extraction_verified": true,
+      "evidence": "270 entries with source paths"
+    },
+    "docs/THESIS_INDEX.md": {
+      "extraction_verified": true,
+      "evidence": "333 inline citations"
+    },
+    "docs/CORPUS_DIGEST.md": {
+      "extraction_verified": true,
+      "evidence": "60 inline citations"
+    }
+  },
+  "why_v2_was_wrong": "v2 granted quotation scope only when a refutation keyword sat near the match. that misfired on 64 occurrences where the corpus says 'we do not claim L3, FedRAMP, Iron Bank, or CMMC' - a disclaimer read as a claim because the keyword list lacked 'do not claim'. extending the keyword list would have been whack-a-mole dressed as rigour.",
+  "classes": {
+    "META": 65,
+    "QUOTED": 288,
+    "DENIED": 9,
+    "CLAIMED": 0
+  },
+  "denied_pending_human_ratification": [
+    {
+      "file": "docs/paper/main.md",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": ": slsa l1+l2 build provenance is achieved (read from v22) corrected to: v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/paper/main.md",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "+l2 build provenance is achieved (read from v22) corrected to: v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/SESSION_DISSECTION.md",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": ".lean | | 8 | slsa l1+l2 build provenance is achieved (read from v22) | v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/SESSION_DISSECTION.md",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": " 8 | slsa l1+l2 build provenance is achieved (read from v22) | v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "docs/showcase/HF_ORG_CARD.md",
+      "match": "unconditional uniqu",
+      "phrase_class": "unconditional Lambda uniqueness",
+      "preceding": "rtefact. tagged as such. - **no-weights / curriculum-only** \u2014 nothing to load. present for provenance. ## what we do not claim our trust aggregator's ",
+      "negation_cue": "do not claim"
+    },
+    {
+      "file": "out/retractions.json",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "a l1+l2 build provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "out/retractions.json",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "uild provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "out/session_dissection.json",
+      "match": "FedRAMP",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "a l1+l2 build provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, ",
+      "negation_cue": "not l2"
+    },
+    {
+      "file": "out/session_dissection.json",
+      "match": "Iron Bank",
+      "phrase_class": "a disclaimed supply-chain level",
+      "preceding": "uild provenance is achieved (read from v22)\", \"corrected_to\": \"v24 corrects this: l1 honest, l2 roadmap, and explicitly not l2-verified, l3, fedramp, ",
+      "negation_cue": "not l2"
+    }
+  ],
+  "denied_count": 9,
+  "meta_exclusions": {
+    "out/phrasing_guard.json": "the guard's own receipt stores the forbidden patterns and its own rationale, so every pattern matches itself; scanning it measures the guard, not a claim"
+  },
+  "meta_hit_count": 65,
+  "honest_limit": "a language guard cannot reliably separate a claim from a denial. DENIED is a heuristic judgement, not a proof, so every DENIED occurrence is listed in the receipt for human ratification rather than silently absolved - the same arrangement as the ratified corpus rows, where a person decides and the machine records.",
+  "iteration_history": "v2 granted absolution on any nearby refutation keyword and missed 'we do not claim', reporting 64 false positives. v3 removed the keyword test and reported 369, including the guard's own receipt. v4 separates authorship, negation and self-reference instead of widening a regex, and states that the negation test is heuristic."
+}

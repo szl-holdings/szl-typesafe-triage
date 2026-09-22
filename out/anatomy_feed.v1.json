@@ -1,0 +1,66 @@
+{
+  "schema": "szl.anatomy.organ-feed/v1",
+  "producer": "szl-typesafe-triage",
+  "kernel_commit": "427a70e",
+  "policy_id": "triage_policy.v3",
+  "doctrine": "v11 LOCKED",
+  "proven_trust": false,
+  "lambda_uniqueness": "Conjecture 1 - OPEN under A1-A4; the question the estate reports as Conjecture 1 and disproved as stated under kernel A1-A5 is machine-checked FALSE per anatomy organ_integrity.CONJECTURE_1",
+  "energy": {
+    "joules": null,
+    "measured": false,
+    "state": "UNAVAILABLE"
+  },
+  "organs": [
+    {
+      "id": "brain",
+      "name": "BRAIN",
+      "quechua": "YACHAY",
+      "state": "UNWIRED",
+      "evidence": "5 BF16 checkpoints on disk; decide() calls none of them",
+      "source": "out/triage-unsloth-bf16/",
+      "note": "read-only reasoning cortex per the anatomy spec - here it holds no authority because it is not called at all"
+    },
+    {
+      "id": "heart",
+      "name": "HEART",
+      "quechua": "YUYAY",
+      "state": "MEASURED",
+      "evidence": "4-axis zero-pinned weighted geometric mean, tau 0.65, cross-checked against anatomy wgm on 1270 rows: CONSISTENT",
+      "source": "out/anatomy_crosscheck.json",
+      "note": "this is a 4-axis policy gate, NOT the 13-axis YUYAY critique gate. same aggregator family, different instrument. its veto input - integrity - returns 1.0 on all 600 authority probes, so the gate is sound and blind",
+      "lesion": "paraphrase recall 0/30, steering resistance 1/12 on human-ratified rows"
+    },
+    {
+      "id": "circulatory",
+      "name": "CIRCULATORY",
+      "quechua": "YAWAR",
+      "state": "DEGRADED",
+      "evidence": "append-only seal at out/release_seal.json, digest 0eb47b29121ffd0a, ? artifacts, SHA-256 chain",
+      "source": "out/release_seal.json",
+      "note": "UNSIGNED_HONEST. no DSSE ECDSA-P256 signature. szl-receipt provides the estate primitive and is not adopted here"
+    },
+    {
+      "id": "nervous",
+      "name": "NERVOUS",
+      "quechua": "OTel",
+      "state": "ABSENT",
+      "evidence": "no telemetry spine in this repository; energy UNAVAILABLE",
+      "source": "-",
+      "note": "never a fabricated joule - energy is null, not zero"
+    },
+    {
+      "id": "skeleton",
+      "name": "SKELETON",
+      "quechua": "Khipu",
+      "state": "NOT_CLAIMED",
+      "evidence": "this repository asserts no formula proofs; locked-proven stays exactly 8 elsewhere",
+      "source": "-",
+      "note": "CHECKED is not Lean PROVEN. no the locked set (this repository asserts no count; both readings are in out/phrasing_guard.json) claim originates here"
+    }
+  ],
+  "release_verdict": "BLOCKED",
+  "consumer": "betterwithage/anatomy (docker, threejs) - this feed is data, not a rival renderer",
+  "honesty": "MEASURED needs a receipt on disk. DEGRADED works below estate standard. UNWIRED exists outside the decision path. ABSENT was never built here. NOT_CLAIMED means this repository makes no claim on that organ. nothing glows that did not earn it.",
+  "feed_digest": "574e029461b5cd41282aa67f80472301"
+}

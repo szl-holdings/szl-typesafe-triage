@@ -1,0 +1,7 @@
+name,strict_json_rate,label_accuracy,state_accuracy,joint_accuracy,target_evidence_exact_rate,evidence_grounding_rate,refusal_fidelity_rate,false_label_on_refusal,failure_rows,median_latency_seconds
+base,0.0,0.0,0.0,0.0,0.3008849557522124,,0.0,34,113,10.57297830000607
+seed-011,1.0,1.0,1.0,1.0,0.9911504424778761,1.0,1.0,0,0,2.195597699996142
+seed-023,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,2.0480252999986988
+seed-037,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,2.0649154000057024
+seed-053,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,1.6464942000020528
+seed-071,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0,0,2.1763117000009515

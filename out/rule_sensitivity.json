@@ -1,0 +1,62 @@
+{
+  "schema": "szl.rule-sensitivity/v1",
+  "commit": "427a70e",
+  "tau": 0.65,
+  "weights": {
+    "lexical": 0.25,
+    "breadth": 0.4,
+    "integrity": 0.2,
+    "separation": 0.15
+  },
+  "axes": [
+    "breadth",
+    "integrity",
+    "lexical",
+    "separation"
+  ],
+  "rows_in_compensating_band": 238,
+  "cases": [
+    {
+      "axis": "breadth",
+      "low_value": 0.3333,
+      "current_weight": 0.4,
+      "weight_below_which_rules_diverge": 0.3921,
+      "product_if_alone_low": 0.6444,
+      "currently_confident_alone": false,
+      "distance_to_divergence": 0.0079
+    },
+    {
+      "axis": "lexical",
+      "low_value": 0.6,
+      "current_weight": 0.25,
+      "weight_below_which_rules_diverge": 0.8433,
+      "product_if_alone_low": 0.8801,
+      "currently_confident_alone": true,
+      "distance_to_divergence": -0.5933
+    }
+  ],
+  "closest_to_divergence": [
+    {
+      "axis": "breadth",
+      "low_value": 0.3333,
+      "current_weight": 0.4,
+      "weight_below_which_rules_diverge": 0.3921,
+      "product_if_alone_low": 0.6444,
+      "currently_confident_alone": false,
+      "distance_to_divergence": 0.0079
+    },
+    {
+      "axis": "lexical",
+      "low_value": 0.6,
+      "current_weight": 0.25,
+      "weight_below_which_rules_diverge": 0.8433,
+      "product_if_alone_low": 0.8801,
+      "currently_confident_alone": true,
+      "distance_to_divergence": -0.5933
+    }
+  ],
+  "correction": "an earlier commit message in this repository stated that no row enters the band where compensation is possible. that is false: 238 rows do. the two rules agree because on those rows the weighted product also falls below tau, which is a property of the current weights and tau rather than of the corpus",
+  "fragility": "for a single axis at value v with the others at 1.0, the product clears tau exactly when that axis's weight is at most ln(tau)/ln(v). the agreement between the compensatory and conjunctive rules is therefore contingent on a weight staying above a computable bound, and a routine reweighting could open the divergence without anyone noticing",
+  "recommendation": "adopt per-axis floors regardless. the change is behaviour-preserving today and removes a dependence on a coincidence between weights and tau. a rule that expresses the policy directly cannot be broken by retuning",
+  "status": "MEASURED"
+}

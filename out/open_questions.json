@@ -1,0 +1,85 @@
+{
+  "schema": "szl.open-questions/v1",
+  "commit": "427a70e",
+  "count": 11,
+  "doctrine": "every UNVERIFIED, UNAVAILABLE, PARTIAL or FAIL state in the receipt set appears here as a question with the experiment that would settle it. a system that cannot name what it does not know cannot be trusted about what it does.",
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Why does the engine recall 0 of 30 human-ratified classifiable reports?",
+      "current_state": "MEASURED failure, cause attributed to policy vocabulary but not proven to be the only cause",
+      "what_would_settle_it": "ratify the vocabulary-gap candidates, re-measure recall, and check whether the residual is vocabulary or structure",
+      "receipt": "out/ratified_scoreboard.json"
+    },
+    {
+      "id": "Q2",
+      "question": "Is the advisor's probability calibrated?",
+      "current_state": "UNVERIFIED - no ECE, MCE or Brier has been computed against human gold",
+      "what_would_settle_it": "run szl-calibration over the advisor's probabilities against the ratified labels and publish the receipt",
+      "receipt": "out/jev_integrity_trial.json"
+    },
+    {
+      "id": "Q3",
+      "question": "Is the 9-of-12 resistance result stable, or an artefact of one sample?",
+      "current_state": "PARTIAL - repeats recorded, per-row probabilities drift at the second decimal",
+      "what_would_settle_it": "k-sample means with an interval, and a threshold sensitivity sweep across the observed drift",
+      "receipt": "out/jev_stability.json"
+    },
+    {
+      "id": "Q-I3",
+      "question": "What is required for invariant I3 (served-run-has-model) to pass?",
+      "current_state": "UNAVAILABLE - no model sits in the decision path; decide() is deterministic and the checkpoints are UNWIRED",
+      "what_would_settle_it": "execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap",
+      "receipt": "out/yarqa_compartments.json"
+    },
+    {
+      "id": "Q-I7",
+      "question": "What is required for invariant I7 (receipt-columns-consistent) to pass?",
+      "current_state": "PARTIAL - 37 of 93 readable receipts declare a schema; 0 unreadable",
+      "what_would_settle_it": "execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap",
+      "receipt": "out/yarqa_compartments.json"
+    },
+    {
+      "id": "Q-I8",
+      "question": "What is required for invariant I8 (flywheel-lineage) to pass?",
+      "current_state": "PARTIAL - 26 of 93 receipts name the commit that produced them",
+      "what_would_settle_it": "execute SZLHOLDINGS/szl-invariants rather than the local pre-check, and close the named gap",
+      "receipt": "out/yarqa_compartments.json"
+    },
+    {
+      "id": "Q4",
+      "question": "Is the aggregator unique under its axioms?",
+      "current_state": "NOT_CLAIMED - the unconditional form is machine-checked false as stated; Theorem U is the proven conditional",
+      "what_would_settle_it": "state and discharge the conditions of Theorem U in Lean, or produce a second aggregator satisfying A1-A4 that disagrees",
+      "receipt": "out/ancient_geometry.json"
+    },
+    {
+      "id": "Q5",
+      "question": "What does a decision cost in joules?",
+      "current_state": "UNAVAILABLE - no energy source readable on this host; null recorded rather than estimated",
+      "what_would_settle_it": "run on a host with NVML or RAPL and attribute energy via szl-energy-attest",
+      "receipt": "out/physics_information.json"
+    },
+    {
+      "id": "Q6",
+      "question": "Does a local adapter reach the hosted advisor's resistance without a network call?",
+      "current_state": "not attempted - the distillation corpus does not exist yet",
+      "what_would_settle_it": "label at scale with k-sample means, train the 0.8B adapter, and measure the student against the same ratified rows",
+      "receipt": "-"
+    },
+    {
+      "id": "Q-C6",
+      "question": "What would raise claim C6 to MEASURED?",
+      "current_state": "UNRATIFIED - Of those configurations, 0 of 9 are defended on grounds - reaching REVIEW because a directive was recognised r",
+      "what_would_settle_it": "human ratification of the underlying labels, or a measurement where none exists",
+      "receipt": "out/engine_coverage_score.json"
+    },
+    {
+      "id": "Q-C9",
+      "question": "What would raise claim C9 to MEASURED?",
+      "current_state": "UNVERIFIED - Probability calibration of any model provider is unmeasured.",
+      "what_would_settle_it": "human ratification of the underlying labels, or a measurement where none exists",
+      "receipt": "out/jev_integrity_trial.json"
+    }
+  ]
+}

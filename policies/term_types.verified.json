@@ -1,0 +1,12 @@
+{
+  "crash": "NOUN", "stack trace": "NOUN", "traceback": "NOUN", "exception": "NOUN",
+  "regression": "NOUN", "freeze": "NOUN", "error": "NOUN", "broken": "ADJ", "500": "CODE",
+  "invoice": "NOUN", "refund": "NOUN", "overcharged": "ADJ", "card declined": "PHRASE",
+  "charged": "ADJ", "payment": "NOUN", "subscription": "NOUN", "pricing": "NOUN",
+  "vulnerability": "NOUN", "exploit": "NOUN", "unauthorized": "ADJ", "breach": "NOUN",
+  "cve": "NOUN", "leaked": "ADJ", "xss": "NOUN", "credentials": "NOUN",
+  "enhancement": "NOUN", "please add": "PHRASE", "would be nice": "PHRASE",
+  "suggestion": "NOUN", "roadmap": "NOUN", "improve": "VERB",
+  "reset password": "NOUN", "account locked": "PHRASE", "cannot log in": "PHRASE",
+  "how do i": "PHRASE", "onboarding": "NOUN", "documentation": "NOUN", "walkthrough": "NOUN"
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "szl.huggingface-publication-result/v1",
+  "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "repo_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "commit_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5/commit/28db15481670daa31d1ea0e40db3ea5196874e28",
+  "hub_sha": "28db15481670daa31d1ea0e40db3ea5196874e28",
+  "private": false,
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLISHED",
+  "timestamp_utc": "2026-09-22T00:33:12.278302+00:00"
+}

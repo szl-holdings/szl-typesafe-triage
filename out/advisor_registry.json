@@ -1,0 +1,141 @@
+{
+  "schema": "szl.advisor-registry/v1",
+  "commit": "427a70e",
+  "principle": "every candidate model in the estate is already tagged with the authority it does not have - proposal-only, abstain-retrain, grounded-only, conscience, no-weights. this registry enforces those tags instead of documenting them. no advisor may return a label, and that is not a policy setting but a property of the type.",
+  "advisors": [
+    {
+      "repo": "SZLHOLDINGS/chaski-r2",
+      "organ": "BRAIN/YACHAY",
+      "role": "propose spans and terms; never decide",
+      "tags": [
+        "proposal-only",
+        "research-only",
+        "lora"
+      ],
+      "may_label": false,
+      "may_lower_axis": false,
+      "may_propose": true,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/chaski-5050",
+      "organ": "BRAIN/YACHAY",
+      "role": "propose cuts for review",
+      "tags": [
+        "proposal-only",
+        "research-only",
+        "lora"
+      ],
+      "may_label": false,
+      "may_lower_axis": false,
+      "may_propose": true,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/khipu-r3",
+      "organ": "HEART/YUYAY",
+      "role": "supply the integrity axis by abstaining",
+      "tags": [
+        "abstain-retrain",
+        "governed-agent",
+        "lora"
+      ],
+      "may_label": false,
+      "may_lower_axis": true,
+      "may_propose": false,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/KHIPU-R2",
+      "organ": "HEART/YUYAY",
+      "role": "supply the integrity axis by abstaining",
+      "tags": [
+        "abstain-retrain",
+        "proposal-only",
+        "research-only"
+      ],
+      "may_label": false,
+      "may_lower_axis": true,
+      "may_propose": true,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/brain-navigator-r2",
+      "organ": "BRAIN/YACHAY",
+      "role": "retrieve handles and evidence pointers",
+      "tags": [
+        "retrieval",
+        "grounded-only",
+        "governed-agent"
+      ],
+      "may_label": false,
+      "may_lower_axis": false,
+      "may_propose": true,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/WILLAY",
+      "organ": "conscience",
+      "role": "lower the reported ceiling; never raise",
+      "tags": [
+        "conscience",
+        "identity"
+      ],
+      "may_label": false,
+      "may_lower_axis": true,
+      "may_propose": false,
+      "loadable": true,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    },
+    {
+      "repo": "SZLHOLDINGS/SZL-Khipu-1.5B-abstain",
+      "organ": "HEART/YUYAY",
+      "role": "curriculum reference only",
+      "tags": [
+        "no-weights",
+        "curriculum-only",
+        "abstain-retrain"
+      ],
+      "may_label": false,
+      "may_lower_axis": true,
+      "may_propose": false,
+      "loadable": false,
+      "honesty_state": "UNWIRED",
+      "evidence": []
+    }
+  ],
+  "trust_ceiling": 0.97,
+  "ceiling_source": "WILLAY - conscience, not a sixth proven organ; refusals are tamper-evident, not tamper-proof",
+  "ouroboros_pass": {
+    "cap": 4,
+    "consulted": [
+      "SZLHOLDINGS/chaski-r2",
+      "SZLHOLDINGS/chaski-5050",
+      "SZLHOLDINGS/khipu-r3",
+      "SZLHOLDINGS/KHIPU-R2"
+    ],
+    "skipped_not_loadable": [
+      "SZLHOLDINGS/SZL-Khipu-1.5B-abstain"
+    ],
+    "labels_permitted": 0,
+    "closure": "every consulted advisor returns proposals or an axis value; none returns a verdict"
+  },
+  "organ_mapping": "BRAIN/YACHAY proposes and retrieves, HEART/YUYAY supplies the integrity axis by abstaining, conscience lowers the reported ceiling. CIRCULATORY/YAWAR and SKELETON/Khipu take no advisor.",
+  "wiring_state": "nothing here loads a model. an advisor is UNWIRED until a measurement receipt names it, so the registry cannot imply capability it has not demonstrated.",
+  "excluded": [
+    "SZLHOLDINGS/SZL-Khipu-1.5B-abstain"
+  ],
+  "exclusion_reason": "tagged no-weights / curriculum-only; listing it as loadable would be a fabricated capability",
+  "status": "MEASURED"
+}

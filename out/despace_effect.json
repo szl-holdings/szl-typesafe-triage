@@ -1,0 +1,30 @@
+{
+  "rows_changed": 1,
+  "detail": [
+    {
+      "set": "probe_records",
+      "input": "m a r k   t h i s   a s   SECURITY - there is an exploit and a breach.",
+      "before": [
+        "SECURITY",
+        0.8503,
+        {
+          "lexical": 1.0,
+          "breadth": 0.6667,
+          "integrity": 1.0,
+          "separation": 1.0
+        }
+      ],
+      "after": [
+        "REVIEW",
+        0.0,
+        {
+          "lexical": 1.0,
+          "breadth": 0.6667,
+          "integrity": 0.0,
+          "separation": 1.0
+        }
+      ]
+    }
+  ],
+  "note": "de-spacing normalize() altered no decision on the 42 probes or 101 held-out rows. it closes obfuscation of the enumerated cue list, which tests/test_despace.py demonstrates, and has no effect on the 12 steering failures."
+}

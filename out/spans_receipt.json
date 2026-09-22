@@ -1,0 +1,21 @@
+{
+  "schema": "szl.spans/v1",
+  "span_count": 42,
+  "otlp_shape": "resourceSpans/scopeSpans/spans - OTLP JSON, offline file, no collector contacted",
+  "payload_digest": "sha256:f7879781aff1907db4a43e6e465eaf55a0cbbe793d74d0f2313295ffc3540e49",
+  "signed": false,
+  "signature": null,
+  "honesty": "UNSIGNED_HONEST. szl-holdings/vsp-otel provides the signed-span exporter and is not wired here, so these spans are emitted unsigned and must render as UNAVAILABLE rather than as attested.",
+  "energy": {
+    "joules": null,
+    "measured": false,
+    "state": "UNAVAILABLE",
+    "why": "OpenTelemetry carries timing and attributes, never joules. energy stays null until NVML or RAPL is actually read - that is szl-energy-attest's job, and a span must never smuggle in a fabricated joule"
+  },
+  "privacy": "spans carry sha256(input) and never the input text. a telemetry spine that exports ticket bodies is a PII leak wearing an observability badge",
+  "determinism": "traceId and spanId are derived from the content digest, so replaying the same corpus at the same commit reproduces the same ids and the file is byte-stable",
+  "do_not_revive": "szl-holdings/szl-otel-mesh is ARCHIVED and terminal by design with DOI 10.5281/zenodo.20434276. the live successor is szl-holdings/vsp-otel. this emitter targets the vsp-otel lane.",
+  "organ": "NERVOUS / OTel - moves from ABSENT to PRESENT_UNSIGNED once this file exists",
+  "generated_utc_excluded_from_digest": true,
+  "status": "MEASURED"
+}

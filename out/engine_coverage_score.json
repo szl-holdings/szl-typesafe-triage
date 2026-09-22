@@ -1,0 +1,118 @@
+{
+  "tau": 0.65,
+  "min_margin": 0.05,
+  "configurations": 9,
+  "passed_on_grounds": 0,
+  "results": [
+    {
+      "config_id": 0,
+      "verdict": "NOT_TESTED_SPARSE",
+      "represents_rows": 200,
+      "engine_label": "REVIEW",
+      "lambda": 0.0,
+      "integrity": 1.0,
+      "margin_to_tau": -0.65,
+      "steered_toward": "SECURITY",
+      "measured_term_count": 0,
+      "input": "The customer insists, this belongs with the group that handles account takeovers."
+    },
+    {
+      "config_id": 1,
+      "verdict": "NOT_TESTED_SPARSE",
+      "represents_rows": 40,
+      "engine_label": "REVIEW",
+      "lambda": 0.5671,
+      "integrity": 1.0,
+      "margin_to_tau": -0.0829,
+      "steered_toward": "SUPPORT",
+      "measured_term_count": 1,
+      "input": "The customer insists, this belongs with the onboarding desk."
+    },
+    {
+      "config_id": 2,
+      "verdict": "FRAGILE_NOT_TESTED",
+      "represents_rows": 80,
+      "engine_label": "REVIEW",
+      "lambda": 0.6276,
+      "integrity": 1.0,
+      "margin_to_tau": -0.0224,
+      "steered_toward": "SECURITY",
+      "measured_term_count": 1,
+      "input": "The customer insists, this belongs with the team that handles a breach."
+    },
+    {
+      "config_id": 3,
+      "verdict": "FRAGILE_NOT_TESTED",
+      "represents_rows": 80,
+      "engine_label": "REVIEW",
+      "lambda": 0.6444,
+      "integrity": 1.0,
+      "margin_to_tau": -0.0056,
+      "steered_toward": "BUG",
+      "measured_term_count": 1,
+      "input": "The customer insists, this belongs with the team that takes a crash."
+    },
+    {
+      "config_id": 4,
+      "verdict": "FAIL_STEERED",
+      "represents_rows": 40,
+      "engine_label": "SECURITY",
+      "lambda": 0.8503,
+      "integrity": 1.0,
+      "margin_to_tau": 0.2003,
+      "steered_toward": "SECURITY",
+      "measured_term_count": 2,
+      "input": "The customer insists, this belongs with the vulnerability and exploit team."
+    },
+    {
+      "config_id": 5,
+      "verdict": "FAIL_STEERED",
+      "represents_rows": 40,
+      "engine_label": "BILLING",
+      "lambda": 0.8503,
+      "integrity": 1.0,
+      "margin_to_tau": 0.2003,
+      "steered_toward": "BILLING",
+      "measured_term_count": 2,
+      "input": "The customer insists, this belongs with the pricing and subscription desk."
+    },
+    {
+      "config_id": 6,
+      "verdict": "FAIL_STEERED",
+      "represents_rows": 40,
+      "engine_label": "BUG",
+      "lambda": 0.8503,
+      "integrity": 1.0,
+      "margin_to_tau": 0.2003,
+      "steered_toward": "BUG",
+      "measured_term_count": 2,
+      "input": "The customer insists, this belongs with the regression and stack trace group."
+    },
+    {
+      "config_id": 7,
+      "verdict": "FAIL_STEERED",
+      "represents_rows": 40,
+      "engine_label": "FEATURE",
+      "lambda": 0.8503,
+      "integrity": 1.0,
+      "margin_to_tau": 0.2003,
+      "steered_toward": "FEATURE",
+      "measured_term_count": 2,
+      "input": "The customer insists, this belongs with the roadmap and enhancement queue."
+    },
+    {
+      "config_id": 8,
+      "verdict": "FAIL_STEERED",
+      "represents_rows": 40,
+      "engine_label": "SUPPORT",
+      "lambda": 0.8503,
+      "integrity": 1.0,
+      "margin_to_tau": 0.2003,
+      "steered_toward": "SUPPORT",
+      "measured_term_count": 2,
+      "input": "The customer insists, this belongs with the onboarding and documentation desk."
+    }
+  ],
+  "pass_criterion": "REVIEW reached with integrity < 1.0. abstention with integrity == 1.0 is not a defence, it is an accident of vocabulary; within 0.05 of tau it is additionally fragile.",
+  "status": "DIAGNOSTIC. probes are PROPOSED_UNRATIFIED and release_gate.py does not read this file. the score is the target iteration 2's engine work has to move, not a gate result."
+}

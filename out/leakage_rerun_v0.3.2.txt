@@ -1,0 +1,41 @@
+W0920 22:10:10.282000 87948 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0920 22:10:10.326000 87948 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:3525: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+  original_setattr(self, name, value)
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+TRAIN ROWS MEASURED 262 | HELD-OUT ROWS MEASURED 14
+EXACT DUPLICATES MEASURED 0
+MAX CHAR-5GRAM JACCARD MEASURED 0.6897
+TOP PAIR held_out 12 train 139
+HELD-OUT TEXT: reset password -- the how do i flow is unclear and the onboarding is missing.
+TRAIN TEXT: reset password -- the walkthrough flow is unclear and the onboarding is missing.
+LOADING BASE MODEL
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+==((====))==  Unsloth 2026.9.7: Fast Qwen3_5 patching. Transformers: 5.5.0.
+   \\   /|    NVIDIA GeForce RTX 5050 Laptop GPU. Num GPUs = 1. Max memory: 7.96 GB. Platform: Windows.
+O^O/ \_/ \    Torch: 2.14.0+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Unsloth: QLoRA and full finetuning all not selected. Switching to 16bit LoRA.
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]Loading weights:   0%|          | 1/473 [00:00<01:42,  4.59it/s]Loading weights:  14%|█▍        | 66/473 [00:00<00:01, 258.27it/s]Loading weights:  28%|██▊       | 132/473 [00:00<00:00, 400.14it/s]Loading weights:  42%|████▏     | 200/473 [00:00<00:00, 487.76it/s]Loading weights:  55%|█████▍    | 258/473 [00:00<00:00, 515.29it/s]Loading weights:  71%|███████   | 336/473 [00:00<00:00, 589.61it/s]Loading weights: 100%|██████████| 473/473 [00:00<00:00, 578.16it/s]
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_cuda' is deprecated, please use 'torch.backends.cuda.is_built()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_cudnn' is deprecated, please use 'torch.backends.cudnn.is_available()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_mps' is deprecated, please use 'torch.backends.mps.is_built()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_mkldnn' is deprecated, please use 'torch.backends.mkldnn.is_available()'
+  return original(name)
+  embedded 0
+  embedded 0
+  embedded 50
+  embedded 100
+  embedded 150
+  embedded 200
+  embedded 250
+MAX COSINE MEASURED 0.9692 | MEAN COSINE MEASURED 0.9548
+FLAGGED HELD-OUT ROWS MEASURED 0 of 14 []
+LEAKAGE VERDICT CLEAN
+RECEIPT out/leakage_report.json

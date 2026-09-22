@@ -1,0 +1,13 @@
+{
+  "schema": "szl.axis-population/v1",
+  "axis_key_sets": {
+    "breadth, integrity, lexical, separation": 1231,
+    "": 39
+  },
+  "rows_with_unexpected_axis_keys": 39,
+  "rows_with_genuine_zero_axis": 336,
+  "rows_with_lambda_zero": 375,
+  "verdict": "DISCREPANCY_EXPLAINED_BY_MISSING_KEYS",
+  "why_this_exists": "out/shadow_fidelity.json reported 336 zero-axis rows and out/anatomy_crosscheck.json reported 375. two of my own receipts disagreed on the size of the same population. the crosscheck builds its axis vector with ax.get(key, 0.0) over the policy's weight keys, so any axis decide() does not return becomes an artificial zero. this file settles which count is real before either is cited again.",
+  "effect_on_the_consistency_result": "the exact agreement - max error 0.000e+00 over 1270 rows between prod(x**w) and exp(sum(w*log(x))) - is unaffected, because an artificial zero would have produced a divergence wherever the engine's lambda was positive, and none occurred. only the pinning count is at issue."
+}

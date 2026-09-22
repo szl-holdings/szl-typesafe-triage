@@ -1,0 +1,18 @@
+{
+  "source_rows": 328,
+  "detected_eval_split": "eval",
+  "source_split_counts": {
+    "eval": 66,
+    "train": 262
+  },
+  "output_split_counts": {
+    "quarantine": 52,
+    "train": 262,
+    "eval": 14
+  },
+  "held_out_rows_reported": 66,
+  "flagged_rows_removed_from_eval": 52,
+  "quarantine_rows": 52,
+  "output_main": "output\\triage_distill_v0.3.2_deduped.jsonl",
+  "output_quarantine": "output\\triage_distill_v0.3.2_quarantine.jsonl"
+}

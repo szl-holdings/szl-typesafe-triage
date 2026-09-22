@@ -1,0 +1,164 @@
+{
+  "schema": "szl.claims-ledger/v1",
+  "commit": "427a70e",
+  "claims": [
+    {
+      "id": "C1",
+      "text": "The decision aggregator is a weighted geometric mean over four axes in [0,1], zero-pinned, reported to 4 decimals.",
+      "state": "MEASURED",
+      "receipt": "out/shadow_fidelity.json",
+      "numbers": {
+        "rows_checked": 1270,
+        "precision": 4
+      },
+      "supported": true
+    },
+    {
+      "id": "C2",
+      "text": "The engine refuses by two distinct mechanisms: a pre-aggregation short circuit on 39 rows where no axis is computed, and zero-pinned aggregation on 336 rows.",
+      "state": "MEASURED",
+      "receipt": "out/refusal_mechanisms.json",
+      "numbers": {
+        "short_circuit": 39,
+        "zero_pinned": 336
+      },
+      "supported": true
+    },
+    {
+      "id": "C3",
+      "text": "An independent implementation of the same aggregator, re-derived from a published Three.js Space kernel using exp(sum(w*log(x))) rather than prod(x**w), reproduces every lambda value to the reported precision across 1270 rows. On 39 short-circuit rows the agreement is coincidental, since neither side ran the aggregator.",
+      "state": "MEASURED",
+      "receipt": "out/anatomy_crosscheck.json",
+      "numbers": {
+        "rows": 1270,
+        "max_abs_error": 0.0,
+        "coincidental_rows": 39
+      },
+      "supported": true
+    },
+    {
+      "id": "C4",
+      "text": "On 42 human-ratified rows the engine achieves paraphrase recall 0/30 and steering resistance 1/12. It agrees with human judgement on 1 of 42 rows.",
+      "state": "MEASURED",
+      "receipt": "out/ratified_scoreboard.json",
+      "numbers": {
+        "recall": [
+          0,
+          30
+        ],
+        "resistance": [
+          1,
+          12
+        ]
+      },
+      "supported": true
+    },
+    {
+      "id": "C5",
+      "text": "600 generated steering probes reduce to 9 distinct engine configurations, so the engine-side sample size is 9 and not 600.",
+      "state": "MEASURED",
+      "receipt": "out/effective_n.json",
+      "numbers": {
+        "configurations": 9
+      },
+      "supported": true
+    },
+    {
+      "id": "C6",
+      "text": "Of those configurations, 0 of 9 are defended on grounds - reaching REVIEW because a directive was recognised rather than because vocabulary was thin.",
+      "state": "UNRATIFIED",
+      "receipt": "out/engine_coverage_score.json",
+      "numbers": {
+        "passed": 0,
+        "of": 9
+      },
+      "supported": true
+    },
+    {
+      "id": "C7",
+      "text": "A nested model may only lower the integrity axis, must justify a lowering with a span that occurs literally in the input, and cannot return a label. With a null provider the seam alters no decision across 1270 rows.",
+      "state": "MEASURED",
+      "receipt": "out/integrity_seam.json",
+      "numbers": {
+        "rows": 1270,
+        "altered": 0
+      },
+      "supported": true
+    },
+    {
+      "id": "C8",
+      "text": "A hosted System One provider was wired and trialled against the ratified corpus. It answered 42 of 42 rows; recall and resistance were unchanged.",
+      "state": "BLOCKED",
+      "receipt": "out/jev_integrity_trial.json",
+      "numbers": {
+        "answered": 42,
+        "rows": 42,
+        "acceptance_met": true
+      },
+      "supported": true
+    },
+    {
+      "id": "C9",
+      "text": "Probability calibration of any model provider is unmeasured.",
+      "state": "UNVERIFIED",
+      "receipt": "out/jev_integrity_trial.json",
+      "numbers": {},
+      "supported": true
+    },
+    {
+      "id": "C10",
+      "text": "Uniqueness of the aggregator is not claimed. It is Conjecture 1, open under A1-A4, and the question the estate reports as Conjecture 1 and disproved as stated under A1-A5 is machine-checked false.",
+      "state": "NOT_CLAIMED",
+      "receipt": "out/anatomy_feed.v1.json",
+      "numbers": {},
+      "supported": true
+    },
+    {
+      "id": "C11",
+      "text": "Energy consumption is not measured. No joule figure is produced.",
+      "state": "UNAVAILABLE",
+      "receipt": "out/anatomy_feed.v1.json",
+      "numbers": {},
+      "supported": true
+    },
+    {
+      "id": "C12",
+      "text": "Artifacts are bound by a SHA-256 chain with ? entries and an ancestry assertion, unsigned.",
+      "state": "DEGRADED",
+      "receipt": "out/release_seal.json",
+      "numbers": {
+        "artifacts": null
+      },
+      "supported": true
+    },
+    {
+      "id": "C13",
+      "text": "The release is not promotable. Refusal integrity fails on the engine side.",
+      "state": "BLOCKED",
+      "receipt": "out/release_gate.json",
+      "numbers": {},
+      "supported": true
+    }
+  ],
+  "state_counts": {
+    "MEASURED": 6,
+    "UNRATIFIED": 1,
+    "BLOCKED": 2,
+    "UNVERIFIED": 1,
+    "NOT_CLAIMED": 1,
+    "UNAVAILABLE": 1,
+    "DEGRADED": 1
+  },
+  "unsupported_claims": 0,
+  "rule": "every public sentence must map to one claim id with a receipt on disk. a claim whose receipt is missing is UNSUPPORTED and blocks publication. states: MEASURED has a receipt, UNRATIFIED rests on unratified labels, UNVERIFIED is unmeasured, DEGRADED works below standard, UNAVAILABLE has no evidence, NOT_CLAIMED is a deliberate refusal to assert, BLOCKED is a negative result.",
+  "forbidden_words": [
+    "proven",
+    "guarantee",
+    "guarantees",
+    "state of the art",
+    "hallucination-free",
+    "never fails",
+    "100% accurate",
+    "solves"
+  ]
+}

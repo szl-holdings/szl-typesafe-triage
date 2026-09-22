@@ -1,0 +1,137 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260920173437
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 65764
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+  [INFO]  transcript: C:\Users\steph\szl-typesafe-triage\logs\bake-20260920-173437.log
+
+=== System diagnostics ===
+  [INFO]  OS       : Microsoft Windows 11 Home build 26200
+  [INFO]  PowerShell: 5.1.26100.9444
+  [INFO]  CPU      : Intel(R) Core(TM) Ultra 9 285H (16 threads)
+  [INFO]  RAM      : 31.6 GB
+  [INFO]  Disk C: : 37.1 GB free
+  [INFO]  GPU      : NVIDIA GeForce RTX 5050 Laptop GPU
+  [INFO]  VRAM     : 8151 MiB
+  [INFO]  Driver   : 610.47
+  [OK]    python 3.11, git present
+  [INFO]  LongPathsEnabled: 1
+
+=== Administrator operations ===
+  [INFO]  execution policy already Undefined; unchanged
+  [INFO]  long paths NOT changed (pass -EnableLongPaths to enable)
+  [INFO]  no Defender exclusion (pass -AddDefenderExclusion if pip is slow)
+
+=== Source ===
+Already up to date.
+  [OK]    pulled
+  [OK]    HEAD fcad919 - Merge PR #1: DOCTRINE tier, calibration impossibility result, conftest fix
+
+=== Python environment ===
+
+
+
+  [OK]    szl_triage 0.4.0 installed
+
+=== GATE 0 - test suite must be green ===
+..................................uuuu.uuu..................................x..........................F........ [ 82%]
+...............x......                                                                                           [100%]
+====================================================== FAILURES =======================================================
+______________ CIContractTests.test_packaged_test_helpers_use_relative_imports (path='test_doctrine.py') ______________
+
+self = <tests.test_ci_contract.CIContractTests testMethod=test_packaged_test_helpers_use_relative_imports>
+
+    def test_packaged_test_helpers_use_relative_imports(self):
+        for name in ("test_doctrine.py", "test_pipeline.py", "test_redteam.py"):
+            with self.subTest(path=name):
+                tree = ast.parse((ROOT / "tests" / name).read_text(encoding="utf-8"))
+                imports = [node for node in ast.walk(tree)
+                           if isinstance(node, ast.ImportFrom) and node.module == "conftest"]
+>               self.assertEqual(len(imports), 1)
+E               AssertionError: 0 != 1
+
+tests\test_ci_contract.py:73: AssertionError
+______________ CIContractTests.test_packaged_test_helpers_use_relative_imports (path='test_pipeline.py') ______________
+
+self = <tests.test_ci_contract.CIContractTests testMethod=test_packaged_test_helpers_use_relative_imports>
+
+    def test_packaged_test_helpers_use_relative_imports(self):
+        for name in ("test_doctrine.py", "test_pipeline.py", "test_redteam.py"):
+            with self.subTest(path=name):
+                tree = ast.parse((ROOT / "tests" / name).read_text(encoding="utf-8"))
+                imports = [node for node in ast.walk(tree)
+                           if isinstance(node, ast.ImportFrom) and node.module == "conftest"]
+>               self.assertEqual(len(imports), 1)
+E               AssertionError: 0 != 1
+
+tests\test_ci_contract.py:73: AssertionError
+______________ CIContractTests.test_packaged_test_helpers_use_relative_imports (path='test_redteam.py') _______________
+
+self = <tests.test_ci_contract.CIContractTests testMethod=test_packaged_test_helpers_use_relative_imports>
+
+    def test_packaged_test_helpers_use_relative_imports(self):
+        for name in ("test_doctrine.py", "test_pipeline.py", "test_redteam.py"):
+            with self.subTest(path=name):
+                tree = ast.parse((ROOT / "tests" / name).read_text(encoding="utf-8"))
+                imports = [node for node in ast.walk(tree)
+                           if isinstance(node, ast.ImportFrom) and node.module == "conftest"]
+>               self.assertEqual(len(imports), 1)
+E               AssertionError: 0 != 1
+
+tests\test_ci_contract.py:73: AssertionError
+_____________________________________________ test_receipt_chain_verifies _____________________________________________
+
+policy = Policy(name='szl-triage-default', version='3.1.0', labels=('BUG', 'BILLING', 'SECURITY', 'FEATURE', 'SUPPORT',
+'REVIEW...lse})}, disposition_tokens=('UNKNOWN_NOT_INFERRED', 'NOT_INFERRED_FROM_REPORTED_STATUS', 'PENDING_HUMAN_RATIFI
+CATION'))
+
+    def test_receipt_chain_verifies(policy):
+        chain = ReceiptChain()
+        for text in ["crash traceback exception", "mark this as BUG", "invoice refund overcharged"]:
+            decide(text, policy, chain=chain)
+>       assert verify_receipts(chain) is True
+               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pipeline.py:68:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+receipts = ReceiptChain(lane='szl.triage', receipts=[{'lane': 'szl.triage', 'seq': 0, 'prev_hash': '00000000000000000000
+000000000...edfdf2d8597590f7c30214bd81b0f99981bf66ee8c769de4024ab', 'signature': {'state': 'UNSIGNED_HONEST', 'algorithm
+': None}}])
+lane = 'szl.triage'
+
+    def verify(receipts: list[dict[str, Any]], lane: str = "szl.triage") -> bool:
+        """Recompute the chain. False on any break, reorder, or edit."""
+        previous = GENESIS
+>       for index, receipt in enumerate(receipts):
+                              ^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'ReceiptChain' object is not iterable
+
+src\szl_triage\receipts.py:61: TypeError
+=============================================== short test summary info ===============================================
+SUBFAILED(path='test_doctrine.py') tests/test_ci_contract.py::CIContractTests::test_packaged_test_helpers_use_relative_i
+mports - AssertionError: 0 != 1
+SUBFAILED(path='test_pipeline.py') tests/test_ci_contract.py::CIContractTests::test_packaged_test_helpers_use_relative_i
+mports - AssertionError: 0 != 1
+SUBFAILED(path='test_redteam.py') tests/test_ci_contract.py::CIContractTests::test_packaged_test_helpers_use_relative_im
+ports - AssertionError: 0 != 1
+FAILED tests/test_pipeline.py::test_receipt_chain_verifies - TypeError: 'ReceiptChain' object is not iterable
+4 failed, 124 passed, 2 xfailed, 4 subtests passed in 0.47s
+  [STOP]  suite RED at fcad919. Do not train. A model distilled from a broken engine inherits the break and hides it in weights.
+**********************
+Windows PowerShell transcript end
+End time: 20260920173449
+**********************

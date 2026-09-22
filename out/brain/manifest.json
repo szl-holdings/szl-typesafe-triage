@@ -1,0 +1,28 @@
+{
+  "schema": "szl.second-brain.frontier-state/v1",
+  "lane": "triage",
+  "commit": "427a70e",
+  "doctrine": "Handles-only projection of triage decision history. DATA, not a model. A lexical overlap score over these handles ranks token overlap; it is NEVER correctness.",
+  "chunk_count": 670,
+  "bySource": {
+    "ratified": 42,
+    "engine_derived": 628
+  },
+  "projection_sha256": "2afac5c1af74bb19279062d7a3fd43891c93e5e948aa54b27d593346160fe0ef",
+  "candidate_count": 40,
+  "candidate_set_sha256": "00eeee8658af129d744262194bc914707606c87b659fac2687cb7bc4427963d3",
+  "public_content_access": "HANDLES_ONLY",
+  "promotion_authority": "NONE",
+  "merge_authority": "NONE",
+  "execution_authority": "NONE",
+  "raw_graph_nodes_admitted_to_gradients": 0,
+  "lambda": "CONJECTURE_1",
+  "learning_definition": "Content-addressed vocabulary-gap candidates are proposed for human review. No silent policy edit and no automatic truth promotion occurs.",
+  "ouroboros_bound": {
+    "candidates_per_pass_cap": 40,
+    "proposed_this_pass": 40,
+    "loop_tax": "an unbounded proposal loop would let the engine grow its own vocabulary until every input matched something"
+  },
+  "why_this_lane_exists": "paraphrase recall is 0/30 because a report carrying no policy term scores lexical 0.0. the existing brain lanes hold docs, formulas, ingest takeaways and invariants - no tickets - so their content cannot answer a triage paraphrase. what transfers is the covenant: handles only, zero promotion authority, candidates proposed for ratification",
+  "secretScan": "PASS_PATTERN_BASED"
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "seed": 11,
+    "local_path": "out/train/adapter",
+    "adapter_sha256": "df512082e7ac944c9f09a610fda6acb5e06ab3b828d539c697ce259fef58f4f7",
+    "final_training_loss": 0.05856798807139814,
+    "seconds": 474.4,
+    "binding_check": "PASS",
+    "release_status": "BLOCKED",
+    "promotion_status": "NOT_PROMOTABLE",
+    "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT"
+  },
+  {
+    "seed": 23,
+    "local_path": "out/train/study/seed-023/adapter",
+    "adapter_sha256": "c05facf8aa4214c150774f5a8980b3bfb3109035f2aa90b1b329900a31b77e12",
+    "final_training_loss": 0.05857501954991775,
+    "seconds": 526.6,
+    "binding_check": "PASS",
+    "release_status": "BLOCKED",
+    "promotion_status": "NOT_PROMOTABLE",
+    "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT"
+  },
+  {
+    "seed": 37,
+    "local_path": "out/train/study/seed-037/adapter",
+    "adapter_sha256": "439ba676d8a63566d4b716e2a7b41d9b827ab515b26d54619a4fd14304179905",
+    "final_training_loss": 0.05860071408818657,
+    "seconds": 522.0,
+    "binding_check": "PASS",
+    "release_status": "BLOCKED",
+    "promotion_status": "NOT_PROMOTABLE",
+    "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT"
+  },
+  {
+    "seed": 53,
+    "local_path": "out/train/study/seed-053/adapter",
+    "adapter_sha256": "6adfbf6463513955932ddf9a6dd87dc2b977d67f42273c8563f1137d11c843ce",
+    "final_training_loss": 0.0586090763595836,
+    "seconds": 510.5,
+    "binding_check": "PASS",
+    "release_status": "BLOCKED",
+    "promotion_status": "NOT_PROMOTABLE",
+    "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT"
+  },
+  {
+    "seed": 71,
+    "local_path": "out/train/study/seed-071/adapter",
+    "adapter_sha256": "a4ecc1cfe89a7c5c6c6b859ddc1a83ec52d0de18e4d798f5b99f1d68baae414c",
+    "final_training_loss": 0.05946684822359529,
+    "seconds": 545.9,
+    "binding_check": "PASS",
+    "release_status": "BLOCKED",
+    "promotion_status": "NOT_PROMOTABLE",
+    "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT"
+  }
+]

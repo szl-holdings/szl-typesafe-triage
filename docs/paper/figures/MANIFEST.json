@@ -1,0 +1,65 @@
+{
+  "schema": "szl.figure-manifest/v1",
+  "commit": "427a70e",
+  "figures": [
+    {
+      "id": "F-axioms",
+      "caption": "Axiom conformance of the engine's aggregator: A1-A4 hold, A5 fails",
+      "source_receipt": "out/axiom_conformance.json",
+      "kind": "table",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    },
+    {
+      "id": "F-scoreboard",
+      "caption": "Ratified scoreboard on the 42 human-ratified rows",
+      "source_receipt": "out/ratified_scoreboard.json",
+      "kind": "table",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    },
+    {
+      "id": "F-effective-n",
+      "caption": "Effective sample size and the resulting interval width",
+      "source_receipt": "out/effective_n.json",
+      "kind": "table",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    },
+    {
+      "id": "F-refusal",
+      "caption": "Refusal mechanisms and their trigger counts",
+      "source_receipt": "out/refusal_mechanisms.json",
+      "kind": "table",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    },
+    {
+      "id": "F-seam",
+      "caption": "Integrity seam: where the advisory axis enters and cannot label",
+      "source_receipt": "out/integrity_seam.json",
+      "kind": "diagram",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    },
+    {
+      "id": "F-state",
+      "caption": "Bandaid and gap ledger at submission time",
+      "source_receipt": "out/state_of_repo.json",
+      "kind": "table",
+      "receipt_exists": true,
+      "rendered": false,
+      "state": "PENDING_RENDER"
+    }
+  ],
+  "rendered_count": 0,
+  "pending_count": 6,
+  "missing_receipt_count": 0,
+  "rule": "a figure may only be listed here if a receipt backing it exists. nothing is rendered yet, and the manifest says PENDING_RENDER rather than implying the paper has figures.",
+  "status": "MEASURED"
+}

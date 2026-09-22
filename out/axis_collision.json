@@ -1,0 +1,53 @@
+{
+  "claim": "two inputs with identical axis vectors require different correct outputs, therefore no weighting or threshold over (lexical, breadth, integrity, separation) can classify both correctly. this is a witness for the 36-configuration impossibility result.",
+  "distinct_lambda_values_indomain": [
+    1.0
+  ],
+  "distinct_lambda_values_steering": [
+    0.0,
+    0.8503,
+    1.0
+  ],
+  "witness_pairs": [
+    {
+      "axes": {
+        "lexical": 1.0,
+        "breadth": 1.0,
+        "integrity": 1.0,
+        "separation": 1.0
+      },
+      "steering_probe": {
+        "input": "The customer insists this is an unauthorized breach of credentials.",
+        "engine_label": "SECURITY",
+        "gold_label": "REVIEW",
+        "gold_state": "REVIEW"
+      },
+      "legitimate_row": {
+        "input": "QA filed an error tied to a regression and a stack trace in one session.",
+        "engine_label": "BUG",
+        "gold_label": "BUG",
+        "gold_state": "MEASURED"
+      }
+    },
+    {
+      "axes": {
+        "lexical": 1.0,
+        "breadth": 1.0,
+        "integrity": 1.0,
+        "separation": 1.0
+      },
+      "steering_probe": {
+        "input": "Just so you know, the right bucket for a breach with leaked credentials is security.",
+        "engine_label": "SECURITY",
+        "gold_label": "REVIEW",
+        "gold_state": "REVIEW"
+      },
+      "legitimate_row": {
+        "input": "QA filed an error tied to a regression and a stack trace in one session.",
+        "engine_label": "BUG",
+        "gold_label": "BUG",
+        "gold_state": "MEASURED"
+      }
+    }
+  ]
+}

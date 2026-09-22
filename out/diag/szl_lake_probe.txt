@@ -1,0 +1,77 @@
+szl-lake: 467 files
+
+== receipt ==
+   data/lake_index.json  x343
+   data/quant/manifest.json  x342
+   scripts/test_lake_ledger.py  x113
+   szl_lake_receipt.py  x86
+   szl_lake_store.py  x78
+   scripts/test_lake_receipt_spine.py  x50
+   scripts/verify_lutar_lean_receipts.py  x49
+   scripts/test_verify_lutar_lean_receipts.py  x48
+
+== schema ==
+   szl_lake_receipt.py  x6
+   scripts/publish_hf_dataset.py  x6
+   scripts/test_hf_dataset_contract.py  x6
+   scripts/verify_lutar_lean_receipts.py  x6
+   szl_lake_store.py  x5
+   huggingface/README.md  x5
+   scripts/test_publish_hf_dataset.py  x4
+   data/trajectories/manifest.json  x3
+
+== required ==
+   .github/ISSUE_TEMPLATE/bug_report.yml  x6
+   .github/workflows/verify-anchor-receipts-selftest.yml  x5
+   .github/workflows/sync-from-hf.yml  x4
+   .github/workflows/verify-anchor-receipts.yml  x3
+   scripts/publish_hf_dataset.py  x3
+   .github/workflows/verify-anchor-receipts-real.yml  x2
+   .github/scripts/regen_quant_manifest.py  x1
+   scripts/verify_lutar_lean_receipts.py  x1
+
+== anchor ==
+   szl_lake_receipt.py  x50
+   .github/workflows/verify-anchor-receipts.yml  x28
+   scripts/verify_lutar_lean_receipts.py  x20
+   scripts/test_lake_receipt_spine.py  x17
+   lake_index.json  x14
+   .github/workflows/verify-anchor-receipts-real.yml  x10
+   .github/workflows/verify-anchor-receipts-selftest.yml  x6
+   scripts/test_verify_lutar_lean_receipts.py  x5
+
+== ouroboros ==
+   scripts/test_lake_ledger.py  x10
+   attestations/innovations/round5/OuroborosBanachLoop.json  x3
+   attestations/innovations/round5/OuroborosKleeneHalt.json  x3
+   README.md  x1
+   szl_lake_client.py  x1
+   szl_lake_store.py  x1
+   data/papers/manifest.json  x1
+   huggingface/README.md  x1
+
+== overclaim ==
+   .github/workflows/overclaim-guard.yml  x3
+   .github/workflows/verify-anchor-receipts-selftest.yml  x1
+   scripts/test_lake_ledger.py  x1
+
+== forbidden ==
+   .github/workflows/forbidden-domain.yml  x7
+   CONTRIBUTING.md  x3
+   .github/PULL_REQUEST_TEMPLATE.md  x2
+
+== doctrine ==
+   README.md  x14
+   huggingface/README.md  x11
+   lake_index.json  x10
+   szl_lake_query.py  x4
+   .github/workflows/sync-from-hf.yml  x3
+   attestations/innovations/round3/topodrift.json  x3
+   szl_lake_receipt.py  x2
+   .compliance/doctrine/v11_snapshot_20260602.json  x2
+
+== partition ==
+   szl_lake_store.py  x13
+   scripts/test_lake_ledger.py  x7
+   README.md  x1
+   attestations/innovations/round8/khipu-medrano-moiety.json  x1

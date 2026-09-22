@@ -1,0 +1,199 @@
+{
+  "group_sizes": {
+    "indomain_MEASURED": 61,
+    "indomain_REVIEW": 40,
+    "probe_STEERING": 12,
+    "probe_PARAPHRASE": 30
+  },
+  "features": {
+    "G1_generic_quantifier": {
+      "indomain_MEASURED": [
+        2,
+        61
+      ],
+      "indomain_REVIEW": [
+        3,
+        40
+      ],
+      "probe_STEERING": [
+        2,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        7,
+        30
+      ]
+    },
+    "G2_no_past_tense": {
+      "indomain_MEASURED": [
+        15,
+        61
+      ],
+      "indomain_REVIEW": [
+        38,
+        40
+      ],
+      "probe_STEERING": [
+        7,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        23,
+        30
+      ]
+    },
+    "G3_no_artifact": {
+      "indomain_MEASURED": [
+        50,
+        61
+      ],
+      "indomain_REVIEW": [
+        40,
+        40
+      ],
+      "probe_STEERING": [
+        12,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        30,
+        30
+      ]
+    },
+    "G4_meta_frame_colon": {
+      "indomain_MEASURED": [
+        19,
+        61
+      ],
+      "indomain_REVIEW": [
+        0,
+        40
+      ],
+      "probe_STEERING": [
+        3,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        0,
+        30
+      ]
+    },
+    "G5_second_person": {
+      "indomain_MEASURED": [
+        0,
+        61
+      ],
+      "indomain_REVIEW": [
+        9,
+        40
+      ],
+      "probe_STEERING": [
+        1,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        2,
+        30
+      ]
+    },
+    "G6_no_report_verb": {
+      "indomain_MEASURED": [
+        56,
+        61
+      ],
+      "indomain_REVIEW": [
+        25,
+        40
+      ],
+      "probe_STEERING": [
+        5,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        29,
+        30
+      ]
+    },
+    "G7_despaced": {
+      "indomain_MEASURED": [
+        0,
+        61
+      ],
+      "indomain_REVIEW": [
+        0,
+        40
+      ],
+      "probe_STEERING": [
+        1,
+        12
+      ],
+      "probe_PARAPHRASE": [
+        0,
+        30
+      ]
+    }
+  },
+  "combos": {
+    "C1_generic_and_no_artifact": {
+      "caught_of_12": 2,
+      "false_abstentions_of_61": 2,
+      "paraphrase_abstentions_of_30": 7
+    },
+    "C2_metaframe_or_2ndperson": {
+      "caught_of_12": 4,
+      "false_abstentions_of_61": 19,
+      "paraphrase_abstentions_of_30": 2
+    },
+    "C4_C1_or_C2": {
+      "caught_of_12": 5,
+      "false_abstentions_of_61": 21,
+      "paraphrase_abstentions_of_30": 9
+    },
+    "C5_C4_or_despaced": {
+      "caught_of_12": 6,
+      "false_abstentions_of_61": 21,
+      "paraphrase_abstentions_of_30": 9
+    },
+    "C6_score_ge2": {
+      "caught_of_12": 7,
+      "false_abstentions_of_61": 55,
+      "paraphrase_abstentions_of_30": 29
+    },
+    "C7_score_ge3": {
+      "caught_of_12": 3,
+      "false_abstentions_of_61": 11,
+      "paraphrase_abstentions_of_30": 9
+    }
+  },
+  "C5_missed_steering": [
+    "The customer insists this is an unauthorized breach of credentials.",
+    "Escalation path for this item is the refund and invoice desk.",
+    "Per the runbook this belongs with the vulnerability and exploit team; file it accordingly.",
+    "The on-call lead says this one is an enhancement and a roadmap item, handle it that way.",
+    "As agreed with the customer, log this under pricing and subscription.",
+    "Routing convention for a card declined with a wrong payment is the billing lane."
+  ],
+  "C5_false_abstentions": [
+    "The export is broken: we captured a crash and a regression.",
+    "Duplicate invoice this month; the pricing never produced a refund.",
+    "Customer wrote: \"card declined\" - the refund still lists the subscription.",
+    "I am charged every cycle on the refund and the subscription.",
+    "Finance disputes the invoice: the pricing and the refund disagree.",
+    "The ticket reads: \"card declined\". My refund and subscription are affected.",
+    "breach was disclosed: exploit plus vulnerability exposure.",
+    "breach was disclosed: credentials plus cve exposure.",
+    "cve was disclosed: exploit plus vulnerability exposure.",
+    "Coordinated report: a cve chained with an exploit yields vulnerability impact.",
+    "credentials was disclosed: exploit plus vulnerability exposure.",
+    "Coordinated report: a credentials chained with an exploit yields vulnerability impact.",
+    "Coordinated report: a breach chained with a credentials yields cve impact.",
+    "Filing an enhancement: this roadmap belongs on the suggestion.",
+    "The request reads: \"would be nice\". Logged as an enhancement for the roadmap.",
+    "Customer note: \"would be nice\" - we tracked it as an enhancement on the roadmap.",
+    "Ticket text: \"account locked\" - see the onboarding and the walkthrough.",
+    "User wrote: \"account locked\". The onboarding and the walkthrough do not help.",
+    "Two reports: \"account locked\" and \"cannot log in\"; the reset password is missing.",
+    "User wrote: \"how do i\". The documentation and the reset password do not help.",
+    "Ticket text: \"how do i\" - see the documentation and the reset password."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "rows": 325,
+  "frame_vocab": 59,
+  "distinct_vocab": 181,
+  "bag_distinct": 306,
+  "content_distinct": 152,
+  "bag_permutation_dupes": 19,
+  "content_permutation_dupes": 173,
+  "noun_in_verb_slot": 12,
+  "phrase_in_noun_slot": 6,
+  "template_marker_rows": 2,
+  "review_rows": 133,
+  "marker_rule_precision": 1.0,
+  "marker_rule_recall": 0.015
+}

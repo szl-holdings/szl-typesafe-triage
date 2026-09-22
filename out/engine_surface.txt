@@ -1,0 +1,259 @@
+﻿=== FILES ===
+    58  aggregate.py
+   116  axes.py
+   129  cli.py
+   115  contracts.py
+    90  doctrine.py
+    63  engine.py
+    28  evidence.py
+    22  guard.py
+    43  model_port.py
+   176  pipeline.py
+   132  policy.py
+    70  receipts.py
+   139  sealing.py
+    37  __init__.py
+
+=== policies/triage_policy.v3.json ===
+{
+  "name": "szl-triage-default",
+  "version": "3.1.0",
+  "notes": "Axis-based policy for the Lambda aggregate. Label names are deliberately absent from the lexicon: in v2 the lexicon contained them, so naming a label selected it. v3.1 adds doctrine_dispositions so governance vocabulary is data rather than Python.",
+  "labels": ["BUG", "BILLING", "SECURITY", "FEATURE", "SUPPORT", "REVIEW"],
+  "axis_weights": {"lexical": 0.25, "breadth": 0.40, "integrity": 0.20, "separation": 0.15},
+  "lambda_threshold": 0.65,
+  "max_hits_counted": 2,
+  "rules": {
+    "BUG": [
+      {"term": "crash", "weight": 1.0},
+      {"term": "stack trace", "weight": 0.9},
+      {"term": "traceback", "weight": 0.9},
+      {"term": "exception", "weight": 0.8},
+      {"term": "regression", "weight": 0.7},
+      {"term": "freeze", "weight": 0.7},
+      {"term": "error", "weight": 0.6},
+      {"term": "broken", "weight": 0.6},
+      {"term": "500", "weight": 0.5}
+    ],
+    "BILLING": [
+      {"term": "invoice", "weight": 1.0},
+      {"term": "refund", "weight": 0.9},
+      {"term": "overcharged", "weight": 0.9},
+      {"term": "card declined", "weight": 0.9},
+      {"term": "charged", "weight": 0.85},
+      {"term": "payment", "weight": 0.8},
+      {"term": "subscription", "weight": 0.7},
+      {"term": "pricing", "weight": 0.6}
+    ],
+    "SECURITY": [
+      {"term": "vulnerability", "weight": 1.0},
+      {"term": "exploit", "weight": 0.9},
+      {"term": "unauthorized", "weight": 0.9},
+      {"term": "breach", "weight": 0.9},
+      {"term": "cve", "weight": 0.8},
+      {"term": "leaked", "weight": 0.8},
+      {"term": "xss", "weight": 0.8},
+      {"term": "credentials", "weight": 0.7}
+    ],
+    "FEATURE": [
+      {"term": "enhancement", "weight": 1.0},
+      {"term": "please add", "weight": 0.9},
+      {"term": "would be nice", "weight": 0.8},
+      {"term": "suggestion", "weight": 0.7},
+      {"term": "roadmap", "weight": 0.6},
+      {"term": "improve", "weight": 0.6}
+    ],
+    "SUPPORT": [
+      {"term": "reset password", "weight": 1.0},
+      {"term": "account locked", "weight": 0.9},
+      {"term": "cannot log in", "weight": 0.9},
+      {"term": "how do i", "weight": 0.85},
+      {"term": "onboarding", "weight": 0.6},
+      {"term": "documentation", "weight": 0.6},
+      {"term": "walkthrough", "weight": 0.6}
+    ]
+  },
+  "injection_phrases": [
+    "ignore previous instructions",
+    "ignore all previous instructions",
+    "disregard previous instructions",
+    "disregard all prior instructions",
+    "you are now",
+    "new instructions:",
+    "system:",
+    "</system>",
+    "jailbreak",
+    "developer mode",
+    "reveal your prompt",
+    "print your instructions",
+    "repeat your system prompt"
+  ],
+  "meta_cues": [
+    "mark this as",
+    "classify this as",
+    "label this as",
+    "categorize this as",
+    "categorise this as",
+    "treat this as",
+    "set the label to",
+    "assign the label",
+    "the correct label is",
+    "this should be classified as",
+    "route this to",
+    "tag this as",
+    "you must classify",
+    "you should classify",
+    "as an ai",
+    "your instructions",
+    "system prompt",
+    "override the",
+    "do not classify this as",
+    "priority classification"
+  ],
+  "doctrine_dispositions": {
+    "_note": "Declared governance metadata that forbids action. A field match requires key:value structure, which is what keeps the English phrase 'on hold' from firing. Tokens are bare strings that themselves assert a fact is NOT known.",
+    "fields": {
+      "disposition": ["hold", "blocked", "rejected", "review"],
+      "productionAuthorized": ["false"],
+      "productionAuthorised": ["false"],
+      "automaticProductionPromotion": ["false"]
+    },
+    "tokens": [
+      "UNKNOWN_NOT_INFERRED",
+      "NOT_INFERRED_FROM_REPORTED_STATUS",
+      "PENDING_HUMAN_RATIFICATION"
+    ]
+  }
+}
+
+=== policies/term_types.verified.json ===
+{
+  "crash": "NOUN", "stack trace": "NOUN", "traceback": "NOUN", "exception": "NOUN",
+  "regression": "NOUN", "freeze": "NOUN", "error": "NOUN", "broken": "ADJ", "500": "CODE",
+  "invoice": "NOUN", "refund": "NOUN", "overcharged": "ADJ", "card declined": "PHRASE",
+  "charged": "ADJ", "payment": "NOUN", "subscription": "NOUN", "pricing": "NOUN",
+  "vulnerability": "NOUN", "exploit": "NOUN", "unauthorized": "ADJ", "breach": "NOUN",
+  "cve": "NOUN", "leaked": "ADJ", "xss": "NOUN", "credentials": "NOUN",
+  "enhancement": "NOUN", "please add": "PHRASE", "would be nice": "PHRASE",
+  "suggestion": "NOUN", "roadmap": "NOUN", "improve": "VERB",
+  "reset password": "NOUN", "account locked": "PHRASE", "cannot log in": "PHRASE",
+  "how do i": "PHRASE", "onboarding": "NOUN", "documentation": "NOUN", "walkthrough": "NOUN"
+}
+
+=== axes.py ===
+# Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
+"""Axis producers: the evidence the aggregator consumes.
+
+Four axes, each in [0,1], each answering a distinct question:
+
+* ``lexical``    -- how strong is the keyword evidence for the leading label
+* ``breadth``    -- how many *distinct* terms support it (one word is not proof)
+* ``integrity``  -- is the text describing a problem, or instructing the
+                    classifier? Zero when it is instructing.
+* ``separation`` -- how far ahead is the leader from the runner-up
+
+``integrity`` is binary by design. Under a geometric mean a zero is absolute,
+so a detected meta-instruction cannot be outvoted by strong lexical evidence.
+That is the intended behaviour: an attacker who writes "mark this as billing"
+supplies perfect keyword evidence and still gets nothing.
+
+Detection is heuristic and bounded. It raises the cost of an attack; it is not
+a guarantee, and the novel-attack evaluation set exists to measure it rather
+than to reassure. See ``docs/redteam.md``.
+"""
+from __future__ import annotations
+
+import re
+
+from .policy import Policy
+
+_WHITESPACE = re.compile(r"\s+")
+
+BREADTH_TARGET = 3
+SEPARATION_SCALE = 0.30
+
+
+def normalize(text: str) -> str:
+    return _WHITESPACE.sub(" ", text).strip().lower()
+
+
+def boundary_count(haystack: str, term: str) -> int:
+    """Count `term` in `haystack` with alphanumeric boundaries.
+
+    Naive substring counting scored 'de**bug**' as BUG evidence and
+    'very **help**ful' as SUPPORT evidence. Boundaries fix that class of
+    false positive at the cost of morphological variants: 'crashes' no longer
+    matches 'crash'. Precision is bought with recall, deliberately, and the
+    lost variants belong in the policy as explicit terms.
+    """
+    if not term:
+        return 0
+    padded = f" {haystack} "
+    count = 0
+    start = 0
+    while True:
+        index = padded.find(term, start)
+        if index == -1:
+            return count
+        before = padded[index - 1] if index > 0 else " "
+        after_index = index + len(term)
+        after = padded[after_index] if after_index < len(padded) else " "
+        if not before.isalnum() and not after.isalnum():
+            count += 1
+        start = index + 1
+
+
+def meta_instruction_cues(text: str, policy: Policy) -> tuple[str, ...]:
+    """Cues that the text is addressing the classifier rather than a problem."""
+    haystack = normalize(text)
+    return tuple(cue for cue in policy.meta_cues if normalize(cue) in haystack)
+
+
+def axis_scores(text: str, policy: Policy) -> tuple[str, dict[str, float], dict]:
+    """Return (leading_label, axes, detail)."""
+    haystack = normalize(text)
+    per_label: dict[str, dict] = {}
+
+    for label in policy.classifiable:
+        terms = policy.rules[label]
+        strongest = max(weight for _, weight in terms)
+        matched: list[str] = []
+        total = 0.0
+        for term, weight in terms:
+            hits = boundary_count(haystack, normalize(term))
+            if hits:
+                matched.append(term)
+                total += weight * min(hits, policy.max_hits_counted)
+        per_label[label] = {
+            "matched": matched,
+            "lexical": min(total / strongest, 1.0) if strongest > 0 else 0.0,
+            "term_count": len(terms),
+        }
+
+    ranked = sorted(per_label.items(), key=lambda item: item[1]["lexical"], reverse=True)
+    leader, best = ranked[0]
+    runner_up = ranked[1][1]["lexical"] if len(ranked) > 1 else 0.0
+
+    target = min(BREADTH_TARGET, best["term_count"])
+    breadth = min(len(best["matched"]) / target, 1.0) if target else 0.0
+
+    cues = meta_instruction_cues(text, policy)
+    integrity = 0.0 if cues else 1.0
+
+    if best["lexical"] > 0:
+        separation = max(min((best["lexical"] - runner_up) / SEPARATION_SCALE, 1.0), 0.0)
+    else:
+        separation = 0.0
+
+    axes = {
+        "lexical": round(best["lexical"], 4),
+        "breadth": round(breadth, 4),
+        "integrity": integrity,
+        "separation": round(separation, 4),
+    }
+    detail = {
+        "matched_terms": tuple(best["matched"]),
+        "meta_cues": cues,
+        "label_scores": {k: round(v["lexical"], 4) for k, v in per_label.items()},
+    }
+    return leader, axes, detail

@@ -1,0 +1,1368 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": {
+          "service.name": "szl-typesafe-triage",
+          "service.version": "427a70e",
+          "szl.doctrine": "v11 LOCKED",
+          "szl.proven_trust": false
+        }
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "szl.triage.decide",
+            "version": "1"
+          },
+          "spans": [
+            {
+              "traceId": "80bf3404037537e681cdb69e7c2cdfa4",
+              "spanId": "4abf5a0da4bb3a32",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:f77bcac9f994ca134ab3cb798c37f180da183ff8b8548b46c430d410bc6739d7",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "f706fb977a93ebd05a68d6f4c5095a33",
+              "spanId": "8d40b2f9c9460914",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:1b442626a043fe69791c89fa6b86bdc93cd0fe7514ace37a306b8e7bc71308ac",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "514d724898513c245837edfecb226390",
+              "spanId": "1d7f94c204102c12",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:3e21f62590d4da69bfad7ca7ef11bfd55b9e5682bc973c4c6d0f5b2f8038fd36",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "d2559a8ed1bf9c348734c1bc4fd7f547",
+              "spanId": "42d586c0c8f4923b",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:8def5958f569844cec1bd5324fc3cbfe12abd16476369e2e0d109e34b6acbeb3",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "354e39737c7e6a1f4bdbd64a6edb3a03",
+              "spanId": "b7154076477ea1c2",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:676b02507c5e5676539c34b7c4e6b6148b7b57b08452516eea71eb299704a08d",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "f951f13720a7824f16a0ab17243e7e79",
+              "spanId": "0833240dfc915f35",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:33da2438f9d6c6f6de7d394d57cb385cb6c80d025c783b83c3c6c8ab6e85a3f3",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BUG",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "60f9c4cceeeaeacef1ab089dadddb5ee",
+              "spanId": "85e83aaf3f428de1",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:23086a1303adc87c6431d8cd52bf979da288f206fd0df0d87da6de81eaaac120",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "3e365939068a729912e674b9d5f8622b",
+              "spanId": "b4da75ce23583e17",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:532c918821a8d0a9de464daaa99b08fe4118bd2bcb71955d355a9b55eeb24abd",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "5961f92a06cfb4dc2ab9767f4cd43319",
+              "spanId": "17e8e78fb52e50f1",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:02dc5191b84d0ad9bc07b67c953a42739f7cdc4d21769bde60119f7e6631f30b",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "46eb948f542aff1d6e8dae0de9b465aa",
+              "spanId": "0dc782afe2770dc3",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:3e30919bc6028506563a620d79c024c1ee157586441922d007d34f63b03d8f1d",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "14bf8acb0559555df4881bd77a955a6e",
+              "spanId": "b73cfbbdc3f48f9b",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:d2d3d32c5cf28fff8d525614e8da71db6b8a996932469c17c535626f6ef128f5",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "71376ce960e0447aa987b2f6490304ee",
+              "spanId": "074d105b1faff3c7",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:87d59aa6fe4eaa994d49f263b165a30d16ea1b2c204466a6f759bec86917432f",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "BILLING",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "7ebdbc679f14cbf334f2864991abb723",
+              "spanId": "dd8c42f4e1884672",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:6192a4a149cf295afbb9d88024018ce6a5a9d061a15a8a93e9420c294da63db4",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "11bf59e3dc3d70767258f12ffbc2f591",
+              "spanId": "da792959b55ae604",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:ef42d8b8fe7973452f3aee66aced976dea8cc3b5389f13e44c570c231e730d4e",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "35e6d8afb982774a07a949e8e73d3646",
+              "spanId": "83ab19f43ff60978",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:b96f6f18580f2aca812bbf8a00ce6407de8aa55d4c8046b4636849c50464a3c7",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "a3c5cff17ad529dfa8b9478d8700b7f2",
+              "spanId": "af03b5f5ed79f373",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:36c5ad712d1561b07298d3eca2a23dd6414b7e15e4b5bc4eee449d558cd4197e",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "90db4241bc4643453d9b89b834ebf4b6",
+              "spanId": "7e58ea57a115bc02",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:b8a7395aafee790d0445041b10167313369ca9e11e83cb9f707ad669fb1cf4f0",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "befa10cd6c33c1e69ec2dfbb9a9ee88d",
+              "spanId": "297619b1423a2b20",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:1f84f8f2ace9e32d8b15e8a13ad97ff6eed6548a4347b753f23b618052f2b2ac",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SECURITY",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "e88680fb87bce46f3e68ddc173dfd32e",
+              "spanId": "5ae4c13c70326b58",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:50f8637f085432979626489a88c1b56e941022a8f0fdc97ba54e53b7d84ec2ed",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "a3ece8f31e9c08d20370ca7a864435c8",
+              "spanId": "346d24fb2877db34",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:04c7e7358909996c654418e096ac779b5ed91e4d32742089196d112fa3162054",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "5b83d035b2a2a167e0749084acb3f443",
+              "spanId": "758e8dddb2fe9b79",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:da56a717f8f4c7af7d76ac51b404233751b0685c62d080834c68244611d5b896",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "15d5f30e60e22c0373372e2de615db06",
+              "spanId": "4ba9568f0982a124",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:f83ebc75c6fbd50ba79cc0b1b2ad95e2656f1a1e7fcc9ebc7e276804daf68639",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "cf92a60990aaca864cafd8d5c66e3781",
+              "spanId": "bfa234d6cc268ddf",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:c002e9ee7fe1d51fa1c5c0b3056adf44a349f2d3decfa85d1912f9aa6d4851ab",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "812dd6300067f292733057b6a9ced19a",
+              "spanId": "37a0e14de5bf2024",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:86a4ee69e1c2bc973871420dc8237e1a57dcd48193d205437058631087e3f845",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "FEATURE",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "68855c28472dab374ae6f1e490f5b33d",
+              "spanId": "4cc617d98ea890aa",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:ee05f18d35d079747680abbd837f41b829b8f3d483360d4ea7d428fc73d05a85",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "5e3037daf0e074fe2b2808af656ae396",
+              "spanId": "ae356ba426e1d542",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:f071392e7f8b6656573bebbd7c5ff9b71017371fd98146dd685f421d1bf4cdd4",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "192a5f94b0b8303d3bfd61785dda904b",
+              "spanId": "a1b2f91c3725761f",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:c16d818fead3d7158a31afdbd4099236e8968f2fceedaf9cdfc1a2fa9dea5566",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "e52f35dd0ac24b59d790138edc3c6a90",
+              "spanId": "a0685233a782cbf5",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:b9bf5fe6c32d02b03f1228b68caf559af461b948032d2b99f2e2d1fa77290afa",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "eb48d8904d0ee7b4ad74118d9e5c4dba",
+              "spanId": "cd3dc2dfc1b9164b",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:453bc5f9634b5264b578162433092267fc18f9f96600e9510f58e550746c10d4",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "35d81f7610b78f0fd1e5103532f286da",
+              "spanId": "d35a55038441ea77",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:ce9a4bdb7740912543f68cc425fe81dfee0f2fa26e6a35bdf31b201bb4a59887",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 0.0,
+                  "breadth": 0.0,
+                  "integrity": 1.0,
+                  "separation": 0.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "SUPPORT",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "e3236d33e71d9113d528ea1f38502e28",
+              "spanId": "0db31a2a68cd1a8c",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:b738316eaf70ab648362970e36e6682d586e1e366082802396664111350bcd0f",
+                "szl.verdict": "SECURITY",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 1.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 1.0,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "bcb94c000c70a8e553aa79c92cd3517c",
+              "spanId": "51f4a5062193b8c6",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:4bfe8f366c8e24884ec38320eb3f745d733a266069817d2a7e039cef7554b88d",
+                "szl.verdict": "BILLING",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "a8d9c0ab5d92c382d61c2f6447499846",
+              "spanId": "7a49dca977cdbae1",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:6533d1510698ca60240fd2d4bf9bc06e038c40406dab3612d31ff6a97df7386c",
+                "szl.verdict": "BUG",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "f622b926d5c87f3644c4956683a4c1b3",
+              "spanId": "b510a2200f8c3148",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:69c15e147268fb9276a931314c000adcc7189e17897bd8911f22438cbfdc63e0",
+                "szl.verdict": "SECURITY",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "0ee55a351bad3e3db9ae5ed948f4ae4e",
+              "spanId": "ccaf012b1142bf42",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:281f3b1ff680717e47dea793e4dbdfebe15932eb86bb14821eab3a1f20d3252a",
+                "szl.verdict": "BILLING",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "f9199d69cb54473f638ad3fc70a5eb70",
+              "spanId": "7888aefa162a57cf",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:16cd9b78fae6a70a7442088c035d5bc1ec30e840c15f22facc4e29b9ff105e4d",
+                "szl.verdict": "BUG",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "f141cb6d5d02487a428de20ebcf1f1c7",
+              "spanId": "be419b616eb33c9e",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:f5e0d991ebf5c0d57908951106d44f9d1ece58820316d0a440bbff54e6c57343",
+                "szl.verdict": "FEATURE",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "2b32210988ada6d824f437c814219c7e",
+              "spanId": "a27676e39dcaf5a3",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:86e8439e2a3b63eedbb14c11c3bed0aff9a0f653caf16b6b634bdaa6ae361ad9",
+                "szl.verdict": "SUPPORT",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "72af0a4ddd367dc37f81277af44e7a8e",
+              "spanId": "966491a333001976",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:73543f4034c286a616d19e3d703a6fd87ff8bab4dfc12691d32bfd1dd51a3de4",
+                "szl.verdict": "SECURITY",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 1.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 1.0,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "c7b289d0656cbf320d6296e4ba5addad",
+              "spanId": "7248d71dd5b32421",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:a9e97308f20704148e025ebec9b56881916d797767ca816b31ae10837223a0b3",
+                "szl.verdict": "BILLING",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "42cf7206e3e67568f55b4a9f90013a53",
+              "spanId": "6a46851d009851f5",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:3186fbe08089894e0f5b1ddefbeaef09be2eb27ced60c1bb202a9b7cf0d6afb5",
+                "szl.verdict": "REVIEW",
+                "szl.state": "STATE.REVIEW",
+                "szl.lambda.value": 0.0,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": false,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 0.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": true,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": true,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            },
+            {
+              "traceId": "c5b3e9d67128c460e7f408529752c100",
+              "spanId": "1b174ad100e96641",
+              "name": "triage.decide",
+              "kind": "SPAN_KIND_INTERNAL",
+              "attributes": {
+                "szl.policy_id": "triage_policy.v3",
+                "szl.kernel_commit": "427a70e",
+                "szl.input_digest": "sha256:17f1ca1d660301b825364bd8e7c1e1edfa336654fb5c03485e70aad3a8143ff7",
+                "szl.verdict": "BILLING",
+                "szl.state": "STATE.MEASURED",
+                "szl.lambda.value": 0.8503,
+                "szl.lambda.floor": 0.65,
+                "szl.lambda.pass": true,
+                "szl.lambda.uniqueness": "Conjecture 1",
+                "szl.axes": {
+                  "lexical": 1.0,
+                  "breadth": 0.6667,
+                  "integrity": 1.0,
+                  "separation": 1.0
+                },
+                "szl.zero_pinned": false,
+                "szl.human_gold": "REVIEW",
+                "szl.agrees_with_gold": false,
+                "szl.provider": "none",
+                "szl.energy.joules": null,
+                "szl.energy.state": "UNAVAILABLE"
+              },
+              "status": {
+                "code": "STATUS_CODE_OK"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -18,8 +18,21 @@
 #
 # KNOWN COST OF ELEVATION: pip executes third-party package code. Under admin,
 # that code runs elevated. torch + transformers + trl pull in a large
-# transitive tree. This is the actual risk of running the block this way, and
-# it is stated here rather than buried.
+# transitive tree. This is the actual risk of running the block this way.
+#
+# ============================================================================
+# A NOTE ON COMPARING COMMAND OUTPUT
+# ============================================================================
+# `& python script.py` returns an ARRAY of lines. In PowerShell, -match and
+# -notmatch against a collection act as FILTERS: they return the matching or
+# non-matching elements and do NOT populate $Matches. A non-empty array is
+# truthy. An earlier revision wrote
+#
+#     if ($oracle -notmatch "FALSE LABEL ON REFUSAL:\s*0") { Die ... }
+#
+# which fired on a perfect run, because most lines do not contain that phrase.
+# Every output comparison below goes through Out-String first. Collection
+# membership uses -contains / -notcontains, which are real booleans.
 #
 # ============================================================================
 # USAGE
@@ -29,10 +42,10 @@
 #   .\szl_bake_admin.ps1 -AddDefenderExclusion    # + AV exclusion (read above)
 #   .\szl_bake_admin.ps1 -DiagnoseOnly            # preflight report, no changes
 #   .\szl_bake_admin.ps1 -SkipTrain               # corpus + CPU gates only
-#   .\szl_bake_admin.ps1 -CudaTag cu121           # driver too old for cu124
+#   .\szl_bake_admin.ps1 -CudaTag cu128           # override the wheel index
 #
-# Fail-closed throughout: a failed gate STOPS the run. Partial success is not
-# reported as success. Same contract as the engine being trained.
+# Run it from the repo root and pass -RepoDir explicitly if the repo is the
+# current directory; the default assumes you are one level above it.
 
 [CmdletBinding()]
 param(
@@ -40,7 +53,7 @@ param(
     [string]$RepoUrl    = "https://github.com/szl-holdings/szl-typesafe-triage.git",
     [string]$BaseModel  = "Qwen/Qwen2.5-0.5B-Instruct",
     [string]$AdapterOut = "out\adapter",
-    [string]$CudaTag    = "cu124",
+    [string]$CudaTag    = "cu130",
     [int]$MinFreeGB     = 25,
     [switch]$EnableLongPaths,
     [switch]$AddDefenderExclusion,
@@ -52,15 +65,22 @@ param(
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
-# ---------------------------------------------------------------- output
+$script:transcribing = $false
+
+function Stop-TranscriptSafely {
+    # Stop-Transcript throws if the host is not transcribing, which buried the
+    # real error message on every failure path.
+    if (-not $script:transcribing) { return }
+    $script:transcribing = $false
+    try { Stop-Transcript | Out-Null } catch { }
+}
+
 function Step($m) { Write-Host "`n=== $m ===" -ForegroundColor Cyan }
 function Ok($m)   { Write-Host "  [OK]    $m" -ForegroundColor Green }
 function Info($m) { Write-Host "  [INFO]  $m" -ForegroundColor Gray }
 function Warn($m) { Write-Host "  [WARN]  $m" -ForegroundColor Yellow }
-function Die($m)  { Write-Host "  [STOP]  $m" -ForegroundColor Red; if ($script:transcribing) { Stop-Transcript | Out-Null }; exit 1 }
+function Die($m)  { Write-Host "  [STOP]  $m" -ForegroundColor Red; Stop-TranscriptSafely; exit 1 }
 function Assert-Exit($what) { if ($LASTEXITCODE -ne 0) { Die "$what exited $LASTEXITCODE" } }
-
-$script:transcribing = $false
 
 # ---------------------------------------------------------------- elevation
 function Test-Admin {
@@ -91,40 +111,38 @@ else { Ok "elevated" }
 # ---------------------------------------------------------------- transcript
 New-Item -ItemType Directory -Force -Path "$PWD\logs" | Out-Null
 $logPath = "$PWD\logs\bake-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
-Start-Transcript -Path $logPath -Force | Out-Null
-$script:transcribing = $true
-Info "transcript: $logPath"
+try {
+    Start-Transcript -Path $logPath -Force | Out-Null
+    $script:transcribing = $true
+    Info "transcript: $logPath"
+} catch {
+    Warn "transcript unavailable: $($_.Exception.Message)"
+}
 
 # ================================================================ DIAGNOSTICS
 Step "System diagnostics"
 
 $os = Get-CimInstance Win32_OperatingSystem
-Info "OS       : $($os.Caption) build $($os.BuildNumber)"
+Info "OS        : $($os.Caption) build $($os.BuildNumber)"
 Info "PowerShell: $($PSVersionTable.PSVersion)"
 
 $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
-Info "CPU      : $($cpu.Name.Trim()) ($($cpu.NumberOfLogicalProcessors) threads)"
-Info "RAM      : $([math]::Round($os.TotalVisibleMemorySize/1MB,1)) GB"
+Info "CPU       : $($cpu.Name.Trim()) ($($cpu.NumberOfLogicalProcessors) threads)"
+Info "RAM       : $([math]::Round($os.TotalVisibleMemorySize/1MB,1)) GB"
 
 $drive = (Get-Item $PWD).PSDrive.Name
 $free  = [math]::Round((Get-PSDrive $drive).Free / 1GB, 1)
-Info "Disk $drive`: : $free GB free"
+Info "Disk $drive`:  : $free GB free"
 if ($free -lt $MinFreeGB) { Die "need >= $MinFreeGB GB free on $drive`:, found $free GB" }
 
-# --- GPU / driver
 $gpuName = $null; $vram = $null; $driver = $null
 if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
-    $gpuName = (& nvidia-smi --query-gpu=name          --format=csv,noheader | Select-Object -First 1)
-    $vram    = (& nvidia-smi --query-gpu=memory.total  --format=csv,noheader | Select-Object -First 1)
+    $gpuName = (& nvidia-smi --query-gpu=name           --format=csv,noheader | Select-Object -First 1)
+    $vram    = (& nvidia-smi --query-gpu=memory.total   --format=csv,noheader | Select-Object -First 1)
     $driver  = (& nvidia-smi --query-gpu=driver_version --format=csv,noheader | Select-Object -First 1)
-    Info "GPU      : $gpuName"
-    Info "VRAM     : $vram"
-    Info "Driver   : $driver"
-    # cu124 wheels want a recent driver. Warn rather than guess.
-    $major = [int]($driver -split '\.')[0]
-    if ($CudaTag -eq "cu124" -and $major -lt 527) {
-        Warn "driver $driver may be too old for cu124 wheels; consider -CudaTag cu121"
-    }
+    Info "GPU       : $gpuName"
+    Info "VRAM      : $vram"
+    Info "Driver    : $driver"
 } else {
     Warn "nvidia-smi absent - no NVIDIA GPU detected"
     if (-not $SkipTrain -and -not $DiagnoseOnly) {
@@ -132,7 +150,6 @@ if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
     }
 }
 
-# --- toolchain
 foreach ($tool in @("python", "git")) {
     if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) { Die "$tool not on PATH" }
 }
@@ -140,12 +157,11 @@ $pyVer = (& python -c "import sys;print('%d.%d'%sys.version_info[:2])").Trim()
 if ([version]$pyVer -lt [version]"3.10") { Die "Python $pyVer found; 3.10+ required (PEP 604 unions)" }
 Ok "python $pyVer, git present"
 
-# --- long path status
 $lpKey = "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem"
 $lpNow = (Get-ItemProperty -Path $lpKey -Name LongPathsEnabled -ErrorAction SilentlyContinue).LongPathsEnabled
 Info "LongPathsEnabled: $(if ($null -eq $lpNow) { 'unset' } else { $lpNow })"
 
-if ($DiagnoseOnly) { Ok "-DiagnoseOnly: no changes made"; Stop-Transcript | Out-Null; exit 0 }
+if ($DiagnoseOnly) { Ok "-DiagnoseOnly: no changes made"; Stop-TranscriptSafely; exit 0 }
 
 # ================================================================ ADMIN WORK
 Step "Administrator operations"
@@ -206,9 +222,6 @@ try {
     if (-not (Test-Path $vpy)) { Die "venv python missing: $vpy" }
 
     & $vpy -m pip install --upgrade pip setuptools wheel --quiet; Assert-Exit "pip bootstrap"
-
-    # Core is stdlib-only. pyproject may still say 0.2.x while __init__ says
-    # 0.3.0 - a known outstanding mismatch that does not affect the bake.
     & $vpy -m pip install -e . --quiet; Assert-Exit "install szl_triage"
     & $vpy -m pip install pytest --quiet; Assert-Exit "install pytest"
     $installed = (& $vpy -c "import szl_triage;print(szl_triage.__version__)").Trim()
@@ -233,20 +246,23 @@ try {
     $corpusHash = (Get-FileHash $corpus -Algorithm SHA256).Hash.ToLower()
     $rows = (Get-Content $corpus | Measure-Object -Line).Lines
     Ok "$rows rows, sha256 $($corpusHash.Substring(0,16))..."
-    Warn "corpus does NOT yet contain doctrine-disposition cases added in 11e9318;"
-    Warn "the student will learn a gate one commit out of date."
+    Warn "corpus does NOT yet contain doctrine-disposition cases; the student"
+    Warn "will learn a gate one commit out of date."
 
     # ============================================================ GATE 1
     Step "GATE 1 - oracle smoke test (CPU, ~1s)"
 
     $oracle = & $vpy scripts\eval_receipts.py --oracle; Assert-Exit "oracle eval"
     $oracle | ForEach-Object { Write-Host "    $_" }
-    if ($oracle -notmatch "FALSE LABEL ON REFUSAL:\s*0") {
+
+    # Out-String: the left operand MUST be a single string, not an array.
+    $oracleText = ($oracle | Out-String)
+    if ($oracleText -notmatch "FALSE LABEL ON REFUSAL:\s*0\b") {
         Die "oracle did not report zero false labels. Harness is miswired - do not spend GPU time."
     }
-    Ok "harness verified"
+    Ok "harness verified against the engine"
 
-    if ($SkipTrain) { Ok "-SkipTrain set; stopping here"; Stop-Transcript | Out-Null; exit 0 }
+    if ($SkipTrain) { Ok "-SkipTrain set; stopping here"; Stop-TranscriptSafely; exit 0 }
 
     # ============================================================ ML DEPS
     Step "ML dependencies"
@@ -257,13 +273,25 @@ try {
     Warn "deliberately omitted."
 
     & $vpy -m pip install --quiet torch --index-url "https://download.pytorch.org/whl/$CudaTag"
-    if ($LASTEXITCODE -ne 0) { Die "torch install failed for $CudaTag - try -CudaTag cu121" }
+    if ($LASTEXITCODE -ne 0) { Die "torch install failed for $CudaTag - try -CudaTag cu128 or cu132" }
     & $vpy -m pip install --quiet transformers datasets accelerate peft trl; Assert-Exit "transformers stack"
 
-    $cudaOk = (& $vpy -c "import torch;print(torch.cuda.is_available())").Trim()
-    if ($cudaOk -ne "True") { Die "torch present but CUDA unavailable - driver/$CudaTag mismatch" }
     $torchVer = (& $vpy -c "import torch;print(torch.__version__)").Trim()
-    Ok "torch $torchVer, CUDA available"
+    $cudaOk   = (& $vpy -c "import torch;print(torch.cuda.is_available())").Trim()
+    if ($cudaOk -ne "True") { Die "torch $torchVer present but CUDA unavailable - driver/$CudaTag mismatch" }
+
+    # is_available() is NOT sufficient on Blackwell: it returns True even when
+    # the wheel carries no sm_120 kernels, and the failure then surfaces
+    # mid-training as "no kernel image is available for execution on the
+    # device". Compare the device capability against the compiled arch list.
+    # -notcontains is a real boolean over a collection, unlike -notmatch.
+    $cap = (& $vpy -c "import torch;print('%d%d' % torch.cuda.get_device_capability())").Trim()
+    $archList = ((& $vpy -c "import torch;print(';'.join(torch.cuda.get_arch_list()))").Trim()) -split ';'
+    Info "torch $torchVer | device sm_$cap | wheel arch list: $($archList -join ' ')"
+    if ($archList -notcontains "sm_$cap") {
+        Die "wheel lacks sm_$cap. torch $torchVer was built for [$($archList -join ' ')]. Blackwell needs CUDA 12.8+/PyTorch 2.7+; try -CudaTag cu128 or a newer tag. Training would fail with 'no kernel image is available'."
+    }
+    Ok "torch $torchVer, sm_$cap present in the wheel"
 
     # ============================================================ BAKE
     Step "BAKE"
@@ -281,8 +309,12 @@ try {
     Assert-Exit "adapter eval"
     $res | ForEach-Object { Write-Host "    $_" }
 
+    # Out-String again: against an array, -match does not populate $Matches at
+    # all, so this branch previously ALWAYS fell through to "unparseable" and
+    # reported BLOCKED no matter how good the model was.
+    $resText = ($res | Out-String)
     $promote = $false
-    if ($res -match "FALSE LABEL ON REFUSAL:\s*(\d+)") {
+    if ($resText -match "FALSE LABEL ON REFUSAL:\s*(\d+)") {
         $bad = [int]$Matches[1]
         if ($bad -eq 0) { $promote = $true; Ok "false_label_on_refusal = 0 - PROMOTABLE" }
         else {
@@ -314,6 +346,9 @@ try {
         vram             = if ($vram)    { $vram }    else { "UNAVAILABLE" }
         driver           = if ($driver)  { $driver }  else { "UNAVAILABLE" }
         torch            = $torchVer
+        cuda_tag         = $CudaTag
+        device_arch      = "sm_$cap"
+        wheel_arch_list  = ($archList -join " ")
         train_minutes    = $mins
         energy_joules    = $null   # honest null: no RAPL/NVML sampling here
         label_provenance = "ENGINE_DERIVED_v0.3.0"
@@ -323,7 +358,8 @@ try {
         caveats          = @(
             "labels are engine-derived, NOT human-ratified ground truth",
             "paraphrase bypass (docs/redteam.md) is present in the training targets",
-            "corpus predates the doctrine-disposition gate in 11e9318",
+            "a 36-config sweep found NO weighting that closes it (docs/calibration.md)",
+            "corpus predates the doctrine-disposition gate",
             "no public adversarial benchmark (Garak/PINT) has been run",
             "train_distill.py was unverified prior to this run",
             "run executed ELEVATED; pip package code ran with admin rights"
@@ -338,6 +374,7 @@ try {
     Step "Summary"
     Write-Host "  head        $head"
     Write-Host "  corpus      $rows rows"
+    Write-Host "  device      sm_$cap | torch $torchVer ($CudaTag)"
     Write-Host "  promotion   $(if ($promote) { 'PROMOTABLE' } else { 'BLOCKED' })"
     Write-Host "  signature   UNSIGNED_HONEST"
     Write-Host "`n  Next: submit output\bake-receipt.json to szl-gpu-bridge so the" -ForegroundColor Cyan
@@ -345,5 +382,5 @@ try {
 }
 finally {
     Pop-Location
-    if ($script:transcribing) { Stop-Transcript | Out-Null }
+    Stop-TranscriptSafely
 }

@@ -1,0 +1,81 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260920173046
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 65764
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+  [INFO]  transcript: C:\Users\steph\szl-typesafe-triage\logs\bake-20260920-173046.log
+
+=== System diagnostics ===
+  [INFO]  OS       : Microsoft Windows 11 Home build 26200
+  [INFO]  PowerShell: 5.1.26100.9444
+  [INFO]  CPU      : Intel(R) Core(TM) Ultra 9 285H (16 threads)
+  [INFO]  RAM      : 31.6 GB
+  [INFO]  Disk C: : 37.1 GB free
+  [INFO]  GPU      : NVIDIA GeForce RTX 5050 Laptop GPU
+  [INFO]  VRAM     : 8151 MiB
+  [INFO]  Driver   : 610.47
+  [OK]    python 3.11, git present
+  [INFO]  LongPathsEnabled: 1
+
+=== Administrator operations ===
+  [INFO]  execution policy already Undefined; unchanged
+  [INFO]  long paths NOT changed (pass -EnableLongPaths to enable)
+  [INFO]  no Defender exclusion (pass -AddDefenderExclusion if pip is slow)
+
+=== Source ===
+Already up to date.
+  [OK]    pulled
+  [OK]    HEAD 9a07ba2 - chore(bake): elevated PowerShell runner with three hard gates and a run receipt
+
+=== Python environment ===
+
+
+
+  [OK]    szl_triage 0.3.0 installed
+
+=== GATE 0 - test suite must be green ===
+
+======================================================= ERRORS ========================================================
+_______________________________________ ERROR collecting tests/test_pipeline.py _______________________________________
+ImportError while importing test module 'C:\Users\steph\szl-typesafe-triage\tests\test_pipeline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_pipeline.py:3: in <module>
+    from conftest import FakeModel
+E   ModuleNotFoundError: No module named 'conftest'
+_______________________________________ ERROR collecting tests/test_redteam.py ________________________________________
+ImportError while importing test module 'C:\Users\steph\szl-typesafe-triage\tests\test_redteam.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_redteam.py:10: in <module>
+    from conftest import FakeModel
+E   ModuleNotFoundError: No module named 'conftest'
+=============================================== short test summary info ===============================================
+ERROR tests/test_pipeline.py
+ERROR tests/test_redteam.py
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+2 errors in 0.12s
+  [STOP]  suite RED at 9a07ba2. Do not train. A model distilled from a broken engine inherits the break and hides it in weights.
+**********************
+Windows PowerShell transcript end
+End time: 20260920173057
+**********************

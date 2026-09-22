@@ -1,0 +1,47 @@
+W0921 13:58:01.216000 26552 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0921 13:58:01.258000 26552 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:3525: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+  original_setattr(self, name, value)
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+CORPUS SHA256 MEASURED 847a176f91008582
+HELD-OUT ROWS MEASURED 42
+QUANT MODE MEASURED load_in_4bit=False
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+==((====))==  Unsloth 2026.9.7: Fast Qwen3_5 patching. Transformers: 5.5.0.
+   \\   /|    NVIDIA GeForce RTX 5050 Laptop GPU. Num GPUs = 1. Max memory: 7.96 GB. Platform: Windows.
+O^O/ \_/ \    Torch: 2.14.0+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: QLoRA and full finetuning all not selected. Switching to 16bit LoRA.
+
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/473 [00:00<01:32,  5.10it/s]
+Loading weights:  14%|█▍        | 67/473 [00:00<00:01, 281.16it/s]
+Loading weights:  28%|██▊       | 133/473 [00:00<00:00, 420.57it/s]
+Loading weights:  41%|████      | 193/473 [00:00<00:00, 474.83it/s]
+Loading weights:  54%|█████▍    | 257/473 [00:00<00:00, 520.54it/s]
+Loading weights:  67%|██████▋   | 318/473 [00:00<00:00, 541.94it/s]
+Loading weights:  99%|█████████▉| 468/473 [00:00<00:00, 829.59it/s]
+Loading weights: 100%|██████████| 473/473 [00:00<00:00, 579.00it/s]
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_cuda' is deprecated, please use 'torch.backends.cuda.is_built()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_cudnn' is deprecated, please use 'torch.backends.cudnn.is_available()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_mps' is deprecated, please use 'torch.backends.mps.is_built()'
+  return original(name)
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:2825: UserWarning: 'has_mkldnn' is deprecated, please use 'torch.backends.mkldnn.is_available()'
+  return original(name)
+LORA_B TENSORS MEASURED 96
+LORA_B NONZERO MEASURED 96
+
+MALFORMED OUTPUT MEASURED 0 of 42 
+LABEL ACCURACY MEASURED 8/42
+STATE ACCURACY MEASURED 10/42
+GOLD REFUSALS MEASURED 12
+FALSE LABEL ON REFUSAL MEASURED 10
+UNGROUNDED SPANS MEASURED 0
+GATE VERDICT BLOCKED
+PROVENANCE adapter=out/triage-unsloth-bf16 data=policies\redteam_probes.verified.jsonl sha256=847a176f91008582
+RECEIPT out/gate_report.json
+EXIT ENFORCEMENT verdict='BLOCKED'

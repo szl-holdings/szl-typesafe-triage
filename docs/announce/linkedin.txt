@@ -1,0 +1,23 @@
+We spent today measuring our own AI system against our own rulebook. It failed, and that is the most
+useful thing we shipped.
+
+Three findings, all checkable in a public repo:
+
+1. Our production governance gate checks 13 qualities, each against its own
+   threshold. The engine we had deployed checks 4 and multiplies them, which lets a
+   strong score compensate for a weak one. On 100 examples our reviewers had labelled, the
+   deployed version would have approved 35 that the rulebook refuses. The weights were not
+   the problem. A product cannot express a floor.
+
+2. We tried to distil the engine into a small model. It scored perfectly on held-out data. Our contamination
+   check refused to promote it, because the held-out data was a near-copy of the training data - the closest
+   pair differed by one word. We published no model.
+
+3. We recorded 16 corrections, 12 of them fixing claims we had made
+   earlier the same day, each with a test so the error cannot come back quietly.
+
+The uncomfortable part: every instrument that caught these already existed in our own estate. Nobody had
+pointed them at the system.
+
+If you build AI for regulated work, the question is not whether your system scores well. It is whether you
+own a check that is allowed to tell you no.

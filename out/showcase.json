@@ -1,0 +1,37 @@
+{
+  "schema": "szl.showcase/v1",
+  "commit": "427a70e",
+  "numbers": {
+    "repos": 88,
+    "schemas": 689,
+    "unreviewed": 75,
+    "comp": 35,
+    "rows": 100,
+    "canon_axes": 13,
+    "eng_axes": 4,
+    "perm": 447,
+    "vecs": 895,
+    "jac": 0.8378,
+    "leak": "REFUSED",
+    "ret": 16,
+    "mine": 12,
+    "ratified_source": "policies/redteam_probes.verified.jsonl",
+    "ratified_provenance": "HUMAN_RATIFIED_2026-09-21",
+    "eff_engine": 9,
+    "eff_model": 600,
+    "generated_rows": 600,
+    "tau": 0.65,
+    "margin": 0.0056,
+    "claimed": 0
+  },
+  "surfaces": [
+    "docs/showcase/GITHUB_ORG_PROFILE.md",
+    "docs/showcase/HF_ORG_CARD.md",
+    "docs/announce/linkedin.txt",
+    "CITATION.cff",
+    "README.md"
+  ],
+  "rule": "every number in the showcase copy is read from a receipt at generation time, so the copy cannot drift from the measurements it describes",
+  "guard_requirement": "all showcase and announce copy is scanned by the phrasing guard in the same pass as the receipts",
+  "status": "MEASURED"
+}

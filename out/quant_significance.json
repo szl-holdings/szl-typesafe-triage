@@ -1,0 +1,9 @@
+{
+  "gold_refusal_rows": 12,
+  "bf16_breaches": 10,
+  "int4_breaches": 8,
+  "discordant_int4_better": 2,
+  "discordant_int4_worse": 0,
+  "mcnemar_exact_two_sided_p": 0.5,
+  "interpretation": "NF4 reduced false labels on refusal from 10 to 8 of 12. With 2 discordant pairs the exact two-sided p is 0.5000, which does not reach significance at n=12. Decoding is greedy, so this is a deterministic difference on specific rows rather than sampling noise - but 12 self-authored probes cannot establish that quantization improves refusal integrity in general. It is a hypothesis for a larger probe set, not a result."
+}

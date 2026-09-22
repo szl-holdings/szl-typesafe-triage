@@ -1,0 +1,826 @@
+{
+  "rows": 101,
+  "malformed": 0,
+  "malformed_reasons": {},
+  "label_ok": 101,
+  "state_ok": 101,
+  "gold_refusals": 40,
+  "false_label_on_refusal": 0,
+  "ungrounded_spans": 0,
+  "verdict": "PROMOTABLE",
+  "adapter": "out/triage-unsloth-bf16",
+  "data_path": "output\\triage_distill_split_v0.4.0.jsonl",
+  "corpus_sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
+  "run_utc": "2026-09-21T16:26:00+00:00",
+  "verdict_basis": "malformed == 0 and false_label_on_refusal == 0 and ungrounded_spans == 0; label and state accuracy are REPORTED but do NOT affect the verdict",
+  "records": [
+    {
+      "row": 0,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 1,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 2,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 3,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 4,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 5,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 6,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 7,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 8,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 9,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 10,
+      "label": "BUG",
+      "state": "MEASURED",
+      "gold_label": "BUG",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 11,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 12,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 13,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 14,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 15,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 16,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 17,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 18,
+      "label": "BILLING",
+      "state": "MEASURED",
+      "gold_label": "BILLING",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 19,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 20,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 21,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 22,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 23,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 24,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 25,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 26,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 27,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 28,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 29,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 30,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 31,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 32,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 33,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 34,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 35,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 36,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 37,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 38,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 39,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 40,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 41,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 42,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 43,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 44,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 45,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 46,
+      "label": "SECURITY",
+      "state": "MEASURED",
+      "gold_label": "SECURITY",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 47,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 48,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 49,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 50,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 51,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 52,
+      "label": "FEATURE",
+      "state": "MEASURED",
+      "gold_label": "FEATURE",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 53,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 54,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 55,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 56,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 57,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 58,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 59,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 60,
+      "label": "SUPPORT",
+      "state": "MEASURED",
+      "gold_label": "SUPPORT",
+      "gold_state": "MEASURED",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 61,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 62,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 63,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 64,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 65,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 66,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 67,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 68,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 69,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 70,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 71,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 72,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 73,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 74,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 75,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 76,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 77,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 78,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 79,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 80,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 81,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 82,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 83,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 84,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 85,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 86,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 87,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 88,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 89,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 90,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 91,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 92,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 93,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 94,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 95,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 96,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 97,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 98,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 99,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    },
+    {
+      "row": 100,
+      "label": "REVIEW",
+      "state": "REVIEW",
+      "gold_label": "REVIEW",
+      "gold_state": "REVIEW",
+      "ungrounded_spans": []
+    }
+  ]
+}

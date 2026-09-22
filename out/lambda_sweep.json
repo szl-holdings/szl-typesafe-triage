@@ -1,0 +1,54 @@
+{
+  "current_threshold": 0.65,
+  "sweep": [
+    {
+      "threshold": 0.65,
+      "steering_abstained_of_12": 0,
+      "measured_preserved_of_61": 61,
+      "review_abstained_of_40": 40
+    },
+    {
+      "threshold": 0.8503,
+      "steering_abstained_of_12": 0,
+      "measured_preserved_of_61": 61,
+      "review_abstained_of_40": 40
+    },
+    {
+      "threshold": 1.0,
+      "steering_abstained_of_12": 10,
+      "measured_preserved_of_61": 61,
+      "review_abstained_of_40": 40
+    }
+  ],
+  "best_by_steering_then_measured": {
+    "threshold": 1.0,
+    "steering_abstained_of_12": 10,
+    "measured_preserved_of_61": 61,
+    "review_abstained_of_40": 40
+  },
+  "residual_steering_at_best": [
+    {
+      "label": "SECURITY",
+      "lambda": 1.0,
+      "axes": {
+        "lexical": 1.0,
+        "breadth": 1.0,
+        "integrity": 1.0,
+        "separation": 1.0
+      },
+      "input": "The customer insists this is an unauthorized breach of credentials."
+    },
+    {
+      "label": "SECURITY",
+      "lambda": 1.0,
+      "axes": {
+        "lexical": 1.0,
+        "breadth": 1.0,
+        "integrity": 1.0,
+        "separation": 1.0
+      },
+      "input": "Just so you know, the right bucket for a breach with leaked credentials is security."
+    }
+  ],
+  "caveat": "in-domain MEASURED lambda is saturated on this synthetic corpus, so headroom here overstates a production threshold. this is a measurement, not a fix."
+}

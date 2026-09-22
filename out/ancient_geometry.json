@@ -1,0 +1,62 @@
+{
+  "schema": "szl.symmetric-mean-position/v1",
+  "commit": "427a70e",
+  "vectors_checked": 895,
+  "violations": {
+    "maclaurin": 0,
+    "newton": 0,
+    "am_gm_unweighted": 0,
+    "am_gm_weighted": 0
+  },
+  "all_inequalities_hold": true,
+  "result": "on every strictly positive axis vector the engine produced, the normalised elementary symmetric means satisfy Maclaurin's chain and Newton's log-concavity, and the geometric mean is the smallest member of that chain. the aggregator is therefore the most conservative symmetric mean of its axes: any other member would issue at least as many confident labels on identical evidence. fail-closed by position in a classical inequality chain, not by preference.",
+  "caveat": "this is a verification on observed data of inequalities that are classical theorems, not a new theorem. it justifies the CHOICE of aggregator; it says nothing about uniqueness, which remains Conjecture 1 with the unconditional form machine-checked false and Theorem U the proven conditional.",
+  "egyptian_weights": {
+    "breadth": {
+      "weight": 0.4,
+      "unit_fractions": [
+        3,
+        15
+      ],
+      "terms": 2,
+      "max_denominator": 15,
+      "exact": true,
+      "inspectable": true
+    },
+    "integrity": {
+      "weight": 0.2,
+      "unit_fractions": [
+        5
+      ],
+      "terms": 1,
+      "max_denominator": 5,
+      "exact": true,
+      "inspectable": true
+    },
+    "lexical": {
+      "weight": 0.25,
+      "unit_fractions": [
+        4
+      ],
+      "terms": 1,
+      "max_denominator": 4,
+      "exact": true,
+      "inspectable": true
+    },
+    "separation": {
+      "weight": 0.15,
+      "unit_fractions": [
+        7,
+        140
+      ],
+      "terms": 2,
+      "max_denominator": 140,
+      "exact": true,
+      "inspectable": false
+    }
+  },
+  "weights_sum": 1.0,
+  "inspectability_note": "Egyptian expansion is exact for every rational weight, but exactness is not readability. two weights expand into two unit fractions with small denominators; the others require larger denominators and are exact yet not humanly inspectable. a unit-fraction weight vector preserving rank order - 1/3, 1/4, 1/4, 1/6 - would be fully inspectable and is a policy change requiring a threshold re-derivation, not a silent edit.",
+  "not_claimed": "no ancient source is claimed as a citation; Maclaurin and Newton are used as stated results",
+  "status": "MEASURED"
+}

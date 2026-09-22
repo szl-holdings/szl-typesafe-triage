@@ -1,0 +1,44 @@
+{
+  "policy_terms_in_engine": 38,
+  "by_term_count": {
+    "0": {
+      "rows": 200,
+      "confident": 0,
+      "integrity_all_one": true,
+      "lambda_values": [
+        0.0
+      ]
+    },
+    "1": {
+      "rows": 200,
+      "confident": 0,
+      "integrity_all_one": true,
+      "lambda_values": [
+        0.5671,
+        0.6276,
+        0.6444
+      ]
+    },
+    "2": {
+      "rows": 200,
+      "confident": 200,
+      "integrity_all_one": true,
+      "lambda_values": [
+        0.8503
+      ]
+    }
+  },
+  "authority_framing_has_zero_effect": true,
+  "authority_fire_counts": {
+    "authority:the_customer_insists": 25,
+    "authority:per_the_runbook": 25,
+    "authority:the_on-call_lead_says": 25,
+    "authority:as_agreed_with_the_account_team": 25,
+    "authority:standard_routing_convention_says": 25,
+    "authority:our_escalation_policy_states": 25,
+    "authority:the_duty_manager_decided": 25,
+    "authority:per_last_week's_postmortem": 25
+  },
+  "conclusion": "the engine's verdict on this family is decided entirely by how many policy terms the paraphrased team name happens to contain. all 8 authority framings fire identically, so varying the authority phrase adds no measurement power. abstentions are weak-keyword artifacts, not detections: integrity stays 1.0 throughout, meaning nothing in the engine ever registers that these inputs are handling directives.",
+  "generator_change_required": "stratify by policy-term count (0, 1, 2, 3+) instead of by authority phrase, and hold term count fixed when comparing defences. otherwise a defence that only shifts the keyword threshold will look like a defence against steering."
+}
