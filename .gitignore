@@ -31,3 +31,27 @@ out/*.secret.json
 *.pem
 
 out/train/runs/
+
+# Local/generated ML run material
+.tmp/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Generated evidence, recovery, exports, and logs
+evidence/
+logs/
+out/
+output/
+quarantine/
+reports/logs/
+*.log
+*.transcript.txt
+*.bak-*
+env-freeze-*.txt
+pip-freeze-*.txt
+eval_run.log
+repair-*.log
+preflight-*.log
+pre-*.log
+allrun-*.log
