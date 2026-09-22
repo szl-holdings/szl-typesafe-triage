@@ -1,0 +1,20 @@
+{
+  "schema": "szl.study-completion/v1",
+  "state": "COMPLETE",
+  "seconds": 2521.8,
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ],
+  "hub_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "github_branch": "main",
+  "github_tag": "triage-lora-study5-measured",
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLISHED",
+  "timestamp_utc": "2026-09-22T00:33:17.973879+00:00"
+}
