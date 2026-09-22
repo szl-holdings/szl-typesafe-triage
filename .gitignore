@@ -55,3 +55,8 @@ repair-*.log
 preflight-*.log
 pre-*.log
 allrun-*.log
+
+# szl: publish five-seed-study evidence
+!/evidence/
+/evidence/*
+!/evidence/five-seed-study/
