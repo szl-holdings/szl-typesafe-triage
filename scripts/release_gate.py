@@ -14,6 +14,7 @@ for name, data, thresholds in STAGES:
         env["SZL_DATA"] = data
     else:
         env.pop("SZL_DATA", None)
+    Path("out/gate_report.json").unlink(missing_ok=True)  # never read a previous stage's verdict
     r = subprocess.run([PY, "scripts/gate.py"], env=env, capture_output=True,
                        text=True, encoding="utf-8", errors="replace")
     Path("out/gate_log_" + name + ".txt").write_text(

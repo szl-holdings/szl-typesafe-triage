@@ -51,5 +51,26 @@
     "fb4477c81fd3f1ced980d01fd764995726bd716abd5b56ee3588c8965387bfa1",
     "fc6b0032903699ddaee9383c1fbf456c1b4ce541776323f76960f7913ded5711"
   ],
-  "max_jaccard": 0.8421052631578947
+  "max_jaccard": 0.8421052631578947,
+  "lookup_baseline": {
+    "status": "COMPUTED",
+    "answer_source": "label",
+    "clean": {
+      "exact": 8,
+      "n": 68,
+      "pct": 11.8
+    },
+    "flagged": {
+      "exact": 17,
+      "n": 45,
+      "pct": 37.8
+    }
+  },
+  "corrections": [
+    {
+      "commit": "0049321",
+      "retracted": "Copying the nearest train row's answer scores 100% on clean and flagged rows",
+      "cause": "assistant text was extracted as '' for all 628 rows, so the comparison was '' == ''"
+    }
+  ]
 }
