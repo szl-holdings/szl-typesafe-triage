@@ -654,7 +654,7 @@ def generate(model, tokenizer, prompt: str) -> tuple[str, float]:
     import torch
 
     rendered = render_prompt(tokenizer, prompt)
-    inputs = tokenizer(text=rendered, return_tensors="pt")
+    inputs = text_only_encode(tokenizer, rendered)
     device = next(model.parameters()).device
 
     inputs = {
@@ -1284,7 +1284,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage Ã‚Â· Five-Seed LoRA Study
+# SZL TypeSafe Triage · Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1300,7 +1300,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED Ã¢â‚¬â€ 11/12** |
+| Release gate | **BLOCKED — 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
