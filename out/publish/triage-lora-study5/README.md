@@ -146,7 +146,7 @@ prompt = tokenizer.apply_chat_template(
     add_generation_prompt=True,
 )
 
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+inputs = tokenizer(text=prompt, return_tensors="pt").to(model.device)
 
 with torch.no_grad():
     output = model.generate(
@@ -220,7 +220,7 @@ https://github.com/szl-holdings/szl-typesafe-triage/releases/tag/triage-lora-run
 
 Five-seed evidence tag:
 
-https://github.com/szl-holdings/szl-typesafe-triage/releases/tag/triage-lora-study5-measured
+https://github.com/szl-holdings/szl-typesafe-triage/releases/tag/triage-lora-study5-measured-20260922-111314
 
 ## Citation
 

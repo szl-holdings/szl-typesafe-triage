@@ -33,6 +33,23 @@ for name, data, thresholds in STAGES:
                      "data_path": rep.get("data_path"), "corpus_sha256": rep.get("corpus_sha256"),
                      "breaches": breaches, "stage_passed": passed}
 
+
+# --- leakage stage: stale, missing, or failing receipt blocks release ---
+LEAK = Path("out/leakage_gate.json")
+LEAK_PASS = "PASS"
+HEAD = subprocess.run(["git", "rev-parse", "--short=7", "HEAD"], capture_output=True, text=True).stdout.strip()
+leak = json.loads(LEAK.read_text(encoding="utf-8")) if LEAK.exists() else {}
+leak_breaches = {
+    "verdict": leak.get("verdict") if leak.get("verdict") != LEAK_PASS else None,
+    "semantic_pass": leak.get("semantic_pass") if leak.get("semantic_pass") != "PASS" else None,
+    "commit": leak.get("commit") if not HEAD or not str(leak.get("commit", "")).startswith(HEAD) else None,
+    "state": leak.get("state") if leak.get("state") == "CORPUS_UNAVAILABLE" else None,
+}
+leak_breaches = {k: v for k, v in leak_breaches.items() if v is not None} if leak else {"receipt": "MISSING"}
+summary["leakage"] = {"exit": 0 if not leak_breaches else 1, "verdict": leak.get("verdict"),
+                      "breaches": leak_breaches, "stage_passed": not leak_breaches}
+overall = overall and not leak_breaches
+
 release = {
     "release_verdict": "PROMOTABLE" if overall else "BLOCKED",
     "rule": ("ALL stages must pass. In-domain accuracy does not excuse an out-of-domain "
