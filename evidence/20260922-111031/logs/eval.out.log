@@ -1,0 +1,432 @@
+
+=== PREFLIGHT ===
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+{
+  "schema": "szl.study-preflight/v1",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "device": "NVIDIA GeForce RTX 5050 Laptop GPU",
+  "capability": [
+    12,
+    0
+  ],
+  "required_arch": "sm_120",
+  "available_arches": [
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_90",
+    "sm_100",
+    "sm_120"
+  ],
+  "unsloth": "2026.9.7",
+  "huggingface_hub": "1.32.0",
+  "hugging_face_identity": "betterwithage",
+  "hub_repository": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "run1_tag": "triage-lora-run1",
+  "run1_commit": "427a70eb0804d814bf32d2cfc2713e230e468691",
+  "timestamp_utc": "2026-09-22T15:10:59.248556+00:00"
+}
+
+=== FREEZE TEMPLATE-FAMILY SPLIT ===
+{
+  "schema": "szl.frozen-family-split/v1",
+  "base_model": "unsloth/Qwen3.5-0.8B",
+  "run1_commit": "427a70eb0804d814bf32d2cfc2713e230e468691",
+  "run1_tag": "triage-lora-run1",
+  "corpus": "output/triage_distill_v0.5.0.jsonl",
+  "corpus_sha256": "c3fb8006e2a7884890dbc3cfcc885baf68e503588fc1a57a232c643a509b2df7",
+  "rows": 628,
+  "families": 404,
+  "train_rows": 515,
+  "held_rows": 113,
+  "train_families": 323,
+  "held_families": 81,
+  "train_manifest_sha256": "c498b3d4be6d5b04b89b537941bddd35155b275b0643060899b736730a22e1ad",
+  "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+  "split_method": "Sorted template-family hash; first 80 percent train; remaining families held out",
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ],
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+  "timestamp_utc": "2026-09-22T15:10:59.369587+00:00"
+}
+
+=== TRAIN FOUR ADDITIONAL SEEDS ===
+seed-023: measured adapter already exists; preserving it
+seed-037: measured adapter already exists; preserving it
+seed-053: measured adapter already exists; preserving it
+seed-071: measured adapter already exists; preserving it
+base: existing evaluation is complete; preserving it
+seed-011: existing evaluation is complete; preserving it
+seed-023: existing evaluation is complete; preserving it
+seed-037: existing evaluation is complete; preserving it
+seed-053: existing evaluation is complete; preserving it
+seed-071: existing evaluation is complete; preserving it
+
+=== AGGREGATE RESULTS ===
+{
+  "schema": "szl.five-seed-aggregate/v1",
+  "base_model": "unsloth/Qwen3.5-0.8B",
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ],
+  "held_rows": 113,
+  "targets": [
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "base",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "unsloth/Qwen3.5-0.8B",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 0,
+      "label_exact": 0,
+      "state_exact": 0,
+      "joint_exact": 0,
+      "target_evidence_exact": 34,
+      "predicted_evidence_spans": 0,
+      "grounded_evidence_spans": 0,
+      "refusal_rows": 34,
+      "refusal_fidelity": 0,
+      "false_label_on_refusal": 34,
+      "strict_json_rate": 0.0,
+      "label_accuracy": 0.0,
+      "state_accuracy": 0.0,
+      "joint_accuracy": 0.0,
+      "target_evidence_exact_rate": 0.3008849557522124,
+      "evidence_grounding_rate": null,
+      "refusal_fidelity_rate": 0.0,
+      "median_latency_seconds": 10.57297830000607,
+      "failure_rows": 113,
+      "predictions_sha256": "2988e770877a9109232eef3c3740b308d06ef0465f2ec670ccaf86797a4d8dbd",
+      "failures_sha256": "2988e770877a9109232eef3c3740b308d06ef0465f2ec670ccaf86797a4d8dbd",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:12:32.373075+00:00"
+    },
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "seed-011",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\adapter",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 113,
+      "label_exact": 113,
+      "state_exact": 113,
+      "joint_exact": 113,
+      "target_evidence_exact": 112,
+      "predicted_evidence_spans": 237,
+      "grounded_evidence_spans": 237,
+      "refusal_rows": 34,
+      "refusal_fidelity": 34,
+      "false_label_on_refusal": 0,
+      "strict_json_rate": 1.0,
+      "label_accuracy": 1.0,
+      "state_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "target_evidence_exact_rate": 0.9911504424778761,
+      "evidence_grounding_rate": 1.0,
+      "refusal_fidelity_rate": 1.0,
+      "median_latency_seconds": 2.195597699996142,
+      "failure_rows": 0,
+      "predictions_sha256": "f496d9a93623c40af13838a93701e7a3a317283be47e9a2bfb3399908bc3e63a",
+      "failures_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:17:32.764304+00:00"
+    },
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "seed-023",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-023\\adapter",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 113,
+      "label_exact": 113,
+      "state_exact": 113,
+      "joint_exact": 113,
+      "target_evidence_exact": 113,
+      "predicted_evidence_spans": 237,
+      "grounded_evidence_spans": 237,
+      "refusal_rows": 34,
+      "refusal_fidelity": 34,
+      "false_label_on_refusal": 0,
+      "strict_json_rate": 1.0,
+      "label_accuracy": 1.0,
+      "state_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "target_evidence_exact_rate": 1.0,
+      "evidence_grounding_rate": 1.0,
+      "refusal_fidelity_rate": 1.0,
+      "median_latency_seconds": 2.0480252999986988,
+      "failure_rows": 0,
+      "predictions_sha256": "bbee7f5b1496cf8bdbf275dbd5f254ca00f418962259ebe36fc382611456ea18",
+      "failures_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:21:27.143570+00:00"
+    },
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "seed-037",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-037\\adapter",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 113,
+      "label_exact": 113,
+      "state_exact": 113,
+      "joint_exact": 113,
+      "target_evidence_exact": 113,
+      "predicted_evidence_spans": 237,
+      "grounded_evidence_spans": 237,
+      "refusal_rows": 34,
+      "refusal_fidelity": 34,
+      "false_label_on_refusal": 0,
+      "strict_json_rate": 1.0,
+      "label_accuracy": 1.0,
+      "state_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "target_evidence_exact_rate": 1.0,
+      "evidence_grounding_rate": 1.0,
+      "refusal_fidelity_rate": 1.0,
+      "median_latency_seconds": 2.0649154000057024,
+      "failure_rows": 0,
+      "predictions_sha256": "77c324610272471cccb197c01c82ca9d1abd3ab12982c13527114897ac71d18c",
+      "failures_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:25:26.045742+00:00"
+    },
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "seed-053",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-053\\adapter",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 113,
+      "label_exact": 113,
+      "state_exact": 113,
+      "joint_exact": 113,
+      "target_evidence_exact": 113,
+      "predicted_evidence_spans": 237,
+      "grounded_evidence_spans": 237,
+      "refusal_rows": 34,
+      "refusal_fidelity": 34,
+      "false_label_on_refusal": 0,
+      "strict_json_rate": 1.0,
+      "label_accuracy": 1.0,
+      "state_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "target_evidence_exact_rate": 1.0,
+      "evidence_grounding_rate": 1.0,
+      "refusal_fidelity_rate": 1.0,
+      "median_latency_seconds": 1.6464942000020528,
+      "failure_rows": 0,
+      "predictions_sha256": "85e450119c5e2cff4c2deacc242f4c6be3a83dbf954ce221fb5cd932bfc3af1c",
+      "failures_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:28:54.590362+00:00"
+    },
+    {
+      "schema": "szl.frozen-held-evaluation/v1",
+      "name": "seed-071",
+      "base_model": "unsloth/Qwen3.5-0.8B",
+      "model_source": "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-071\\adapter",
+      "held_rows": 113,
+      "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+      "decoding": {
+        "do_sample": false,
+        "max_new_tokens": 192,
+        "malformed_json_repair": false
+      },
+      "strict_json": 113,
+      "label_exact": 113,
+      "state_exact": 113,
+      "joint_exact": 113,
+      "target_evidence_exact": 113,
+      "predicted_evidence_spans": 237,
+      "grounded_evidence_spans": 237,
+      "refusal_rows": 34,
+      "refusal_fidelity": 34,
+      "false_label_on_refusal": 0,
+      "strict_json_rate": 1.0,
+      "label_accuracy": 1.0,
+      "state_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "target_evidence_exact_rate": 1.0,
+      "evidence_grounding_rate": 1.0,
+      "refusal_fidelity_rate": 1.0,
+      "median_latency_seconds": 2.1763117000009515,
+      "failure_rows": 0,
+      "predictions_sha256": "5494663d82e1852096fbd5d2b1e371cb93ddb907969647aa8933ab21f3f1b0e3",
+      "failures_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_gate": "11/12",
+      "release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+      "timestamp_utc": "2026-09-22T00:32:58.848023+00:00"
+    }
+  ],
+  "five_seed_summary": {
+    "strict_json_rate": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "label_accuracy": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "state_accuracy": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "joint_accuracy": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "target_evidence_exact_rate": {
+      "n": 5,
+      "mean": 0.9982300884955752,
+      "sample_std": 0.003957642438052731,
+      "min": 0.9911504424778761,
+      "max": 1.0
+    },
+    "evidence_grounding_rate": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "refusal_fidelity_rate": {
+      "n": 5,
+      "mean": 1.0,
+      "sample_std": 0.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "median_latency_seconds": {
+      "n": 5,
+      "mean": 2.0262688600007097,
+      "sample_std": 0.22213779507457526,
+      "min": 1.6464942000020528,
+      "max": 2.195597699996142
+    }
+  },
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+  "interpretation": "Training and frozen evaluation are measured. Public publication is authorized. Promotion is not asserted because the existing contamination and release gates remain attached to the evidence.",
+  "timestamp_utc": "2026-09-22T15:10:59.385897+00:00"
+}
+
+=== BUILD EVIDENCE PACKAGE ===
+
+=== BUILD HUGGING FACE MODEL DIRECTORY ===
+
+=== PUBLISH MODEL TO HUGGING FACE ===
+Repository ready: https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5
+{
+  "schema": "szl.huggingface-publication-result/v1",
+  "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "repo_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "commit_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5/commit/d29d9b1d9881cda9bbd931e98f091ffc54752095",
+  "hub_sha": "d29d9b1d9881cda9bbd931e98f091ffc54752095",
+  "private": false,
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLISHED",
+  "timestamp_utc": "2026-09-22T15:11:03.003272+00:00"
+}
+
+=== COMMIT AND PUSH GITHUB EVIDENCE ===
+
+$ git add scripts/train_eval_publish.py evidence/five-seed-study
+warning: in the working copy of 'evidence/five-seed-study/evaluation/metrics.csv', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'evidence/five-seed-study/training/training_receipt-seed-011.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'evidence/five-seed-study/training/training_receipt-seed-023.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'evidence/five-seed-study/training/training_receipt-seed-037.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'evidence/five-seed-study/training/training_receipt-seed-053.json', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'evidence/five-seed-study/training/training_receipt-seed-071.json', CRLF will be replaced by LF the next time Git touches it
+
+$ git diff --cached --check
+
+$ git commit -m Publish five-seed triage LoRA study with frozen evaluation
+[main 9eaf431] Publish five-seed triage LoRA study with frozen evaluation
+ 4 files changed, 9 insertions(+), 9 deletions(-)
+
+$ git push estate main
+remote: 
+remote: GitHub found 1 vulnerability on szl-holdings/szl-typesafe-triage's default branch (1 high). To find out more, visit:        
+remote:      https://github.com/szl-holdings/szl-typesafe-triage/security/dependabot/1        
+remote: 
+To https://github.com/szl-holdings/szl-typesafe-triage.git
+   1f215c3..9eaf431  main -> main

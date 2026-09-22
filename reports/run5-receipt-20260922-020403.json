@@ -1,0 +1,34 @@
+﻿{
+    "generated_utc":  "2026-09-22T06:04:27.4310527Z",
+    "repo":  "C:\\Users\\steph\\szl-typesafe-triage",
+    "stamp":  "20260922-020403",
+    "patch_output":  [
+                         "shim already present",
+                         "  rewrote line 93: tok(rendered, ...) -\u003e keyword text=",
+                         "rewrote 1 tokenizer call(s); hardened 0 base64 decode(s)",
+                         "backup: scripts\\train_eval_publish.py.20260922-020404.bak"
+                     ],
+    "preflight_ok":  false,
+    "runs_requested":  5,
+    "runs_completed":  0,
+    "gates":  [
+                  {
+                      "Gate":  "assert_arch",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  },
+                  {
+                      "Gate":  "assert_bf16_loader",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  }
+              ],
+    "promotable":  false,
+    "blockers":  [
+                     "preflight exit 1 - see C:\\Users\\steph\\szl-typesafe-triage\\reports\\preflight-20260922-020403.log",
+                     "receipt is not valid JSON - promotion refused"
+                 ],
+    "published":  false,
+    "verdict":  "BLOCKED"
+}
+

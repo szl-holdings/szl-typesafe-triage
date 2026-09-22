@@ -1,0 +1,25 @@
+﻿{
+    "generated_utc":  "2026-09-22T06:06:25.1109859Z",
+    "repo":  "C:\\Users\\steph\\szl-typesafe-triage",
+    "stamp":  "20260922-020622",
+    "patch_output":  [
+                         "shim already present",
+                         "rewrote 0 tokenizer call(s); hardened 0 base64 decode(s)",
+                         "backup: scripts\\train_eval_publish.py.20260922-020622.bak",
+                         "NO-CALLSITE"
+                     ],
+    "preflight_ok":  false,
+    "runs_requested":  5,
+    "runs_completed":  0,
+    "gates":  [
+
+              ],
+    "promotable":  false,
+    "blockers":  [
+                     "No tokenizer call site matched. Dumping candidates below; nothing was run.",
+                     "receipt is not valid JSON - promotion refused"
+                 ],
+    "published":  false,
+    "verdict":  "BLOCKED"
+}
+

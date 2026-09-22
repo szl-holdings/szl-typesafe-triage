@@ -1,0 +1,13 @@
+W0922 11:10:44.049000 32316 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 11:10:44.156000 32316 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:3525: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+  original_setattr(self, name, value)
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1798, in <module>
+    main()
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1759, in main
+    branch = commit_github_evidence()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1719, in commit_github_evidence
+    raise RuntimeError(
+RuntimeError: triage-lora-study5-measured already exists on another commit

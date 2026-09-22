@@ -1,0 +1,163 @@
+{
+    "bad":  0,
+    "audited":  26,
+    "stamp":  "20260922-154254",
+    "results":  [
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "after lfs pull: 193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapters\\seed-011\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "after lfs pull: 193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapters\\seed-023\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapters\\seed-037\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapters\\seed-053\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\publish\\triage-lora-study5\\adapters\\seed-071\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\adapter\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "after lfs pull: 193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\runs\\checkpoint-387\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-023\\adapter\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-023\\runs\\checkpoint-387\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-037\\adapter\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-037\\runs\\checkpoint-387\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-053\\adapter\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-053\\runs\\checkpoint-387\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-071\\adapter\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\train\\study\\seed-071\\runs\\checkpoint-387\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "after lfs pull: 193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\checkpoint-132\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\checkpoint-198\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\checkpoint-264\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\checkpoint-396\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16\\checkpoint-66\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16.v0.3.0-corpus.bak\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16.v0.3.0-corpus.bak\\checkpoint-132\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16.v0.3.0-corpus.bak\\checkpoint-198\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    },
+                    {
+                        "path":  "C:\\Users\\steph\\szl-typesafe-triage\\out\\triage-unsloth-bf16.v0.3.0-corpus.bak\\checkpoint-66\\adapter_model.safetensors",
+                        "bytes":  25587104,
+                        "verdict":  "OK",
+                        "detail":  "193 entries"
+                    }
+                ]
+}
