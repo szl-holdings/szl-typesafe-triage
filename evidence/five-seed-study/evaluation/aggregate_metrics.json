@@ -308,5 +308,5 @@
   "promotion_status": "NOT_PROMOTABLE",
   "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
   "interpretation": "Training and frozen evaluation are measured. Public publication is authorized. Promotion is not asserted because the existing contamination and release gates remain attached to the evidence.",
-  "timestamp_utc": "2026-09-22T02:18:20.396201+00:00"
+  "timestamp_utc": "2026-09-22T02:18:42.000069+00:00"
 }
