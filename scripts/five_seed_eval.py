@@ -227,7 +227,7 @@ def generate(model, tokenizer, prompt):
     import torch
 
     rendered = render_prompt(tokenizer, prompt)
-    inputs = tokenizer(rendered, return_tensors="pt")
+    inputs = tokenizer(text=rendered, return_tensors="pt")
 
     device = next(model.parameters()).device
     inputs = {key: value.to(device) for key, value in inputs.items()}
