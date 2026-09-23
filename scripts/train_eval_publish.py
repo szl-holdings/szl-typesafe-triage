@@ -247,12 +247,12 @@ def preflight() -> dict:
     token = os.environ.get("HF_TOKEN", "").strip()
 
     if not token:
-        raise RuntimeError("HF_TOKEN is empty")
+        token = None
 
     from huggingface_hub import HfApi
 
     api = HfApi(token=token)
-    identity = api.whoami(token=token)
+    identity = api.whoami(token=token or None)
 
     receipt = {
         "schema": "szl.study-preflight/v1",
@@ -1576,7 +1576,7 @@ def publish_to_hub() -> str:
 
     from huggingface_hub import HfApi
 
-    token = os.environ["HF_TOKEN"]
+    token = os.environ.get("HF_TOKEN") or None
     api = HfApi(token=token)
 
     repo_url = api.create_repo(
