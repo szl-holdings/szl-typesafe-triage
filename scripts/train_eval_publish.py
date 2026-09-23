@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import csv
 import gc
@@ -88,6 +88,8 @@ def assert_text_only_tokenizer(tok):
 def text_only_encode(tok, rendered, return_tensors="pt"):
     """Text-only encode helper that never sends text through a VL image slot."""
     inner = getattr(tok, "tokenizer", None)
+    if inner is None:
+        inner = getattr(tok, "text_tokenizer", None)
     if inner is not None:
         if hasattr(inner, "image_processor"):
             raise RuntimeError("szl guard: inner tokenizer still exposes image_processor")
@@ -98,18 +100,13 @@ def text_only_encode(tok, rendered, return_tensors="pt"):
         )
 
     if hasattr(tok, "image_processor"):
-        return tok(
-            text=rendered,
-            return_tensors=return_tensors,
-            add_special_tokens=False,
-        )
+        raise RuntimeError("szl guard: multimodal processor reached text_only_encode without inner tokenizer")
 
     return tok(
         rendered,
         return_tensors=return_tensors,
         add_special_tokens=False,
     )
-
 
 def build_generation_inputs(tokenizer, prompt: str, device):
     rendered = render_prompt(tokenizer, prompt)

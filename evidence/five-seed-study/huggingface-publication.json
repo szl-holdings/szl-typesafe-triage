@@ -2,12 +2,12 @@
   "schema": "szl.huggingface-publication-result/v1",
   "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
   "repo_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
-  "commit_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5/commit/82085ff2ccddd28420291bdde5c9073f9d1a6ae5",
-  "hub_sha": "82085ff2ccddd28420291bdde5c9073f9d1a6ae5",
+  "commit_url": "https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5/commit/e4e2dc4a9790fa1fb5611e27f75338abff6aa217",
+  "hub_sha": "e4e2dc4a9790fa1fb5611e27f75338abff6aa217",
   "private": false,
   "release_gate": "11/12",
   "release_status": "BLOCKED",
   "promotion_status": "NOT_PROMOTABLE",
   "publication_status": "PUBLISHED",
-  "timestamp_utc": "2026-09-23T13:52:44.233502+00:00"
+  "timestamp_utc": "2026-09-23T14:26:17.409262+00:00"
 }
