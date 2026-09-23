@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import csv
 import gc
@@ -112,30 +112,8 @@ def text_only_encode(tok, rendered, return_tensors="pt"):
 
 
 def build_generation_inputs(tokenizer, prompt: str, device):
-    """Build model-ready text-only inputs through the model-native chat template.
-
-    Do not render a string and send it back through a VL processor positionally:
-    for Qwen VL processors the positional argument can be interpreted as images.
-    Using tokenize=True and return_dict=True lets the processor/tokenizer produce
-    input_ids directly under the model's own chat-template semantics.
-    """
-    messages = [{"role": "user", "content": prompt}]
-
-    template_kwargs = dict(
-        tokenize=True,
-        add_generation_prompt=True,
-        return_dict=True,
-        return_tensors="pt",
-    )
-
-    try:
-        inputs = tokenizer.apply_chat_template(
-            messages,
-            enable_thinking=False,
-            **template_kwargs,
-        )
-    except TypeError:
-        inputs = tokenizer.apply_chat_template(messages, **template_kwargs)
+    rendered = render_prompt(tokenizer, prompt)
+    inputs = text_only_encode(tokenizer, rendered, return_tensors="pt")
 
     if hasattr(inputs, "to"):
         return inputs.to(device)
@@ -685,7 +663,7 @@ def load_model(model_name: str):
 
 
 def render_prompt(tokenizer, prompt: str) -> str:
-    messages = [{"role": "user", "content": prompt}]
+    messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
 
     try:
         return tokenizer.apply_chat_template(
@@ -1324,7 +1302,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage · Five-Seed LoRA Study
+# SZL TypeSafe Triage Â· Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1340,7 +1318,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED — 11/12** |
+| Release gate | **BLOCKED â€” 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
