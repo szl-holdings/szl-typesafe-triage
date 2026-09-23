@@ -86,13 +86,49 @@ def assert_text_only_tokenizer(tok):
 
 
 def text_only_encode(tok, rendered, return_tensors="pt"):
-    """Bind text by keyword, never positionally. Falls back to the inner tokenizer."""
+    """Text-only encode helper that never sends text through a VL image slot."""
     inner = getattr(tok, "tokenizer", None)
     if inner is not None:
-        return szl_text_tokenizer(inner)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
-    return szl_text_tokenizer(tok)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
+        if hasattr(inner, "image_processor"):
+            raise RuntimeError("szl guard: inner tokenizer still exposes image_processor")
+        return inner(
+            rendered,
+            return_tensors=return_tensors,
+            add_special_tokens=False,
+        )
+
+    if hasattr(tok, "image_processor"):
+        return tok(
+            text=rendered,
+            return_tensors=return_tensors,
+            add_special_tokens=False,
+        )
+
+    return tok(
+        rendered,
+        return_tensors=return_tensors,
+        add_special_tokens=False,
+    )
 
 
+def build_generation_inputs(tokenizer, prompt: str, device):
+    messages = [{"role": "user", "content": prompt}]
+    try:
+        rendered = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+    except TypeError:
+        rendered = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+
+    inputs = text_only_encode(tokenizer, rendered)
+    return {k: v.to(device) for k, v in inputs.items()}
 def log(message: str) -> None:
     print(message, flush=True)
 
@@ -653,14 +689,8 @@ def render_prompt(tokenizer, prompt: str) -> str:
 def generate(model, tokenizer, prompt: str) -> tuple[str, float]:
     import torch
 
-    rendered = render_prompt(tokenizer, prompt)
-    inputs = text_only_encode(tokenizer, rendered)
     device = next(model.parameters()).device
-
-    inputs = {
-        key: value.to(device)
-        for key, value in inputs.items()
-    }
+    inputs = build_generation_inputs(tokenizer, prompt, device)
 
     started = time.perf_counter()
 
@@ -670,20 +700,14 @@ def generate(model, tokenizer, prompt: str) -> tuple[str, float]:
             max_new_tokens=192,
             do_sample=False,
             use_cache=True,
-            pad_token_id=getattr(tokenizer, "tokenizer", tokenizer).eos_token_id,
+            pad_token_id=getattr(getattr(tokenizer, "tokenizer", tokenizer), "eos_token_id", None),
         )
 
-    elapsed = time.perf_counter() - started
-    prompt_length = inputs["input_ids"].shape[1]
-
-    raw = tokenizer.decode(
-        output[0][prompt_length:],
-        skip_special_tokens=True,
-    )
-
-    return raw, elapsed
-
-
+    latency = time.perf_counter() - started
+    prompt_len = inputs["input_ids"].shape[-1]
+    text_tok = getattr(tokenizer, "tokenizer", tokenizer)
+    raw = text_tok.decode(output[0][prompt_len:], skip_special_tokens=True)
+    return raw, latency
 def safe_ratio(numerator: int, denominator: int):
     if denominator == 0:
         return None
@@ -1412,7 +1436,7 @@ prompt = tokenizer.apply_chat_template(
     add_generation_prompt=True,
 )
 
-inputs = getattr(tokenizer, "tokenizer", tokenizer)(prompt, return_tensors="pt").to(model.device)
+inputs = build_generation_inputs(tokenizer, "Your triage input goes here.", model.device)
 
 with torch.no_grad():
     output = model.generate(
