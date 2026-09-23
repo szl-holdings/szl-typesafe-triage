@@ -112,23 +112,39 @@ def text_only_encode(tok, rendered, return_tensors="pt"):
 
 
 def build_generation_inputs(tokenizer, prompt: str, device):
+    """Build model-ready text-only inputs through the model-native chat template.
+
+    Do not render a string and send it back through a VL processor positionally:
+    for Qwen VL processors the positional argument can be interpreted as images.
+    Using tokenize=True and return_dict=True lets the processor/tokenizer produce
+    input_ids directly under the model's own chat-template semantics.
+    """
     messages = [{"role": "user", "content": prompt}]
+
+    template_kwargs = dict(
+        tokenize=True,
+        add_generation_prompt=True,
+        return_dict=True,
+        return_tensors="pt",
+    )
+
     try:
-        rendered = tokenizer.apply_chat_template(
+        inputs = tokenizer.apply_chat_template(
             messages,
-            tokenize=False,
-            add_generation_prompt=True,
             enable_thinking=False,
+            **template_kwargs,
         )
     except TypeError:
-        rendered = tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-        )
+        inputs = tokenizer.apply_chat_template(messages, **template_kwargs)
 
-    inputs = text_only_encode(tokenizer, rendered)
-    return {k: v.to(device) for k, v in inputs.items()}
+    if hasattr(inputs, "to"):
+        return inputs.to(device)
+
+    return {
+        key: value.to(device) if hasattr(value, "to") else value
+        for key, value in inputs.items()
+    }
+
 def log(message: str) -> None:
     print(message, flush=True)
 
