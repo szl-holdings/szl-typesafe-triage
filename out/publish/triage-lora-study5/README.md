@@ -146,14 +146,14 @@ prompt = tokenizer.apply_chat_template(
     add_generation_prompt=True,
 )
 
-inputs = tokenizer(text=prompt, return_tensors="pt").to(model.device)
+inputs = build_generation_inputs(tokenizer, "Your triage input goes here.", model.device)
 
 with torch.no_grad():
     output = model.generate(
         **inputs,
         max_new_tokens=192,
         do_sample=False,
-        pad_token_id=tokenizer.eos_token_id,
+        pad_token_id=getattr(tokenizer, "tokenizer", tokenizer).eos_token_id,
     )
 
 reply = tokenizer.decode(

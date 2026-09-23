@@ -17,11 +17,11 @@
     "sm_100",
     "sm_120"
   ],
-  "unsloth": "2026.9.7",
+  "unsloth": "2026.9.10",
   "huggingface_hub": "1.32.0",
   "hugging_face_identity": "betterwithage",
   "hub_repository": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
   "run1_tag": "triage-lora-run1",
   "run1_commit": "427a70eb0804d814bf32d2cfc2713e230e468691",
-  "timestamp_utc": "2026-09-22T19:08:52.695041+00:00"
+  "timestamp_utc": "2026-09-23T14:32:27.016202+00:00"
 }
