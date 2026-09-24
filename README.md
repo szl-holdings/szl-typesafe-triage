@@ -34,3 +34,11 @@ advises. Release is **BLOCKED at 11/12**.
 - `docs/DATASET_CARD.md` - contamination field filled, per the org template
 
 Apache-2.0. Copyright 2026 SZL Holdings.
+
+## Replay the five-seed study
+
+`python scripts/codex_finish.py audit` checks the saved study offline, including
+raw predictions, recomputed metrics, split hashes, and the exact five seeds.
+It reports integrity separately from promotion. A bounded GPU smoke test can
+write a new receipt without replacing the historical results. See
+[study replay and inference](docs/STUDY_REPLAY.md) for commands and limitations.
