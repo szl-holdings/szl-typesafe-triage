@@ -109,17 +109,14 @@ def text_only_encode(tok, rendered, return_tensors="pt"):
     )
 
 def build_generation_inputs(tokenizer, prompt: str, device):
-    rendered = render_prompt(tokenizer, prompt)
-    inputs = text_only_encode(tokenizer, rendered, return_tensors="pt")
-
+    inputs = tokenizer(
+        text=prompt,
+        return_tensors="pt",
+        padding=True,
+    )
     if hasattr(inputs, "to"):
         return inputs.to(device)
-
-    return {
-        key: value.to(device) if hasattr(value, "to") else value
-        for key, value in inputs.items()
-    }
-
+    return {key: value.to(device) if hasattr(value, "to") else value for key, value in inputs.items()}
 def log(message: str) -> None:
     print(message, flush=True)
 
