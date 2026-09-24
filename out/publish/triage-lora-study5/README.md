@@ -13,7 +13,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage · Five-Seed LoRA Study
+# SZL TypeSafe Triage Â· Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -29,7 +29,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED — 11/12** |
+| Release gate | **BLOCKED â€” 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
