@@ -15,28 +15,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-# --- szl guard -----------------------------------------------------------
-def szl_text_tokenizer(obj):
-    """A VL processor __call__ is (images, text, videos); unsloth_zoo
-    re-dispatches positionally, so a bare string lands in the images slot.
-    Resolve the text-modality tokenizer and refuse anything that can still
-    reach an image processor."""
-    tok = getattr(obj, "tokenizer", obj)
-    if hasattr(tok, "image_processor"):
-        raise RuntimeError("szl guard: object still exposes image_processor")
-    if not callable(tok):
-        raise RuntimeError("szl guard: resolved object is not callable")
-    return tok
-
-def szl_b64_fix(s):
-    if isinstance(s, bytes):
-        s = s.decode("ascii", "ignore")
-    s = "".join(s.split())
-    return s + "=" * (-len(s) % 4)
-# -------------------------------------------------------------------------
+# One text boundary for rendering, encoding, special tokens, and decoding.
+if __package__:
+    from .triage_text import build_generation_inputs, resolve_text_tokenizer
+else:
+    from triage_text import build_generation_inputs, resolve_text_tokenizer
 
 
-ROOT = Path.cwd()
+ROOT = Path(__file__).resolve().parents[1]
 PYTHON = Path(sys.executable)
 BASE_MODEL = "unsloth/Qwen3.5-0.8B"
 HF_REPO = os.environ.get(
@@ -61,37 +47,6 @@ PUBLISH = ROOT / "out" / "publish" / "triage-lora-study5"
 
 RUN1_ADAPTER = ROOT / "out" / "train" / "adapter"
 RUN1_RECEIPT = ROOT / "out" / "train" / "training_receipt.json"
-
-for directory in (STUDY, CONTROL, FROZEN, EVALUATION):
-    directory.mkdir(parents=True, exist_ok=True)
-
-
-def assert_text_only_tokenizer(tok):
-    """Preflight guard: refuse a VL Processor being called positionally as a tokenizer.
-
-    Qwen3VLProcessor.__call__ has signature (images, text, videos, ...), so a bare
-    positional call routes the rendered chat string into `images`, which then fails
-    inside load_image() as "Incorrect image source" / "Incorrect padding".
-    """
-    import inspect
-    if getattr(tok, "tokenizer", None) is None:
-        return "plain-tokenizer"
-    params = list(inspect.signature(type(tok).__call__).parameters)
-    if len(params) > 1 and params[1] == "images":
-        raise RuntimeError(
-            f"{type(tok).__name__} takes `images` as its first positional parameter. "
-            "Call with text= keyword, or use tok.tokenizer for text-only evaluation."
-        )
-    return "processor-ok"
-
-
-def text_only_encode(tok, rendered, return_tensors="pt"):
-    """Bind text by keyword, never positionally. Falls back to the inner tokenizer."""
-    inner = getattr(tok, "tokenizer", None)
-    if inner is not None:
-        return szl_text_tokenizer(inner)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
-    return szl_text_tokenizer(tok)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
-
 
 def log(message: str) -> None:
     print(message, flush=True)
@@ -596,9 +551,21 @@ def adapter_path_for_seed(seed: int) -> Path:
 
 
 def strict_json(raw: str) -> dict | None:
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Duplicate output field")
+            result[key] = value
+        return result
+
+    def reject_constant(value):
+        raise ValueError(f"Non-finite JSON constant: {value}")
+
     try:
-        value = json.loads(raw.strip())
-    except Exception:
+        value = json.loads(raw.strip(), object_pairs_hook=unique_object,
+                           parse_constant=reject_constant)
+    except (ValueError, TypeError, AttributeError):
         return None
 
     if not isinstance(value, dict):
@@ -606,10 +573,13 @@ def strict_json(raw: str) -> dict | None:
 
     required = {"label", "state", "evidence"}
 
-    if not required.issubset(value):
+    if set(value) != required:
         return None
 
-    if not isinstance(value.get("evidence"), list):
+    if (value["label"] is not None and not isinstance(value["label"], str)
+            or not isinstance(value["state"], str)
+            or not isinstance(value["evidence"], list)
+            or not all(isinstance(span, str) and span.strip() for span in value["evidence"])):
         return None
 
     return value
@@ -632,55 +602,26 @@ def load_model(model_name: str):
     return model, tokenizer
 
 
-def render_prompt(tokenizer, prompt: str) -> str:
-    messages = [{"role": "user", "content": prompt}]
-
-    try:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-            enable_thinking=False,
-        )
-    except TypeError:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-        )
-
-
 def generate(model, tokenizer, prompt: str) -> tuple[str, float]:
     import torch
 
-    rendered = render_prompt(tokenizer, prompt)
-    inputs = text_only_encode(tokenizer, rendered)
+    text_tokenizer = resolve_text_tokenizer(tokenizer)
     device = next(model.parameters()).device
-
-    inputs = {
-        key: value.to(device)
-        for key, value in inputs.items()
-    }
-
+    inputs = build_generation_inputs(text_tokenizer, prompt, device)
+    pad_id = getattr(text_tokenizer, "pad_token_id", None)
+    if pad_id is None:
+        pad_id = getattr(text_tokenizer, "eos_token_id", None)
+    if pad_id is None:
+        raise RuntimeError("Text tokenizer has neither pad_token_id nor eos_token_id")
     started = time.perf_counter()
-
     with torch.inference_mode():
         output = model.generate(
-            **inputs,
-            max_new_tokens=192,
-            do_sample=False,
-            use_cache=True,
-            pad_token_id=getattr(tokenizer, "tokenizer", tokenizer).eos_token_id,
+            **inputs, max_new_tokens=192, do_sample=False, use_cache=True,
+            pad_token_id=pad_id,
         )
-
     elapsed = time.perf_counter() - started
-    prompt_length = inputs["input_ids"].shape[1]
-
-    raw = tokenizer.decode(
-        output[0][prompt_length:],
-        skip_special_tokens=True,
-    )
-
+    prompt_length = inputs["input_ids"].shape[-1]
+    raw = text_tokenizer.decode(output[0][prompt_length:], skip_special_tokens=True)
     return raw, elapsed
 
 
@@ -699,18 +640,13 @@ def evaluate_target(
     metrics_path = EVALUATION / f"metrics-{name}.json"
     predictions_path = EVALUATION / f"predictions-{name}.jsonl"
 
-    if metrics_path.exists() and predictions_path.exists():
-        existing = json.loads(
-            metrics_path.read_text(encoding="utf-8-sig")
+    if any(path.exists() for path in (
+            metrics_path, predictions_path, EVALUATION / f"failures-{name}.jsonl")):
+        raise RuntimeError(
+            f"{name}: historical or partial evaluation exists. Replay it with "
+            "codex_finish.py audit; a new evaluator requires a new output namespace. "
+            "Saved v1 metrics do not bind the current evaluator or prompt template."
         )
-
-        if (
-            existing.get("held_rows") == 113
-            and existing.get("held_manifest_sha256")
-            == sha256_file(FROZEN / "held.jsonl")
-        ):
-            log(f"{name}: existing evaluation is complete; preserving it")
-            return existing
 
     log(f"\n=== EVALUATE {name} ===")
 
@@ -1693,74 +1629,18 @@ def commit_github_evidence() -> str:
     return branch
 
 
-def main() -> None:
-    started = time.time()
+def main(argv=None) -> int:
+    """Safe public entry point; legacy training/publication helpers are not dispatched.
 
-    os.environ["SZL_ALLOW_HUB_PUSH"] = "0"
-    os.environ.setdefault(
-        "TOKENIZERS_PARALLELISM",
-        "false",
-    )
-    os.environ.setdefault(
-        "PYTORCH_CUDA_ALLOC_CONF",
-        "expandable_segments:True",
-    )
-
-    preflight()
-    _, held_records = freeze_split()
-    receipts = train_new_seeds()
-    metrics = run_all_evaluations(held_records)
-    aggregate = aggregate_results(metrics)
-    adapter_index = collect_evidence(
-        receipts,
-        aggregate,
-    )
-
-    model_card = build_model_card(
-        metrics,
-        aggregate,
-        adapter_index,
-    )
-
-    build_publish_directory(model_card)
-    hub_url = publish_to_hub()
-    branch = commit_github_evidence()
-
-    elapsed = round(time.time() - started, 1)
-
-    final = {
-        "schema": "szl.study-completion/v1",
-        "state": "COMPLETE",
-        "seconds": elapsed,
-        "seeds": SEEDS,
-        "hub_url": hub_url,
-        "github_branch": branch,
-        "github_tag": STUDY_TAG,
-        "release_gate": "11/12",
-        "release_status": "BLOCKED",
-        "promotion_status": "NOT_PROMOTABLE",
-        "publication_status": "PUBLISHED",
-        "timestamp_utc": datetime.now(
-            timezone.utc
-        ).isoformat(),
-    }
-
-    write_json(
-        STUDY / "completion.json",
-        final,
-    )
-
-    log("\n" + "=" * 72)
-    log("FIVE-SEED TRAINING, EVALUATION, AND PUBLICATION COMPLETE")
-    log("=" * 72)
-    log(f"Hugging Face: {hub_url}")
-    log(f"GitHub tag: {STUDY_TAG}")
-    log("Adapters: seed 11, 23, 37, 53, 71")
-    log("Release gate: BLOCKED at 11/12")
-    log("Promotion: NOT_PROMOTABLE")
-    log("Publication: PUBLISHED")
-    log("=" * 72)
+    The former entry point ignored --help and ran through remote publication.
+    Replaying an existing study is now the default. GPU execution requires smoke.
+    """
+    if __package__:
+        from .codex_finish import main as finish_main
+    else:
+        from codex_finish import main as finish_main
+    return finish_main(argv)
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

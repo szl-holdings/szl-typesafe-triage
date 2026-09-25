@@ -25,7 +25,7 @@ from .receipts import verify as verify_receipts
 from .sealing import create as create_seal
 from .sealing import verify as verify_seal
 
-DEFAULT_POLICY = "policies/triage_policy.v2.json"
+DEFAULT_POLICY = None  # The installed package owns its default; cwd never selects policy.
 SEAL_PATH = "PROMOTION_SEAL.json"
 
 
@@ -48,6 +48,12 @@ def cmd_decide(args: argparse.Namespace) -> int:
     decision = decide(args.text, policy)
     print(json.dumps(decision.to_dict(), indent=2, sort_keys=True))
     return 0
+
+
+def cmd_serve(args: argparse.Namespace) -> int:
+    from .server import serve
+
+    return serve(policy_path=args.policy, port=args.port)
 
 
 def cmd_seal(args: argparse.Namespace) -> int:
@@ -103,6 +109,11 @@ def main(argv: list[str] | None = None) -> int:
     d.add_argument("text")
     d.add_argument("--policy", default=DEFAULT_POLICY)
     d.set_defaults(func=cmd_decide)
+
+    api = sub.add_parser("serve", help="serve the local deterministic triage console and API")
+    api.add_argument("--policy", default=DEFAULT_POLICY)
+    api.add_argument("--port", type=int, default=8765)
+    api.set_defaults(func=cmd_serve)
 
     s = sub.add_parser("seal", help="create the pre-registration seal")
     s.add_argument("--thresholds", default="PROMOTION_THRESHOLDS.json")

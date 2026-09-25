@@ -8,3 +8,19 @@
 *.json text eol=lf
 *.md text eol=lf
 *.py text eol=lf
+
+# Preserve checkout bytes covered by unchanged historical seal
+# 0eb47b29121ffd0a531a7cf74e61b989f67a84624a28014de6d09e70dd51dafd.
+# These exact-path overrides preserve newer evidence and all LFS rules.
+out/axis_collision.json text eol=crlf
+out/despace_effect.json text eol=crlf
+out/engine_only_probe.json text eol=crlf
+out/gate_report_bf16_in_domain.json text eol=crlf
+out/gate_report_bf16_red_team.json text eol=crlf
+out/gate_report_int4_in_domain.json text eol=crlf
+out/gate_report_int4_red_team.json text eol=crlf
+out/lambda_sweep.json text eol=crlf
+out/quant_refusal_curve.json text eol=crlf
+out/quant_significance.json text eol=crlf
+output/triage_distill_split_v0.4.0.jsonl text eol=crlf
+policies/redteam_probes.verified.jsonl text eol=crlf

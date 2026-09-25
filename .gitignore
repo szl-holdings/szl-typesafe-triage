@@ -1,5 +1,6 @@
 .venv/
 wheels/
+build/
 out/*.log
 out/triage-unsloth-bf16/checkpoint-*/
 __pycache__/
