@@ -23,6 +23,15 @@ updates:
 - package-ecosystem: pip
   directories:
   - /
+  # Dated pip-freeze records and run outputs are evidence, not manifests;
+  # version updates must not rewrite them. Patterns are relative to the
+  # directory above. exclude-paths does not apply to security updates.
+  exclude-paths:
+  - env-freeze-*.txt
+  - reports/**
+  - out/**
+  - output/**
+  - evidence/**
   schedule:
     interval: weekly
   cooldown:
