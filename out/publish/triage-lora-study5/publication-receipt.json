@@ -1,0 +1,18 @@
+{
+  "schema": "szl.huggingface-publication/v1",
+  "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+  "base_model": "unsloth/Qwen3.5-0.8B",
+  "default_adapter": "seed-011",
+  "adapters": [
+    "seed-011",
+    "seed-023",
+    "seed-037",
+    "seed-053",
+    "seed-071"
+  ],
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+  "timestamp_utc": "2026-09-22T19:08:55.666921+00:00"
+}

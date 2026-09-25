@@ -1,0 +1,45 @@
+﻿{
+    "generated_utc":  "2026-09-22T06:08:49.4539877Z",
+    "kind":  "run-summary",
+    "repo":  "C:\\Users\\steph\\szl-typesafe-triage",
+    "stamp":  "20260922-020834",
+    "patch_output":  [
+                         "shim present",
+                         "  rewrote line 92: inner(\u003cpositional\u003e) -\u003e keyword text=",
+                         "rewrote 1; already-correct keyword sites: 3; b64 hardened: 0",
+                         "patched; backup: scripts\\train_eval_publish.py.20260922-020834.bak",
+                         "READY"
+                     ],
+    "preflight_ok":  false,
+    "runs_requested":  5,
+    "runs_completed":  0,
+    "gates":  [
+                  {
+                      "Gate":  "assert_arch",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  },
+                  {
+                      "Gate":  "assert_bf16_loader",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  },
+                  {
+                      "Gate":  "release_status",
+                      "Status":  "BLOCKED",
+                      "Source":  "receipt"
+                  },
+                  {
+                      "Gate":  "promotion_status",
+                      "Status":  "NOT_PROMOTABLE",
+                      "Source":  "receipt"
+                  }
+              ],
+    "promotion_status":  "NOT_PROMOTABLE",
+    "release_status":  "BLOCKED",
+    "blockers":  [
+                     "preflight exit 1 - C:\\Users\\steph\\szl-typesafe-triage\\reports\\preflight-20260922-020834.log"
+                 ],
+    "published":  false
+}
+

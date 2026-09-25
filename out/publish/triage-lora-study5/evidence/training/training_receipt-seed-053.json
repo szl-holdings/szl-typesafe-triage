@@ -1,0 +1,51 @@
+{
+  "schema": "szl.training/v1",
+  "commit": "631e402",
+  "state": "MEASURED",
+  "base_model": "unsloth/Qwen3.5-0.8B",
+  "adapter_path": "out\\train\\study\\seed-053\\adapter",
+  "seconds": 510.5,
+  "final_training_loss": 0.0586090763595836,
+  "lora_b_nonzero": 96,
+  "lora_b_total": 96,
+  "binding_check": "PASS",
+  "guards": [
+    "refuse_overwrite",
+    "assert_bf16_loader",
+    "assert_hparams",
+    "assert_arch",
+    "train_on_responses_only"
+  ],
+  "guard_provenance": "house pattern from szl-forge; every trainer there opens with refusals",
+  "corpus": "output\\triage_distill_v0.5.0.jsonl",
+  "rows": 628,
+  "families": 404,
+  "split": {
+    "train_rows": 515,
+    "held_rows": 113,
+    "method": "by template family, not by row"
+  },
+  "hyperparameters": {
+    "r": 16,
+    "alpha": 16,
+    "dropout": 0.0,
+    "epochs": 3,
+    "lr": 0.0002,
+    "seed": 53,
+    "batch": 1,
+    "grad_accum": 4,
+    "dtype": "bfloat16",
+    "quantization": "none"
+  },
+  "leakage_verdict_at_training_time": "REFUSED",
+  "leakage_max_jaccard": 0.8378,
+  "promotion_status": "NOT_PROMOTABLE",
+  "owner_direction": "training proceeded on a refused corpus by owner direction; the verdict travels with the artifact and promotion is derived from it, never asserted",
+  "what_this_artifact_is_not": [
+    "not evidence of generalisation",
+    "not calibrated",
+    "not promotable while the verdict stands",
+    "not a replacement for the deterministic engine in the decision path"
+  ],
+  "status": "MEASURED"
+}

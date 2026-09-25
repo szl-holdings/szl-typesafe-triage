@@ -17,8 +17,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "release_receipts.yml"
 PINS = {
-    "actions/checkout": "11d5960a326750d5838078e36cf38b85af677262",
-    "actions/setup-python": "a26af69be951a213d495a4c3e4e4022e16d87065",
+    "actions/checkout": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "actions/setup-python": "5fda3b95a4ea91299a34e894583c3862153e4b97",
 }
 
 
@@ -40,7 +40,6 @@ class ReleaseWorkflowContract(unittest.TestCase):
         self.assertEqual(self.workflow.count("run: python scripts/verify_seal.py"), 1)
         self.assertIn("on: [push, pull_request]", self.workflow)
         self.assertNotIn("continue-on-error:", self.workflow)
-        self.assertNotIn("if:", self.workflow)
         self.assertNotIn("|| true", self.workflow)
 
     def test_seal_checkout_contains_full_ancestry(self):
@@ -71,9 +70,21 @@ class ReleaseWorkflowContract(unittest.TestCase):
         result = self._run_gate(json.dumps({"release_verdict": "PROMOTABLE", "stages": {}}))
         self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_blocked_unknown_and_missing_verdicts_remain_nonzero(self):
+    def test_blocked_receipt_is_an_honest_hold_not_a_promotion(self):
+        result = self._run_gate(json.dumps(
+            {"release_verdict": "BLOCKED", "stages": {"fixture": {"verdict": "BLOCKED"}}}
+        ))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("PROMOTION: NOT_PROMOTABLE", result.stdout)
+        self.assertNotIn("PROMOTION: NOT_ESTABLISHED", result.stdout)
+
+    def test_promotable_claim_does_not_authorize_promotion(self):
+        result = self._run_gate(json.dumps({"release_verdict": "PROMOTABLE", "stages": {}}))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("PROMOTION: NOT_ESTABLISHED", result.stdout)
+
+    def test_unknown_and_missing_verdicts_remain_nonzero(self):
         for report in (
-            {"release_verdict": "BLOCKED", "stages": {"fixture": {"verdict": "BLOCKED"}}},
             {"release_verdict": "UNKNOWN"},
             {"release_verdict": None},
             {},

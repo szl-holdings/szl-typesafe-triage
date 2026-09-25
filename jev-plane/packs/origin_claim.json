@@ -1,0 +1,27 @@
+{
+  "pack_id": "szl.origin_claim.v1",
+  "model": "jev-latest",
+  "confidence_floor": 0.6,
+  "questions": {
+    "surface_role": {
+      "type": "choice",
+      "instructions": "Classify origin.url. Product runtime carries x-szl-space. Proof is static RECORD.",
+      "criteria": {
+        "product": "a-11-oy.com Command Center or Space twin.",
+        "proof": "a11oy.net RECORD. Not interactive verify.",
+        "hub": "huggingface.co/SZLHOLDINGS artifact or Space card.",
+        "source": "github.com/szl-holdings source or org profile.",
+        "alias": "www or holdings subdomain, not a second product.",
+        "other": "None of the above."
+      }
+    },
+    "claim_overreach": {"type": "noul", "instructions": "Copy forbids honest_contract: Lambda as theorem, locked-proven not 8, SLSA L3, FedRAMP, ATO, trust 1.0."},
+    "count_unbound": {"type": "noul", "instructions": "Copy publishes inventory counts without a dated MEASURED snapshot."},
+    "origin_confusion": {"type": "noul", "instructions": "Page merges product and proof or presents Hub as the front door."},
+    "honesty_severity": {
+      "type": "score",
+      "instructions": "Severity of honesty failure versus honest_contract.",
+      "criteria": ["No forbidden claim.", "Ambiguous wording.", "Explicit forbidden claim or origin impersonation."]
+    }
+  }
+}

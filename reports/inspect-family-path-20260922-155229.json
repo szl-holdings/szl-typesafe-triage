@@ -1,0 +1,60 @@
+{
+  "rows": 628,
+  "top_level_keys": [
+    "axes",
+    "content_family",
+    "content_family_orig",
+    "evidence",
+    "input",
+    "label",
+    "label_provenance",
+    "lambda",
+    "receipt",
+    "state",
+    "tier"
+  ],
+  "family_paths": [
+    "content_family",
+    "content_family_orig"
+  ],
+  "family_path_samples": {
+    "content_family": [
+      "ndc-0000",
+      "ndc-0001",
+      "ndc-0001",
+      "ndc-0001",
+      "ndc-0002",
+      "ndc-0001",
+      "ndc-0001",
+      "ndc-0001",
+      "ndc-0001",
+      "ndc-0001"
+    ],
+    "content_family_orig": [
+      "POS:aff3ce4d77",
+      "POS:39e33b4028",
+      "POS:af5df159d5",
+      "POS:ab4895b5b1",
+      "POS:88c194e745",
+      "POS:be8038c734",
+      "POS:485ee08e29",
+      "POS:6a236e6d65",
+      "POS:985bc9e905",
+      "POS:3f74c30417"
+    ]
+  },
+  "gate_candidate_functions": [
+    {
+      "name": "family",
+      "lineno": 36,
+      "args": [
+        "t"
+      ],
+      "mentions": [
+        "family",
+        "template",
+        "split"
+      ]
+    }
+  ]
+}

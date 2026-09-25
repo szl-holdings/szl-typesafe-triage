@@ -1,0 +1,11 @@
+{
+  "pack_id": "szl.origin_claim.v1",
+  "fixture": "count_drift_21_vs_7",
+  "answers": {
+    "surface_role": {"type": "choice", "choice": "proof", "confidence": 0.81},
+    "claim_overreach": {"type": "noul", "noul": 0.22},
+    "count_unbound": {"type": "noul", "noul": 0.84},
+    "origin_confusion": {"type": "noul", "noul": 0.18},
+    "honesty_severity": {"type": "score", "score": 1.15, "confidence": 0.7}
+  }
+}

@@ -1,0 +1,60 @@
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+CORPUS SHA256 MEASURED 847a176f91008582
+HELD-OUT ROWS MEASURED 42
+QUANT MODE MEASURED load_in_4bit=False
+==((====))==  Unsloth 2026.9.7: Fast Qwen3_5 patching. Transformers: 5.5.0.
+   \\   /|    NVIDIA GeForce RTX 5050 Laptop GPU. Num GPUs = 1. Max memory: 7.96 GB. Platform: Windows.
+O^O/ \_/ \    Torch: 2.14.0+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Unsloth: QLoRA and full finetuning all not selected. Switching to 16bit LoRA.
+
+--- STDERR ---
+W0922 15:32:58.586000 13788 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 15:32:58.692000 13788 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+
+Loading weights:   0%|          | 0/473 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/473 [00:00<04:23,  1.79it/s]
+Loading weights:   8%|▊         | 36/473 [00:00<00:06, 72.47it/s]
+Loading weights:  14%|█▍        | 67/473 [00:00<00:03, 124.22it/s]
+Loading weights:  24%|██▍       | 113/473 [00:00<00:01, 195.37it/s]
+Loading weights:  31%|███▏      | 148/473 [00:00<00:01, 233.52it/s]
+Loading weights:  40%|███▉      | 187/473 [00:01<00:01, 269.06it/s]
+Loading weights:  47%|████▋     | 224/473 [00:01<00:00, 291.42it/s]
+Loading weights:  55%|█████▍    | 259/473 [00:01<00:00, 300.90it/s]
+Loading weights:  62%|██████▏   | 293/473 [00:01<00:00, 301.42it/s]
+Loading weights:  71%|███████▏  | 338/473 [00:01<00:00, 339.48it/s]
+Loading weights:  88%|████████▊ | 415/473 [00:01<00:00, 460.52it/s]
+Loading weights: 100%|██████████| 473/473 [00:01<00:00, 276.43it/s]
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\gate.py", line 26, in <module>
+    model, tok = FastLanguageModel.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 881, in from_pretrained
+    delegated, tokenizer = FastModel.from_pretrained(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 2057, in from_pretrained
+    model = PeftModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 601, in from_pretrained
+    load_result = model.load_adapter(
+                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 1499, in load_adapter
+    adapters_weights = load_peft_weights(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\utils\save_and_load.py", line 739, in load_peft_weights
+    adapters_weights = safe_load_file(filename, device=device)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\safetensors\torch.py", line 359, in load_file
+    with safe_open(filename, framework="pt", device=device, backend=backend) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+safetensors._safetensors_rust.SafetensorError: Error while deserializing header: header too large

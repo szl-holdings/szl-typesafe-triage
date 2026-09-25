@@ -17,6 +17,7 @@ Python and into data.
 from __future__ import annotations
 
 import json
+from importlib.resources import files
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -105,7 +106,14 @@ def _validate(raw: dict[str, Any]) -> None:
             )
 
 
-def load(path: str | Path) -> Policy:
+def default_policy_path() -> Path:
+    """Policy shipped in the installed package, independent of the caller's cwd."""
+    return Path(str(files("szl_triage").joinpath("data", "triage_policy.v3.json")))
+
+
+def load(path: str | Path | None = None) -> Policy:
+    if path is None:
+        path = default_policy_path()
     raw = json.loads(Path(path).read_text(encoding="utf-8"))
     _validate(raw)
     dispositions = raw.get("doctrine_dispositions") or {}

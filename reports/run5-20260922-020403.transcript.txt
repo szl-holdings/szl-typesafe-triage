@@ -1,0 +1,88 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260922020403
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 28416
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+=== PHASE 1 : Interpreter and execution policy ===
+  policy(Process) : Bypass
+  python          : C:\Users\steph\szl-typesafe-triage\.venv\Scripts\python.exe
+
+=== PHASE 2 : Write the AST patcher to disk ===
+  ok: tools\szl_ast_patch.py written
+
+=== PHASE 3 : Apply the patch ===
+  shim already present
+    rewrote line 93: tok(rendered, ...) -> keyword text=
+  rewrote 1 tokenizer call(s); hardened 0 base64 decode(s)
+  backup: scripts\train_eval_publish.py.20260922-020404.bak
+  ok: patch applied and compiled
+
+=== PHASE 4 : Capability probe ===
+  device  : NVIDIA GeForce RTX 5050 Laptop GPU sm_120
+  ok: sm_120 kernels present
+  ok: bf16 available
+
+=== PHASE 5 : Sleep suppression ===
+  ok: sleep suppressed (previous AC standby 1800s)
+
+=== PHASE 6 : Preflight ===
+
+  === PREFLIGHT ===
+  ≡ƒªÑ Unsloth: Will patch your computer to enable 2x faster free finetuning.
+  W0922 02:04:11.789000 6596 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+  W0922 02:04:11.833000 6596 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+  ≡ƒªÑ Unsloth Zoo will now patch everything to make training faster!
+  C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:3525: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+    original_setattr(self, name, value)
+  Traceback (most recent call last):
+    File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1798, in <module>
+      main()
+    File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1741, in main
+      preflight()
+    File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 250, in preflight
+      raise RuntimeError("HF_TOKEN is empty")
+  RuntimeError: HF_TOKEN is empty
+  BLOCKER: preflight exit 1 - see C:\Users\steph\szl-typesafe-triage\reports\preflight-20260922-020403.log
+
+=== PHASE 7 : Five runs: eval-base -> train -> eval-post, publishing OFF ===
+  WARN: runs skipped
+
+=== PHASE 8 : Gate readout - derived from the receipt, not assumed ===
+  receipt: .\reports\one-block-receipt-20260922-015613.json
+  BLOCKER: receipt is not valid JSON - promotion refused
+
+Gate               Status Source
+----               ------ ------
+assert_arch        PASS   live  
+assert_bf16_loader PASS   live
+  promotable : False
+
+=== PHASE 9 : Receipt (token-scrubbed). Nothing is published by this block. ===
+  ok: receipt -> C:\Users\steph\szl-typesafe-triage\reports\run5-receipt-20260922-020403.json
+
+============================================================
+VERDICT        : BLOCKED
+Runs completed : 0/5
+Promotable     : False
+  - preflight exit 1 - see C:\Users\steph\szl-typesafe-triage\reports\preflight-20260922-020403.log
+  - receipt is not valid JSON - promotion refused
+============================================================
+Sleep timeout restored.
+**********************
+Windows PowerShell transcript end
+End time: 20260922020427
+**********************

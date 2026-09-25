@@ -1,0 +1,7 @@
+﻿"t","b","n"
+"We shipped it BLOCKED","Release gate UNAVAILABLE. Promotion status NOT_ESTABLISHED. Published anyway, with the evidence.","1"
+"What it does","Reads a bug report, returns one typed triage verdict instead of a paragraph.","2"
+"The gate that failed","Refusal integrity. On adversarial probes it sometimes answers where it should decline.","3"
+"Why that is not a bug fix","It is a behaviour finding, not a broken script. Plumbing faults look different.","4"
+"Guards run first","refuse_overwrite, bf16 enforced, r and alpha pinned to the predecessor.","5"
+"get_arch_list, not is_available","Availability returns True on Blackwell even when the wheel has no sm_120 kernels.","6"

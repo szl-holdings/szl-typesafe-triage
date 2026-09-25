@@ -11,7 +11,7 @@ from pathlib import Path
 HEAD = subprocess.run(["git","rev-parse","--short","HEAD"], capture_output=True, text=True).stdout.strip()
 OUT = Path("out/leakage_gate.json")
 
-CANDIDATES = ["output/triage_distill_v0.5.0.jsonl", "output/triage_distill.jsonl",
+CANDIDATES = ["output/triage_distill_v0.5.1.jsonl", "output/triage_distill.jsonl",
               "policies/redteam_probes.verified.jsonl", "out/corpus_v2.jsonl"]
 src = next((Path(p) for p in CANDIDATES if Path(p).exists()), None)
 if src is None:
@@ -34,6 +34,13 @@ def text_of(r):
     return json.dumps(r)
 
 def family(t):
+    # v0.5.1: content_family is the precomputed connected near-duplicate group.
+    # Keep the whole group on one side of the split.
+    if isinstance(t, dict):
+        _group = t.get('content_family')
+        if _group not in (None, ''):
+            return str(_group)
+
     """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.
     the first version hashed the sorted unique token set, so a single changed word produced a new
     family and the count equalled the row count - 628 of 628. it could never detect a shared

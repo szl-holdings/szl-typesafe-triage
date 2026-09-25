@@ -1,0 +1,13 @@
+{
+  "pack_id": "szl.overclaim_reader.v1",
+  "fixture": "live_stamp",
+  "answers": {
+    "evidence_class": {"type": "choice", "choice": "BLOCK", "confidence": 0.88},
+    "claims_live": {"type": "noul", "noul": 0.91},
+    "invents_joules": {"type": "noul", "noul": 0.12},
+    "treats_hf_as_source": {"type": "noul", "noul": 0.08},
+    "lambda_as_theorem": {"type": "noul", "noul": 0.07},
+    "unsigned_as_live": {"type": "noul", "noul": 0.11},
+    "overclaim_severity": {"type": "score", "score": 2.1, "confidence": 0.86}
+  }
+}

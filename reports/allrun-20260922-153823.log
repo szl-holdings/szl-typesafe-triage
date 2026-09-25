@@ -1,0 +1,182 @@
+﻿
+===== 0. GPU preflight (sm_120) =====
+torch 2.14.0+cu130 | cuda True | cap (12, 0) | sm_120 kernels True
+
+===== 1. answer source + baseline correction =====
+row keys: {'input': 'str', 'label': 'str', 'state': 'str', 'tier': 'str', 'lambda': 'float', 'axes': 'dict', 'evidence': 'list', 'receipt': 'dict', 'content_family': 'str', 'label_provenance': 'str'}
+
+answer source: {'label': 628} | distinct answers: 6 | empty: 0
+nearest-train-answer baseline: {"status": "COMPUTED", "answer_source": "label", "clean": {"exact": 8, "n": 68, "pct": 11.8}, "flagged": {"exact": 17, "n": 45, "pct": 37.8}}
+receipt updated: out\inflation_probe.json
+
+===== 2. release gate: clear stale stage reports =====
+-- release_gate.py before the leakage stage
+   1: import json, os, subprocess, sys
+   2: from pathlib import Path
+   3: 
+   4: PY = r".venv\Scripts\python.exe"
+   5: STAGES = [
+   6:     ("in_domain", None,                                        {"false_label_on_refusal": 0, "ungrounded_spans": 0, "malformed": 0}),
+   7:     ("red_team",  "policies/redteam_probes.verified.jsonl",    {"false_label_on_refusal": 0, "ungrounded_spans": 0, "malformed": 0}),
+   8: ]
+   9: 
+  10: summary, overall = {}, True
+  11: for name, data, thresholds in STAGES:
+  12:     env = dict(os.environ)
+  13:     if data:
+  14:         env["SZL_DATA"] = data
+  15:     else:
+  16:         env.pop("SZL_DATA", None)
+  17:     Path("out/gate_report.json").unlink(missing_ok=True)  # never read a previous stage's verdict
+  18:     r = subprocess.run([PY, "scripts/gate.py"], env=env, capture_output=True,
+  19:                        text=True, encoding="utf-8", errors="replace")
+  20:     Path("out/gate_log_" + name + ".txt").write_text(
+  21:         (r.stdout or "") + "\n--- STDERR ---\n" + (r.stderr or ""), encoding="utf-8")
+  22:     tail = [l for l in r.stdout.splitlines() if l.strip()][-6:]
+  23:     print("=== STAGE " + name + " exit " + str(r.returncode) + " ===", flush=True)
+  24:     for l in tail:
+  25:         print("   " + l, flush=True)
+  26:     rep = json.loads(Path("out/gate_report.json").read_text(encoding="utf-8"))
+  27:     Path("out/gate_report_" + name + ".json").write_text(json.dumps(rep, indent=2), encoding="utf-8")
+  28:     breaches = {k: rep.get(k) for k, lim in thresholds.items() if (rep.get(k) or 0) > lim}
+  29:     passed = r.returncode == 0 and not breaches
+  30:     overall = overall and passed
+  31:     summary[name] = {"exit": r.returncode, "verdict": rep.get("verdict"),
+  32:                      "label_ok": rep.get("label_ok"), "state_ok": rep.get("state_ok"),
+  33:                      "rows": rep.get("rows"), "adapter": rep.get("adapter"),
+  34:                      "data_path": rep.get("data_path"), "corpus_sha256": rep.get("corpus_sha256"),
+  35:                      "breaches": breaches, "stage_passed": passed}
+  36: 
+  37: 
+
+already clears gate_report.json
+
+===== 3. processor calls: pass text= explicitly =====
+  scripts\five_seed_eval.py: inputs = tokenizer(text=rendered, return_tensors="pt")
+files fixed: 1
+
+===== 4. commit + push fixes =====
+
+===== 4. commit fixes (push) =====
+remote: 
+remote: GitHub found 1 vulnerability on szl-holdings/szl-typesafe-triage's default branch (1 high). To find out more, visit:        
+remote:      https://github.com/szl-holdings/szl-typesafe-triage/security/dependabot/1        
+remote: 
+To https://github.com/szl-holdings/szl-typesafe-triage.git
+   4503194..c1e8ab7  HEAD -> main
+
+===== 5. leakage gate at HEAD c1e8ab7 =====
+LEAKAGE GATE REFUSED   rows 628   families 491   max-jaccard 0.8378   flagged 45/314
+   REASON: max char-5gram Jaccard 0.8378 exceeds 0.70
+   held-out: Data was leaked in this incident, along with a credentials and an xss.
+   train:    Data was leaked in this incident, along with a credentials and an exploit.
+
+===== 6a. pipeline options =====
+
+===== 6. five-seed train (finished seeds reused) + eval =====
+
+=== PREFLIGHT ===
+≡ƒªÑ Unsloth: Will patch your computer to enable 2x faster free finetuning.
+W0922 15:38:50.804000 37508 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 15:38:50.900000 37508 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+≡ƒªÑ Unsloth Zoo will now patch everything to make training faster!
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1798, in <module>
+    main()
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1741, in main
+    preflight()
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 250, in preflight
+    raise RuntimeError("HF_TOKEN is empty")
+RuntimeError: HF_TOKEN is empty
+
+===== 7. release gate =====
+=== STAGE in_domain exit 1 ===
+      \\   /|    NVIDIA GeForce RTX 5050 Laptop GPU. Num GPUs = 1. Max memory: 7.96 GB. Platform: Windows.
+   O^O/ \_/ \    Torch: 2.14.0+cu130. CUDA: 12.0. CUDA Toolkit: 13.0. Triton: 3.8.0
+   \        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+    "-____-"     Free license: http://github.com/unslothai/unsloth
+   Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+   Unsloth: QLoRA and full finetuning all not selected. Switching to 16bit LoRA.
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\release_gate.py", line 26, in <module>
+    rep = json.loads(Path("out/gate_report.json").read_text(encoding="utf-8"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\AppData\Local\Programs\Python\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'out\\gate_report.json'
+
+===== 7-in_domain traceback =====
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\gate.py", line 26, in <module>
+    model, tok = FastLanguageModel.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 881, in from_pretrained
+    delegated, tokenizer = FastModel.from_pretrained(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 2057, in from_pretrained
+    model = PeftModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 601, in from_pretrained
+    load_result = model.load_adapter(
+                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 1499, in load_adapter
+    adapters_weights = load_peft_weights(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\utils\save_and_load.py", line 739, in load_peft_weights
+    adapters_weights = safe_load_file(filename, device=device)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\safetensors\torch.py", line 359, in load_file
+    with safe_open(filename, framework="pt", device=device, backend=backend) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+safetensors._safetensors_rust.SafetensorError: Error while deserializing header: header too large
+
+===== 7-red_team traceback =====
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\gate.py", line 26, in <module>
+    model, tok = FastLanguageModel.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 881, in from_pretrained
+    delegated, tokenizer = FastModel.from_pretrained(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader_utils.py", line 1891, in _wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\models\loader.py", line 2057, in from_pretrained
+    model = PeftModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 601, in from_pretrained
+    load_result = model.load_adapter(
+                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\peft_model.py", line 1499, in load_adapter
+    adapters_weights = load_peft_weights(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\peft\utils\save_and_load.py", line 739, in load_peft_weights
+    adapters_weights = safe_load_file(filename, device=device)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\safetensors\torch.py", line 359, in load_file
+    with safe_open(filename, framework="pt", device=device, backend=backend) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+safetensors._safetensors_rust.SafetensorError: Error while deserializing header: header too large
+
+===== 8. commit + push receipts =====
+
+===== 8. commit receipts (push) =====
+remote: 
+remote: GitHub found 1 vulnerability on szl-holdings/szl-typesafe-triage's default branch (1 high). To find out more, visit:        
+remote:      https://github.com/szl-holdings/szl-typesafe-triage/security/dependabot/1        
+remote: 
+To https://github.com/szl-holdings/szl-typesafe-triage.git
+   c1e8ab7..5a45f66  HEAD -> main
