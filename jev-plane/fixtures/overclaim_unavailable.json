@@ -1,0 +1,9 @@
+{
+  "pack_id": "szl.overclaim_reader.v1",
+  "fixture": "missing_key",
+  "reader_status": "UNAVAILABLE",
+  "honesty": "UNAVAILABLE",
+  "answers": {
+    "evidence_class": {"type": "choice", "choice": "UNAVAILABLE", "confidence": 0.0}
+  }
+}
