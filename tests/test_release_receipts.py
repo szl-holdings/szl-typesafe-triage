@@ -319,7 +319,7 @@ def test_release_workflow_pins_history_and_keeps_promotable_gate():
     refs = re.findall(r"(?m)^\s*- uses:\s*([^\s#]+)", text)
     assert sorted(refs) == sorted([
         "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
-        "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065"] * 3)
+        "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97"] * 3)
     assert "permissions:\n  contents: read" in text
     assert text.count("persist-credentials: false") == 3
     assert text.count("timeout-minutes: 5") == 3
