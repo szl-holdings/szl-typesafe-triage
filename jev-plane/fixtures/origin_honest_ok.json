@@ -1,0 +1,11 @@
+{
+  "pack_id": "szl.origin_claim.v1",
+  "fixture": "live_honest_ok",
+  "answers": {
+    "surface_role": {"type": "choice", "choice": "product", "confidence": 0.92},
+    "claim_overreach": {"type": "noul", "noul": 0.06},
+    "count_unbound": {"type": "noul", "noul": 0.08},
+    "origin_confusion": {"type": "noul", "noul": 0.04},
+    "honesty_severity": {"type": "score", "score": 0.12, "confidence": 0.88}
+  }
+}

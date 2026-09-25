@@ -1,0 +1,12 @@
+{
+  "pack_id": "szl.github_item.v1",
+  "fixture": "eleven_of_twelve_review",
+  "answers": {
+    "kind": {"type": "choice", "choice": "governance", "confidence": 0.8},
+    "claim_risk": {"type": "noul", "noul": 0.71},
+    "secret_risk": {"type": "noul", "noul": 0.04},
+    "actionable": {"type": "noul", "noul": 0.88},
+    "ready_to_merge": {"type": "noul", "noul": 0.11},
+    "urgency": {"type": "score", "score": 1.2, "confidence": 0.74}
+  }
+}
