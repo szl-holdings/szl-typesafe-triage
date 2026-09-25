@@ -1,4 +1,4 @@
-﻿accelerate==1.15.0
+accelerate==1.15.0
 aiohappyeyeballs==2.7.1
 aiohttp==3.14.3
 aiosignal==1.4.0
@@ -69,7 +69,7 @@ torch @ file:///C:/Users/steph/szl-typesafe-triage/wheels/torch-2.14.0%2Bcu130-c
 torchao==0.18.0
 torchvision==0.29.0+cu130
 tqdm==4.70.1
-transformers==5.5.0
+transformers==5.10.1
 triton-windows==3.8.0.post28
 trl==0.24.0
 typeguard==4.6.0
