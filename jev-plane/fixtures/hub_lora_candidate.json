@@ -1,0 +1,11 @@
+{
+  "pack_id": "szl.hub_card.v1",
+  "fixture": "lora_study_candidate",
+  "answers": {
+    "artifact_class": {"type": "choice", "choice": "weights_candidate", "confidence": 0.86},
+    "unsafe_serialization": {"type": "noul", "noul": 0.12},
+    "promotion_language": {"type": "noul", "noul": 0.31},
+    "decommissioned_as_live": {"type": "noul", "noul": 0.05},
+    "evidence_grade": {"type": "score", "score": 1.05, "confidence": 0.77}
+  }
+}

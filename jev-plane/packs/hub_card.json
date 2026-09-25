@@ -1,0 +1,27 @@
+{
+  "pack_id": "szl.hub_card.v1",
+  "model": "jev-latest",
+  "confidence_floor": 0.6,
+  "questions": {
+    "artifact_class": {
+      "type": "choice",
+      "instructions": "Classify the Hub card.",
+      "criteria": {
+        "kernel": "Software kernel, no weights.",
+        "weights_candidate": "Trained weights labelled candidate.",
+        "weights_quarantine": "Quarantined or failed line.",
+        "dataset_evidence": "Receipts or corpora, not a model.",
+        "space_runtime": "Running Space. Reachability is not promotion.",
+        "other": "None of the above."
+      }
+    },
+    "unsafe_serialization": {"type": "noul", "instructions": "Card offers pickle or joblib without QUARANTINED."},
+    "promotion_language": {"type": "noul", "instructions": "Card treats a candidate or LoRA study as production."},
+    "decommissioned_as_live": {"type": "noul", "instructions": "Card lists sentra, amaru, or rosie as live."},
+    "evidence_grade": {
+      "type": "score",
+      "instructions": "How bound is the strongest claim to a revision plus receipt?",
+      "criteria": ["No unbound performance claim.", "Owner-reported small eval.", "Unbound accuracy or production-ready."]
+    }
+  }
+}
