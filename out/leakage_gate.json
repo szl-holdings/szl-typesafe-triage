@@ -2,6 +2,7 @@
   "schema": "szl.leakage-gate/v1",
   "commit": "5a45f66",
   "corpus": "output\\triage_distill_v0.5.1.jsonl",
+  "corpus_sha256": "c71f5b4d85ffd90ac9e1c997affdb67ef50d97bd61e6b4ba1990883b9d60a8a9",
   "rows": 628,
   "template_families": 491,
   "largest_family": 35,
