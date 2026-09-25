@@ -14,9 +14,9 @@ colorama==0.4.6
 cut-cross-entropy==25.1.1
 datasets==5.0.1
 diffusers==0.40.0
-dill==0.4.0
+dill==0.4.1
 docstring_parser==0.18.0
-filelock==3.32.3
+filelock==3.32.7
 frozenlist==1.8.0
 fsspec==2026.7.0
 h11==0.16.0
@@ -31,10 +31,10 @@ Jinja2==3.1.6
 markdown-it-py==4.2.0
 MarkupSafe==3.0.3
 mdurl==0.1.2
-mpmath==1.3.0
+mpmath==1.4.1
 msgspec==0.21.1
 multidict==6.9.1
-multiprocess==0.70.16
+multiprocess==0.70.19
 nest-asyncio==1.6.0
 networkx==3.6.1
 numpy==2.4.6
@@ -47,7 +47,7 @@ protobuf==7.36.2
 psutil==7.2.2
 pyarrow==25.0.1
 pydantic==2.13.5
-pydantic_core==2.46.5
+pydantic_core==2.49.0
 Pygments==2.21.0
 python-dateutil==2.9.0.post0
 PyYAML==6.0.3
@@ -60,7 +60,7 @@ shellingham==1.5.4
 six==1.17.0
 structlog==26.1.0
 sympy==1.14.0
-tokenizers==0.22.2
+tokenizers==0.23.2
 torch==2.14.0+cu130
 torchao==0.18.0
 torchaudio==2.11.0+cu130
