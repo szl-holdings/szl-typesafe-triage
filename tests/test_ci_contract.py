@@ -75,7 +75,16 @@ class CIContractTests(unittest.TestCase):
 
     def test_native_push_pr_and_merge_group_paths_remain(self):
         source = workflow()
-        self.assertIn("on:\n  push:\n  pull_request:\n  merge_group:\n    types: [checks_requested]\n", source)
+        # A copyright header and nested push filters are part of the committed
+        # workflow. The three native events must remain, including merge_group
+        # checks_requested. Do not require push to be an empty key.
+        self.assertRegex(source, r"(?m)^on:\n")
+        self.assertRegex(source, r"(?m)^  push:\n")
+        self.assertRegex(source, r"(?m)^  pull_request:\s")
+        self.assertRegex(
+            source,
+            r"(?m)^  merge_group:\n    types:\n    - checks_requested\n",
+        )
         self.assertNotIn("pull_request_target:", source)
 
 
