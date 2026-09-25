@@ -1206,6 +1206,7 @@ def build_model_card(
     ]["joint_accuracy"]
 
     card = f"""---
+license: apache-2.0
 base_model: {BASE_MODEL}
 library_name: peft
 pipeline_tag: text-generation
