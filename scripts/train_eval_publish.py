@@ -1308,6 +1308,14 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 the trained research artifact. The existing contamination verdict and
 release boundary remain visible instead of being removed.
 
+## Historical gate scope
+
+The root [gate_report.json](./gate_report.json) records an
+earlier 66-row gate with verdict `PROMOTABLE`.
+It is retained historical evidence, not promotion of this later five-seed, 113-row study.
+The current study remains **BLOCKED — 11/12** and **NOT_PROMOTABLE**.
+Published adapter files and historical gate labels do not supersede this release boundary.
+
 ## What it does
 
 The adapter accepts a triage input and is trained to return only:
@@ -1378,57 +1386,17 @@ The root adapter is seed 11, retained as the tagged first measured run.
 The additional seed directories support reproducibility and stability
 inspection.
 
-## Quick start
+## Inference implementation
 
-```python
-import torch
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
+**Inline inference example withdrawn.** The previous generated quick start
+contained malformed output indexing and could also route text through the wrong
+processor interface. No fresh inference was performed for this card correction.
 
-repo = "{HF_REPO}"
-base = "{BASE_MODEL}"
-
-tokenizer = AutoTokenizer.from_pretrained(repo)
-
-model = AutoModelForCausalLM.from_pretrained(
-    base,
-    torch_dtype=torch.bfloat16,
-    device_map="auto",
-)
-
-model = PeftModel.from_pretrained(model, repo)
-model.eval()
-
-messages = [
-    {{
-        "role": "user",
-        "content": "Your triage input goes here."
-    }}
-]
-
-prompt = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-)
-
-inputs = getattr(tokenizer, "tokenizer", tokenizer)(prompt, return_tensors="pt").to(model.device)
-
-with torch.no_grad():
-    output = model.generate(
-        **inputs,
-        max_new_tokens=192,
-        do_sample=False,
-        pad_token_id=getattr(tokenizer, "tokenizer", tokenizer).eos_token_id,
-    )
-
-reply = tokenizer.decode(
-    output[inputs["input_ids"].shape:],[3]
-    skip_special_tokens=True,
-)
-
-print(reply)
-```
+Inspect the [canonical evaluation implementation](https://github.com/szl-holdings/szl-typesafe-triage/blob/5e5bf7aae7fe10c7aaa09cdd4a4e6cbe95e32129/scripts/train_eval_publish.py)
+alongside the retained environment receipt and adapter identities before a new
+experiment. The historical script's main entry point combines training, evaluation, and publication;
+it is not a card-only repair command or a standalone inference quick start.
+This documentation change supplies no new runtime, held-out, or promotion evidence.
 
 ## Using another seed
 
