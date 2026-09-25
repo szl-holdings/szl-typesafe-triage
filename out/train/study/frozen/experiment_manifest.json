@@ -1,0 +1,29 @@
+{
+  "schema": "szl.frozen-family-split/v1",
+  "base_model": "unsloth/Qwen3.5-0.8B",
+  "run1_commit": "427a70eb0804d814bf32d2cfc2713e230e468691",
+  "run1_tag": "triage-lora-run1",
+  "corpus": "output/triage_distill_v0.5.0.jsonl",
+  "corpus_sha256": "c3fb8006e2a7884890dbc3cfcc885baf68e503588fc1a57a232c643a509b2df7",
+  "rows": 628,
+  "families": 404,
+  "train_rows": 515,
+  "held_rows": 113,
+  "train_families": 323,
+  "held_families": 81,
+  "train_manifest_sha256": "c498b3d4be6d5b04b89b537941bddd35155b275b0643060899b736730a22e1ad",
+  "held_manifest_sha256": "04c37f596ffeb89b3da0522812e9ae1cff78d5a4dbe684e9ca2104a81482fd4d",
+  "split_method": "Sorted template-family hash; first 80 percent train; remaining families held out",
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ],
+  "release_gate": "11/12",
+  "release_status": "BLOCKED",
+  "promotion_status": "NOT_PROMOTABLE",
+  "publication_status": "PUBLIC_EXPERIMENTAL_ARTIFACT",
+  "timestamp_utc": "2026-09-22T19:08:52.822051+00:00"
+}

@@ -1,0 +1,47 @@
+{
+  "pack_id": "szl.github_item.v1",
+  "model": "jev-latest",
+  "confidence_floor": 0.6,
+  "questions": {
+    "kind": {
+      "type": "choice",
+      "instructions": "Classify item.title and item.body. Prefer governance for doctrine, receipts, or honest posture. Prefer security only for vulns or secret exposure.",
+      "criteria": {
+        "bug": "Something broken in source, CI, or rendered claims.",
+        "enhancement": "New capability request.",
+        "documentation": "Wording or docs only.",
+        "question": "Needs an answer, not a change.",
+        "security": "Vulnerability, leaked secret, or unsafe verification claim.",
+        "governance": "Doctrine, receipts, proof counts, provenance, claim honesty.",
+        "dependency": "Version bump discussion.",
+        "ci": "Actions, scanners, rulesets.",
+        "other": "Nothing else fits."
+      }
+    },
+    "claim_risk": {
+      "type": "noul",
+      "instructions": "Merging or publishing item could assert Lambda-as-theorem, inflated locked-proven, SLSA L3, or a second flagship."
+    },
+    "secret_risk": {
+      "type": "noul",
+      "instructions": "item or item.files suggest credentials or private key material would land in git or a Space."
+    },
+    "actionable": {
+      "type": "noul",
+      "instructions": "Enough concrete detail exists to act without guessing."
+    },
+    "ready_to_merge": {
+      "type": "noul",
+      "instructions": "From item only, a PR looks ready. Do not assume CI is green unless item.ci says so."
+    },
+    "urgency": {
+      "type": "score",
+      "instructions": "Time sensitivity for maintainers of public evidence.",
+      "criteria": [
+        "Can wait.",
+        "This week; visible but not breaking honesty.",
+        "Blocking: outage, secret, or false proof claim on a public origin."
+      ]
+    }
+  }
+}

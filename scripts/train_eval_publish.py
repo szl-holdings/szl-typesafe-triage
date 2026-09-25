@@ -14,7 +14,15 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-ROOT = Path.cwd()
+
+# One text boundary for rendering, encoding, special tokens, and decoding.
+if __package__:
+    from .triage_text import build_generation_inputs, resolve_text_tokenizer
+else:
+    from triage_text import build_generation_inputs, resolve_text_tokenizer
+
+
+ROOT = Path(__file__).resolve().parents[1]
 PYTHON = Path(sys.executable)
 BASE_MODEL = "unsloth/Qwen3.5-0.8B"
 HF_REPO = os.environ.get(
@@ -24,7 +32,7 @@ HF_REPO = os.environ.get(
 
 RUN1_COMMIT = "427a70eb0804d814bf32d2cfc2713e230e468691"
 RUN1_TAG = "triage-lora-run1"
-STUDY_TAG = "triage-lora-study5-measured"
+STUDY_TAG = "triage-lora-study5-measured-20260922-111314"
 
 SEEDS = [11, 23, 37, 53, 71]
 NEW_SEEDS = [23, 37, 53, 71]
@@ -39,10 +47,6 @@ PUBLISH = ROOT / "out" / "publish" / "triage-lora-study5"
 
 RUN1_ADAPTER = ROOT / "out" / "train" / "adapter"
 RUN1_RECEIPT = ROOT / "out" / "train" / "training_receipt.json"
-
-for directory in (STUDY, CONTROL, FROZEN, EVALUATION):
-    directory.mkdir(parents=True, exist_ok=True)
-
 
 def log(message: str) -> None:
     print(message, flush=True)
@@ -547,9 +551,21 @@ def adapter_path_for_seed(seed: int) -> Path:
 
 
 def strict_json(raw: str) -> dict | None:
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Duplicate output field")
+            result[key] = value
+        return result
+
+    def reject_constant(value):
+        raise ValueError(f"Non-finite JSON constant: {value}")
+
     try:
-        value = json.loads(raw.strip())
-    except Exception:
+        value = json.loads(raw.strip(), object_pairs_hook=unique_object,
+                           parse_constant=reject_constant)
+    except (ValueError, TypeError, AttributeError):
         return None
 
     if not isinstance(value, dict):
@@ -557,10 +573,13 @@ def strict_json(raw: str) -> dict | None:
 
     required = {"label", "state", "evidence"}
 
-    if not required.issubset(value):
+    if set(value) != required:
         return None
 
-    if not isinstance(value.get("evidence"), list):
+    if (value["label"] is not None and not isinstance(value["label"], str)
+            or not isinstance(value["state"], str)
+            or not isinstance(value["evidence"], list)
+            or not all(isinstance(span, str) and span.strip() for span in value["evidence"])):
         return None
 
     return value
@@ -583,55 +602,26 @@ def load_model(model_name: str):
     return model, tokenizer
 
 
-def render_prompt(tokenizer, prompt: str) -> str:
-    messages = [{"role": "user", "content": prompt}]
-
-    try:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-            enable_thinking=False,
-        )
-    except TypeError:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-        )
-
-
 def generate(model, tokenizer, prompt: str) -> tuple[str, float]:
     import torch
 
-    rendered = render_prompt(tokenizer, prompt)
-    inputs = tokenizer(text=rendered, return_tensors="pt")
+    text_tokenizer = resolve_text_tokenizer(tokenizer)
     device = next(model.parameters()).device
-
-    inputs = {
-        key: value.to(device)
-        for key, value in inputs.items()
-    }
-
+    inputs = build_generation_inputs(text_tokenizer, prompt, device)
+    pad_id = getattr(text_tokenizer, "pad_token_id", None)
+    if pad_id is None:
+        pad_id = getattr(text_tokenizer, "eos_token_id", None)
+    if pad_id is None:
+        raise RuntimeError("Text tokenizer has neither pad_token_id nor eos_token_id")
     started = time.perf_counter()
-
     with torch.inference_mode():
         output = model.generate(
-            **inputs,
-            max_new_tokens=192,
-            do_sample=False,
-            use_cache=True,
-            pad_token_id=tokenizer.eos_token_id,
+            **inputs, max_new_tokens=192, do_sample=False, use_cache=True,
+            pad_token_id=pad_id,
         )
-
     elapsed = time.perf_counter() - started
-    prompt_length = inputs["input_ids"].shape[1]
-
-    raw = tokenizer.decode(
-        output[0][prompt_length:],
-        skip_special_tokens=True,
-    )
-
+    prompt_length = inputs["input_ids"].shape[-1]
+    raw = text_tokenizer.decode(output[0][prompt_length:], skip_special_tokens=True)
     return raw, elapsed
 
 
@@ -650,18 +640,13 @@ def evaluate_target(
     metrics_path = EVALUATION / f"metrics-{name}.json"
     predictions_path = EVALUATION / f"predictions-{name}.jsonl"
 
-    if metrics_path.exists() and predictions_path.exists():
-        existing = json.loads(
-            metrics_path.read_text(encoding="utf-8-sig")
+    if any(path.exists() for path in (
+            metrics_path, predictions_path, EVALUATION / f"failures-{name}.jsonl")):
+        raise RuntimeError(
+            f"{name}: historical or partial evaluation exists. Replay it with "
+            "codex_finish.py audit; a new evaluator requires a new output namespace. "
+            "Saved v1 metrics do not bind the current evaluator or prompt template."
         )
-
-        if (
-            existing.get("held_rows") == 113
-            and existing.get("held_manifest_sha256")
-            == sha256_file(FROZEN / "held.jsonl")
-        ):
-            log(f"{name}: existing evaluation is complete; preserving it")
-            return existing
 
     log(f"\n=== EVALUATE {name} ===")
 
@@ -1259,6 +1244,14 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 the trained research artifact. The existing contamination verdict and
 release boundary remain visible instead of being removed.
 
+## Historical gate scope
+
+The root [gate_report.json](./gate_report.json) records an
+earlier 66-row gate with verdict `PROMOTABLE`.
+It is retained historical evidence, not promotion of this later five-seed, 113-row study.
+The current study remains **BLOCKED — 11/12** and **NOT_PROMOTABLE**.
+Published adapter files and historical gate labels do not supersede this release boundary.
+
 ## What it does
 
 The adapter accepts a triage input and is trained to return only:
@@ -1329,57 +1322,17 @@ The root adapter is seed 11, retained as the tagged first measured run.
 The additional seed directories support reproducibility and stability
 inspection.
 
-## Quick start
+## Inference implementation
 
-```python
-import torch
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
+**Inline inference example withdrawn.** The previous generated quick start
+contained malformed output indexing and could also route text through the wrong
+processor interface. No fresh inference was performed for this card correction.
 
-repo = "{HF_REPO}"
-base = "{BASE_MODEL}"
-
-tokenizer = AutoTokenizer.from_pretrained(repo)
-
-model = AutoModelForCausalLM.from_pretrained(
-    base,
-    torch_dtype=torch.bfloat16,
-    device_map="auto",
-)
-
-model = PeftModel.from_pretrained(model, repo)
-model.eval()
-
-messages = [
-    {{
-        "role": "user",
-        "content": "Your triage input goes here."
-    }}
-]
-
-prompt = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-)
-
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-
-with torch.no_grad():
-    output = model.generate(
-        **inputs,
-        max_new_tokens=192,
-        do_sample=False,
-        pad_token_id=tokenizer.eos_token_id,
-    )
-
-reply = tokenizer.decode(
-    output[inputs["input_ids"].shape:],[3]
-    skip_special_tokens=True,
-)
-
-print(reply)
-```
+Inspect the [canonical evaluation implementation](https://github.com/szl-holdings/szl-typesafe-triage/blob/5e5bf7aae7fe10c7aaa09cdd4a4e6cbe95e32129/scripts/train_eval_publish.py)
+alongside the retained environment receipt and adapter identities before a new
+experiment. The historical script's main entry point combines training, evaluation, and publication;
+it is not a card-only repair command or a standalone inference quick start.
+This documentation change supplies no new runtime, held-out, or promotion evidence.
 
 ## Using another seed
 
@@ -1676,74 +1629,18 @@ def commit_github_evidence() -> str:
     return branch
 
 
-def main() -> None:
-    started = time.time()
+def main(argv=None) -> int:
+    """Safe public entry point; legacy training/publication helpers are not dispatched.
 
-    os.environ["SZL_ALLOW_HUB_PUSH"] = "0"
-    os.environ.setdefault(
-        "TOKENIZERS_PARALLELISM",
-        "false",
-    )
-    os.environ.setdefault(
-        "PYTORCH_CUDA_ALLOC_CONF",
-        "expandable_segments:True",
-    )
-
-    preflight()
-    _, held_records = freeze_split()
-    receipts = train_new_seeds()
-    metrics = run_all_evaluations(held_records)
-    aggregate = aggregate_results(metrics)
-    adapter_index = collect_evidence(
-        receipts,
-        aggregate,
-    )
-
-    model_card = build_model_card(
-        metrics,
-        aggregate,
-        adapter_index,
-    )
-
-    build_publish_directory(model_card)
-    hub_url = publish_to_hub()
-    branch = commit_github_evidence()
-
-    elapsed = round(time.time() - started, 1)
-
-    final = {
-        "schema": "szl.study-completion/v1",
-        "state": "COMPLETE",
-        "seconds": elapsed,
-        "seeds": SEEDS,
-        "hub_url": hub_url,
-        "github_branch": branch,
-        "github_tag": STUDY_TAG,
-        "release_gate": "11/12",
-        "release_status": "BLOCKED",
-        "promotion_status": "NOT_PROMOTABLE",
-        "publication_status": "PUBLISHED",
-        "timestamp_utc": datetime.now(
-            timezone.utc
-        ).isoformat(),
-    }
-
-    write_json(
-        STUDY / "completion.json",
-        final,
-    )
-
-    log("\n" + "=" * 72)
-    log("FIVE-SEED TRAINING, EVALUATION, AND PUBLICATION COMPLETE")
-    log("=" * 72)
-    log(f"Hugging Face: {hub_url}")
-    log(f"GitHub tag: {STUDY_TAG}")
-    log("Adapters: seed 11, 23, 37, 53, 71")
-    log("Release gate: BLOCKED at 11/12")
-    log("Promotion: NOT_PROMOTABLE")
-    log("Publication: PUBLISHED")
-    log("=" * 72)
+    The former entry point ignored --help and ran through remote publication.
+    Replaying an existing study is now the default. GPU execution requires smoke.
+    """
+    if __package__:
+        from .codex_finish import main as finish_main
+    else:
+        from codex_finish import main as finish_main
+    return finish_main(argv)
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

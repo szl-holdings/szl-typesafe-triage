@@ -1,0 +1,69 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260922020618
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 4440
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+=== PHASE 1 : Interpreter and execution policy ===
+  policy(Process) : Bypass
+  python          : C:\Users\steph\szl-typesafe-triage\.venv\Scripts\python.exe
+
+=== PHASE 2 : Write the AST patcher to disk ===
+  ok: tools\szl_ast_patch.py written
+
+=== PHASE 3 : Apply the patch ===
+  shim already present
+  rewrote 0 tokenizer call(s); hardened 0 base64 decode(s)
+  backup: scripts\train_eval_publish.py.20260922-020618.bak
+  NO-CALLSITE
+  BLOCKER: No tokenizer call site matched. Dumping candidates below; nothing was run.
+       88 | def text_only_encode(tok, rendered, return_tensors="pt"):
+       92 | return inner(rendered, return_tensors=return_tensors, add_special_tokens=False)
+       93 | return szl_text_tokenizer(tok)(text=rendered, return_tensors=return_tensors, add_special_tokens=False)
+      657 | inputs = tokenizer(text=rendered, return_tensors="pt")
+     1415 | inputs = tokenizer(text=prompt, return_tensors="pt").to(model.device)
+
+=== PHASE 4 : Capability probe ===
+
+=== PHASE 5 : Sleep suppression ===
+  ok: sleep suppressed (previous AC standby 1800s)
+
+=== PHASE 6 : Preflight ===
+  WARN: skipped - blockers present
+
+=== PHASE 7 : Five runs: eval-base -> train -> eval-post, publishing OFF ===
+  WARN: runs skipped
+
+=== PHASE 8 : Gate readout - derived from the receipt, not assumed ===
+  receipt: .\reports\run5-receipt-20260922-020403.json
+  BLOCKER: receipt is not valid JSON - promotion refused
+  promotable : False
+
+=== PHASE 9 : Receipt (token-scrubbed). Nothing is published by this block. ===
+  ok: receipt -> C:\Users\steph\szl-typesafe-triage\reports\run5-receipt-20260922-020618.json
+
+============================================================
+VERDICT        : BLOCKED
+Runs completed : 0/5
+Promotable     : False
+  - No tokenizer call site matched. Dumping candidates below; nothing was run.
+  - receipt is not valid JSON - promotion refused
+============================================================
+Sleep timeout restored.
+**********************
+Windows PowerShell transcript end
+End time: 20260922020622
+**********************

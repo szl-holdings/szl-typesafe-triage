@@ -1,0 +1,486 @@
+FILE: C:\Users\steph\szl-typesafe-triage\scripts\leakage_gate.py
+LINES: 129
+LOOKING FOR: family, content_family, template, split, train, heldout
+========================================================================================
+
+========================================================================================
+LINE 25  NODE Assign
+AST: rows = [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
+0022:     print("CORPUS_UNAVAILABLE - gate cannot run, and does not pass by default")
+0023:     raise SystemExit(0)
+0024: 
+0025: rows = [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
+0026: 
+0027: def text_of(r):
+0028:     for k in ("input", "text", "prompt", "user"):
+0029:         if isinstance(r.get(k), str):
+0030:             return r[k]
+0031:     m = r.get("messages")
+
+========================================================================================
+LINE 25  NODE Call
+AST: src.read_text(encoding="utf-8").splitlines()
+0022:     print("CORPUS_UNAVAILABLE - gate cannot run, and does not pass by default")
+0023:     raise SystemExit(0)
+0024: 
+0025: rows = [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
+0026: 
+0027: def text_of(r):
+0028:     for k in ("input", "text", "prompt", "user"):
+0029:         if isinstance(r.get(k), str):
+0030:             return r[k]
+0031:     m = r.get("messages")
+
+========================================================================================
+LINE 25  NODE ListComp
+AST: [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
+0022:     print("CORPUS_UNAVAILABLE - gate cannot run, and does not pass by default")
+0023:     raise SystemExit(0)
+0024: 
+0025: rows = [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
+0026: 
+0027: def text_of(r):
+0028:     for k in ("input", "text", "prompt", "user"):
+0029:         if isinstance(r.get(k), str):
+0030:             return r[k]
+0031:     m = r.get("messages")
+
+========================================================================================
+LINE 36  NODE FunctionDef
+AST: def family(t):     # v0.5.1: content_family is the precomputed connected near-duplicate group.     # Keep the whole group on one side of the split.     if isinstance(t, dict):         _group = t.get('content_family')         if _group not in (None, ''):             return str(_group)      """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.     the first version hashed the sorted unique token set, so a single changed word produced a new     family and the count equalled the row count - 628 
+0033:         return " ".join(x.get("content", "") for x in m if isinstance(x, dict))
+0034:     return json.dumps(r)
+0035: 
+0036: def family(t):
+0037:     # v0.5.1: content_family is the precomputed connected near-duplicate group.
+0038:     # Keep the whole group on one side of the split.
+0039:     if isinstance(t, dict):
+0040:         _group = t.get('content_family')
+0041:         if _group not in (None, ''):
+0042:             return str(_group)
+
+========================================================================================
+LINE 39  NODE If
+AST: if isinstance(t, dict):         _group = t.get('content_family')         if _group not in (None, ''):             return str(_group)
+0036: def family(t):
+0037:     # v0.5.1: content_family is the precomputed connected near-duplicate group.
+0038:     # Keep the whole group on one side of the split.
+0039:     if isinstance(t, dict):
+0040:         _group = t.get('content_family')
+0041:         if _group not in (None, ''):
+0042:             return str(_group)
+0043: 
+0044:     """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.
+0045:     the first version hashed the sorted unique token set, so a single changed word produced a new
+
+========================================================================================
+LINE 40  NODE Assign
+AST: _group = t.get('content_family')
+0037:     # v0.5.1: content_family is the precomputed connected near-duplicate group.
+0038:     # Keep the whole group on one side of the split.
+0039:     if isinstance(t, dict):
+0040:         _group = t.get('content_family')
+0041:         if _group not in (None, ''):
+0042:             return str(_group)
+0043: 
+0044:     """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.
+0045:     the first version hashed the sorted unique token set, so a single changed word produced a new
+0046:     family and the count equalled the row count - 628 of 628. it could never detect a shared
+
+========================================================================================
+LINE 40  NODE Call
+AST: t.get('content_family')
+0037:     # v0.5.1: content_family is the precomputed connected near-duplicate group.
+0038:     # Keep the whole group on one side of the split.
+0039:     if isinstance(t, dict):
+0040:         _group = t.get('content_family')
+0041:         if _group not in (None, ''):
+0042:             return str(_group)
+0043: 
+0044:     """BROKEN AS FIRST WRITTEN, RETAINED WITH ITS CORRECTION.
+0045:     the first version hashed the sorted unique token set, so a single changed word produced a new
+0046:     family and the count equalled the row count - 628 of 628. it could never detect a shared
+
+========================================================================================
+LINE 51  NODE Assign
+AST: toks = s.split()
+0048:     so rows sharing a skeleton collapse to one family."""
+0049:     # POSITION_SKELETON
+0050:     s = re.sub(r"[^a-z ]", " ", t.lower())
+0051:     toks = s.split()
+0052:     skel = [(w if w in _COMMON else "#") for w in toks]
+0053:     return hashlib.sha1(" ".join(skel).encode()).hexdigest()[:12]
+0054: 
+0055: def grams(t, n=5):
+0056:     s = re.sub(r"\s+", " ", t.lower())
+0057:     return {s[i:i + n] for i in range(max(0, len(s) - n + 1))}
+
+========================================================================================
+LINE 51  NODE Call
+AST: s.split()
+0048:     so rows sharing a skeleton collapse to one family."""
+0049:     # POSITION_SKELETON
+0050:     s = re.sub(r"[^a-z ]", " ", t.lower())
+0051:     toks = s.split()
+0052:     skel = [(w if w in _COMMON else "#") for w in toks]
+0053:     return hashlib.sha1(" ".join(skel).encode()).hexdigest()[:12]
+0054: 
+0055: def grams(t, n=5):
+0056:     s = re.sub(r"\s+", " ", t.lower())
+0057:     return {s[i:i + n] for i in range(max(0, len(s) - n + 1))}
+
+========================================================================================
+LINE 64  NODE For
+AST: for _r in rows:     for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():         _wc[_w] = _wc.get(_w, 0) + 1
+0061:     return (len(a & b) / u) if u else 0.0
+0062: 
+0063: _wc = {}
+0064: for _r in rows:
+0065:     for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():
+0066:         _wc[_w] = _wc.get(_w, 0) + 1
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+
+========================================================================================
+LINE 65  NODE Call
+AST: re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split()
+0062: 
+0063: _wc = {}
+0064: for _r in rows:
+0065:     for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():
+0066:         _wc[_w] = _wc.get(_w, 0) + 1
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+0071: fam_counts = {}
+
+========================================================================================
+LINE 65  NODE For
+AST: for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():         _wc[_w] = _wc.get(_w, 0) + 1
+0062: 
+0063: _wc = {}
+0064: for _r in rows:
+0065:     for _w in re.sub(r"[^a-z ]", " ", text_of(_r).lower()).split():
+0066:         _wc[_w] = _wc.get(_w, 0) + 1
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+0071: fam_counts = {}
+
+========================================================================================
+LINE 70  NODE Assign
+AST: fams = [family(t) for t in texts]
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+0071: fam_counts = {}
+0072: for f in fams:
+0073:     fam_counts[f] = fam_counts.get(f, 0) + 1
+0074: 
+0075: half = len(rows) // 2
+0076: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+
+========================================================================================
+LINE 70  NODE Call
+AST: family(t)
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+0071: fam_counts = {}
+0072: for f in fams:
+0073:     fam_counts[f] = fam_counts.get(f, 0) + 1
+0074: 
+0075: half = len(rows) // 2
+0076: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+
+========================================================================================
+LINE 70  NODE ListComp
+AST: [family(t) for t in texts]
+0067: _COMMON = {w for w, c in _wc.items() if c >= max(3, len(rows) // 25)}
+0068: 
+0069: texts = [text_of(r) for r in rows]
+0070: fams = [family(t) for t in texts]
+0071: fam_counts = {}
+0072: for f in fams:
+0073:     fam_counts[f] = fam_counts.get(f, 0) + 1
+0074: 
+0075: half = len(rows) // 2
+0076: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+
+========================================================================================
+LINE 76  NODE Assign
+AST: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+0073:     fam_counts[f] = fam_counts.get(f, 0) + 1
+0074: 
+0075: half = len(rows) // 2
+0076: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+0077: tf, hf = {fams[i] for i in train_i}, {fams[i] for i in held_i}
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+
+========================================================================================
+LINE 77  NODE Assign
+AST: tf, hf = {fams[i] for i in train_i}, {fams[i] for i in held_i}
+0074: 
+0075: half = len(rows) // 2
+0076: train_i, held_i = list(range(half)), list(range(half, len(rows)))
+0077: tf, hf = {fams[i] for i in train_i}, {fams[i] for i in held_i}
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+
+========================================================================================
+LINE 80  NODE Assign
+AST: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0077: tf, hf = {fams[i] for i in train_i}, {fams[i] for i in held_i}
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+
+========================================================================================
+LINE 80  NODE Call
+AST: len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0077: tf, hf = {fams[i] for i in train_i}, {fams[i] for i in held_i}
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+
+========================================================================================
+LINE 81  NODE Assign
+AST: tg = [grams(texts[i]) for i in train_i]
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+
+========================================================================================
+LINE 81  NODE ListComp
+AST: [grams(texts[i]) for i in train_i]
+0078: shared_families = tf & hf
+0079: 
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+
+========================================================================================
+LINE 83  NODE For
+AST: for i in held_i:     gi = grams(texts[i])     for j, gj in enumerate(tg):         v = jaccard(gi, gj)         if v > worst:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0080: exact = len({texts[i] for i in train_i} & {texts[i] for i in held_i})
+0081: tg = [grams(texts[i]) for i in train_i]
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+0088:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0089: 
+
+========================================================================================
+LINE 85  NODE For
+AST: for j, gj in enumerate(tg):         v = jaccard(gi, gj)         if v > worst:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0082: worst, worst_pair = 0.0, None
+0083: for i in held_i:
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+0088:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0089: 
+0090: flagged = 0
+0091: for i in held_i:
+
+========================================================================================
+LINE 87  NODE If
+AST: if v > worst:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0084:     gi = grams(texts[i])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+0088:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0089: 
+0090: flagged = 0
+0091: for i in held_i:
+0092:     gi = grams(texts[i])
+0093:     if any(jaccard(gi, gj) > 0.60 for gj in tg):
+
+========================================================================================
+LINE 88  NODE Assign
+AST: worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0085:     for j, gj in enumerate(tg):
+0086:         v = jaccard(gi, gj)
+0087:         if v > worst:
+0088:             worst, worst_pair = v, (texts[i][:110], texts[train_i[j]][:110])
+0089: 
+0090: flagged = 0
+0091: for i in held_i:
+0092:     gi = grams(texts[i])
+0093:     if any(jaccard(gi, gj) > 0.60 for gj in tg):
+0094:         flagged += 1
+
+========================================================================================
+LINE 98  NODE If
+AST: if exact:     verdict = "REFUSED"; reasons.append(str(exact) + " exact duplicates across the split")
+0095: 
+0096: verdict = "CLEAN"
+0097: reasons = []
+0098: if exact:
+0099:     verdict = "REFUSED"; reasons.append(str(exact) + " exact duplicates across the split")
+0100: if worst > 0.70:
+0101:     verdict = "REFUSED"; reasons.append("max char-5gram Jaccard " + format(worst, ".4f") + " exceeds 0.70")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+
+========================================================================================
+LINE 99  NODE Call
+AST: reasons.append(str(exact) + " exact duplicates across the split")
+0096: verdict = "CLEAN"
+0097: reasons = []
+0098: if exact:
+0099:     verdict = "REFUSED"; reasons.append(str(exact) + " exact duplicates across the split")
+0100: if worst > 0.70:
+0101:     verdict = "REFUSED"; reasons.append("max char-5gram Jaccard " + format(worst, ".4f") + " exceeds 0.70")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+
+========================================================================================
+LINE 102  NODE If
+AST: if shared_families:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0099:     verdict = "REFUSED"; reasons.append(str(exact) + " exact duplicates across the split")
+0100: if worst > 0.70:
+0101:     verdict = "REFUSED"; reasons.append("max char-5gram Jaccard " + format(worst, ".4f") + " exceeds 0.70")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+
+========================================================================================
+LINE 103  NODE Call
+AST: reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0100: if worst > 0.70:
+0101:     verdict = "REFUSED"; reasons.append("max char-5gram Jaccard " + format(worst, ".4f") + " exceeds 0.70")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+0109:  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),
+
+========================================================================================
+LINE 104  NODE If
+AST: if len(fam_counts) < max(8, len(rows) // 20):     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +                                         str(len(rows)) + " rows")
+0101:     verdict = "REFUSED"; reasons.append("max char-5gram Jaccard " + format(worst, ".4f") + " exceeds 0.70")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+0109:  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),
+0110:   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),
+
+========================================================================================
+LINE 105  NODE Call
+AST: reasons.append("only " + str(len(fam_counts)) + " template families across " +                                         str(len(rows)) + " rows")
+0102: if shared_families:
+0103:     verdict = "REFUSED"; reasons.append(str(len(shared_families)) + " template families appear on both sides")
+0104: if len(fam_counts) < max(8, len(rows) // 20):
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+0109:  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),
+0110:   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),
+0111:   "exact_duplicates_across_split": exact, "max_char5gram_jaccard": round(worst, 4),
+
+========================================================================================
+LINE 108  NODE Call
+AST: OUT.write_text(json.dumps(  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),   "exact_duplicates_across_split": exact, "max_char5gram_jaccard": round(worst, 4),   "worst_pair": worst_pair, "heldout_rows_flagged": str(flagged) + "/" + str(len(held_i)),   "shared_template_families": len(shared_families), "verdict": verdict, "reasons": reasons,   "semantic_pass": "UNAVAILABLE"
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+0109:  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),
+0110:   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),
+0111:   "exact_duplicates_across_split": exact, "max_char5gram_jaccard": round(worst, 4),
+0112:   "worst_pair": worst_pair, "heldout_rows_flagged": str(flagged) + "/" + str(len(held_i)),
+0113:   "shared_template_families": len(shared_families), "verdict": verdict, "reasons": reasons,
+0114:   "semantic_pass": "UNAVAILABLE",
+
+========================================================================================
+LINE 108  NODE Call
+AST: json.dumps(  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),   "exact_duplicates_across_split": exact, "max_char5gram_jaccard": round(worst, 4),   "worst_pair": worst_pair, "heldout_rows_flagged": str(flagged) + "/" + str(len(held_i)),   "shared_template_families": len(shared_families), "verdict": verdict, "reasons": reasons,   "semantic_pass": "UNAVAILABLE",   "semantic_n
+0105:     verdict = "REFUSED"; reasons.append("only " + str(len(fam_counts)) + " template families across " +
+0106:                                         str(len(rows)) + " rows")
+0107: 
+0108: OUT.write_text(json.dumps(
+0109:  {"schema": "szl.leakage-gate/v1", "commit": HEAD, "corpus": str(src), "rows": len(rows),
+0110:   "template_families": len(fam_counts), "largest_family": max(fam_counts.values()),
+0111:   "exact_duplicates_across_split": exact, "max_char5gram_jaccard": round(worst, 4),
+0112:   "worst_pair": worst_pair, "heldout_rows_flagged": str(flagged) + "/" + str(len(held_i)),
+0113:   "shared_template_families": len(shared_families), "verdict": verdict, "reasons": reasons,
+0114:   "semantic_pass": "UNAVAILABLE",
+
+========================================================================================
+LINE 126  NODE If
+AST: if worst_pair and verdict == "REFUSED":     print("   held-out: " + str(worst_pair[0]))     print("   train:    " + str(worst_pair[1]))
+0123:       "   max-jaccard " + format(worst, ".4f") + "   flagged " + str(flagged) + "/" + str(len(held_i)))
+0124: for r in reasons:
+0125:     print("   REASON: " + r)
+0126: if worst_pair and verdict == "REFUSED":
+0127:     print("   held-out: " + str(worst_pair[0]))
+0128:     print("   train:    " + str(worst_pair[1]))
+0129: sys.exit(0 if verdict == "CLEAN" else 3)
+
+========================================================================================
+LINE 128  NODE Call
+AST: print("   train:    " + str(worst_pair[1]))
+0125:     print("   REASON: " + r)
+0126: if worst_pair and verdict == "REFUSED":
+0127:     print("   held-out: " + str(worst_pair[0]))
+0128:     print("   train:    " + str(worst_pair[1]))
+0129: sys.exit(0 if verdict == "CLEAN" else 3)

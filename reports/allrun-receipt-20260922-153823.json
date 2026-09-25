@@ -1,0 +1,13 @@
+﻿{
+    "0. GPU preflight (sm_120)":  "OK",
+    "1. answer source + baseline correction":  "OK",
+    "2. release gate: clear stale stage reports":  "OK",
+    "3. processor calls: pass text= explicitly":  "OK",
+    "4. commit fixes (push)":  "OK",
+    "4. commit fixes":  "COMMITTED c1e8ab7",
+    "5. leakage gate at HEAD c1e8ab7":  "EXIT 3",
+    "6. five-seed train (finished seeds reused) + eval":  "EXIT 1",
+    "7. release gate":  "EXIT 1",
+    "8. commit receipts (push)":  "OK",
+    "8. commit receipts":  "COMMITTED 5a45f66"
+}

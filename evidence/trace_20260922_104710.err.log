@@ -1,0 +1,43 @@
+W0922 10:47:20.831000 6592 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'KernelPreference'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+W0922 10:47:20.933000 6592 Lib\site-packages\torch\utils\_pytree.py:630] <enum 'ScaleCalculationMode'> is an Enum subclass and is now natively supported by torch.compile as an opaque value type. Calling register_constant() on Enum subclasses is deprecated and will be an error in a future release.
+C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\unsloth\import_fixes.py:3525: FutureWarning: torch._dynamo.config.inline_inbuilt_nn_modules is deprecated and does not do anything, inline_inbuilt_nn_modules is always True. It will be removed in a future version of PyTorch.
+  original_setattr(self, name, value)
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 836, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/whoami-v2'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2361, in _inner_whoami
+    hf_raise_for_status(r)
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\utils\_http.py", line 966, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/whoami-v2' (Request ID: Root=1-6ab29503-43bd287c74c2be4e60645c99;6e438bf9-1fe6-4b10-9690-6627be359cdd)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+Invalid username or password.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1798, in <module>
+    main()
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 1741, in main
+    preflight()
+  File "C:\Users\steph\szl-typesafe-triage\scripts\train_eval_publish.py", line 255, in preflight
+    identity = api.whoami(token=token)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\utils\_validators.py", line 91, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2348, in whoami
+    output = self._inner_whoami(token=token)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\steph\szl-typesafe-triage\.venv\Lib\site-packages\huggingface_hub\hf_api.py", line 2377, in _inner_whoami
+    raise HfHubHTTPError(error_message, response=e.response) from e
+huggingface_hub.errors.HfHubHTTPError: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`.

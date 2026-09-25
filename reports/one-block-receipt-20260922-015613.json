@@ -1,0 +1,84 @@
+﻿{
+    "generated_utc":  "2026-09-22T05:56:42.4742717Z",
+    "repo":  "C:\\Users\\steph\\szl-typesafe-triage",
+    "stamp":  "20260922-015613",
+    "elevated":  true,
+    "dry_run":  false,
+    "environment":  {
+                        "executable":  "C:\\Users\\steph\\szl-typesafe-triage\\.venv\\Scripts\\python.exe",
+                        "python":  "3.11.9",
+                        "platform":  "Windows-10-10.0.26200-SP0",
+                        "in_venv":  true,
+                        "packages":  {
+                                         "torch":  "2.14.0+cu130",
+                                         "transformers":  "5.5.0",
+                                         "unsloth":  "2026.9.7",
+                                         "unsloth_zoo":  "2026.9.6",
+                                         "peft":  "0.21.0",
+                                         "trl":  "0.24.0",
+                                         "datasets":  "4.3.0",
+                                         "accelerate":  "1.15.0",
+                                         "bitsandbytes":  "0.50.2",
+                                         "tokenizers":  "0.22.2",
+                                         "huggingface_hub":  "1.32.0",
+                                         "safetensors":  "0.8.0"
+                                     },
+                        "cuda_compiled":  "13.0",
+                        "cuda_available":  true,
+                        "arch_list":  [
+                                          "sm_75",
+                                          "sm_80",
+                                          "sm_86",
+                                          "sm_90",
+                                          "sm_100",
+                                          "sm_120"
+                                      ],
+                        "device":  "NVIDIA GeForce RTX 5050 Laptop GPU",
+                        "capability":  "12.0",
+                        "sm_tag":  "sm_120",
+                        "kernels_present":  true,
+                        "bf16":  true,
+                        "vram_gb":  8.0
+                    },
+    "vision_language_base":  false,
+    "runs_requested":  5,
+    "runs_completed":  0,
+    "gates":  [
+                  {
+                      "Gate":  "assert_arch",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  },
+                  {
+                      "Gate":  "assert_bf16_loader",
+                      "Status":  "PASS",
+                      "Source":  "live"
+                  },
+                  {
+                      "Gate":  "release_status",
+                      "Status":  "BLOCKED",
+                      "Source":  "receipt"
+                  },
+                  {
+                      "Gate":  "promotion_status",
+                      "Status":  "NOT_PROMOTABLE",
+                      "Source":  "receipt"
+                  }
+              ],
+    "promotable":  false,
+    "blockers":  [
+                     "Patch broke compilation. Backup restored."
+                 ],
+    "notes":  [
+                  "Earlier `git rev-parse HEAD` failed because it ran from C:\\Windows\\system32. cwd is now pinned.",
+                  "No VL base detected among adapter configs.",
+                  "no positional call sites matched -- verify line 608 by hand",
+                  "DEPLOY.ps1 is intentionally NOT recreated -- publication runs through the Phase 11 gate check, not an ad-hoc deploy script.",
+                  "git push not requested (-AllowGitPush)",
+                  "Hub push not requested (-AllowHubPush)"
+              ],
+    "git_pushed":  false,
+    "hub_pushed":  false,
+    "verdict":  "BLOCKED"
+}
+

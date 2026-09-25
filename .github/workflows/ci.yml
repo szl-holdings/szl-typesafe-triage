@@ -3,10 +3,14 @@ name: ci
 
 on:
   push:
-  pull_request:
+    branches-ignore:
+    - dependabot/**
+    tags:
+    - '**'
+  pull_request: null
   merge_group:
-    types: [checks_requested]
-
+    types:
+    - checks_requested
 permissions:
   contents: read
 

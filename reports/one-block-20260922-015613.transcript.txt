@@ -1,0 +1,137 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260922015613
+Username: BETTERWITHAGE\steph
+RunAs User: BETTERWITHAGE\steph
+Configuration Name: 
+Machine: BETTERWITHAGE (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 28416
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+  ok: transcript -> C:\Users\steph\szl-typesafe-triage\reports\one-block-20260922-015613.transcript.txt
+
+=== PHASE 1 : Interpreter proof (never bare `python`) ===
+  venv python   : C:\Users\steph\szl-typesafe-triage\.venv\Scripts\python.exe
+  bare python   : C:\Users\steph\AppData\Local\Programs\Python\Python311\python.exe
+  WARN: bare `python` is NOT the venv. Every call below uses the absolute path.
+
+=== PHASE 2 : Capability + dependency probe (get_arch_list, not is_available) ===
+  executable    : C:\Users\steph\szl-typesafe-triage\.venv\Scripts\python.exe
+  in_venv       : True
+  torch           : 2.14.0+cu130
+  transformers    : 5.5.0
+  unsloth         : 2026.9.7
+  unsloth_zoo     : 2026.9.6
+  peft            : 0.21.0
+  trl             : 0.24.0
+  datasets        : 4.3.0
+  accelerate      : 1.15.0
+  bitsandbytes    : 0.50.2
+  tokenizers      : 0.22.2
+  huggingface_hub : 1.32.0
+  safetensors     : 0.8.0
+  device        : NVIDIA GeForce RTX 5050 Laptop GPU  sm_120  cap 12.0  8.0 GB
+  arch_list     : sm_75, sm_80, sm_86, sm_90, sm_100, sm_120
+  ok: sm_120 kernels present -- capability-verified
+  ok: bf16 path available
+
+=== PHASE 3 : Reproducibility: freeze the environment ===
+  ok: froze 101 packages -> pip-freeze-20260922-015613.txt
+  ok: lock file(s): pyproject.toml
+
+=== PHASE 4 : Adapter base model -- settles the VL question ===
+  .\out\publish\triage-lora-study5\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\publish\triage-lora-study5\adapters\seed-011\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\publish\triage-lora-study5\adapters\seed-023\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\publish\triage-lora-study5\adapters\seed-037\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\publish\triage-lora-study5\adapters\seed-053\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\publish\triage-lora-study5\adapters\seed-071\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\train\adapter\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\train\runs\checkpoint-387\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\train\study\seed-023\adapter\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  .\out\train\study\seed-023\runs\checkpoint-387\adapter_config.json
+    base  : unsloth/Qwen3.5-0.8B
+    r/a   : 16 / 16
+  note: No VL base detected among adapter configs.
+
+=== PHASE 5 : Pattern-level processor fix (replaces the .tokenizer band-aid) ===
+  ok: backup -> train_eval_publish.py.20260922-015613.bak
+  ok: inserted szl_text_tokenizer + szl_b64_fix
+  note: no positional call sites matched -- verify line 608 by hand
+  BLOCKER: Patch broke compilation. Backup restored.
+
+=== PHASE 6 : Write the missing scripts to disk ===
+  ok: wrote SZL-TRIAGE-RUNBOOK.ps1 (1237 bytes)
+  note: DEPLOY.ps1 is intentionally NOT recreated -- publication runs through the Phase 11 gate check, not an ad-hoc deploy script.
+
+=== PHASE 7 : Sleep suppression with guaranteed restore ===
+  ok: sleep suppressed (previous AC standby: 0 s) -- restored in finally, not only on the happy path
+
+=== PHASE 8 : Preflight -- prove the interpreter before spending GPU time ===
+  WARN: 1 blocker(s) already present. Skipping execution stages.
+
+=== PHASE 9 : Runs (eval -> train -> eval), publishing off ===
+  WARN: Runs skipped -- blockers present.
+
+=== PHASE 10 : Read the gate state from the receipt -- do not assume 11/12 ===
+  receipt: .\out\publish\triage-lora-study5\publication-receipt.json
+
+Gate               Status         Source 
+----               ------         ------ 
+release_status     BLOCKED        receipt
+promotion_status   NOT_PROMOTABLE receipt
+assert_arch        PASS           live   
+assert_bf16_loader PASS           live
+  gates: 2 pass / 2 not-pass
+  OPEN:
+    - release_status [receipt]
+    - promotion_status [receipt]
+  promotable    : False
+
+=== PHASE 11 : Push -- fail closed ===
+  note: git push not requested (-AllowGitPush)
+  note: Hub push not requested (-AllowHubPush)
+  ok: HF_TOKEN cleared from session
+
+=== PHASE 12 : Receipt (token-scrubbed) ===
+  ok: receipt -> C:\Users\steph\szl-typesafe-triage\reports\one-block-receipt-20260922-015613.json
+
+============================================================
+VERDICT: BLOCKED
+Runs completed : 0/5
+Promotable     : False
+Blockers       : 1
+  - Patch broke compilation. Backup restored.
+Release remains BLOCKED. No adapter was published.
+============================================================
+Sleep timeout restored.
+**********************
+Windows PowerShell transcript end
+End time: 20260922015642
+**********************
