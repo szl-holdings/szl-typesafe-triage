@@ -163,14 +163,27 @@ def test_clean_jaccard_boundary_is_unchanged(clean):
     assert run(clean)["integrity_status"] == "PASS"
 
 
-def test_real_history_reports_actual_inconsistencies_without_repair():
+def test_real_history_is_bound_and_still_not_promotable():
+    """Committed artifacts cite measured bytes. Binding must not grant promotion."""
     paths = [ROOT / "out" / name for name in ("release_gate.json", "leakage_gate.json", "release_seal.json")]
     before = {path: path.read_bytes() for path in paths}
     report = verify(ROOT)
-    assert report["integrity_status"] == "FAIL"
+    assert report["integrity_status"] == "PASS", report["findings"]
+    assert report["release_verdict"] == "BLOCKED"
     assert report["promotion_status"] == "NOT_PROMOTABLE"
-    assert {"STAGE_CORPUS_MISMATCH", "LEAKAGE_RECEIPT_UNBOUND", "LEAKAGE_COMMIT_UNBOUND",
-            "LEAKAGE_COMMIT_MISMATCH", "LEAKAGE_CORPUS_UNBOUND"} <= codes(report)
+    assert report["stages"] == dict.fromkeys(MODULE.STAGES, "PASS")
+    gate = json.loads((ROOT / "out" / "release_gate.json").read_text(encoding="utf-8"))
+    red = gate["stages"]["red_team"]
+    assert red["data_path"].replace("\\", "/") == "policies/redteam_probes.verified.jsonl"
+    assert red["verdict"] == "BLOCKED" and red["stage_passed"] is False
+    assert red["corpus_sha256"] == hashlib.sha256(
+        (ROOT / "policies" / "redteam_probes.verified.jsonl").read_bytes()).hexdigest()
+    leakage = json.loads((ROOT / "out" / "leakage_gate.json").read_text(encoding="utf-8"))
+    assert leakage["corpus_sha256"] == hashlib.sha256(
+        (ROOT / "output" / "triage_distill_v0.5.1.jsonl").read_bytes()).hexdigest()
+    assert gate["stages"]["leakage"]["receipt_sha256"] == hashlib.sha256(
+        (ROOT / "out" / "leakage_gate.json").read_bytes()).hexdigest()
+    assert gate["stages"]["leakage"]["commit"] == leakage["commit"] == "5a45f66"
     assert before == {path: path.read_bytes() for path in paths}
 
 
@@ -312,6 +325,11 @@ def test_release_workflow_pins_history_and_keeps_promotable_gate():
     assert text.count("timeout-minutes: 5") == 3
     seal = text.split("  verify-seal:")[1].split("  release-promotable:")[0]
     assert "fetch-depth: 0" in seal
-    assert "sys.exit(0 if r.get(\"release_verdict\") == \"PROMOTABLE\" else 1)" in text
+    assert "python scripts/verify_release_receipts.py" in text
+    assert 'if verdict == "BLOCKED":' in text
+    assert 'print("PROMOTION: NOT_PROMOTABLE")' in text
+    assert 'if verdict == "PROMOTABLE":' in text
+    assert 'print("PROMOTION: NOT_ESTABLISHED")' in text
+    assert 'sys.exit(0 if r.get("release_verdict") == "PROMOTABLE" else 1)' not in text
     assert "continue-on-error" not in text
     assert "|| true" not in text
