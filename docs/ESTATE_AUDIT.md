@@ -66,7 +66,6 @@ uds-bundles states SLSA L1+L2 while thesis v24 corrects the estate to L1 honest,
 - szl-frontier
 - szl-gov
 - szl-gpu-bridge
-- szl-hf-frontier
 - szl-holdings.github.io
 - szl-kernels
 - szl-khipu
@@ -98,7 +97,7 @@ uds-bundles states SLSA L1+L2 while thesis v24 corrects the estate to L1 honest,
 
 ## What this audit cannot see
 
-- private_repos_not_cloned: ['szl-safe-stack', 'szl-estate-os', 'szl-org-health', 'szl-v14', 'szl-defensive-control-plane', 'gdw-frontier', 'pitch-collateral']
+- non_public_repos: not cloned, not read and not named; local clones of non-public repositories are skipped before any pass, so this audit covers public repositories only
 - shallow_clones: depth 1, so history and CI logs are not audited
 - text_only: binary artefacts, weights and images are not read
 - no_execution: nothing was run; no claim here is a behavioural verification
