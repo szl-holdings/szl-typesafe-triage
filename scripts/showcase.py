@@ -2,6 +2,8 @@ import json, subprocess
 from pathlib import Path
 
 HEAD = subprocess.run(["git","rev-parse","--short","HEAD"], capture_output=True, text=True).stdout.strip()
+# the gate-label set is not public; the copy cites it by this alias, never by its id
+DATASET_ALIAS = "canonical gate-label set (non-public; id withheld)"
 def rd(p):
     q = Path(p)
     return json.loads(q.read_text(encoding="utf-8-sig")) if q.exists() else {}
@@ -94,7 +96,7 @@ hf = ["---", "title: SZL Holdings", "emoji: \U0001F9F5", "colorFrom: blue", "col
  "that sounds like a capability is not one.", "",
  "## Start here", "",
  "| If you want | Go to |", "|---|---|",
- "| A labelled governance-gate dataset | `yuyay-v3-axis-labels-v1` — " + str(N["canon_axes"]) +
+ "| A labelled governance-gate dataset | " + DATASET_ALIAS + " — " + str(N["canon_axes"]) +
    " axes, per-axis floors, human verdicts |",
  "| A benchmark that scores honest refusal | `k-verify-benchmark-v1` — includes unverifiable traps |",
  "| Offline-verifiable evidence | `szl-lake` — append-only signed receipts |",

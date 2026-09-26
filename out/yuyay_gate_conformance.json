@@ -1,7 +1,7 @@
 {
   "schema": "szl.yuyay-gate/v2",
-  "commit": "427a70e",
-  "dataset": "SZLHOLDINGS/yuyay-v3-axis-labels-v1",
+  "commit": "8d73dd2",
+  "dataset": "canonical gate-label set (non-public; id withheld)",
   "split": "eval",
   "rows": 100,
   "canonical_axes": [

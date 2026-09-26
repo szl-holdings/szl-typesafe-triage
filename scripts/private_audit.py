@@ -1,27 +1,27 @@
+"""Private-tier audit, public-safe form.
+
+This repository is public. The private tier is therefore recorded as counts only: no repository
+name, description or internal path from a non-public source is written to any tracked file, and
+leads whose source is not public are counted rather than described.
+"""
 import json, subprocess
 from pathlib import Path
 
 HEAD = subprocess.run(["git","rev-parse","--short","HEAD"], capture_output=True, text=True).stdout.strip()
 
-A = {"schema": "szl.private-audit/v1", "commit": HEAD,
+A = {"schema": "szl.private-audit/v2", "commit": HEAD,
  "method": ("GitHub code search reaches private repositories with the owner's credentials, so the private tier was "
             "audited by matched fragments rather than by cloning. fragments are not whole files, and 30 of 165 leakage "
             "hits were read"),
- "private_repos_reachable": ["szl-estate-os", "szl-org-health", "szl-v14", "szl-safe-stack",
-                             "szl-defensive-control-plane", "gdw-frontier", "pitch-collateral"],
- "estate_os_modules_observed": ["estate/action_assurance.py", "estate/evidence_contract.py", "estate/khipu_number.py",
-                                "estate/action_assurance_store.py", "estate/action_assurance_contract.py",
-                                "tools/estate_inventory.py", "ci/run_restore_drill.py", "ci/stress_estate_os.py",
-                                "ci/verify_action_assurance.py", "ACTION_ASSURANCE_RUNTIME.py"],
+ "private_tier": {"repos_reachable": 7, "internal_paths_observed": 10, "leads_withheld": 2},
+ "disclosure": ("counts only. names, descriptions and internal paths of non-public sources are not recorded in this "
+                "public repository, and leads from non-public sources are withheld rather than described"),
  "transplants": [
   {"source": "szl-forge/gmb/run_hidden.py + gmb/run_gmb.py",
    "what": "a leakage gate that refuses rather than reports, raising SystemExit on any overlap with the public train "
            "prompt list, in a harness whose docstring states it does not name a model winner",
    "closes": "B7 self-authored fixtures, and the whole class of good-looking numbers on contaminated splits",
    "priority": "ADOPT_NOW"},
-  {"source": "szl-hf-frontier tournament ledger",
-   "what": "a ledger that structurally cannot name a winner; reports GMB 20/20, leakage CLEAN, false ALLOW 0, winner null",
-   "closes": "the temptation to report a score as a ranking", "priority": "ADOPT_NOW"},
   {"source": "szl-frontier/docs/CODEX_HF_REPO2RLENV_SYNTHESIS.md",
    "what": "nine rules for generated corpora, three of which bind this repository: preserve UNAVAILABLE versus FAIL "
            "and never synthesize success from a missing capability; detect oracle and gold-patch leakage in "
@@ -33,9 +33,6 @@ A = {"schema": "szl.private-audit/v1", "commit": HEAD,
   {"source": ".github/templates/HUGGINGFACE_DATASET_CARD.md",
    "what": "the org dataset-card template requires a Contamination or leakage result with an evidence link",
    "closes": "this repository's SFT exporter emits no leakage field", "priority": "ADOPT_NOW"},
-  {"source": "szl-estate-os/estate/evidence_contract.py and action_assurance",
-   "what": "a private evidence-contract and action-assurance runtime with a restore drill and stress CI",
-   "closes": "unknown until read in full; recorded as a lead, not a finding", "priority": "READ_NEXT"},
   {"source": "platform/docs/FAILURE_SEVERITY_POLICY.md",
    "what": "serving mocked or unvalidated data is classified Sev 1, alongside deployment ambiguity and data integrity",
    "closes": "gives this repository a severity vocabulary for its own BLOCKED states", "priority": "ADOPT_NEXT"}],
@@ -60,10 +57,13 @@ A = {"schema": "szl.private-audit/v1", "commit": HEAD,
  "status": "MEASURED"}
 
 Path("out/private_audit.json").write_text(json.dumps(A, indent=2), encoding="utf-8")
-md = ["# Private-tier audit", "", A["method"], "", "## Transplants", ""]
+md = ["# Private-tier audit", "", A["method"], "", "## Private tier", "", A["disclosure"], ""]
+md += ["- " + k + ": " + str(v) for k, v in A["private_tier"].items()]
+md += ["", "## Transplants", ""]
 for t in A["transplants"]:
     md += ["- **" + t["priority"] + "** `" + t["source"] + "`  ", "  " + t["what"], "  closes: " + t["closes"]]
 md += ["", "## Predecessor", "", A["predecessor"]["consequence"], "", "## Limits", ""]
 md += ["- " + k + ": " + v for k, v in A["limits"].items()]
 Path("docs/PRIVATE_AUDIT.md").write_text("\n".join(md), encoding="utf-8")
-print("private audit recorded: " + str(len(A["transplants"])) + " transplants, predecessor lineage named")
+print("private audit recorded: " + str(len(A["transplants"])) + " public-source transplants, "
+      + str(A["private_tier"]["leads_withheld"]) + " non-public leads withheld, predecessor lineage named")

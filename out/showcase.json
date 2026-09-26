@@ -1,10 +1,10 @@
 {
   "schema": "szl.showcase/v1",
-  "commit": "427a70e",
+  "commit": "8d73dd2",
   "numbers": {
     "repos": 88,
     "schemas": 689,
-    "unreviewed": 75,
+    "unreviewed": 74,
     "comp": 35,
     "rows": 100,
     "canon_axes": 13,

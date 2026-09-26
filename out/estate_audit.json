@@ -263,11 +263,6 @@
           "files": 126,
           "lines": 24392
         },
-        "szl-hf-frontier": {
-          "head": "d63138c",
-          "files": 68,
-          "lines": 18030
-        },
         "szl-holdings.github.io": {
           "head": "f716a58",
           "files": 24,
@@ -783,13 +778,6 @@
           "UNAVAILABLE": 6,
           "SURROGATE": 1,
           "UNKNOWN": 2
-        },
-        "szl-hf-frontier": {
-          "MEASURED": 402,
-          "BLOCKED": 21,
-          "UNAVAILABLE": 47,
-          "INVALID": 1,
-          "UNKNOWN": 77
         },
         "szl-holdings.github.io": {
           "MEASURED": 1,
@@ -1408,14 +1396,6 @@
           "A5_or_perm": 218,
           "conjecture_1": 4
         },
-        "szl-hf-frontier": {
-          "weighted_geometric": 0,
-          "equal_weight": 0,
-          "egyptian": 0,
-          "A1-A4_only": 1,
-          "A5_or_perm": 359,
-          "conjecture_1": 18
-        },
         "szl-holdings.github.io": {
           "weighted_geometric": 0,
           "equal_weight": 0,
@@ -1779,11 +1759,6 @@
           "8": 8,
           "5": 1
         },
-        "szl-hf-frontier": {
-          "8": 2,
-          "5": 1,
-          "21": 1
-        },
         "szl-holdings.github.io": {
           "8": 1
         },
@@ -2062,13 +2037,6 @@
           "well_founded": 0,
           "fixed_point": 0,
           "cap": 2,
-          "invariant_count_8": 0
-        },
-        "szl-hf-frontier": {
-          "loop_tax": 1,
-          "well_founded": 0,
-          "fixed_point": 0,
-          "cap": 6,
           "invariant_count_8": 0
         },
         "szl-invariants": {
@@ -2361,7 +2329,6 @@
         "szl-frontier",
         "szl-gov",
         "szl-gpu-bridge",
-        "szl-hf-frontier",
         "szl-holdings.github.io",
         "szl-kernels",
         "szl-khipu",
@@ -2394,20 +2361,20 @@
       "note": "the completion audit judged a fraction of the estate; everything below was never assessed"
     },
     "10_limits": {
-      "private_repos_not_cloned": [
-        "szl-safe-stack",
-        "szl-estate-os",
-        "szl-org-health",
-        "szl-v14",
-        "szl-defensive-control-plane",
-        "gdw-frontier",
-        "pitch-collateral"
-      ],
+      "non_public_repos": "per-repository rows name public repositories only. the generator skips local clones of non-public repositories before any pass; this receipt's aggregate counts were measured before that rule and are kept as measured (see redaction)",
       "shallow_clones": "depth 1, so history and CI logs are not audited",
       "text_only": "binary artefacts, weights and images are not read",
       "no_execution": "nothing was run; no claim here is a behavioural verification",
       "honest_state": "this is an inventory and a language audit, not a proof of anything"
     }
   },
-  "status": "MEASURED"
+  "status": "MEASURED",
+  "redaction": {
+    "applied": "2026-09-25",
+    "rule": "per-repository rows are published only for public repositories; the generator now skips non-public local clones before any pass",
+    "repos_removed": 1,
+    "aggregates": "public_repos_cloned, 1_inventory.repos, 2_honesty_vocabulary.totals, 7_receipt_schemas and 9_audit_coverage.estate_public_repos are as originally measured and still include the removed rows",
+    "status_scope": "status MEASURED and commit 427a70e describe the original run; this redaction is a post-hoc edit, not a re-measurement",
+    "doc": "docs/ESTATE_AUDIT.md carries the same note"
+  }
 }

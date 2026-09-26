@@ -19,7 +19,7 @@ that sounds like a capability is not one.
 
 | If you want | Go to |
 |---|---|
-| A labelled governance-gate dataset | `yuyay-v3-axis-labels-v1` — 13 axes, per-axis floors, human verdicts |
+| A labelled governance-gate dataset | canonical gate-label set (non-public; id withheld) — 13 axes, per-axis floors, human verdicts |
 | A benchmark that scores honest refusal | `k-verify-benchmark-v1` — includes unverifiable traps |
 | Offline-verifiable evidence | `szl-lake` — append-only signed receipts |
 | Governance kernels | `szl-invariants`, `szl-govsign`, `szl-provctl`, `szl-blocked`, `szl-ouroboros` |
@@ -49,4 +49,4 @@ Our trust aggregator's unconditional uniqueness is a **conjecture and disproved 
 result is proved, and it is proved without a project axiom. We claim no accreditation beyond level one honest
 supply-chain posture. Verification here proves integrity and origin, never accuracy or performance.
 
-Generated from receipts at `427a70e`.
+Generated from receipts at `8d73dd2`.

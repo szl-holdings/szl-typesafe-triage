@@ -676,7 +676,7 @@
     {
       "first_seen_in": "preprints",
       "path": "preprints/puriq/README.md",
-      "text": "**Conjecture 1 is disproved as stated**, and only the weaker-condition uniqueness question remains open PURIQ adds four **net-new** sorry-tagged obligations (`SORRY_PURIQ_OPEN[24..27]`) and **no new axiom**. ## Companion dataset The 13-axis label set referenced by the paper is published at [`SZLHOLDINGS/yuyay-v3-axis-labels-v1`](https://huggingface.co/datasets/SZLHOLDINGS/yuyay-v3-axis-labels-v1) ",
+      "text": "**Conjecture 1 is disproved as stated**, and only the weaker-condition uniqueness question remains open PURIQ adds four **net-new** sorry-tagged obligations (`SORRY_PURIQ_OPEN[24..27]`) and **no new axiom**. ## Companion dataset The 13-axis label set referenced by the paper is published at [canonical gate-label set (non-public; id withheld)] ",
       "status_tags": []
     },
     {
@@ -2513,7 +2513,7 @@
     {
       "version": "preprints",
       "path": "preprints/puriq/README.md",
-      "text": "stated**, and only the weaker-condition uniqueness question remains open PURIQ adds four **net-new** sorry-tagged obligations (`SORRY_PURIQ_OPEN[24..27]`) and **no new axiom**. ## Companion dataset The 13-axis label set referenced by the paper is published at [`SZLHOLDINGS/yuyay-v3-axis-labels-v1`](https://huggingface.co/datasets/SZLHOLDI"
+      "text": "stated**, and only the weaker-condition uniqueness question remains open PURIQ adds four **net-new** sorry-tagged obligations (`SORRY_PURIQ_OPEN[24..27]`) and **no new axiom**. ## Companion dataset The 13-axis label set referenced by the paper is published at [canonical gate-label set (non-public; id withheld)]"
     },
     {
       "version": "prior-art",
@@ -5327,5 +5327,11 @@
     }
   ],
   "method": "every document read in full; formal claims and honesty statements deduplicated by normalised hash so the v1-v24 lineage's heavy repetition collapses to first appearance",
-  "honesty": "extraction, not paraphrase"
+  "honesty": "extraction, not paraphrase",
+  "redaction": {
+    "applied": "2026-09-25",
+    "rule": "identifiers of non-public datasets inside quoted corpus text are replaced with a public-safe alias",
+    "replacements": 2,
+    "scope": "post-hoc edit of this receipt, not a re-read of the corpus; every other field is as originally extracted"
+  }
 }

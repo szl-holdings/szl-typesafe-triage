@@ -2,6 +2,8 @@ import json, subprocess
 from pathlib import Path
 
 HEAD = subprocess.run(["git","rev-parse","--short","HEAD"], capture_output=True, text=True).stdout.strip()
+# the gate-label set is not public; it is cited by this alias, never by its id
+DATASET_ALIAS = "canonical gate-label set (non-public; id withheld)"
 
 R = [
  {"n": 1, "claimed": "the aggregator is an arithmetic mean",
@@ -43,7 +45,7 @@ R = [
                    "floor. the correct analogue is per-axis margins, min(score-floor) >= 0, which is algebraically "
                    "identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule "
                    "nobody proposed"),
-  "source": "SZLHOLDINGS/yuyay-v3-axis-labels-v1 eval split, 100 rows"},
+  "source": DATASET_ALIAS + ", eval split, 100 rows"},
  {"n": 15, "claimed": "the corpus has 628 template families across 628 rows, so no families are shared",
   "corrected_to": ("my family heuristic hashed the sorted unique token set, so one changed word produced a new family "
                    "and the count necessarily equalled the row count. it could never detect a shared template. the "

@@ -220,7 +220,7 @@
 "showcase.py","59","   str(N[""eng_axes""]) + "" compensatory | `out/yuyay_gate_conformance.json` |"","
 "showcase.py","65","   "" | `out/leakage_gate.json` |"","
 "showcase.py","92"," ""Every model, dataset and Space here carries an honesty label. If something is a surrogate, a fixture, a"","
-"showcase.py","97"," ""| A labelled governance-gate dataset | `yuyay-v3-axis-labels-v1` ? "" + str(N[""canon_axes""]) +"
+"showcase.py","97"," ""| A labelled governance-gate dataset | canonical gate-label set (non-public; id withheld) ? "" + str(N[""canon_axes""]) +"
 "showcase.py","104"," ""Our own triage adapter passed its behavioural gate on every held-out row ? perfect labels, perfect refusal"","
 "showcase.py","106"," ""the held-out set was a near-copy of the training set. The card says **NOT PROMOTABLE** and explains why."","
 "showcase.py","109"," ""char-5gram Jaccard of "" + str(N[""jac""]) + "". No weights were published. A gate that only ever agrees with you"","

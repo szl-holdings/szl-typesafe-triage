@@ -1,6 +1,6 @@
 {
   "schema": "szl.retractions/v1",
-  "commit": "427a70e",
+  "commit": "8d73dd2",
   "count": 16,
   "retractions": [
     {
@@ -67,7 +67,7 @@
       "n": 13,
       "claimed": "the min gate scores worse than the compensatory product on the yuyay eval split",
       "corrected_to": "my min gate was misspecified as min(scores) >= max(floors), a uniform threshold at the strictest floor. the correct analogue is per-axis margins, min(score-floor) >= 0, which is algebraically identical to the conjunctive AND and therefore scores 100 of 100. the 53 of 100 measured a rule nobody proposed",
-      "source": "SZLHOLDINGS/yuyay-v3-axis-labels-v1 eval split, 100 rows"
+      "source": "canonical gate-label set (non-public; id withheld), eval split, 100 rows"
     },
     {
       "n": 15,

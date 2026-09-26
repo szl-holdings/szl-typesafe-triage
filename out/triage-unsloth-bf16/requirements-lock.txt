@@ -63,7 +63,7 @@ shellingham==1.5.4
 six==1.17.0
 structlog==26.1.0
 sympy==1.14.0
--e git+https://github.com/stephenlutar2-hash/szl-typesafe-triage.git@768265213f395a8724dae45a008fefb57993c0ea#egg=szl_triage
+# szl_triage: local editable install (source reference not recorded)
 tokenizers==0.22.2
 torch @ file:///C:/Users/steph/szl-typesafe-triage/wheels/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl#sha256=00fb5440e7560b3b21e5e24567c6096fec4ef65b50a7ef1a105ebed5755eef7e
 torchao==0.18.0

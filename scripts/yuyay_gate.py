@@ -5,33 +5,78 @@ The doctrine's gate is a 13-axis non-compensatory conjunctive AND with per-axis 
 This script measures the cost of that difference on the published eval split.
 """
 import json
+import logging
 import math
 import os
 import subprocess
+import sys
+import warnings
 from pathlib import Path
 
 from huggingface_hub import hf_hub_download
 
-REPO = "SZLHOLDINGS/yuyay-v3-axis-labels-v1"
+# The label set is not public. Its id is supplied at run time and is never written into a receipt;
+# receipts and printed lines carry DATASET_ALIAS instead.
+REPO = os.environ.get("SZL_YUYAY_DATASET", "").strip()
+DATASET_ALIAS = "canonical gate-label set (non-public; id withheld)"
 HEAD = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
 TOK = os.environ.get("HF_TOKEN") or None
 OUT = Path("out/yuyay_gate_conformance.json")
 
 
+def withhold(text):
+    """Replace the dataset id, in any spelling a hub message or cache path might use, with the alias."""
+    text = str(text)
+    if REPO:
+        for form in (REPO, REPO.replace("/", "%2F"), REPO.replace("/", "--"), REPO.split("/", 1)[-1]):
+            text = text.replace(form, DATASET_ALIAS)
+    return text
+
+
+_record_factory = logging.getLogRecordFactory()
+
+
+def _withheld_record(*args, **kwargs):
+    """Log records, including the hub library's download errors, are withheld before any handler formats them."""
+    record = _record_factory(*args, **kwargs)
+    try:
+        message = record.getMessage()
+    except Exception:
+        message = str(record.msg) + " " + repr(record.args)
+    record.msg, record.args = withhold(message), None
+    if record.exc_info:
+        record.exc_text = withhold(logging.Formatter().formatException(record.exc_info))
+    if record.stack_info:
+        record.stack_info = withhold(record.stack_info)
+    return record
+
+
+logging.setLogRecordFactory(_withheld_record)
+
+
 def unavailable(msg):
     OUT.write_text(json.dumps(
-        {"schema": "szl.yuyay-gate/v2", "commit": HEAD, "state": "DATASET_UNAVAILABLE", "error": str(msg)[:300],
-         "note": "the dataset is private and needs HF_TOKEN; absence is recorded rather than guessed"},
+        {"schema": "szl.yuyay-gate/v2", "commit": HEAD, "state": "DATASET_UNAVAILABLE", "dataset": DATASET_ALIAS,
+         "error": withhold(msg)[:300],
+         "note": ("the dataset is private and needs SZL_YUYAY_DATASET and HF_TOKEN; absence is recorded rather "
+                  "than guessed")},
         indent=2), encoding="utf-8")
-    print("yuyay unavailable: " + str(msg)[:180])
+    print("yuyay unavailable: " + withhold(msg)[:180])
     raise SystemExit(0)
 
 
+if not REPO:
+    unavailable("dataset id not configured; set SZL_YUYAY_DATASET")
 try:
-    ev_path = hf_hub_download(repo_id=REPO, filename="eval.jsonl", repo_type="dataset", token=TOK)
-    st_path = hf_hub_download(repo_id=REPO, filename="stats.json", repo_type="dataset", token=TOK)
+    # hub warnings can quote the local cache path, which embeds the id; they are re-emitted withheld
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        ev_path = hf_hub_download(repo_id=REPO, filename="eval.jsonl", repo_type="dataset", token=TOK)
+        st_path = hf_hub_download(repo_id=REPO, filename="stats.json", repo_type="dataset", token=TOK)
 except Exception as exc:
     unavailable(exc)
+for w in caught:
+    print("warning: " + withhold(w.message), file=sys.stderr)
 
 rows_raw = [json.loads(l) for l in Path(ev_path).read_text(encoding="utf-8").splitlines() if l.strip()]
 stats = json.loads(Path(st_path).read_text(encoding="utf-8"))
@@ -96,8 +141,9 @@ print("  COMPENSATION ERRORS: " + str(len(comp)) + "/" + str(n))
 for a, c in sorted(by_axis.items(), key=lambda kv: -kv[1])[:10]:
     print("    " + a.ljust(26) + str(c))
 
-OUT.write_text(json.dumps(
-    {"schema": "szl.yuyay-gate/v2", "commit": HEAD, "dataset": REPO, "split": "eval", "rows": n,
+# withhold() runs over the whole receipt, so an id carried inside the dataset's own stats is not copied either
+OUT.write_text(withhold(json.dumps(
+    {"schema": "szl.yuyay-gate/v2", "commit": HEAD, "dataset": DATASET_ALIAS, "split": "eval", "rows": n,
      "canonical_axes": AXES, "canonical_axis_count": len(AXES), "engine_axis_count": 4,
      "dataset_stats": stats,
      "agreement": {"conjunctive_and": agree("conjunctive"), "geometric_product": agree("geometric"),
@@ -120,5 +166,5 @@ OUT.write_text(json.dumps(
      "circularity_warning": ("these labels come from the estate's own gate, so agreement measures distillation "
                              "fidelity to that gate and not correctness about the world"),
      "sample_size_warning": "100 eval rows; any weight fitting must use the 400-row train split only",
-     "rows_detail": rows[:40], "status": "MEASURED"}, indent=2), encoding="utf-8")
+     "rows_detail": rows[:40], "status": "MEASURED"}, indent=2)), encoding="utf-8")
 print("RECEIPT " + str(OUT))

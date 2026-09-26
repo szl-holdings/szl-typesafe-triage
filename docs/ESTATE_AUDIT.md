@@ -1,6 +1,8 @@
 # Estate audit
 
-`szl-holdings` - 88 public repos cloned, ten passes.
+`szl-holdings` - 88 repos cloned at the original run, ten passes.
+
+Redaction (2026-09-25): per-repository rows name public repositories only. The count above and the other aggregates listed in the `redaction` block of `out/estate_audit.json` are as originally measured at `427a70e` and still include the removed rows. This is a post-hoc edit, not a re-measurement.
 
 ## The Lambda naming collision
 
@@ -66,7 +68,6 @@ uds-bundles states SLSA L1+L2 while thesis v24 corrects the estate to L1 honest,
 - szl-frontier
 - szl-gov
 - szl-gpu-bridge
-- szl-hf-frontier
 - szl-holdings.github.io
 - szl-kernels
 - szl-khipu
@@ -98,7 +99,7 @@ uds-bundles states SLSA L1+L2 while thesis v24 corrects the estate to L1 honest,
 
 ## What this audit cannot see
 
-- private_repos_not_cloned: ['szl-safe-stack', 'szl-estate-os', 'szl-org-health', 'szl-v14', 'szl-defensive-control-plane', 'gdw-frontier', 'pitch-collateral']
+- non_public_repos: per-repository rows name public repositories only. the generator skips local clones of non-public repositories before any pass; this receipt's aggregate counts were measured before that rule and are kept as measured (see redaction)
 - shallow_clones: depth 1, so history and CI logs are not audited
 - text_only: binary artefacts, weights and images are not read
 - no_execution: nothing was run; no claim here is a behavioural verification

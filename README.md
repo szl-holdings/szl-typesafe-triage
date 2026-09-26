@@ -27,7 +27,7 @@ advises. Release is **BLOCKED at 11/12**.
 
 ## Audits in this repository
 
-- `docs/ESTATE_AUDIT.md` - ten passes over 88 public estate repositories
+- `docs/ESTATE_AUDIT.md` - ten passes over the public estate repositories (counts in `out/estate_audit.json`)
 - `docs/PRIVATE_AUDIT.md` - private-tier leads via authenticated code search
 - `docs/DEEP_FINDINGS.md` - why the predecessor adapter is NOT PROMOTABLE
 - `docs/STATE_OF_THE_REPO.md` - eight bandaids and six gaps, named

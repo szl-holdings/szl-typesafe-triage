@@ -3,9 +3,28 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(r"C:\Users\steph\szl-estate")
+ORG = "szl-holdings"
 HEAD = subprocess.run(["git","rev-parse","--short","HEAD"], capture_output=True, text=True).stdout.strip()
 TEXT = {".md", ".py", ".json", ".yml", ".yaml", ".toml", ".lean", ".ts", ".txt", ".cff"}
-repos = sorted([p for p in ROOT.iterdir() if p.is_dir() and (p / ".git").exists()])
+
+def public_names():
+    # This repository is public, so only public repositories may be named in its output. Fail closed:
+    # without a visibility listing there is no audit, rather than an audit that might name a non-public repo.
+    try:
+        r = subprocess.run(["gh", "repo", "list", ORG, "--visibility", "public", "--limit", "1000",
+                            "--json", "name", "--jq", ".[].name"], capture_output=True, text=True)
+    except OSError:
+        r = None
+    ok = r is not None and r.returncode == 0
+    names = {n.strip().lower() for n in (r.stdout or "").splitlines() if n.strip()} if ok else set()
+    if not names:
+        raise SystemExit("repository visibility unavailable; refusing to write an estate audit")
+    return names
+
+PUBLIC = public_names()
+local = sorted([p for p in ROOT.iterdir() if p.is_dir() and (p / ".git").exists()])
+repos = [p for p in local if p.name.lower() in PUBLIC]
+skipped = len(local) - len(repos)
 
 def files(r):
     return [p for p in r.rglob("*") if p.is_file() and ".git" not in p.parts and p.suffix.lower() in TEXT]
@@ -88,13 +107,20 @@ P["5_bounded_loop"] = {"per_repo": {k: v for k, v in loop.items() if any(v.value
               "FAIL_BY_DEFINITION.")}
 
 # pass 6: archived duplicates and canonical pointers
+def public_pointer(target):
+    # A public README may point at a repository that is not public; such a target is withheld, not copied.
+    m = re.search(re.escape(ORG) + r"/([A-Za-z0-9._-]+)", target, re.I)
+    name = (m.group(1) if m else target.strip("`*()[]<>.,;:|'\"")).lower()
+    name = name[:-4] if name.endswith(".git") else name
+    return target if name in PUBLIC else "withheld: does not name a public repository of the org"
+
 canon = {}
 for r in repos:
     for p in list(r.glob("README*")) + list(r.glob(".github/**/*.md")):
         s = read(p)
         m = re.search(r"(ARCHIVED|DEPRECATED)[^\n]{0,160}?Canonical:?\s*(\S+)", s, re.I)
         if m:
-            canon[r.name] = {"state": m.group(1).upper(), "canonical": m.group(2)}
+            canon[r.name] = {"state": m.group(1).upper(), "canonical": public_pointer(m.group(2))}
 P["6_canonical_pointers"] = canon
 
 # pass 7: receipt schema convergence
@@ -131,8 +157,8 @@ P["9_audit_coverage"] = {"estate_public_repos": len(present), "reviewed_in_compl
   "note": "the completion audit judged a fraction of the estate; everything below was never assessed"}
 
 # pass 10: what this audit cannot see
-P["10_limits"] = {"private_repos_not_cloned": ["szl-safe-stack", "szl-estate-os", "szl-org-health", "szl-v14",
-                                               "szl-defensive-control-plane", "gdw-frontier", "pitch-collateral"],
+P["10_limits"] = {"non_public_repos": ("not cloned, not read and not named; local clones of non-public repositories "
+                                       "are skipped before any pass, so this audit covers public repositories only"),
   "shallow_clones": "depth 1, so history and CI logs are not audited",
   "text_only": "binary artefacts, weights and images are not read",
   "no_execution": "nothing was run; no claim here is a behavioural verification",
@@ -154,5 +180,5 @@ Path("docs/ESTATE_AUDIT.md").write_text("\n".join(md), encoding="utf-8")
 
 print("repos " + str(len(repos)) + "   schemas " + str(P["7_receipt_schemas"]["distinct"]) +
       "   never reviewed " + str(len(P["9_audit_coverage"]["never_reviewed"])) +
-      "   L1+L2 contradictions " + str(len(contra)))
+      "   L1+L2 contradictions " + str(len(contra)) + "   non-public clones skipped " + str(skipped))
 print("RECEIPT out/estate_audit.json   DOC docs/ESTATE_AUDIT.md")
