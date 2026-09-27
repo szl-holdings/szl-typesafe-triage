@@ -1666,6 +1666,48 @@ def publish_to_hub() -> str:
     return publication_receipt["repo_url"]
 
 
+def szl_evidence_tag(base: str, dry: bool = False) -> str:  # szl-fix-tag
+    '''Return the study tag for HEAD's evidence without ever moving an existing tag.
+
+    Reuses a tag that already points at HEAD or holds identical evidence;
+    otherwise creates the next free BASE-rN tag on HEAD.
+    '''
+    import re as _re
+
+    def git(*args):
+        p = subprocess.run(["git", *args], cwd=str(ROOT), capture_output=True, text=True)
+        return p.stdout.strip() if p.returncode == 0 else ""
+
+    head = git("rev-parse", "HEAD")
+    head_tree = git("rev-parse", "HEAD:evidence/five-seed-study")
+    tags = [t.strip() for t in git("tag", "--list", base, base + "-r*").splitlines() if t.strip()]
+    for t in tags:
+        target = git("rev-list", "-n", "1", t)
+        tree = git("rev-parse", t + "^{commit}:evidence/five-seed-study")
+        if target == head or (head_tree and tree == head_tree):
+            log(f"{t} already marks this evidence ({target[:8]}); existing tags left unchanged")
+            return t
+    if not tags:
+        new = base
+        msg = ("Five-seed training and frozen evaluation measured; public artifact published; "
+               "promotion not established")
+    else:
+        nums = [int(m.group(1)) for m in
+                (_re.fullmatch(_re.escape(base) + r"-r(\d+)", t) for t in tags) if m]
+        n = max(nums, default=0) + 1
+        while git("ls-remote", "--tags", "estate", f"refs/tags/{base}-r{n}"):
+            n += 1
+        new = f"{base}-r{n}"
+        msg = (f"Five-seed study evidence revision on {head[:8]}; {base} is unchanged; "
+               "promotion not established")
+    if dry:
+        log(f"would create {new} on {head[:8]}; {base} stays where it is")
+        return new
+    run(["git", "tag", "-a", new, "-m", msg])
+    log(f"Created {new} on {head[:8]}; existing tags left unchanged")
+    return new
+
+
 def commit_github_evidence() -> str:
     log("\n=== COMMIT AND PUSH GITHUB EVIDENCE ===")
 
@@ -1709,37 +1751,8 @@ def commit_github_evidence() -> str:
 
     run(["git", "push", "estate", branch])
 
-    existing_tags = command_output(["git", "tag", "--list", STUDY_TAG])
-
-    if not existing_tags:
-        run(
-            [
-                "git",
-                "tag",
-                "-a",
-                STUDY_TAG,
-                "-m",
-                (
-                    "Five-seed training and frozen evaluation "
-                    "measured; public artifact published; "
-                    "promotion not established"
-                ),
-            ]
-        )
-    else:
-        tag_target = command_output(
-            ["git", "rev-list", "-n", "1", STUDY_TAG]
-        )
-        head_target = command_output(
-            ["git", "rev-parse", "HEAD"]
-        )
-
-        if tag_target != head_target:
-            raise RuntimeError(
-                f"{STUDY_TAG} already exists on another commit"
-            )
-
-    run(["git", "push", "estate", STUDY_TAG])
+    study_tag = szl_evidence_tag(STUDY_TAG)  # szl-fix-tag
+    run(["git", "push", "estate", study_tag])
 
     return branch
 
