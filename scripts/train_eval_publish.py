@@ -15,6 +15,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+def _szl_text_tok(tok):  # szl-fix-v2
+    # VL processors take images as arg 1; text-only prompts go to the inner tokenizer.
+    inner = getattr(tok, 'tokenizer', None)
+    return inner if callable(inner) else tok
+
+
+
 # --- szl guard -----------------------------------------------------------
 def szl_text_tokenizer(obj):
     """A VL processor __call__ is (images, text, videos); unsloth_zoo
@@ -109,7 +116,7 @@ def text_only_encode(tok, rendered, return_tensors="pt"):
     )
 
 def build_generation_inputs(tokenizer, prompt: str, device):
-    inputs = tokenizer(
+    inputs = _szl_text_tok(tokenizer)(
         text=prompt,
         return_tensors="pt",
         padding=True,
