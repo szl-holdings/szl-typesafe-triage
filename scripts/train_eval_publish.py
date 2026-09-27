@@ -54,6 +54,7 @@ HF_REPO = os.environ.get(
 RUN1_COMMIT = "427a70eb0804d814bf32d2cfc2713e230e468691"
 RUN1_TAG = "triage-lora-run1"
 STUDY_TAG = "triage-lora-study5-measured-20260922-111314"
+PUBLISHED_TAG = None  # set by commit_github_evidence to the tag actually pushed
 
 SEEDS = [11, 23, 37, 53, 71]
 NEW_SEEDS = [23, 37, 53, 71]
@@ -1751,7 +1752,9 @@ def commit_github_evidence() -> str:
 
     run(["git", "push", "estate", branch])
 
+    global PUBLISHED_TAG
     study_tag = szl_evidence_tag(STUDY_TAG)  # szl-fix-tag
+    PUBLISHED_TAG = study_tag
     run(["git", "push", "estate", study_tag])
 
     return branch
@@ -1799,7 +1802,7 @@ def main() -> None:
         "seeds": SEEDS,
         "hub_url": hub_url,
         "github_branch": branch,
-        "github_tag": STUDY_TAG,
+        "github_tag": PUBLISHED_TAG or STUDY_TAG,
         "release_gate": "11/12",
         "release_status": "BLOCKED",
         "promotion_status": "NOT_PROMOTABLE",
@@ -1818,7 +1821,7 @@ def main() -> None:
     log("FIVE-SEED TRAINING, EVALUATION, AND PUBLICATION COMPLETE")
     log("=" * 72)
     log(f"Hugging Face: {hub_url}")
-    log(f"GitHub tag: {STUDY_TAG}")
+    log(f"GitHub tag: {PUBLISHED_TAG or STUDY_TAG}")
     log("Adapters: seed 11, 23, 37, 53, 71")
     log("Release gate: BLOCKED at 11/12")
     log("Promotion: NOT_PROMOTABLE")
