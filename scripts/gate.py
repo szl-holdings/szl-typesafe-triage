@@ -38,8 +38,8 @@ FastLanguageModel.for_inference(model)
 TK = getattr(tok, "tokenizer", tok)
 
 def build_ids(user_text):
-    msgs = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user_text}]
-    prompt = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
+    msgs = [{"role": "user", "content": user_text}]  # prompt contract == training/eval: raw input only, no system prompt
+    prompt = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, enable_thinking=False)
     return TK(prompt, return_tensors="pt", add_special_tokens=False)["input_ids"].to("cuda")
 
 def validate(text):
