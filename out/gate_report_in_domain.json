@@ -1,87 +1,90 @@
 {
   "rows": 101,
-  "malformed": 0,
-  "malformed_reasons": {},
-  "label_ok": 101,
-  "state_ok": 101,
+  "malformed": 13,
+  "malformed_reasons": {
+    "missing-state": 13
+  },
+  "label_ok": 42,
+  "state_ok": 40,
   "gold_refusals": 40,
-  "false_label_on_refusal": 0,
-  "ungrounded_spans": 0,
-  "verdict": "PROMOTABLE",
-  "adapter": "out/triage-unsloth-bf16",
+  "false_label_on_refusal": 2,
+  "ungrounded_spans": 42,
+  "verdict": "BLOCKED",
+  "adapter": "out/publish/triage-lora-study5/adapters/seed-011",
   "data_path": "output\\triage_distill_split_v0.4.0.jsonl",
   "corpus_sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
-  "run_utc": "2026-09-21T16:47:06+00:00",
+  "run_utc": "2026-09-27T12:23:21+00:00",
+  "load_in_4bit": false,
   "verdict_basis": "malformed == 0 and false_label_on_refusal == 0 and ungrounded_spans == 0; label and state accuracy are REPORTED but do NOT affect the verdict",
   "records": [
     {
       "row": 0,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 1,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 2,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 3,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 4,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 5,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 6,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 7,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 8,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -89,15 +92,15 @@
     {
       "row": 9,
       "label": "BUG",
-      "state": "MEASURED",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 10,
-      "label": "BUG",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BUG",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -105,239 +108,209 @@
     {
       "row": 11,
       "label": "BILLING",
-      "state": "MEASURED",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 12,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 13,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 14,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 15,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 16,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 17,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 18,
-      "label": "BILLING",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "BILLING",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 19,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 20,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"exploit\",\"evidence\":[\"exploit\",\"unauthorized\",\"credentials\"]}"
     },
     {
       "row": 21,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 22,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"cve\"]}"
     },
     {
       "row": 23,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 24,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 25,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 26,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 27,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 28,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"credentials\"]}"
     },
     {
       "row": 29,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 30,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"unauthorized\",\"cve\"]}"
     },
     {
       "row": 31,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"credentials\"]}"
     },
     {
       "row": 32,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"leaked\"]}"
     },
     {
       "row": 33,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"leaked\"]}"
     },
     {
       "row": 34,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"credentials\"]}"
     },
     {
       "row": 35,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 36,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 37,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"unauthorized\"]}"
     },
     {
       "row": 38,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"unauthorized\",\"xss\"]}"
     },
     {
       "row": 39,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 40,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -345,127 +318,118 @@
     {
       "row": 41,
       "label": "SECURITY",
-      "state": "MEASURED",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 42,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"leaked\",\"xss\"]}"
     },
     {
       "row": 43,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 44,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"exploit\",\"unauthorized\"]}"
     },
     {
       "row": 45,
-      "label": "SECURITY",
-      "state": "MEASURED",
+      "label": "VULNERABILITY",
+      "state": "REVIEW",
       "gold_label": "SECURITY",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 46,
-      "label": "SECURITY",
-      "state": "MEASURED",
-      "gold_label": "SECURITY",
-      "gold_state": "MEASURED",
-      "ungrounded_spans": []
+      "malformed": "missing-state",
+      "raw": "{\"label\":\"VULNERABILITY\",\"evidence\":[\"vulnerability\",\"unauthorized\",\"cve\"]}"
     },
     {
       "row": 47,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "enhancement",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 48,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "enhancement",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 49,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "enhancement",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 50,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "SUGGESTION",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 51,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "enhancement",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 52,
-      "label": "FEATURE",
-      "state": "MEASURED",
+      "label": "enhancement",
+      "state": "REVIEW",
       "gold_label": "FEATURE",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 53,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 54,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 55,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 56,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -473,31 +437,31 @@
     {
       "row": 57,
       "label": "SUPPORT",
-      "state": "MEASURED",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 58,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 59,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
     },
     {
       "row": 60,
-      "label": "SUPPORT",
-      "state": "MEASURED",
+      "label": "REVIEW",
+      "state": "REVIEW",
       "gold_label": "SUPPORT",
       "gold_state": "MEASURED",
       "ungrounded_spans": []
@@ -508,7 +472,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 62,
@@ -516,7 +483,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 63,
@@ -524,7 +494,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 64,
@@ -532,7 +505,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 65,
@@ -540,15 +516,21 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 66,
-      "label": "REVIEW",
+      "label": "BUG",
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 67,
@@ -564,7 +546,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 69,
@@ -572,7 +557,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 70,
@@ -580,7 +568,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 71,
@@ -588,7 +579,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 72,
@@ -604,7 +597,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 74,
@@ -620,7 +615,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 76,
@@ -628,7 +625,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 77,
@@ -636,7 +636,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 78,
@@ -644,7 +647,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "evidence"
+      ]
     },
     {
       "row": 79,
@@ -652,7 +658,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "instruct"
+      ]
     },
     {
       "row": 80,
@@ -660,7 +669,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 81,
@@ -732,7 +743,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "st stall"
+      ]
     },
     {
       "row": 90,
@@ -740,7 +753,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 91,
@@ -760,11 +775,14 @@
     },
     {
       "row": 93,
-      "label": "REVIEW",
+      "label": "CRASH",
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "REVIEW",
+        "REVIEW"
+      ]
     },
     {
       "row": 94,
@@ -772,7 +790,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence",
+        "thin"
+      ]
     },
     {
       "row": 95,
@@ -780,7 +801,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "REVIEW",
+        "REVIEW"
+      ]
     },
     {
       "row": 96,
@@ -788,7 +812,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "REVIEW"
+      ]
     },
     {
       "row": 97,
@@ -796,7 +822,9 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "evidence"
+      ]
     },
     {
       "row": 98,
@@ -804,7 +832,10 @@
       "state": "REVIEW",
       "gold_label": "REVIEW",
       "gold_state": "REVIEW",
-      "ungrounded_spans": []
+      "ungrounded_spans": [
+        "REVIEW",
+        "REVIEW"
+      ]
     },
     {
       "row": 99,

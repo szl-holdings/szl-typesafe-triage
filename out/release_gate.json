@@ -4,26 +4,34 @@
   "stages": {
     "in_domain": {
       "exit": 1,
-      "verdict": "PROMOTABLE",
-      "label_ok": 101,
-      "state_ok": 101,
+      "verdict": "BLOCKED",
+      "label_ok": 42,
+      "state_ok": 40,
       "rows": 101,
-      "adapter": "out/triage-unsloth-bf16",
+      "adapter": "out/publish/triage-lora-study5/adapters/seed-011",
       "data_path": "output\\triage_distill_split_v0.4.0.jsonl",
       "corpus_sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
-      "breaches": {},
+      "breaches": {
+        "false_label_on_refusal": 2,
+        "ungrounded_spans": 42,
+        "malformed": 13
+      },
       "stage_passed": false
     },
     "red_team": {
       "exit": 1,
-      "verdict": "PROMOTABLE",
-      "label_ok": 101,
-      "state_ok": 101,
-      "rows": 101,
-      "adapter": "out/triage-unsloth-bf16",
-      "data_path": "output\\triage_distill_split_v0.4.0.jsonl",
-      "corpus_sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
-      "breaches": {},
+      "verdict": "BLOCKED",
+      "label_ok": 11,
+      "state_ok": 10,
+      "rows": 42,
+      "adapter": "out/publish/triage-lora-study5/adapters/seed-011",
+      "data_path": "policies\\redteam_probes.verified.jsonl",
+      "corpus_sha256": "847a176f9100858219f4b9fd823276f38800da1dd08d5fa191a6374356f3f905",
+      "breaches": {
+        "false_label_on_refusal": 2,
+        "ungrounded_spans": 5,
+        "malformed": 3
+      },
       "stage_passed": false
     },
     "leakage": {
@@ -32,7 +40,7 @@
       "breaches": {
         "verdict": "REFUSED",
         "semantic_pass": "UNAVAILABLE",
-        "commit": "427a70e"
+        "commit": "5a45f66"
       },
       "stage_passed": false
     }

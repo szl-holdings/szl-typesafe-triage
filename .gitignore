@@ -60,3 +60,5 @@ allrun-*.log
 !/evidence/
 /evidence/*
 !/evidence/five-seed-study/
+
+artifacts/
