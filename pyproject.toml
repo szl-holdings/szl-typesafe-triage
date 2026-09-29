@@ -42,6 +42,7 @@ version = {attr = "szl_triage.__version__"}
 
 [tool.setuptools.package-data]
 szl_triage = ["data/*.json"]
+szl_decide = ["spec/*.json", "plans/*.json"]
 
 [tool.ruff]
 line-length = 100
