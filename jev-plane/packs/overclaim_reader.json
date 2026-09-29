@@ -1,6 +1,6 @@
 {
   "pack_id": "szl.overclaim_reader.v1",
-  "model": "jev-latest",
+  "model": "jev-1.13.0",
   "endpoint": "https://api.typesafe.ai/v1/systemone",
   "confidence_floor": 0.55,
   "noul_block": 0.65,

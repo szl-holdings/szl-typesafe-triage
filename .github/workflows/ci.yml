@@ -39,6 +39,9 @@ jobs:
       - name: Test suite (pytest and legacy unittest cases)
         run: python -m pytest tests -ra
 
+      - name: jev-plane tests (advisory reader, fail closed)
+        run: python -m pytest jev-plane/plane -ra
+
       - name: CLI smoke test
         run: szl-triage decide "charged twice on invoice INV-2041, want a refund"
 

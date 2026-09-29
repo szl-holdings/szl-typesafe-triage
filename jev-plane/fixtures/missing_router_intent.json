@@ -1,0 +1,8 @@
+{
+  "pack_id": "szl.router_intent.v1",
+  "fixture": "handler_only",
+  "note": "A confident handler with no injection, stakes or Yuyay answer. The router abstains and routes to the deterministic path.",
+  "answers": {
+    "handler": {"type": "choice", "choice": "code", "confidence": 0.93}
+  }
+}

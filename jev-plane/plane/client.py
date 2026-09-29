@@ -12,7 +12,9 @@ from pathlib import Path
 from typing import Any
 
 ENDPOINT = "https://api.typesafe.ai/v1/systemone"
-MODEL = "jev-latest"
+# Pinned to the repo's own pin (src/szl_triage/providers/jev.py PINNED_MODEL). A moving
+# -latest alias silently changes answers under tuned thresholds, so it is refused below.
+MODEL = "jev-1.13.0"
 TIMEOUT_S = 20
 
 
@@ -49,6 +51,8 @@ def evaluate(
     endpoint: str = ENDPOINT,
     model: str = MODEL,
 ) -> dict[str, Any]:
+    if not isinstance(model, str) or not model.strip() or model.strip().lower().endswith("latest"):
+        return unavailable("unpinned model id refused", pack_id)
     key = (api_key if api_key is not None else os.environ.get("TYPESAFE_API_KEY", "")).strip()
     if not key:
         return unavailable("TYPESAFE_API_KEY missing", pack_id)

@@ -1,6 +1,6 @@
 {
   "pack_id": "szl.github_item.v1",
-  "model": "jev-latest",
+  "model": "jev-1.13.0",
   "confidence_floor": 0.6,
   "questions": {
     "kind": {
