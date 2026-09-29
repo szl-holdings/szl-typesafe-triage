@@ -1,0 +1,13 @@
+{
+  "pack_id": "szl.github_item.v1",
+  "fixture": "nan_answers",
+  "note": "NaN is the literal Python's json module reads and writes. Before FF-10 this composed to a clean label with block_merge false.",
+  "answers": {
+    "kind": {"type": "choice", "choice": "bug", "confidence": NaN},
+    "claim_risk": {"type": "noul", "noul": NaN},
+    "secret_risk": {"type": "noul", "noul": NaN},
+    "actionable": {"type": "noul", "noul": NaN},
+    "ready_to_merge": {"type": "noul", "noul": NaN},
+    "urgency": {"type": "score", "score": NaN, "confidence": NaN}
+  }
+}
