@@ -223,7 +223,7 @@ def main() -> int:
     try:
         runtime.serve_forever(poll_interval=0.2)
     except KeyboardInterrupt:
-        pass
+        pass  # Operator stop; the owned socket is closed below without evidence writes.
     finally:
         runtime.server_close()
     return 0
