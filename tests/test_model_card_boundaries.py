@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 
-def generated_card():
+def generated_card(include_evidence_metrics=True):
     source = Path(__file__).resolve().parents[1] / "scripts/train_eval_publish.py"
     tree = ast.parse(source.read_text(encoding="utf-8"))
     functions = [node for node in tree.body
@@ -29,6 +29,15 @@ def generated_card():
     metrics = [{"name": name, "strict_json_rate": 0.5, "joint_accuracy": 0.25,
                 "failure_rows": 7}
                for name in ["base", "seed-011", "seed-023", "seed-037", "seed-053", "seed-071"]]
+    if include_evidence_metrics:
+        # Different denominators and imperfect rates exercise both measures.
+        for metric in metrics:
+            metric.update({"held_rows": 8,
+                           "target_evidence_exact": 2,
+                           "target_evidence_exact_rate": 0.25,
+                           "grounded_evidence_spans": 9,
+                           "predicted_evidence_spans": 12,
+                           "evidence_grounding_rate": 0.75})
     aggregate = {"five_seed_summary": {"joint_accuracy": {"mean": 0.25, "sample_std": 0.125}}}
     return namespace["build_model_card"](metrics, aggregate, [])
 
@@ -60,6 +69,10 @@ def test_inference_documentation_does_not_claim_a_new_run():
 
 def test_rendering_preserves_supplied_metrics():
     card = generated_card()
-    assert "| base | 50.0% | N/A | N/A | 25.0% | N/A | N/A | 7 |" in card
+    assert "| base | 50.0% | N/A | N/A | 25.0% | N/A | 9/12 (75.0%) | 2/8 (25.0%) | 7 |" in card
+    assert "| Evidence grounded | Exact target evidence | Failure rows |" in card
+    assert "they do not include an exact-evidence-only mismatch" in card
+    missing = generated_card(include_evidence_metrics=False)
+    assert "| base | 50.0% | N/A | N/A | 25.0% | N/A | N/A/N/A (N/A) | N/A/N/A (N/A) | 7 |" in missing
     assert "**25.0%**" in card
     assert "**12.5%**" in card
