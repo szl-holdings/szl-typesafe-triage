@@ -220,6 +220,7 @@ def test_existing_remote_model_or_proof_files_are_never_deleted(
 def test_wrong_canonical_main_refuses_source_before_provider_mutation(
         publisher, canonical_git, provider, tmp_path, phase):
     destination = tmp_path / 'new-export'
+    receipt = None
     if phase == 'publish':
         receipt = publisher.export(COMMIT, destination)
     canonical_git.main = 'd' * 40
@@ -227,6 +228,7 @@ def test_wrong_canonical_main_refuses_source_before_provider_mutation(
         if phase == 'export':
             publisher.export(COMMIT, destination)
         else:
+            assert receipt is not None
             publisher.publish(destination, receipt)
     if phase == 'export':
         assert not destination.exists()

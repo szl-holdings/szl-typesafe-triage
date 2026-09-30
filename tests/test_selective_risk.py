@@ -1,4 +1,3 @@
-import math
 import pytest
 from szl_triage.selective_risk import ASSUMPTIONS, binomial_cdf, risk_upper_bound, select_threshold
 
