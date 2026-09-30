@@ -1,5 +1,7 @@
 ---
+license: apache-2.0
 base_model: unsloth/Qwen3.5-0.8B
+base_model_relation: adapter
 library_name: peft
 pipeline_tag: text-generation
 tags:
@@ -37,6 +39,14 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 the trained research artifact. The existing contamination verdict and
 release boundary remain visible instead of being removed.
 
+## Historical gate scope
+
+The root [gate_report.json](./gate_report.json) records an
+earlier 66-row gate with verdict `PROMOTABLE`.
+It is retained historical evidence, not promotion of this later five-seed, 113-row study.
+The current study remains **BLOCKED — 11/12** and **NOT_PROMOTABLE**.
+Published adapter files and historical gate labels do not supersede this release boundary.
+
 ## What it does
 
 The adapter accepts a triage input and is trained to return only:
@@ -71,14 +81,14 @@ In plain language:
 
 ## Measured results
 
-| Target | Valid JSON | Label | State | Joint | Refusal fidelity | Evidence grounded | Failure rows |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| base | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | N/A | 113 |
-| seed-011 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 |
-| seed-023 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 |
-| seed-037 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 |
-| seed-053 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 |
-| seed-071 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 0 |
+| Target | Valid JSON | Label | State | Joint | Refusal fidelity | Evidence grounded | Exact target evidence | Failure rows |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| base | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0/0 (N/A) | 34/113 (30.1%) | 113 |
+| seed-011 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 237/237 (100.0%) | 112/113 (99.1%) | 0 |
+| seed-023 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 237/237 (100.0%) | 113/113 (100.0%) | 0 |
+| seed-037 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 237/237 (100.0%) | 113/113 (100.0%) | 0 |
+| seed-053 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 237/237 (100.0%) | 113/113 (100.0%) | 0 |
+| seed-071 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 237/237 (100.0%) | 113/113 (100.0%) | 0 |
 
 Across the five adapters, mean joint accuracy was
 **100.0%**, with sample standard deviation
@@ -86,6 +96,19 @@ Across the five adapters, mean joint accuracy was
 
 These results describe this frozen 113-row family holdout. They do not
 establish broad generalization, calibration, or production readiness.
+
+Evidence grounding checks whether each generated span occurs in its input;
+exact target evidence compares the complete ordered evidence list with the
+retained target list. These are different measures, with separate denominators
+shown in the table: generated spans for grounding and held rows for exact evidence.
+The evaluator's failure rows cover malformed JSON, joint label/state mismatch,
+or ungrounded spans; they do not include an exact-evidence-only mismatch.
+Thus zero failure rows does not establish perfect exact target evidence.
+The base's exact-evidence count includes empty-list comparisons despite zero
+valid JSON rows; it must not be interpreted as valid base predictions.
+
+These are retained historical results. This card-only correction performs no
+new model evaluation, model loading, training, release clearance, or publication.
 
 ## Repository layout
 
@@ -112,57 +135,17 @@ The root adapter is seed 11, retained as the tagged first measured run.
 The additional seed directories support reproducibility and stability
 inspection.
 
-## Quick start
+## Inference implementation
 
-```python
-import torch
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
+**Inline inference example withdrawn.** The previous generated quick start
+contained malformed output indexing and could also route text through the wrong
+processor interface. No fresh inference was performed for this card correction.
 
-repo = "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5"
-base = "unsloth/Qwen3.5-0.8B"
-
-tokenizer = AutoTokenizer.from_pretrained(repo)
-
-model = AutoModelForCausalLM.from_pretrained(
-    base,
-    torch_dtype=torch.bfloat16,
-    device_map="auto",
-)
-
-model = PeftModel.from_pretrained(model, repo)
-model.eval()
-
-messages = [
-    {
-        "role": "user",
-        "content": "Your triage input goes here."
-    }
-]
-
-prompt = tokenizer.apply_chat_template(
-    messages,
-    tokenize=False,
-    add_generation_prompt=True,
-)
-
-inputs = tokenizer(text=prompt, return_tensors="pt").to(model.device)
-
-with torch.no_grad():
-    output = model.generate(
-        **inputs,
-        max_new_tokens=192,
-        do_sample=False,
-        pad_token_id=tokenizer.eos_token_id,
-    )
-
-reply = tokenizer.decode(
-    output[inputs["input_ids"].shape:],[3]
-    skip_special_tokens=True,
-)
-
-print(reply)
-```
+Inspect the [canonical evaluation implementation](https://github.com/szl-holdings/szl-typesafe-triage/blob/5e5bf7aae7fe10c7aaa09cdd4a4e6cbe95e32129/scripts/train_eval_publish.py)
+alongside the retained environment receipt and adapter identities before a new
+experiment. The historical script's main entry point combines training, evaluation, and publication;
+it is not a card-only repair command or a standalone inference quick start.
+This documentation change supplies no new runtime, held-out, or promotion evidence.
 
 ## Using another seed
 

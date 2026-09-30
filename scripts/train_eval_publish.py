@@ -1175,7 +1175,7 @@ def build_model_card(
 
         rows.append(
             "| {name} | {json_rate} | {label} | {state} | "
-            "{joint} | {refusal} | {grounding} | {failures} |".format(
+            "{joint} | {refusal} | {grounding} | {evidence_exact} | {failures} |".format(
                 name=name,
                 json_rate=percentage(
                     metric.get("strict_json_rate")
@@ -1192,8 +1192,15 @@ def build_model_card(
                 refusal=percentage(
                     metric.get("refusal_fidelity_rate")
                 ),
-                grounding=percentage(
-                    metric.get("evidence_grounding_rate")
+                grounding="{}/{} ({})".format(
+                    metric.get("grounded_evidence_spans", "N/A"),
+                    metric.get("predicted_evidence_spans", "N/A"),
+                    percentage(metric.get("evidence_grounding_rate")),
+                ),
+                evidence_exact="{}/{} ({})".format(
+                    metric.get("target_evidence_exact", "N/A"),
+                    metric.get("held_rows", "N/A"),
+                    percentage(metric.get("target_evidence_exact_rate")),
                 ),
                 failures=metric.get("failure_rows"),
             )
@@ -1208,6 +1215,7 @@ def build_model_card(
     card = f"""---
 license: apache-2.0
 base_model: {BASE_MODEL}
+base_model_relation: adapter
 library_name: peft
 pipeline_tag: text-generation
 tags:
@@ -1287,8 +1295,8 @@ In plain language:
 
 ## Measured results
 
-| Target | Valid JSON | Label | State | Joint | Refusal fidelity | Evidence grounded | Failure rows |
-|---|---:|---:|---:|---:|---:|---:|---:|
+| Target | Valid JSON | Label | State | Joint | Refusal fidelity | Evidence grounded | Exact target evidence | Failure rows |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
 {metric_table}
 
 Across the five adapters, mean joint accuracy was
@@ -1297,6 +1305,19 @@ Across the five adapters, mean joint accuracy was
 
 These results describe this frozen 113-row family holdout. They do not
 establish broad generalization, calibration, or production readiness.
+
+Evidence grounding checks whether each generated span occurs in its input;
+exact target evidence compares the complete ordered evidence list with the
+retained target list. These are different measures, with separate denominators
+shown in the table: generated spans for grounding and held rows for exact evidence.
+The evaluator's failure rows cover malformed JSON, joint label/state mismatch,
+or ungrounded spans; they do not include an exact-evidence-only mismatch.
+Thus zero failure rows does not establish perfect exact target evidence.
+The base's exact-evidence count includes empty-list comparisons despite zero
+valid JSON rows; it must not be interpreted as valid base predictions.
+
+These are retained historical results. This card-only correction performs no
+new model evaluation, model loading, training, release clearance, or publication.
 
 ## Repository layout
 

@@ -1,19 +1,20 @@
-﻿---
+---
 license: apache-2.0
-base_model: Qwen/Qwen3.5-0.8B-Base
+base_model: Qwen/Qwen3.5-0.8B
+base_model_relation: adapter
 tags:
 - peft
 - safetensors
 - lora
 - triage
-- classification
+- structured-output
 - refusal-preserving
 - unsloth
 - evaluation-harness
 language:
 - en
-library_name: transformers
-pipeline_tag: text-classification
+library_name: peft
+pipeline_tag: text-generation
 ---
 
 # szl-triage-qwen3.5-0.8b-lora
@@ -23,7 +24,7 @@ pipeline_tag: text-classification
 
 ## What this repository contains
 
-This repository contains a LoRA adapter for a governed triage classifier built on Qwen3.5-0.8B. The adapter is designed to emit strict JSON with fields such as `label`, `state`, and `evidence`, and to refuse with `state="REVIEW"` when evidence is thin, when two labels are equally supported, or when the prompt attempts to instruct the classifier instead of describing a problem.
+This repository contains a generative PEFT LoRA adapter used for triage on Qwen3.5-0.8B. The inspected adapter configuration declares `Qwen/Qwen3.5-0.8B`, task `CAUSAL_LM`, and `Qwen3_5ForConditionalGeneration`; this is configuration-declared lineage, not verification of the base revision used in training. It generates JSON rather than exposing a conventional classifier head. The adapter is designed to emit strict JSON with fields such as `label`, `state`, and `evidence`, and to refuse with `state="REVIEW"` when evidence is thin, when two labels are equally supported, or when the prompt attempts to instruct the classifier instead of describing a problem.
 
 ## Publication meaning
 
@@ -68,6 +69,22 @@ The adapter is intended to:
 - Training objective: governed triage classification
 - Comparison discipline: predecessor-matching hyperparameter discipline for meaningful run-to-run comparison
 - Evaluation emphasis: assistant-turn loss targeting and template-family-aware split discipline
+
+## Retained 66-row behavioral gate
+
+At the [reviewed immutable Hub revision](https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora/tree/24b5c44494434e88b89d9915daad32f1f8e8d03d),
+the [retained gate report](https://huggingface.co/SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora/resolve/24b5c44494434e88b89d9915daad32f1f8e8d03d/gate_report.json)
+records 66 rows: 66/66 exact labels, 66/66 exact states, zero malformed outputs,
+23 gold-refusal rows, zero false labels on those refusal rows, and zero ungrounded
+spans. Its literal `PROMOTABLE` verdict belongs to that bounded behavioral gate.
+The contamination finding keeps this reference run **BLOCKED / NOT PROMOTABLE**;
+the gate result is not release clearance and is not a general performance estimate.
+Do not combine these rows with later five-seed or release-gate results.
+
+The card declares Apache-2.0 in line with the canonical source repository's license.
+The reviewed Hub file listing had no standalone `LICENSE` file. This documentation
+review supplies no new license verification, base-revision reconstruction, model
+evaluation, deployment clearance, or Hub publication.
 
 ## Evaluation interpretation
 
