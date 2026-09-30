@@ -1,0 +1,165 @@
+{
+  "adaptive_attack_budget": {
+    "attack_families": [
+      "role delimiter forgery",
+      "Unicode or multilingual role cues",
+      "quoted instructions",
+      "invented evidence handles",
+      "authority-conflict pairs"
+    ],
+    "audit": "Predeclare sealed attack families and the same per-family budget before final audit. Report bounded success and costs; no universal security guarantee.",
+    "calibration_audit_queries": 0,
+    "development_family_queries": 32,
+    "positions": [
+      "prefix",
+      "middle",
+      "suffix",
+      "repetition"
+    ]
+  },
+  "compute_admission": {
+    "cloud_jobs_authorized": false,
+    "encoder_admission": "Pinned source/weights/license verified; fixed training token/step budget and actual local memory-fit probe recorded before training; one bounded experiment, no silent substitution",
+    "now": "CPU corpus contracts, controls and frozen replay; no paid job"
+  },
+  "diagnostic_metrics": [
+    "joint label/state accuracy across all rows",
+    "per-class and macro-F1",
+    "positive-target error including abstentions",
+    "six-class Brier score and log loss",
+    "15-fixed-bin ECE over all rows",
+    "benign overrefusal",
+    "family-worst-case attack success",
+    "evidence occurrence",
+    "independently ratified evidence support",
+    "CPU or GPU latency p50/p95 and peak memory"
+  ],
+  "evidence_program": {
+    "boundary": "Inspired by CaMeL's control/data separation and formal-prover checking, with original SZL receipt semantics. No copied code or external certification is asserted.",
+    "compute": "CPU graph checks plus the same small decision/proposer model; actual Lean checks only for explicitly formalized mathematical statements and an installed pinned verifier.",
+    "hypothesis": "A model that selects immutable receipt/proof handles with a deterministic relation verifier makes fewer unsupported maturity/provenance claims than free text generation.",
+    "id": "receipt_graph_proposer",
+    "independent_adaptation": "Represent source, training, evaluation, publication and runtime observations as separate typed content-addressed nodes. The model proposes references; a small independently implemented verifier checks exact bytes, revision relations and allowed claim transitions before exposing a claim.",
+    "minimum_data": "300 unique synthetic provenance graphs for implementation development, then at least 400 sealed graph families mixing complete, missing, contradictory and forged receipts. These are software contract fixtures, not evidence of actual model quality or independent field events.",
+    "negative_controls": [
+      "Replace a weight hash or immutable revision.",
+      "Supply a training-loss receipt as evaluation evidence.",
+      "Declare a public model card without weights.",
+      "Use a proof sketch, name binding or local stub in place of a real verifier receipt.",
+      "Supply authentic but stale receipts and unsupported readiness-to-release transitions."
+    ],
+    "preregistered_metrics": "False positive claim authorization must be zero on the sealed fixture suite; exact-reference resolution, dependency mismatch rejection, legitimate-claim completion and end-to-end latency. A fixture pass cannot establish real receipt authenticity or model quality."
+  },
+  "fixed_comparators": [
+    "TRAINING_MAJORITY_REVIEW",
+    "EXISTING_DETERMINISTIC_POLICY",
+    "CPU_SOFTMAX_FROZEN_SEED11",
+    "CPU_SOFTMAX_NEW_ORIGINAL_DATA",
+    "SMALL_ENCODER_ONLY_AFTER_DATA_AND_COMPUTE_ADMISSION"
+  ],
+  "fixed_seeds": [
+    11,
+    23,
+    37
+  ],
+  "fixed_selection": "Select by development/calibration macro-F1 subject to paired benign/authority diagnostics. Fit any temperature on calibration only; freeze model and calibration bytes before sealed audit. No six-gate thresholds change.",
+  "motivation": "Current linear baseline fails semantics, hierarchy and calibration. Original authority contrasts and separable claim verification are testable next steps; novelty and transfer are unproven.",
+  "negative_controls": [
+    "Training-label permutation without refitting evaluation references",
+    "Remove selected evidence; inspect whether semantic certainty persists",
+    "Benign reports containing label words, quoted malicious instructions and role names",
+    "Actual role-swapped authority pairs with matching surface text",
+    "Always-REVIEW must fail positive-target accuracy and useful coverage",
+    "Forged evidence IDs, changed weight/source hashes, stale receipts, substituted training/evaluation receipts"
+  ],
+  "observed_date": "2026-09-29",
+  "primary_data_plan": {
+    "audit_rule": "Seal family IDs, reference labels, source hashes and audit access log before model selection. Never tune using audit outcomes.",
+    "calibration": 200,
+    "families": 1200,
+    "label_state": "PROPOSED_UNRATIFIED until owner ratification using a recorded rubric; engine labels cannot ratify themselves",
+    "positive_classes": [
+      "BUG",
+      "BILLING",
+      "SECURITY",
+      "FEATURE",
+      "SUPPORT"
+    ],
+    "review_class": "REVIEW",
+    "sealed_audit": 400,
+    "train": 600
+  },
+  "primary_metrics": "Existing six promotion criteria with their unchanged numeric thresholds. Missing strata remain UNAVAILABLE. All candidates remain NOT_PROMOTABLE until every source/data/runtime/independence requirement and criterion is evidenced.",
+  "publication_status": "LOCAL_SOURCE_ONLY_UNTIL_CANONICAL_MERGE",
+  "release_authorization": "NONE",
+  "research_sources": [
+    {
+      "authors": "Benjamin Warner et al.",
+      "code": "https://github.com/AnswerDotAI/ModernBERT",
+      "date": "2025-07",
+      "finding": "Bidirectional encoders provide a measured classification/retrieval size-performance alternative to decoder-only generation. This does not establish SZL task performance.",
+      "id": "modernbert",
+      "paper": "https://aclanthology.org/2025.acl-long.127/",
+      "title": "Smarter, Better, Faster, Longer"
+    },
+    {
+      "authors": "Chuan Guo, Juan Felipe Ceron Uribe, Sicheng Zhu et al.",
+      "data": "https://huggingface.co/datasets/openai/ih-challenge",
+      "date": "2026-03-11",
+      "finding": "Uses simple objectively gradable authority-conflict tasks, overrefusal controls, and adversarial training. Reported GPT-5-Mini transfer is not evidence that a SZL small model will improve.",
+      "id": "ihchallenge",
+      "official": "https://openai.com/index/instruction-hierarchy-challenge/",
+      "paper": "https://arxiv.org/abs/2603.10521",
+      "title": "IH-Challenge: A Training Dataset to Improve Instruction Hierarchy on Frontier LLMs"
+    },
+    {
+      "authors": "Sizhe Chen, Julien Piet, Chawin Sitawarin, David Wagner",
+      "code": "https://github.com/Sizhe-Chen/StruQ",
+      "date": "2025-08",
+      "finding": "Separates instruction and data channels and trains on injected data. Source publication predates this conference; delimiter separation and finite attack results are not universal security proofs.",
+      "id": "struq",
+      "paper": "https://www.usenix.org/conference/usenixsecurity25/presentation/chen-sizhe",
+      "title": "StruQ: Defending Against Prompt Injection with Structured Queries"
+    },
+    {
+      "authors": "Nishit V. Pandya, Andrey Labunets, Sicun Gao, Earlence Fernandes",
+      "code": "https://github.com/nishitvp/better_opts_attacks",
+      "date": "2025-07-10",
+      "finding": "White-box attacks reached 85-95% success against studied StruQ/SecAlign defenses; static examples alone are insufficient robustness evidence.",
+      "id": "adaptive_attack",
+      "paper": "https://arxiv.org/abs/2507.07417",
+      "title": "May I have your Attention? Breaking Fine-Tuning based Prompt Injection Defenses using Architecture-Aware Attacks"
+    },
+    {
+      "authors": "Edoardo Debenedetti, Ilia Shumailov, Tianqi Fan et al.",
+      "date": "2025-03-24",
+      "finding": "Separates trusted control flow from untrusted data and tracks capabilities. The paper explicitly discusses side channels and implementation limitations.",
+      "id": "camel",
+      "paper": "https://arxiv.org/abs/2503.18813",
+      "title": "Defeating Prompt Injections by Design"
+    },
+    {
+      "authors": "Anastasios N. Angelopoulos, Stephen Bates, Emmanuel J. Candes, Michael I. Jordan, Lihua Lei",
+      "date": "2021-10-03",
+      "finding": "Frames calibration as multiple hypothesis testing. Statistical guarantees depend on declared sampling/testing assumptions; family variants are not automatically independent observations.",
+      "id": "ltt",
+      "paper": "https://arxiv.org/abs/2110.01052",
+      "title": "Learn then Test: Calibrating Predictive Algorithms to Achieve Risk Control"
+    }
+  ],
+  "sampling_unit": "Independently authored causal scenario family, split before paraphrases, injected variants or augmentation. Family worst-case failure counts once; exchangeability and semantic ratification must be documented.",
+  "schema": "szl.cpu-softmax-next-program/v1",
+  "state": "PREREGISTERED_BEFORE_NEW_DATA",
+  "statistical_boundary": {
+    "family_error_report": "Point estimates and exact one-sided binomial bounds only after exchangeability/independence assumptions documented. Avoid treating sibling variants as independent samples.",
+    "illustration": "With zero errors in 400 independent families, a single 95% upper bound is about 0.75%; Bonferroni across six simultaneous criteria raises the corresponding upper bound to about 1.19%. Neither can establish a population refusal probability of exactly 1.0.",
+    "risk_control": "Learn-then-Test-inspired separate calibration is a planned statistical procedure, not a guarantee delivered by current ECE."
+  },
+  "stop_rules": [
+    "Data semantic labels or family independence unverified: DEVELOPMENT only",
+    "Any audit access before freezing selection: invalidate that audit as independent",
+    "Any failed or unavailable existing criterion: NOT_PROMOTABLE",
+    "Manifest/receipt/source mismatch: stop inference or replay",
+    "Adaptive defense-aware attacks exceed admitted risk: retain deterministic refusal; do not lower thresholds"
+  ]
+}
