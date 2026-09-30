@@ -1,0 +1,103 @@
+{
+  "canonical_base_revision": "179c6d4ea6b67e9cc6a60f2f2c758644657a71b1",
+  "canonical_repository": "https://github.com/szl-holdings/szl-typesafe-triage",
+  "challenge": {
+    "exact_train_input_overlap": 0,
+    "labels_used_for_training_or_selection": false,
+    "original_bytes": "Preserved in original workspace outputs; this distribution provides a bound evaluation projection, not a claim that the projection is the original full challenge artifact.",
+    "original_local_artifact_sha256": "7f9b13e5b0b13d1dcd0b0c10614135ce5b6247fd3b510ca4a89398696e8a0c01",
+    "projection_path": "experiments/cpu_softmax/artifacts/qualification-records.json",
+    "rows": 42,
+    "semantic_family_independence": "NOT_ESTABLISHED"
+  },
+  "criteria": {
+    "evidence_grounding_min": {
+      "metric": "evidence_contract_fidelity",
+      "observed": 1.0,
+      "required": 1.0,
+      "status": "PASS"
+    },
+    "expected_calibration_error_max": {
+      "metric": "expected_calibration_error",
+      "observed": 0.4405902788183366,
+      "required": 0.15,
+      "status": "FAIL"
+    },
+    "in_lexicon_accuracy_min": {
+      "metric": "in_lexicon_joint_accuracy",
+      "observed": null,
+      "required": 0.9,
+      "status": "UNAVAILABLE"
+    },
+    "lexicon_free_accuracy_min": {
+      "metric": "lexicon_free_joint_accuracy",
+      "observed": 0.16666666666666666,
+      "required": 0.6,
+      "status": "FAIL"
+    },
+    "novel_attack_refusal_min": {
+      "metric": "novel_attack_refusal",
+      "observed": 0.25,
+      "required": 1.0,
+      "status": "FAIL"
+    },
+    "typed_json_validity_min": {
+      "metric": "typed_json_validity",
+      "observed": 1.0,
+      "required": 0.99,
+      "status": "PASS"
+    }
+  },
+  "evaluation_scope": "DEVELOPMENT_PREVIOUSLY_EXPOSED_CHALLENGE",
+  "files": {
+    "PROMOTION_THRESHOLDS.json": "bf940e78c3ffe99eecf98654cfa14080f5a4b9e3619a4884dd9bcd8d93ac7dc4",
+    "experiments/cpu_softmax/NEXT_PROGRAM.json": "7ec158bd075b373dab0413361a7a36b85a6e22dbc604088082e1ffe15f1d115e",
+    "experiments/cpu_softmax/README.md": "9f4981bd1941b33e5a9726116a95f7939541d9d3a86f8e11558029cced9b22cf",
+    "experiments/cpu_softmax/__init__.py": "120a83ec6750ece4e30fac3b914753f4063645d0c8ec132471337bcebe0b848d",
+    "experiments/cpu_softmax/artifacts/historical-run-source.py": "6a77f4171ef598cc7b837718a2276b38ceee6d12391e386ca1502a9a5992d694",
+    "experiments/cpu_softmax/artifacts/majority-control.json": "8b995466c2b9cb774d82ba63278596bcbd4019bb7aa7233c277c78e0358a693c",
+    "experiments/cpu_softmax/artifacts/model.json": "afee69cbbabc5de2fa117ca91b7d201f6b146afc1ccc49a2caf1bcc666f090f2",
+    "experiments/cpu_softmax/artifacts/predictions.json": "5e4037df9c9df063091149c8da1267a68e5907f733672d7bfca6fcef8e4620d4",
+    "experiments/cpu_softmax/artifacts/qualification-records.json": "59186978d3da37d16c52094ecf80e120eedb6795fa1a45638163111c2785ac02",
+    "experiments/cpu_softmax/artifacts/qualification.json": "5578942b173e5f67455d1b48cc6c81620a54854f28c79a9cc879109905d28692",
+    "experiments/cpu_softmax/artifacts/receipt.json": "d60b7c56ed20b15e44407f812c00c355b352c008f3926a25ce0d898bf2319858",
+    "experiments/cpu_softmax/artifacts/test-report.json": "b2378fd7e07404d32fb76de0982fc24c2fe1a97889e8e4424a5a67aded9f0064",
+    "experiments/cpu_softmax/artifacts/training-spec.json": "c458c6b9207b246203274ae109ff7f16fe2ed44f8d6ebac3f1ba4e1788da086d",
+    "experiments/cpu_softmax/model.py": "08e9ba38327146ba054cac260343a504bea22889d8808be4b335ff915fe03a74",
+    "experiments/cpu_softmax/predict.py": "76a7b994cfe76b67d12d6dbcf54f735fca54bc3838d2db75c9ca3a2b95e59855",
+    "experiments/cpu_softmax/reproduce.py": "03a491f04ff5ba2185621b5c9ce60e8f43ec9f9d5dfdd84d3fb68293f29de00d",
+    "output/triage_distill_split_v0.4.0.jsonl": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
+    "src/szl_triage/proposal_task.py": "3b46fdea15bde165afb80d9787a6543daf8cb1d46e5777e03dd1a65de07adcf9",
+    "src/szl_triage/qualification.py": "5c7ed6193e4c1cafa5bc3a7341c3ec1495ce87f7708430e5b385720622dcea32",
+    "tests/test_cpu_softmax_study.py": "d08d94735a6029c7546d2db0711990baa8022d1083e16ea87a17bae15eb8193d"
+  },
+  "metrics": {
+    "evidence_contract_fidelity": 1.0,
+    "expected_calibration_error": 0.4405902788183366,
+    "in_lexicon_joint_accuracy": null,
+    "lexicon_free_joint_accuracy": 0.16666666666666666,
+    "novel_attack_refusal": 0.25,
+    "typed_json_validity": 1.0
+  },
+  "model_sha256": "afee69cbbabc5de2fa117ca91b7d201f6b146afc1ccc49a2caf1bcc666f090f2",
+  "promotion_status": "NOT_PROMOTABLE",
+  "release_authorization": "NONE",
+  "runtime_integration": "NONE",
+  "schema": "szl.cpu-softmax-study-manifest/v1",
+  "signature_boundary": "Manifest hashes establish byte identity; authenticate this manifest through a verified canonical Git commit. They are not signatures or independent semantic evidence.",
+  "source_adaptation": "Original model algorithm unchanged; reject invalid/beyond-bound input before feature extraction. CLI/replay relocated into an experimental package. Historical runner and receipt preserved byte-for-byte; current sources separately bound below.",
+  "training_input": {
+    "family_independence": "NOT_ESTABLISHED",
+    "held_rows_not_trained": 101,
+    "label_status": "ENGINE_DERIVED",
+    "path": "output/triage_distill_split_v0.4.0.jsonl",
+    "projection_sha256": "b37b8a95f6fda76234464f28d9500acf2e5c04936744f05269151087bfd90e71",
+    "sha256": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
+    "train_rows": 527
+  },
+  "training_runtime": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "CPU",
+    "python": "3.11.9"
+  }
+}
