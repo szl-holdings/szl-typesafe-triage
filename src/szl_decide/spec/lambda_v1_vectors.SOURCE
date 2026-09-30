@@ -1,0 +1,16 @@
+lambda_v1_vectors.json is a byte copy of:
+
+  source: szl-holdings/szl-lambda-gate@d3443b0539ad9fdbd407a0b0bf0454b416102089:spec/lambda_v1_vectors.json
+  merged: PR #53 (FF-01), 2026-09-29
+  canonical_sha256: 2a3fef3d17ca36142139fa6bd08b7f0e41526c749abc7cfd810b77cc50ab5d1f
+  raw_sha256: c14cc698edbf7b0f27e528cb60d959e61fe413b0c09dc98fec57c753368f5557
+  vectors: 50
+
+canonical_sha256 is the digest the upstream spec (spec/szl.lambda.v1.json) records:
+SHA-256 over json.dumps(parsed, sort_keys=True, separators=(",", ":"),
+ensure_ascii=False).encode("utf-8"). It does not change with CRLF or LF checkouts.
+raw_sha256 is over the file bytes as committed upstream (LF).
+
+szl_decide.lam ports reference/szl_lambda_v1.py from the same commit, with the same
+algorithm, so it must match every value_f64 bit for bit (tests/decide/test_lam_vectors.py).
+Do not edit the vectors here. Re-vendor from a new upstream commit and update this file.
