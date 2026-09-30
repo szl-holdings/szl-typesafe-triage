@@ -27,7 +27,7 @@ The model was frozen before the runner read the 42-row challenge. That challenge
 had already been exposed in earlier development and is **development evidence**.
 The runner's original receipt and exact predictions are preserved in `artifacts/`.
 The historical runner source records its original local paths; execute the portable
-`reproduce` command below to replay this distribution.
+`reproduce` command below to diagnose reproduction of this distribution.
 
 | Observed metric | CPU model | Training-majority REVIEW control |
 | --- | ---: | ---: |
@@ -62,8 +62,15 @@ python -m pytest tests/test_cpu_softmax_study.py -ra
 ```
 
 The replay destination must be new. Replay checks the canonical dataset bytes,
-reproduces the model exactly, then reproduces all predictions and qualification
-results. It does not overwrite the frozen receipt. Inference validates source,
+retrains the model, then compares model bytes, every prediction/probability and the
+qualification report exactly. Exact replay passes on the recorded Windows Python
+3.11.9 runtime. Linux Python 3.11.16 failed the exact-weight comparison in CI;
+floating-point functions are runtime-dependent. The original frozen artifact is
+preserved. A mismatch writes a diagnostic receipt with changed-value counts and
+maximum absolute differences, then exits unsuccessfully; it is never called an
+exact reproduction. Same-runtime training repeatability and bound-artifact
+inference are tested separately. No numerical tolerance replaces exact identity.
+Replay does not overwrite the frozen receipt. Inference validates source,
 model, receipt, thresholds and study-file hashes against `STUDY_MANIFEST.json`.
 These hashes identify bytes; trust in the manifest comes from the canonical signed
 Git source, not from a self-asserted hash. The original receipt's historical source

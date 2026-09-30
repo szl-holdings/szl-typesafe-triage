@@ -53,7 +53,7 @@
   "files": {
     "PROMOTION_THRESHOLDS.json": "bf940e78c3ffe99eecf98654cfa14080f5a4b9e3619a4884dd9bcd8d93ac7dc4",
     "experiments/cpu_softmax/NEXT_PROGRAM.json": "d7da656c389dc0c052555d27d21b0a57ffdf7776b217fae4efb22735009df8dd",
-    "experiments/cpu_softmax/README.md": "9f4981bd1941b33e5a9726116a95f7939541d9d3a86f8e11558029cced9b22cf",
+    "experiments/cpu_softmax/README.md": "77d85f7fd414026beba7776ff86de2287cddf24634540c375961c337d602f240",
     "experiments/cpu_softmax/__init__.py": "af18b08d164b839e667bdb4e8ca2c8dc364f11b35e0abb5974791a9e355128be",
     "experiments/cpu_softmax/artifacts/historical-run-source.py": "6a77f4171ef598cc7b837718a2276b38ceee6d12391e386ca1502a9a5992d694",
     "experiments/cpu_softmax/artifacts/majority-control.json": "8b995466c2b9cb774d82ba63278596bcbd4019bb7aa7233c277c78e0358a693c",
@@ -66,11 +66,11 @@
     "experiments/cpu_softmax/artifacts/training-spec.json": "c458c6b9207b246203274ae109ff7f16fe2ed44f8d6ebac3f1ba4e1788da086d",
     "experiments/cpu_softmax/model.py": "08e9ba38327146ba054cac260343a504bea22889d8808be4b335ff915fe03a74",
     "experiments/cpu_softmax/predict.py": "76a7b994cfe76b67d12d6dbcf54f735fca54bc3838d2db75c9ca3a2b95e59855",
-    "experiments/cpu_softmax/reproduce.py": "03a491f04ff5ba2185621b5c9ce60e8f43ec9f9d5dfdd84d3fb68293f29de00d",
+    "experiments/cpu_softmax/reproduce.py": "54dbd1e954283095bf1048126655658162354b667acef6a996e8574970058eb7",
     "output/triage_distill_split_v0.4.0.jsonl": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
     "src/szl_triage/proposal_task.py": "3b46fdea15bde165afb80d9787a6543daf8cb1d46e5777e03dd1a65de07adcf9",
     "src/szl_triage/qualification.py": "5c7ed6193e4c1cafa5bc3a7341c3ec1495ce87f7708430e5b385720622dcea32",
-    "tests/test_cpu_softmax_study.py": "d08d94735a6029c7546d2db0711990baa8022d1083e16ea87a17bae15eb8193d"
+    "tests/test_cpu_softmax_study.py": "cd21865790e81055d0e74e5f1725abad1706fe371e17c3a8d99f0e00ac3ab30b"
   },
   "metrics": {
     "evidence_contract_fidelity": 1.0,
@@ -83,6 +83,7 @@
   "model_sha256": "afee69cbbabc5de2fa117ca91b7d201f6b146afc1ccc49a2caf1bcc666f090f2",
   "promotion_status": "NOT_PROMOTABLE",
   "release_authorization": "NONE",
+  "reproduction_boundary": "Exact frozen study replay verified on recorded Windows Python3.11.9 only. Linux Python3.11.16 exact-model mismatch observed in CI. Diagnostic replay preserves original artifacts, records all byte/numeric differences, and exits unsuccessfully on any exact mismatch. Same-runtime repeatability is a separate check; no numerical tolerance establishes identity.",
   "runtime_integration": "NONE",
   "schema": "szl.cpu-softmax-study-manifest/v1",
   "signature_boundary": "Manifest hashes establish byte identity; authenticate this manifest through a verified canonical Git commit. They are not signatures or independent semantic evidence.",

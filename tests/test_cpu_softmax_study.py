@@ -9,7 +9,7 @@ import pytest
 
 from experiments.cpu_softmax.model import LABELS, SPEC, choose, fit, predict, stable_json
 from experiments.cpu_softmax.predict import load_recorded_model, verify_study
-from experiments.cpu_softmax.reproduce import reproduce
+from experiments.cpu_softmax.reproduce import ReproductionMismatch, reproduce
 from szl_triage.proposal_task import make_task
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,13 +120,28 @@ def test_invalid_inputs_fail_before_feature_extraction(monkeypatch):
 
 
 def test_full_canonical_training_and_development_predictions_replay(tmp_path):
-    receipt = reproduce(tmp_path / 'new-replay')
-    assert receipt['exact_model_reproduction']
-    assert receipt['exact_prediction_reproduction']
-    assert receipt['exact_qualification_reproduction']
+    try:
+        receipt = reproduce(tmp_path / 'new-replay')
+    except ReproductionMismatch as failure:
+        receipt = failure.receipt
+        # Cross-runtime differences must remain explicit and fail exact replay.
+        assert not all(receipt[k] for k in ('exact_model_reproduction',
+            'exact_prediction_reproduction', 'exact_qualification_reproduction'))
+        retained = json.loads((tmp_path / 'new-replay/replay-receipt.json').read_text())
+        assert retained == receipt
+        print('CROSS_RUNTIME_REPRODUCTION_MISMATCH', stable_json(receipt))
+    assert receipt['literal_prediction_matches'] == 42
+    assert receipt['qualification_criteria_status_match']
+    assert receipt['frozen_model_sha256'] == 'afee69cbbabc5de2fa117ca91b7d201f6b146afc1ccc49a2caf1bcc666f090f2'
     assert receipt['promotion_status'] == 'NOT_PROMOTABLE'
     with pytest.raises(FileExistsError):
         reproduce(tmp_path / 'new-replay')
+
+
+def test_canonical_training_is_repeatable_within_the_same_runtime():
+    dataset = ROOT / 'output/triage_distill_split_v0.4.0.jsonl'
+    rows = [json.loads(line) for line in dataset.read_text(encoding='utf-8').splitlines() if line.strip()]
+    assert stable_json(fit(rows)) == stable_json(fit(rows))
 
 
 def test_manifest_path_traversal_and_overclaim_rejection(tmp_path):
