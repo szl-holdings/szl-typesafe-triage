@@ -109,6 +109,17 @@ def test_source_dependency_tamper_rejection(tmp_path):
         verify_study(repository)
 
 
+def test_only_declared_dataset_git_and_checkout_identities_are_accepted(tmp_path):
+    repository = copied_study(tmp_path)
+    path = repository / 'output/triage_distill_split_v0.4.0.jsonl'
+    original = path.read_bytes()
+    path.write_bytes(original.replace(b'\r\n', b'\n'))
+    verify_study(repository)
+    path.write_bytes(path.read_bytes() + b'\n')
+    with pytest.raises(ValueError, match='differs from manifest'):
+        verify_study(repository)
+
+
 def test_invalid_inputs_fail_before_feature_extraction(monkeypatch):
     import experiments.cpu_softmax.model as module
     def forbidden(*args):

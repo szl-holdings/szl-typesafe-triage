@@ -35,7 +35,14 @@ def verify_study(repository=REPOSITORY):
         file_path = repository / name
         if not file_path.resolve().is_relative_to(repository):
             raise ValueError('Study binding escapes the repository')
-        if digest_bytes(file_path.read_bytes()) != expected:
+        observed = digest_bytes(file_path.read_bytes())
+        training = manifest.get('training_input', {})
+        # Only this historical dataset has a declared Git LF / CRLF checkout pair.
+        declared_checkout = (name == 'output/triage_distill_split_v0.4.0.jsonl'
+                             and name == training.get('path')
+                             and expected == training.get('git_blob_sha256')
+                             and observed == training.get('sha256'))
+        if observed != expected and not declared_checkout:
             raise ValueError(f'Study file differs from manifest: {name}')
     required = {
         'experiments/cpu_softmax/model.py', 'experiments/cpu_softmax/predict.py',

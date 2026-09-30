@@ -53,7 +53,7 @@
   "files": {
     "PROMOTION_THRESHOLDS.json": "bf940e78c3ffe99eecf98654cfa14080f5a4b9e3619a4884dd9bcd8d93ac7dc4",
     "experiments/cpu_softmax/NEXT_PROGRAM.json": "d7da656c389dc0c052555d27d21b0a57ffdf7776b217fae4efb22735009df8dd",
-    "experiments/cpu_softmax/README.md": "77d85f7fd414026beba7776ff86de2287cddf24634540c375961c337d602f240",
+    "experiments/cpu_softmax/README.md": "9ece58f10eef971857b6d13ae96719aae7e5fcc965c11bd54c62af0129393c5f",
     "experiments/cpu_softmax/__init__.py": "af18b08d164b839e667bdb4e8ca2c8dc364f11b35e0abb5974791a9e355128be",
     "experiments/cpu_softmax/artifacts/historical-run-source.py": "6a77f4171ef598cc7b837718a2276b38ceee6d12391e386ca1502a9a5992d694",
     "experiments/cpu_softmax/artifacts/majority-control.json": "8b995466c2b9cb774d82ba63278596bcbd4019bb7aa7233c277c78e0358a693c",
@@ -65,12 +65,12 @@
     "experiments/cpu_softmax/artifacts/test-report.json": "a3f4ddc79f3f8cceeaf3279331360d85970510bba9ef2ce7315fa8799ae30d16",
     "experiments/cpu_softmax/artifacts/training-spec.json": "c458c6b9207b246203274ae109ff7f16fe2ed44f8d6ebac3f1ba4e1788da086d",
     "experiments/cpu_softmax/model.py": "08e9ba38327146ba054cac260343a504bea22889d8808be4b335ff915fe03a74",
-    "experiments/cpu_softmax/predict.py": "76a7b994cfe76b67d12d6dbcf54f735fca54bc3838d2db75c9ca3a2b95e59855",
-    "experiments/cpu_softmax/reproduce.py": "8e1f2bc2da53c5775befc2e4b8490d654fb8a8ff22d411ed64be8c37f15faaec",
-    "output/triage_distill_split_v0.4.0.jsonl": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
+    "experiments/cpu_softmax/predict.py": "a3970b24329a2cbf208458872ba908df66d4a33fa99a03668a87348481a194e9",
+    "experiments/cpu_softmax/reproduce.py": "00e30d19ae591f601868fed3f6d8c6128670be63e6c3255eeeb21f2ccf7a0be1",
+    "output/triage_distill_split_v0.4.0.jsonl": "ce7cb0526580a618612d4615272b79dd0525b2ccdc7d74bad57ff6b03da95fdd",
     "src/szl_triage/proposal_task.py": "3b46fdea15bde165afb80d9787a6543daf8cb1d46e5777e03dd1a65de07adcf9",
     "src/szl_triage/qualification.py": "5c7ed6193e4c1cafa5bc3a7341c3ec1495ce87f7708430e5b385720622dcea32",
-    "tests/test_cpu_softmax_study.py": "3be79bb0fb0693c4406764665c5d4ecb89bd7e30eadda6f3d95b6fe8f7580052"
+    "tests/test_cpu_softmax_study.py": "3ced589bd5899cb7f7e3c737d6cec02e4b6023080fefac98e98449d8549976fb"
   },
   "metrics": {
     "evidence_contract_fidelity": 1.0,
@@ -89,7 +89,9 @@
   "signature_boundary": "Manifest hashes establish byte identity; authenticate this manifest through a verified canonical Git commit. They are not signatures or independent semantic evidence.",
   "source_adaptation": "Original model algorithm unchanged; reject invalid/beyond-bound input before feature extraction. CLI/replay relocated into an experimental package. Historical runner and receipt preserved byte-for-byte; current sources separately bound below.",
   "training_input": {
+    "checkout_transform": "Canonical .gitattributes declares eol=crlf for this exact dataset; restore LF Git blob to CRLF and require the original receipt SHA256 before training. No other normalization allowed.",
     "family_independence": "NOT_ESTABLISHED",
+    "git_blob_sha256": "ce7cb0526580a618612d4615272b79dd0525b2ccdc7d74bad57ff6b03da95fdd",
     "held_rows_not_trained": 101,
     "label_status": "ENGINE_DERIVED",
     "path": "output/triage_distill_split_v0.4.0.jsonl",

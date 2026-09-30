@@ -30,6 +30,11 @@ def reproduce(output_dir, repository=REPOSITORY):
     frozen, frozen_hash = load_recorded_model(repository)
     dataset_path = repository / manifest['training_input']['path']
     data = dataset_path.read_bytes()
+    if digest_bytes(data) == manifest['training_input']['git_blob_sha256']:
+        # Restore the exact historical eol=crlf checkout before receipt comparison.
+        if b'\r\n' in data:
+            raise ValueError('Declared Git dataset blob must use LF lines')
+        data = data.replace(b'\n', b'\r\n')
     if digest_bytes(data) != manifest['training_input']['sha256']:
         raise ValueError('Canonical dataset bytes changed')
     rows = [strict_json(line) for line in data.decode('utf-8').splitlines() if line.strip()]
@@ -82,6 +87,8 @@ def reproduce(output_dir, repository=REPOSITORY):
                'expected_calibration_error_difference': qualification['metrics']['expected_calibration_error'] - original_qualification['metrics']['expected_calibration_error'],
                'runtime': {'python': platform.python_version(), 'platform': platform.platform(),
                            'libc': list(platform.libc_ver())},
+               'training_input_git_blob_sha256': manifest['training_input']['git_blob_sha256'],
+               'training_input_original_checkout_sha256': digest_bytes(data),
                'training_seconds': elapsed, 'promotion_status': 'NOT_PROMOTABLE',
                'evaluation_scope': 'DEVELOPMENT_PREVIOUSLY_EXPOSED_CHALLENGE',
                'semantic_family_independence': 'NOT_ESTABLISHED', 'release_authorization': 'NONE'}

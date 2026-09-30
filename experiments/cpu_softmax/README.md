@@ -23,6 +23,12 @@ Labels are engine-derived. There is no independently ratified semantic corpus or
 established causal-family independence. Exact train/held and train/challenge input
 overlap is zero, which does not establish independence.
 
+The canonical dataset has an explicit historical `eol=crlf` Git checkout rule.
+The manifest binds both the exact LF Git blob and the original CRLF training
+bytes. A Git-blob distribution restores that one declared checkout transform
+before comparing the original receipt hash. Other source and artifact files
+require exact byte identity; no general newline normalization is accepted.
+
 The model was frozen before the runner read the 42-row challenge. That challenge
 had already been exposed in earlier development and is **development evidence**.
 The runner's original receipt and exact predictions are preserved in `artifacts/`.
