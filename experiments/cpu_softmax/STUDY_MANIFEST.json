@@ -66,11 +66,11 @@
     "experiments/cpu_softmax/artifacts/training-spec.json": "c458c6b9207b246203274ae109ff7f16fe2ed44f8d6ebac3f1ba4e1788da086d",
     "experiments/cpu_softmax/model.py": "08e9ba38327146ba054cac260343a504bea22889d8808be4b335ff915fe03a74",
     "experiments/cpu_softmax/predict.py": "76a7b994cfe76b67d12d6dbcf54f735fca54bc3838d2db75c9ca3a2b95e59855",
-    "experiments/cpu_softmax/reproduce.py": "54dbd1e954283095bf1048126655658162354b667acef6a996e8574970058eb7",
+    "experiments/cpu_softmax/reproduce.py": "8e1f2bc2da53c5775befc2e4b8490d654fb8a8ff22d411ed64be8c37f15faaec",
     "output/triage_distill_split_v0.4.0.jsonl": "5dd99e6c05ff1fa3ae088d7ba2cc00c8208b2dbdb64ed6b4a8a495ba2e4a4937",
     "src/szl_triage/proposal_task.py": "3b46fdea15bde165afb80d9787a6543daf8cb1d46e5777e03dd1a65de07adcf9",
     "src/szl_triage/qualification.py": "5c7ed6193e4c1cafa5bc3a7341c3ec1495ce87f7708430e5b385720622dcea32",
-    "tests/test_cpu_softmax_study.py": "cd21865790e81055d0e74e5f1725abad1706fe371e17c3a8d99f0e00ac3ab30b"
+    "tests/test_cpu_softmax_study.py": "3be79bb0fb0693c4406764665c5d4ecb89bd7e30eadda6f3d95b6fe8f7580052"
   },
   "metrics": {
     "evidence_contract_fidelity": 1.0,

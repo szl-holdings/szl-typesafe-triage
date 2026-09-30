@@ -5,6 +5,7 @@ import argparse
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import platform
 import time
 
 from .model import digest_bytes, fit, predict, stable_json
@@ -77,6 +78,10 @@ def reproduce(output_dir, repository=REPOSITORY):
                'exact_qualification_reproduction': exact_qualification,
                'qualification_criteria_status_match': all(qualification['criteria'][k]['status'] == v['status']
                                                          for k,v in original_qualification['criteria'].items()),
+               'replayed_expected_calibration_error': qualification['metrics']['expected_calibration_error'],
+               'expected_calibration_error_difference': qualification['metrics']['expected_calibration_error'] - original_qualification['metrics']['expected_calibration_error'],
+               'runtime': {'python': platform.python_version(), 'platform': platform.platform(),
+                           'libc': list(platform.libc_ver())},
                'training_seconds': elapsed, 'promotion_status': 'NOT_PROMOTABLE',
                'evaluation_scope': 'DEVELOPMENT_PREVIOUSLY_EXPOSED_CHALLENGE',
                'semantic_family_independence': 'NOT_ESTABLISHED', 'release_authorization': 'NONE'}

@@ -119,7 +119,7 @@ def test_invalid_inputs_fail_before_feature_extraction(monkeypatch):
             predict(text, {}, make_task)
 
 
-def test_full_canonical_training_and_development_predictions_replay(tmp_path):
+def test_full_replay_retains_exact_failure_and_diagnoses_literal_outputs(tmp_path):
     try:
         receipt = reproduce(tmp_path / 'new-replay')
     except ReproductionMismatch as failure:
@@ -142,6 +142,15 @@ def test_canonical_training_is_repeatable_within_the_same_runtime():
     dataset = ROOT / 'output/triage_distill_split_v0.4.0.jsonl'
     rows = [json.loads(line) for line in dataset.read_text(encoding='utf-8').splitlines() if line.strip()]
     assert stable_json(fit(rows)) == stable_json(fit(rows))
+
+
+def test_frozen_weight_inference_reproduces_all_42_recorded_literal_outputs():
+    model, _ = load_recorded_model()
+    records = json.loads((ROOT / 'experiments/cpu_softmax/artifacts/qualification-records.json').read_text())
+    assert len(records) == 42
+    # Compare recorded model outputs; reference targets are never passed to inference.
+    for record in records:
+        assert predict(record['input'], model, make_task)['raw_output'] == record['raw_output']
 
 
 def test_manifest_path_traversal_and_overclaim_rejection(tmp_path):
