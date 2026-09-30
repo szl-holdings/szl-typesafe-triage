@@ -85,6 +85,15 @@ def _is_real(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 
+def _is_finite_real(value: Any) -> bool:
+    if not _is_real(value):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
+
+
 def _str_tuple(value: Any) -> bool:
     return isinstance(value, tuple) and all(isinstance(v, str) for v in value)
 
@@ -131,10 +140,10 @@ def _check_seat(s: Any) -> None:
         value = getattr(s, name)
         if not isinstance(value, str) or not value:
             raise PolicyError(SEAT_INVALID, f"{name} must be a non-empty string")
-    if not _is_real(s.floor) or not math.isfinite(s.floor) or not 0 < s.floor <= 1:
-        raise PolicyError(SEAT_INVALID, f"seat {s.id!r}: floor {s.floor!r} is not in (0, 1]")
-    if not _is_real(s.weight) or not math.isfinite(s.weight) or not s.weight > 0:
-        raise PolicyError(SEAT_INVALID, f"seat {s.id!r}: weight {s.weight!r} is not > 0")
+    if not _is_finite_real(s.floor) or not 0 < s.floor <= 1:
+        raise PolicyError(SEAT_INVALID, f"seat {s.id!r}: floor must be finite and in (0, 1]")
+    if not _is_finite_real(s.weight) or not s.weight > 0:
+        raise PolicyError(SEAT_INVALID, f"seat {s.id!r}: weight must be finite and > 0")
     if not isinstance(s.reads, frozenset) or not all(isinstance(x, str) for x in s.reads):
         raise PolicyError(SEAT_INVALID, f"seat {s.id!r}: reads must be a frozenset of strings")
     if s.cost_class not in COST_CLASSES:
@@ -183,8 +192,8 @@ def _check_policy(p: Any) -> None:
             raise PolicyError(POLICY_FIELD_INVALID, f"{name} must be a non-empty string")
     a = p.alpha_council_bound
     if a is not None:
-        if not _is_real(a) or not math.isfinite(a) or a < 0:
-            raise PolicyError(POLICY_ALPHA_INVALID, f"alpha_council_bound {a!r}")
+        if not _is_finite_real(a) or a < 0:
+            raise PolicyError(POLICY_ALPHA_INVALID, "alpha_council_bound must be finite and >= 0")
         if not any(s.calibrated for s in p.seats):
             raise PolicyError(POLICY_ALPHA_INVALID,
                               "alpha_council_bound is set but no seat is calibrated")

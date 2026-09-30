@@ -47,7 +47,10 @@ class IntervalError(ValueError):
 def _endpoint(name: str, value: Any) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise IntervalError(f"{name} is {type(value).__name__}, not a real number")
-    x = float(value)
+    try:
+        x = float(value)
+    except OverflowError:
+        raise IntervalError(f"{name} is outside the finite float range") from None
     if not math.isfinite(x):
         raise IntervalError(f"{name}={x!r} is not finite")
     return x + 0.0  # -0.0 becomes 0.0, so equal intervals have equal bytes

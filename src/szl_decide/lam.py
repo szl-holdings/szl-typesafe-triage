@@ -168,7 +168,7 @@ def compare_log(log_value: float, log_tau: float) -> str:
     if log_value == -math.inf:
         return BELOW
     delta = log_value - log_tau
-    if abs(delta) <= TIE_EPS or delta != delta:
+    if abs(delta) <= TIE_EPS or math.isnan(delta):
         return TIE
     return ABOVE if delta > 0 else BELOW
 
