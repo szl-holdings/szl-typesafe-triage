@@ -1,5 +1,5 @@
 {
-  "canonical_base_revision": "179c6d4ea6b67e9cc6a60f2f2c758644657a71b1",
+  "canonical_base_revision": "4fc4879cc2b86534d9723f043d97ee788c59a238",
   "canonical_repository": "https://github.com/szl-holdings/szl-typesafe-triage",
   "challenge": {
     "exact_train_input_overlap": 0,
@@ -49,11 +49,12 @@
     }
   },
   "evaluation_scope": "DEVELOPMENT_PREVIOUSLY_EXPOSED_CHALLENGE",
+  "file_encoding": "Published study JSON/Python/Markdown are LF UTF-8. Core original receipt, weights and predictions were already LF and are unchanged; original one-line test-report newline normalized for canonical storage.",
   "files": {
     "PROMOTION_THRESHOLDS.json": "bf940e78c3ffe99eecf98654cfa14080f5a4b9e3619a4884dd9bcd8d93ac7dc4",
-    "experiments/cpu_softmax/NEXT_PROGRAM.json": "7ec158bd075b373dab0413361a7a36b85a6e22dbc604088082e1ffe15f1d115e",
+    "experiments/cpu_softmax/NEXT_PROGRAM.json": "d7da656c389dc0c052555d27d21b0a57ffdf7776b217fae4efb22735009df8dd",
     "experiments/cpu_softmax/README.md": "9f4981bd1941b33e5a9726116a95f7939541d9d3a86f8e11558029cced9b22cf",
-    "experiments/cpu_softmax/__init__.py": "120a83ec6750ece4e30fac3b914753f4063645d0c8ec132471337bcebe0b848d",
+    "experiments/cpu_softmax/__init__.py": "af18b08d164b839e667bdb4e8ca2c8dc364f11b35e0abb5974791a9e355128be",
     "experiments/cpu_softmax/artifacts/historical-run-source.py": "6a77f4171ef598cc7b837718a2276b38ceee6d12391e386ca1502a9a5992d694",
     "experiments/cpu_softmax/artifacts/majority-control.json": "8b995466c2b9cb774d82ba63278596bcbd4019bb7aa7233c277c78e0358a693c",
     "experiments/cpu_softmax/artifacts/model.json": "afee69cbbabc5de2fa117ca91b7d201f6b146afc1ccc49a2caf1bcc666f090f2",
@@ -61,7 +62,7 @@
     "experiments/cpu_softmax/artifacts/qualification-records.json": "59186978d3da37d16c52094ecf80e120eedb6795fa1a45638163111c2785ac02",
     "experiments/cpu_softmax/artifacts/qualification.json": "5578942b173e5f67455d1b48cc6c81620a54854f28c79a9cc879109905d28692",
     "experiments/cpu_softmax/artifacts/receipt.json": "d60b7c56ed20b15e44407f812c00c355b352c008f3926a25ce0d898bf2319858",
-    "experiments/cpu_softmax/artifacts/test-report.json": "b2378fd7e07404d32fb76de0982fc24c2fe1a97889e8e4424a5a67aded9f0064",
+    "experiments/cpu_softmax/artifacts/test-report.json": "a3f4ddc79f3f8cceeaf3279331360d85970510bba9ef2ce7315fa8799ae30d16",
     "experiments/cpu_softmax/artifacts/training-spec.json": "c458c6b9207b246203274ae109ff7f16fe2ed44f8d6ebac3f1ba4e1788da086d",
     "experiments/cpu_softmax/model.py": "08e9ba38327146ba054cac260343a504bea22889d8808be4b335ff915fe03a74",
     "experiments/cpu_softmax/predict.py": "76a7b994cfe76b67d12d6dbcf54f735fca54bc3838d2db75c9ca3a2b95e59855",
