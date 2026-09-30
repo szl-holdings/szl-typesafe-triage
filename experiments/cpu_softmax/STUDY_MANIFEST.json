@@ -70,7 +70,7 @@
     "output/triage_distill_split_v0.4.0.jsonl": "ce7cb0526580a618612d4615272b79dd0525b2ccdc7d74bad57ff6b03da95fdd",
     "src/szl_triage/proposal_task.py": "3b46fdea15bde165afb80d9787a6543daf8cb1d46e5777e03dd1a65de07adcf9",
     "src/szl_triage/qualification.py": "5c7ed6193e4c1cafa5bc3a7341c3ec1495ce87f7708430e5b385720622dcea32",
-    "tests/test_cpu_softmax_study.py": "3ced589bd5899cb7f7e3c737d6cec02e4b6023080fefac98e98449d8549976fb"
+    "tests/test_cpu_softmax_study.py": "df53c9e240e46e0f52368ad16fe921e3290d3ef23973492a6c267b38a3360a1e"
   },
   "metrics": {
     "evidence_contract_fidelity": 1.0,

@@ -3,6 +3,7 @@ import copy
 import json
 import math
 from pathlib import Path
+import platform
 import shutil
 
 import pytest
@@ -131,9 +132,15 @@ def test_invalid_inputs_fail_before_feature_extraction(monkeypatch):
 
 
 def test_full_replay_retains_exact_failure_and_diagnoses_literal_outputs(tmp_path):
+    recorded_runtime = verify_study()['training_runtime']
+    exact_recorded_runtime = (platform.platform() == recorded_runtime['platform']
+                              and platform.python_version() == recorded_runtime['python'])
     try:
         receipt = reproduce(tmp_path / 'new-replay')
     except ReproductionMismatch as failure:
+        if exact_recorded_runtime:
+            pytest.fail('Exact reproduction failed on the original recorded runtime: '
+                        + stable_json(failure.receipt))
         receipt = failure.receipt
         # Cross-runtime differences must remain explicit and fail exact replay.
         assert not all(receipt[k] for k in ('exact_model_reproduction',
