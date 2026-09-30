@@ -124,7 +124,12 @@ def test_untrusted_host_or_cross_origin_never_reaches_the_engine(running_public,
     ("Origin", [f"https://{AUTHORITY}", f"https://{AUTHORITY}"]),
     ("Content-Length", ["1", "1"]),
     ("Content-Type", ["application/json", "application/json"]),
-    ("X-Probe", ["one", "two"]),
+    ("Content-Encoding", ["identity", "identity"]),
+    ("Transfer-Encoding", ["chunked", "chunked"]),
+    ("Connection", ["close", "close"]),
+    ("Expect", ["100-continue", "100-continue"]),
+    ("TE", ["trailers", "trailers"]),
+    ("Upgrade", ["websocket", "websocket"]),
 ])
 def test_duplicate_headers_are_rejected(running_public, name, values):
     connection = http.client.HTTPConnection("127.0.0.1", running_public.server_port, timeout=3)
@@ -138,6 +143,34 @@ def test_duplicate_headers_are_rejected(running_public, name, values):
         response = connection.getresponse()
         assert response.status == 400
         assert json.loads(response.read())["error"] == "duplicate_header"
+    finally:
+        connection.close()
+
+
+@pytest.mark.parametrize("actual_host,expected", [(AUTHORITY, 200), ("attacker.example", 403)])
+def test_repeated_proxy_metadata_never_grants_host_trust(running_public, monkeypatch,
+                                                        actual_host, expected):
+    if expected == 403:
+        monkeypatch.setattr(local, "decide", lambda *args: pytest.fail("Untrusted request reached engine"))
+    body = b'{"text":"charged twice on invoice INV-2041, want a refund"}' if expected == 200 else b''
+    connection = http.client.HTTPConnection("127.0.0.1", running_public.server_port, timeout=3)
+    try:
+        connection.putrequest("POST", "/v1/decide", skip_host=True)
+        connection.putheader("Host", actual_host)
+        connection.putheader("Content-Type", "application/json")
+        connection.putheader("Content-Length", str(len(body)))
+        for name in ("X-Forwarded-For", "X-Forwarded-Host", "Forwarded", "X-Request-Id", "User-Agent"):
+            connection.putheader(name, AUTHORITY)
+            connection.putheader(name, "untrusted-proxy-metadata")
+        connection.endheaders(body)
+        response = connection.getresponse()
+        result = json.loads(response.read())
+        assert response.status == expected
+        if expected == 200:
+            assert result["decision"]["label"] == "BILLING"
+            assert result["disposition"] == "HOLD"
+        else:
+            assert result == {"error": "host_not_allowed"}
     finally:
         connection.close()
 

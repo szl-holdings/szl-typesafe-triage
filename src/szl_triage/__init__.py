@@ -20,7 +20,7 @@ from .policy import Policy, PolicyError, load as load_policy
 from .receipts import ReceiptChain, verify as verify_receipts
 from .sealing import Seal, create as create_seal, verify as verify_seal
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 __all__ = [
     "Decision", "ModelProposal", "State", "Tier",

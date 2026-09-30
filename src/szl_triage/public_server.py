@@ -25,6 +25,13 @@ BINDING_SCHEMA = "szl.triage-source-binding/v1"
 GITHUB_REPOSITORY = "szl-holdings/szl-typesafe-triage"
 MAX_BINDING_BYTES = 65536
 MAX_SOURCE_FILES = 256
+# Only these fields affect routing, origin, decoding or HTTP framing. Managed
+# proxies may repeat tracing/forwarding metadata; none of that metadata grants
+# trust or participates in decisions. Ambiguous security fields still fail shut.
+_SINGLETON_HEADERS = frozenset({
+    "host", "origin", "content-length", "content-type", "content-encoding",
+    "transfer-encoding", "connection", "expect", "te", "upgrade",
+})
 _COMMIT = re.compile(r"[0-9a-f]{40}\Z")
 _AUTHORITY = re.compile(
     r"(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+"
@@ -140,8 +147,10 @@ class _PublicHandler(local._Handler):
 
     def _trusted_request(self) -> bool:
         names = Counter(name.lower() for name in self.headers.keys())
-        if any(count != 1 for count in names.values()):
-            self._json(400, {"error": "duplicate_header"})
+        duplicated = sorted(name for name, count in names.items()
+                            if count != 1 and name in _SINGLETON_HEADERS)
+        if duplicated:
+            self._json(400, {"error": "duplicate_header", "headers": duplicated})
             return False
         hosts = self.headers.get_all("Host", [])
         if len(hosts) != 1:
