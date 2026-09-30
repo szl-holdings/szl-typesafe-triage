@@ -44,6 +44,41 @@ policy, and implementation hashes. See [local runtime](docs/LOCAL_RUNTIME.md)
 for installation, API requests, and the separate fresh GPU challenge command.
 The model-release block above remains in force.
 
+## Deploy the public deterministic software lab
+
+The Docker Space entry point is `python -m szl_triage.public_server`, explicitly
+bound to `0.0.0.0:7860`. It uses only the standard-library deterministic pipeline.
+`/readyz` and `/v1/decide` identify the runtime as `DETERMINISTIC_SOFTWARE_LAB`,
+report `model_loaded: false`, and retain model promotion as `HOLD`. Publishing
+this software lab does not qualify or publish a language model.
+
+Before startup, the publisher must create `SOURCE_BINDING.json` from the immutable
+canonical GitHub commit. Its exact fields are `schema` (`szl.triage-source-binding/v1`),
+`github_repository` (`szl-holdings/szl-typesafe-triage`), `github_commit` (the full
+40-character commit SHA), and `source_files` (relative paths mapped to SHA-256
+digests). The file set must contain every deployed `src/szl_triage/**/*.py` file
+and `src/szl_triage/data/triage_policy.v3.json`, with no extra declarations.
+Startup rejects absent, changed, omitted, extra, or symlinked source files before
+binding. Readiness reports the declared GitHub commit and verified manifest digest;
+these unsigned digests bind contents and do not authenticate the publisher.
+
+`TRIAGE_TRUSTED_AUTHORITIES` is a required comma-separated list of exact lowercase
+DNS authorities. The Docker image explicitly configures
+`szlholdings-szl-typesafe-triage.hf.space`. A domain proxy must preserve one configured
+authority or add its exact authority to this setting. Host wildcards and forwarded
+host trust are unavailable. An Origin, when supplied, must be HTTPS with the same
+authority as the request Host. Duplicate headers and cross-origin requests are
+rejected. TLS terminates at the managed hosting proxy.
+
+`TRIAGE_ALLOW_LOOPBACK_PROBES=1` explicitly permits only local-peer probes with
+`localhost:7860` or `127.0.0.1:7860`. Its default is `0`; the Docker image enables it
+for managed container health checks. Framing is disabled by default. The image
+explicitly sets `TRIAGE_FRAME_ANCESTOR=https://huggingface.co` to permit the managed
+Hugging Face page to embed the lab while retaining nonce-based scripts and styles.
+No other frame ancestor or wildcard is accepted. The image copies only Python
+package source, the default policy, and the source binding; weights, training
+outputs, and credentials are outside its copy set.
+
 ## Replay the five-seed study
 
 `python scripts/codex_finish.py audit` checks the saved study offline, including

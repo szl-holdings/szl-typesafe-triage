@@ -26,6 +26,7 @@ MAX_BODY_BYTES = 65536
 MAX_TEXT_CHARS = 8192
 READ_TIMEOUT = 5.0
 MAX_CONNECTIONS = 8
+MAX_JSON_DEPTH = 64
 _HASH = re.compile(r"[0-9a-f]{64}\Z")
 
 
@@ -52,6 +53,27 @@ def _reject_constant(value: str) -> Any:
 
 
 def _decode_json(data: bytes) -> Any:
+    # Bound structural recursion before invoking the C JSON decoder. Catching
+    # RecursionError afterwards is too late for a small native worker stack.
+    depth, in_string, escaped = 0, False, False
+    for char in data:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == 92:
+                escaped = True
+            elif char == 34:
+                in_string = False
+        elif char == 34:
+            in_string = True
+        elif char in (91, 123):
+            depth += 1
+            if depth > MAX_JSON_DEPTH:
+                raise ValueError("JSON nesting limit exceeded")
+        elif char in (93, 125):
+            depth -= 1
+            if depth < 0:
+                raise ValueError("Invalid JSON nesting")
     value = json.loads(data.decode("utf-8"), object_pairs_hook=_unique_object,
                        parse_constant=_reject_constant)
     _canonical(value)  # Reject numeric overflow and unpaired surrogates too.
@@ -130,14 +152,19 @@ class _LocalServer(ThreadingHTTPServer):
     block_on_close = False
     allow_reuse_address = False
 
-    def __init__(self, policy: policy_module.Policy, policy_sha256: str, port: int):
+    def __init__(self, policy: policy_module.Policy, policy_sha256: str, port: int, *,
+                 bind_address: str = "127.0.0.1", handler=None, mode: str = MODE,
+                 landing_page: str = _LANDING_PAGE, frame_ancestors: str = "'none'"):
         self.policy = policy
         self.policy_sha256 = policy_sha256
-        self.identity = {"mode": MODE,
+        self.mode = mode
+        self.landing_page = landing_page
+        self.frame_ancestors = frame_ancestors
+        self.identity = {"mode": mode,
                          "policy": {"name": policy.name, "version": policy.version, "sha256": policy_sha256},
                          "implementation": _implementation_identity(), "model_loaded": False}
         self._slots = threading.BoundedSemaphore(MAX_CONNECTIONS)
-        super().__init__(("127.0.0.1", port), _Handler)
+        super().__init__((bind_address, port), handler or _Handler)
 
     def get_request(self):
         connection, address = super().get_request()
@@ -187,7 +214,8 @@ class _Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", csp or "default-src 'none'; frame-ancestors 'none'")
+        self.send_header("Content-Security-Policy", csp or
+                         f"default-src 'none'; frame-ancestors {self.server.frame_ancestors}")
         self.end_headers()
         if self.command != "HEAD":
             self.wfile.write(body)
@@ -213,14 +241,15 @@ class _Handler(BaseHTTPRequestHandler):
         if not self._trusted_request():
             return
         if self.path == "/healthz":
-            self._json(200, {"status": "UP", "mode": MODE})
+            self._json(200, {"status": "UP", "mode": self.server.mode})
         elif self.path == "/readyz":
             self._json(200, {"status": "READY", **self.server.identity})
         elif self.path == "/":
             nonce = secrets.token_urlsafe(18)
             csp = (f"default-src 'none'; script-src 'nonce-{nonce}'; style-src 'nonce-{nonce}'; "
-                   "connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'")
-            self._reply(200, _LANDING_PAGE.replace("__NONCE__", nonce).encode("utf-8"),
+                   "connect-src 'self'; base-uri 'none'; form-action 'none'; "
+                   f"frame-ancestors {self.server.frame_ancestors}")
+            self._reply(200, self.server.landing_page.replace("__NONCE__", nonce).encode("utf-8"),
                         "text/html; charset=utf-8", csp)
         else:
             self._json(404, {"error": "not_found"})
@@ -269,16 +298,20 @@ class _Handler(BaseHTTPRequestHandler):
             return
         try:
             decision = decide(data["text"], self.server.policy).to_dict()
-            envelope = {"schema": ENVELOPE_SCHEMA, "mode": MODE,
-                        "authenticity": "UNSIGNED_CONTENT_INTEGRITY_ONLY",
-                        "policy": self.server.identity["policy"],
-                        "implementation": self.server.identity["implementation"],
-                        "decision": decision, "decision_sha256": _sha(_canonical(decision))}
-            envelope["envelope_sha256"] = _sha(_canonical(envelope))
+            envelope = self._decision_envelope(decision)
         except Exception:
             self._json(500, {"error": "decision_failed"})
             return
         self._json(200, envelope)
+
+    def _decision_envelope(self, decision: dict[str, Any]) -> dict[str, Any]:
+        envelope = {"schema": ENVELOPE_SCHEMA, "mode": MODE,
+                    "authenticity": "UNSIGNED_CONTENT_INTEGRITY_ONLY",
+                    "policy": self.server.identity["policy"],
+                    "implementation": self.server.identity["implementation"],
+                    "decision": decision, "decision_sha256": _sha(_canonical(decision))}
+        envelope["envelope_sha256"] = _sha(_canonical(envelope))
+        return envelope
 
 
 def make_server(policy_path: str | Path | None = None, port: int = 0) -> _LocalServer:
