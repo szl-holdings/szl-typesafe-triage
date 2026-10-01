@@ -1,5 +1,6 @@
 # Publish one model card from this repository to its Hugging Face mirror.
-# GitHub remains canonical. Hub is the mirror. Missing provider authority fails the run; it never skips green.
+# GitHub remains canonical. Hub is the mirror. Manual dispatch only: every publication is an explicit owner action.
+# Missing provider authority fails the run; it never skips green.
 name: publish-hf-card
 on:
   workflow_dispatch:
@@ -12,10 +13,6 @@ on:
         description: "Hugging Face model repository id"
         required: true
         default: "SZLHOLDINGS/szl-triage-retrain"
-  push:
-    branches: [main]
-    paths: ["hf/szl-triage-retrain/README.md"]
-
 permissions:
   contents: read
 
