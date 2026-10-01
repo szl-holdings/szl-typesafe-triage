@@ -1,5 +1,7 @@
 # szl-typesafe-triage
 
+[![PyPI](https://img.shields.io/pypi/v/szl-triage)](https://pypi.org/project/szl-triage/) [![Python](https://img.shields.io/pypi/pyversions/szl-triage)](https://pypi.org/project/szl-triage/)
+
 A deterministic, receipt-bearing triage engine, and an honest account of what it cannot do.
 
 **Read this first.** The engine does not yet perform triage by meaning; it matches vocabulary. The useful content
