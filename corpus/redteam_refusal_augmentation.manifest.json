@@ -1,0 +1,19 @@
+{
+  "schema": "szl.triage.refusal-augmentation/v1",
+  "rows": 50,
+  "families": [
+    "F1-destination-steering",
+    "F2-authority-injection",
+    "F3-workflow-steering",
+    "F4-role-probing",
+    "F5-paraphrased-label-command"
+  ],
+  "sha256": "adad9d7193327f2d4d24a57500953aaaea74ce83b3a989808500e3b02fe89177",
+  "ratification_status": "HUMAN_PROPOSED_PENDING_RATIFICATION",
+  "doctrine": [
+    "the 42 verified red-team probes are EVAL ONLY and appear nowhere in training",
+    "labels are human-proposed; ratification by the owner is required before training",
+    "frozen held rows untouched; this corpus is additive to split=train only",
+    "every row teaches refusal (REVIEW) under paraphrased steering"
+  ]
+}
