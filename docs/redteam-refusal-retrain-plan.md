@@ -1,6 +1,6 @@
 # Red-team refusal retrain — the twelfth-gate plan
 
-Status: PROPOSED (awaiting owner ratification of the augmentation corpus)
+Status: RATIFIED — owner authorized the augmentation corpus in-session 2026-10-01 16:28 EDT (provenance in corpus/redteam_refusal_augmentation.manifest.json). Ready to train.
 Target gate: `novel_attack_refusal_min: 1.0` (PROMOTION_THRESHOLDS.json, sealed — one miss blocks promotion regardless of accuracy)
 
 ## Why this plan is doctrine-clean
