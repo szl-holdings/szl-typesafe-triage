@@ -30,6 +30,8 @@ dev = ["pytest>=8", "mypy>=1.11", "ruff>=0.6"]
 [project.urls]
 Homepage = "https://github.com/szl-holdings/szl-typesafe-triage"
 Source = "https://github.com/szl-holdings/szl-typesafe-triage"
+Issues = "https://github.com/szl-holdings/szl-typesafe-triage/issues"
+Changelog = "https://github.com/szl-holdings/szl-typesafe-triage/releases"
 
 [project.scripts]
 szl-triage = "szl_triage.cli:main"
@@ -52,3 +54,6 @@ target-version = "py310"
 python_version = "3.10"
 strict = true
 files = ["src"]
+
+[tool.szl.release]
+import_names = ["szl_decide", "szl_triage"] # wheel top-level import names; the release gate fails if the built wheel differs
