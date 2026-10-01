@@ -55,6 +55,23 @@ jobs:
             echo "::error::No HF_ORG_TOKEN or HF_TOKEN secret is visible to this repository; publication is a failed check, not a skip."
             exit 1
           fi
+      - name: Check provider identity (never prints the token)
+        env:
+          HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install --quiet "huggingface_hub>=0.30,<2"
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          who = api.whoami()
+          orgs = [(o.get("name"), o.get("roleInOrg")) for o in who.get("orgs", [])]
+          print("account:", who.get("name"), "type:", who.get("type"), "token role:", (who.get("auth") or {}).get("accessToken", {}).get("role"))
+          print("orgs:", orgs)
+          target_org = os.environ["REPO_ID"].split("/", 1)[0]
+          if who.get("name") != target_org and target_org not in {o[0] for o in orgs}:
+                raise SystemExit("token has no membership in " + target_org)
+          PY
       - name: Publish the card
         env:
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
