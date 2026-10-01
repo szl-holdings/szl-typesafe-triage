@@ -1,6 +1,6 @@
 # szl-typesafe-triage
 
-[![PyPI](https://img.shields.io/pypi/v/szl-triage)](https://pypi.org/project/szl-triage/) [![Python](https://img.shields.io/pypi/pyversions/szl-triage)](https://pypi.org/project/szl-triage/)
+[![PyPI](https://img.shields.io/pypi/v/szl-triage)](https://pypi.org/project/szl-triage/) [![Python](https://img.shields.io/pypi/pyversions/szl-triage)](https://pypi.org/project/szl-triage/) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/szl-holdings/szl-typesafe-triage/badge)](https://scorecard.dev/viewer/?uri=github.com/szl-holdings/szl-typesafe-triage)
 
 A deterministic, receipt-bearing triage engine, and an honest account of what it cannot do.
 
