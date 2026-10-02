@@ -15,6 +15,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import compose_overclaim
+
 THRESHOLDS = {
     "choice_confidence": 0.60,
     "claim_noul": 0.55,
@@ -25,6 +27,8 @@ THRESHOLDS = {
     "unsafe_noul": 0.50,
     "ready_to_merge": 0.80,
     "high_score": 1.5,
+    "overclaim_noul": 0.65,
+    "overclaim_confidence_hold": 0.55,
 }
 
 AUTO_MERGE = False
@@ -205,6 +209,35 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
         abstain = bool(unavailable)
         if handler and not abstain:
             labels.append(f"handler:{handler}")
+
+    elif pack_id.endswith(compose_overclaim.PACK_SUFFIX):
+        klass = read("evidence_class", "choice")
+        live = read("claims_live", "noul")
+        joules = read("invents_joules", "noul")
+        hub = read("treats_hf_as_source", "noul")
+        lam = read("lambda_as_theorem", "noul")
+        unsigned = read("unsigned_as_live", "noul")
+        sev = read("overclaim_severity", "score")
+        flags = compose_overclaim.apply(
+            klass=klass,
+            live=live,
+            joules=joules,
+            hub=hub,
+            lam=lam,
+            unsigned=unsigned,
+            sev=sev,
+            reasons=reasons,
+            labels=labels,
+            ge=_ge,
+            fmt=_fmt,
+            noul_block=THRESHOLDS["overclaim_noul"],
+            high_score=THRESHOLDS["high_score"],
+            conf_hold=THRESHOLDS["overclaim_confidence_hold"],
+        )
+        block_publish = flags["block_publish"]
+        block_merge = flags["block_merge"]
+        escalate = flags["escalate"]
+        request_info = flags["request_info"] or request_info
 
     else:
         raise SystemExit(f"unknown pack_id: {pack_id}")
