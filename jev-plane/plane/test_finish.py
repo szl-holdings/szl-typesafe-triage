@@ -215,3 +215,17 @@ def test_cli_selftest_succeeds_without_key(finish_plane):
     )
     assert proc.returncode == 0, (proc.stdout, proc.stderr)
     assert json.loads(proc.stdout)["ok"] is True
+
+
+def test_cli_stdout_excludes_operator_intent(finish_plane):
+    secret_like = "not-a-real-secret-example-123456789"
+    proc = subprocess.run(
+        [sys.executable, str(ROOT / "plane" / "finish.py"),
+         "--intent", "MEASURED " + secret_like],
+        text=True, capture_output=True, check=False,
+    )
+    assert proc.returncode == 2
+    assert secret_like not in proc.stdout
+    result = json.loads(proc.stdout)
+    assert result["final_class"] == "UNAVAILABLE"
+    assert result["allowed"] is False

@@ -194,8 +194,22 @@ def main() -> int:
         print(json.dumps({"honesty": "SOFTWARE", "final_class": "UNAVAILABLE", "allowed": False,
                           "error": "INVALID_INTENT_INPUT"}))
         return 2
-    print(json.dumps(result, indent=2, allow_nan=False))
-    return {"MEASURED": 0, "UNAVAILABLE": 2, "HOLD": 2, "BLOCK": 3}[result["final_class"]]
+    # The API retains its structured digest, but stdout must never carry user
+    # intent or provider-controlled strings. Emit only literal allowlisted states.
+    reported_class = "UNAVAILABLE"
+    for klass in ("MEASURED", "UNAVAILABLE", "HOLD", "BLOCK"):
+        if result.get("final_class") == klass:
+            reported_class = klass
+            break
+    reported_reader = "UNAVAILABLE"
+    for status in ("SOFTWARE", "UNAVAILABLE"):
+        if result.get("reader", {}).get("status") == status:
+            reported_reader = status
+            break
+    print(json.dumps({"honesty": "SOFTWARE", "final_class": reported_class,
+                      "allowed": False, "reader_status": reported_reader,
+                      "auto_merge": False, "jev_allow_alone": False}))
+    return {"MEASURED": 0, "UNAVAILABLE": 2, "HOLD": 2, "BLOCK": 3}[reported_class]
 
 
 if __name__ == "__main__":

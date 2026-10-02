@@ -30,6 +30,9 @@ the operator's `TYPESAFE_API_KEY`; this can incur API cost. Deterministic BLOCK 
 UNAVAILABLE local gates skip the reader. The exact `jev-1.13.0` request and response
 pin is required. Redirects, proxy forwarding, malformed responses and mismatched
 model identities are refused. Missing access stays UNAVAILABLE, not PASS.
+The CLI prints only fixed status fields; it does not echo the operator's intent,
+provider text, or a token. Code using `finish()` directly may inspect its structured
+result and digest locally.
 
 `allowed` is always false. `evidence_clear` means only that both bounded classifiers
 returned MEASURED; it proves neither that evidence is authentic nor that a runtime is
