@@ -34,8 +34,8 @@ SOURCE_PATH = SPEC / "lambda_v1_vectors.SOURCE"
 #: FF-01 merge commit in szl-holdings/szl-lambda-gate (PR #53) and the digest its
 #: spec records for the vectors: SHA-256 over canonical JSON bytes, so a CRLF
 #: checkout does not change it.
-UPSTREAM_SHA = "d3443b0539ad9fdbd407a0b0bf0454b416102089"
-CANONICAL_SHA256 = "2a3fef3d17ca36142139fa6bd08b7f0e41526c749abc7cfd810b77cc50ab5d1f"
+UPSTREAM_SHA = "6a874e11ab948a47e982be3651b8021ba6b82e19"
+CANONICAL_SHA256 = "61bfb0410b9f0eaab0eb9f22f29cb7cb13cfde8c083fe308d895565d6ba9ebd4"
 
 VECTORS = json.loads(VECTORS_PATH.read_text(encoding="utf-8"))["vectors"]
 
@@ -60,7 +60,7 @@ def test_vendored_vectors_digest_matches_the_upstream_spec():
     raw = json.loads(VECTORS_PATH.read_text(encoding="utf-8"))
     assert _plain_canonical_sha256(raw) == CANONICAL_SHA256
     assert raw["schema"] == "szl.lambda/v1.vectors"
-    assert len(raw["vectors"]) == 50
+    assert len(raw["vectors"]) == 60
 
 
 def test_source_file_names_the_upstream_commit_and_digest():
