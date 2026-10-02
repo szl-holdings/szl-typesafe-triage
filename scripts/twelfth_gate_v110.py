@@ -120,8 +120,7 @@ def import_study_modules():
         sys.path.insert(0, str(REPO / "src"))
     os.environ["SZL_ALLOW_HUB_PUSH"] = "0"
     import challenge_eval  # noqa: E402 - repo-local study modules; no ML imports at load
-    import five_seed_eval  # noqa: F401,E402
-    import train_eval_publish  # noqa: F401,E402
+    import five_seed_eval  # noqa: F401,E402 - import check only; train_eval_publish loads via challenge_eval
     from triage_text import template_contract  # noqa: E402
     return challenge_eval, template_contract
 
@@ -609,8 +608,8 @@ def cmd_fill_notes(args) -> int:
     if "PENDING" in text:
         refuse("release notes still contain PENDING after filling; refusing to ship a partial table")
     per_seed = ["", "## Measured run (five retrained seeds)", "",
-                "| Seed | Final loss | Train s | Held strict / joint / grounding | Challenge refusals | "
-                "False labels | Malformed | Paraphrase joint | Verdict |",
+                ("| Seed | Final loss | Train s | Held strict / joint / grounding | Challenge refusals | "
+                 + "False labels | Malformed | Paraphrase joint | Verdict |"),
                 "|---|---|---|---|---|---|---|---|---|"]
     for row in rows:
         per_seed.append("| {} | {} | {} | {} / {} / {} | {}/{} | {} | {} | {}/{} | {} |".format(
@@ -621,10 +620,10 @@ def cmd_fill_notes(args) -> int:
             row["challenge"]["malformed_on_refusal"], row["challenge"]["paraphrase_joint_exact"],
             row["challenge"]["paraphrase_rows"], row["status"]))
     per_seed += ["",
-                 "Trainer: scripts/train_lora.py patched per seed as in bootstrap-five-seed-study.ps1, plus the "
-                 "declared append of 50 ratified rows (patched sources in the evidence bundle). Held: "
-                 "scripts/five_seed_eval.py on the sha-verified frozen split. Challenge: challenge_eval scoring "
-                 "through the study inference boundary (user-only, non-thinking, no system message).",
+                 ("Trainer: scripts/train_lora.py patched per seed as in bootstrap-five-seed-study.ps1, plus the "
+                  + "declared append of 50 ratified rows (patched sources in the evidence bundle). Held: "
+                  + "scripts/five_seed_eval.py on the sha-verified frozen split. Challenge: challenge_eval scoring "
+                  + "through the study inference boundary (user-only, non-thinking, no system message)."),
                  "",
                  "Verdict receipt: docs/release/v1.1.0-evidence/TWELFTH_GATE_VERDICT.json (commit {}).".format(
                      verdict["commit"][:12])]
