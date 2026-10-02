@@ -43,15 +43,13 @@ def apply(
     noul_block: float = NOUL_BLOCK,
     high_score: float = 1.5,
     conf_hold: float = CONFIDENCE_HOLD,
+    missing: bool = False,
 ) -> dict[str, Any]:
     """Mutate reasons/labels. Return flags for compose.py to merge."""
     block_publish = False
     block_merge = False
     escalate = False
     request_info = False
-
-    if klass is not None:
-        labels.append(f"class:{klass[0]}")
 
     overclaim = (
         ge(live, noul_block)
@@ -64,10 +62,11 @@ def apply(
     )
 
     if klass is not None and klass[0] == "UNAVAILABLE":
-        block_merge = True
         request_info = True
-        reasons.append("second reader UNAVAILABLE; never PASS")
-    elif overclaim:
+
+    # Positive risk remains a block even when the class or a sibling is unavailable.
+    if overclaim:
+        reader_class = "BLOCK"
         block_publish = True
         block_merge = True
         escalate = True
@@ -75,16 +74,25 @@ def apply(
             f"overclaim live={fmt(live)} joules={fmt(joules)} hub={fmt(hub)} "
             f"lambda={fmt(lam)} unsigned={fmt(unsigned)} severity={fmt(sev)}"
         )
-    elif klass is None or klass[0] == "HOLD" or klass[1] < conf_hold:
+    elif missing or klass is None or klass[0] == "UNAVAILABLE":
+        reader_class = "UNAVAILABLE"
+        block_merge = True
+        request_info = True
+        reasons.append("second reader UNAVAILABLE; never PASS")
+    elif klass[0] == "HOLD" or klass[1] < conf_hold:
+        reader_class = "HOLD"
         block_merge = True
         escalate = True
-        name = klass[0] if klass else "UNAVAILABLE"
-        conf = fmt(klass[1] if klass else None)
+        name = klass[0]
+        conf = fmt(klass[1])
         reasons.append(f"class={name} confidence={conf}")
     elif klass[0] == "MEASURED":
+        reader_class = "MEASURED"
+        labels.append("class:MEASURED")
         labels.append("reader:MEASURED")
         reasons.append("second reader MEASURED; still not LIVE; still not auto-merge")
     else:
+        reader_class = "HOLD"
         block_merge = True
         reasons.append(f"unrecognized class={klass[0]}")
 
@@ -93,4 +101,5 @@ def apply(
         "block_merge": block_merge,
         "escalate": escalate,
         "request_info": request_info,
+        "reader_class": reader_class,
     }

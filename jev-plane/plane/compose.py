@@ -105,10 +105,21 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
     labels: list[str] = []
     asked: list[str] = []
     unavailable: list[str] = []
+    reader_class: str | None = None
+    explicit_unavailable = False
 
     def read(key: str, kind: str) -> Any:
         asked.append(key)
         value = READERS[kind](answers, key)
+        if pack_id == "szl.overclaim_reader.v1":
+            node = _node(answers, key)
+            if node is None or node.get("type") != kind:
+                value = None
+            if key == "evidence_class" and value is not None:
+                if value[0] not in {"MEASURED", "UNAVAILABLE", "HOLD", "BLOCK"}:
+                    value = None
+            if kind == "score" and value is not None and not 0.0 <= value <= 2.0:
+                value = None
         if value is None:
             unavailable.append(key)
             reasons.append(f"{key}=UNAVAILABLE")
@@ -210,8 +221,9 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
         if handler and not abstain:
             labels.append(f"handler:{handler}")
 
-    elif pack_id.endswith(compose_overclaim.PACK_SUFFIX):
+    elif pack_id == compose_overclaim.PACK_ID:
         klass = read("evidence_class", "choice")
+        explicit_unavailable = klass is not None and klass[0] == "UNAVAILABLE"
         live = read("claims_live", "noul")
         joules = read("invents_joules", "noul")
         hub = read("treats_hf_as_source", "noul")
@@ -233,11 +245,13 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
             noul_block=THRESHOLDS["overclaim_noul"],
             high_score=THRESHOLDS["high_score"],
             conf_hold=THRESHOLDS["overclaim_confidence_hold"],
+            missing=bool(unavailable),
         )
         block_publish = flags["block_publish"]
         block_merge = flags["block_merge"]
         escalate = flags["escalate"]
         request_info = flags["request_info"] or request_info
+        reader_class = flags["reader_class"]
 
     else:
         raise SystemExit(f"unknown pack_id: {pack_id}")
@@ -249,6 +263,9 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
     else:
         reader_status = "DEGRADED"
     if unavailable:
+        request_info = True
+    if explicit_unavailable:
+        reader_status = "UNAVAILABLE"
         request_info = True
 
     action = "label"
@@ -272,7 +289,7 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
             seen.add(label)
             uniq.append(label)
 
-    return {
+    result = {
         "pack_id": pack_id,
         "action": action,
         "labels": uniq,
@@ -291,6 +308,9 @@ def compose(pack_id: str, answers: dict[str, Any] | None) -> dict[str, Any]:
         "reasons": reasons,
         "thresholds": THRESHOLDS,
     }
+    if pack_id == "szl.overclaim_reader.v1":
+        result["reader_class"] = reader_class
+    return result
 
 
 def main() -> int:
