@@ -13,8 +13,10 @@ from typing import Any
 
 ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 # Pinned to the repo's own pin (src/szl_triage/providers/jev.py PINNED_MODEL). A moving
-# -latest alias silently changes answers under tuned thresholds, so it is refused below.
+# -latest alias silently changes answers under tuned thresholds, so it is refused below
+# at every threshold. jev-latest is never a proof pin.
 MODEL = "jev-1.13.0"
+FORBIDDEN_MODELS = frozenset({"jev-latest", "latest", ""})
 TIMEOUT_S = 20
 
 
@@ -51,7 +53,8 @@ def evaluate(
     endpoint: str = ENDPOINT,
     model: str = MODEL,
 ) -> dict[str, Any]:
-    if not isinstance(model, str) or not model.strip() or model.strip().lower().endswith("latest"):
+    pin = model.strip() if isinstance(model, str) else ""
+    if pin.lower() in FORBIDDEN_MODELS or pin.lower().endswith("-latest") or pin.lower().endswith("latest"):
         return unavailable("unpinned model id refused", pack_id)
     key = (api_key if api_key is not None else os.environ.get("TYPESAFE_API_KEY", "")).strip()
     if not key:

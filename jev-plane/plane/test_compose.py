@@ -26,12 +26,22 @@ PACK_KEYS = {
     "szl.github_item.v1": ("kind", "claim_risk", "secret_risk", "actionable",
                            "ready_to_merge", "urgency"),
     "szl.router_intent.v1": ("handler", "needs_yuyay", "stakes", "prompt_injection"),
+    "szl.overclaim_reader.v1": (
+        "evidence_class",
+        "claims_live",
+        "invents_joules",
+        "treats_hf_as_source",
+        "lambda_as_theorem",
+        "unsigned_as_live",
+        "overclaim_severity",
+    ),
 }
 FIXTURE_FOR_PACK = {
     "szl.origin_claim.v1": "origin_honest_ok.json",
     "szl.hub_card.v1": "hub_lora_candidate.json",
     "szl.github_item.v1": "github_11_12.json",
     "szl.router_intent.v1": "router_refuse_gates.json",
+    "szl.overclaim_reader.v1": "overclaim_measured_ok.json",
 }
 NON_FINITE = (float("nan"), float("inf"), float("-inf"))
 NOT_NUMBERS = (None, "0.9", True, [0.9], {"v": 0.9})
@@ -327,3 +337,43 @@ def test_auto_and_allow_alone_constants_stay_false():
 def test_unknown_pack_fails_loudly():
     with pytest.raises(SystemExit):
         plane.compose("szl.unknown.v1", {})
+
+
+def test_overclaim_live_stamp_blocks_publish():
+    decision = run("overclaim_live_stamp.json")["decision"]
+    assert decision["block_publish"] is True, decision
+    assert decision["block_merge"] is True
+    assert decision["action"] == "block_publish"
+    assert decision["auto_merge"] is False
+    assert decision["jev_allow_alone"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_measured_ok_labels_and_does_not_block():
+    decision = run("overclaim_measured_ok.json")["decision"]
+    assert decision["reader_status"] == "OK", decision
+    assert decision["block_publish"] is False
+    assert "class:MEASURED" in decision["labels"]
+    assert "reader:MEASURED" in decision["labels"]
+    assert decision["auto_merge"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_unavailable_holds_and_never_passes():
+    decision = run("overclaim_unavailable.json")["decision"]
+    assert decision["action"] == "hold", decision
+    assert decision["block_merge"] is True
+    assert decision["block_publish"] is False
+    assert "never PASS" in " ".join(decision["reasons"])
+    assert decision["auto_merge"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_cli_fixtures_do_not_systemexit():
+    for name in (
+        "overclaim_live_stamp.json",
+        "overclaim_measured_ok.json",
+        "overclaim_unavailable.json",
+    ):
+        out = run(name)
+        assert out["decision"]["pack_id"].endswith("overclaim_reader.v1")
