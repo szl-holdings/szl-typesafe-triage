@@ -328,13 +328,20 @@ def diagnose_provider(receipt: dict) -> None:
                     who = api.whoami()
                     require(isinstance(who, dict), "IDENTITY_UNAVAILABLE")
                     account = who.get("name")
+                    configured_tokens = [os.environ.get(variable) for variable in
+                                         ("HF_PROVIDER_ORG_TOKEN", "HF_PROVIDER_FALLBACK_TOKEN", "HF_TOKEN")]
+                    safe_account = (isinstance(account, str)
+                                    and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", account) is not None
+                                    and not any(value and value in account for value in configured_tokens))
                     role = next((org.get("roleInOrg") for org in who.get("orgs", [])
                                  if isinstance(org, dict) and org.get("name") == "SZLHOLDINGS"), None)
                     token_role = ((who.get("auth") or {}).get("accessToken") or {}).get("role")
-                    observed.update(account=account if isinstance(account, str)
-                                    and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", account) else None,
-                                    organization_role=role if role in {"admin", "write", "read", "contributor"} else None,
-                                    token_role=token_role if token_role in {"read", "write", "fineGrained"} else None)
+                    observed.update(account=account if safe_account else None,
+                                    identity_metadata="OBSERVED" if safe_account else "UNKNOWN",
+                                    organization_role=role if safe_account
+                                    and role in {"admin", "write", "read", "contributor"} else None,
+                                    token_role=token_role if safe_account
+                                    and token_role in {"read", "write", "fineGrained"} else None)
                 elif operation == "current_metadata":
                     info = api.repo_info(receipt["repo_id"], repo_type="model", timeout=20)
                     require(info.sha == receipt["expected_parent"], "HF_PARENT_CHANGED")
