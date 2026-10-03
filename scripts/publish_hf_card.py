@@ -199,12 +199,37 @@ def append_checkpoint(handle, receipt: dict) -> None:
     os.fsync(handle.fileno())
 
 
+def failure_metadata(exc: Exception) -> dict:
+    """Retain only fixed exception categories and a validated HTTP status."""
+    known_types = {
+        "BadRequestError", "HfHubHTTPError", "RepositoryNotFoundError",
+        "RevisionNotFoundError", "GatedRepoError", "HTTPError", "ReadTimeout",
+        "ConnectTimeout", "ConnectError", "ReadError", "RemoteProtocolError",
+        "LocalProtocolError", "Refusal", "TimeoutError", "ValueError", "OSError",
+        "RuntimeError", "AttributeError", "TypeError", "FileExistsError",
+        "FileNotFoundError", "CalledProcessError", "UnicodeDecodeError",
+        "ModuleNotFoundError", "ImportError", "JSONDecodeError",
+    }
+    kind = type(exc).__name__
+    status = getattr(getattr(exc, "response", None), "status_code", None)
+    if status is None:
+        status = getattr(exc, "code", None)
+    if not isinstance(status, int) or isinstance(status, bool) or not 100 <= status <= 599:
+        status = None
+    code = {400: "BAD_REQUEST", 401: "UNAUTHORIZED", 403: "FORBIDDEN",
+            404: "NOT_FOUND", 409: "CONFLICT", 429: "RATE_LIMITED"}.get(status)
+    if code is None:
+        code = "STATUS_UNAVAILABLE" if status is None else ("SERVER_ERROR" if status >= 500 else "HTTP_ERROR")
+    return {"error_type": kind if kind in known_types else "UNCLASSIFIED_EXCEPTION",
+            "provider_http_status": status, "provider_failure_code": code}
+
+
 def record_failure(receipt: dict, exc: Exception) -> None:
     if receipt["publication_status"] == "FAILED":
-        receipt["checkpoint_error_type"] = type(exc).__name__
+        receipt["checkpoint_error_type"] = failure_metadata(exc)["error_type"]
         return
     receipt.update(prior_publication_status=receipt["publication_status"],
-                   publication_status="FAILED", error_type=type(exc).__name__)
+                   publication_status="FAILED", **failure_metadata(exc))
     if isinstance(exc, Refusal):
         receipt["refusal_code"] = str(exc)
 
@@ -217,10 +242,12 @@ def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
     require(bool(token), "HF_AUTHORITY_MISSING")
     api = HfApi(endpoint="https://huggingface.co", token=token)
     repo, parent = receipt["repo_id"], receipt["expected_parent"]
-    receipt["phase"] = "PARENT_READBACK"
+    receipt["phase"] = "PARENT_HEAD_METADATA"
     current = api.repo_info(repo, repo_type="model", timeout=20)
     require(current.sha == parent, "HF_PARENT_CHANGED")
+    receipt["phase"] = "PARENT_IMMUTABLE_FILE_METADATA"
     before = snapshot(api, repo, parent)
+    receipt["phase"] = "PARENT_CARD_READBACK"
     old = read_card(repo, parent, token=token)
     require(len(old) == before["README.md"]["size"] and
             hashlib.sha1(b"blob " + str(len(old)).encode() + b"\0" + old).hexdigest()
@@ -278,13 +305,65 @@ def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
                     "public_card_sha256": digest(data), "phase": "COMPLETE"})
 
 
+def diagnose_provider(receipt: dict) -> None:
+    """Read both existing credential entries without selecting or changing one."""
+    check_actions(receipt["source_commit"])
+    from huggingface_hub import HfApi
+    receipt.update(phase="PROVIDER_DIAGNOSTICS", publication_status="DIAGNOSTIC_ONLY",
+                   provider_diagnostics=[])
+    for label, variable in (("org_primary", "HF_PROVIDER_ORG_TOKEN"),
+                            ("fallback", "HF_PROVIDER_FALLBACK_TOKEN")):
+        token = os.environ.get(variable)
+        row = {"credential_label": label, "credential_present": bool(token), "operations": []}
+        receipt["provider_diagnostics"].append(row)
+        if not token:
+            row["status"] = "CREDENTIAL_MISSING"
+            continue
+        api = HfApi(endpoint="https://huggingface.co", token=token)
+        for operation in ("identity", "current_metadata", "immutable_file_metadata"):
+            observed = {"operation": operation}
+            row["operations"].append(observed)
+            try:
+                if operation == "identity":
+                    who = api.whoami()
+                    require(isinstance(who, dict), "IDENTITY_UNAVAILABLE")
+                    account = who.get("name")
+                    role = next((org.get("roleInOrg") for org in who.get("orgs", [])
+                                 if isinstance(org, dict) and org.get("name") == "SZLHOLDINGS"), None)
+                    token_role = ((who.get("auth") or {}).get("accessToken") or {}).get("role")
+                    observed.update(account=account if isinstance(account, str)
+                                    and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", account) else None,
+                                    organization_role=role if role in {"admin", "write", "read", "contributor"} else None,
+                                    token_role=token_role if token_role in {"read", "write", "fineGrained"} else None)
+                elif operation == "current_metadata":
+                    info = api.repo_info(receipt["repo_id"], repo_type="model", timeout=20)
+                    require(info.sha == receipt["expected_parent"], "HF_PARENT_CHANGED")
+                    observed["revision"] = info.sha
+                else:
+                    tree = snapshot(api, receipt["repo_id"], receipt["expected_parent"])
+                    observed.update(revision=receipt["expected_parent"], file_count=len(tree),
+                                    tree_sha256=snapshot_digest(tree))
+                observed["status"] = "VERIFIED"
+            except Exception as exc:
+                observed.update(status="FAILED", **failure_metadata(exc))
+                if isinstance(exc, Refusal):
+                    observed["refusal_code"] = str(exc)
+        row["status"] = ("VERIFIED_READ_ONLY" if all(item["status"] == "VERIFIED"
+                                                    for item in row["operations"]) else "PROVIDER_FAILURE")
+    require(all(row["status"] == "VERIFIED_READ_ONLY" for row in receipt["provider_diagnostics"]),
+            "PROVIDER_DIAGNOSTIC_FAILED")
+    receipt["phase"] = "COMPLETE"
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=sorted(TARGETS), required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--expected-parent", required=True)
     parser.add_argument("--receipt", type=Path, required=True, help="New exclusive output file")
-    parser.add_argument("--publish", action="store_true", help="Canonical main Actions dispatch only")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--publish", action="store_true", help="Canonical main Actions dispatch only")
+    mode.add_argument("--diagnose", action="store_true", help="Read-only canonical main Actions credential probes")
     args = parser.parse_args(argv)
     receipt = {"schema": "szl.model-card-publication/v1", "source_repository": REPOSITORY,
                "source_commit": args.source_commit, "target": args.target,
@@ -301,14 +380,16 @@ def main(argv=None) -> int:
                 journal = Path(str(args.receipt) + ".journal.jsonl").open("x", encoding="utf-8")
                 checkpoint = lambda current: append_checkpoint(journal, current)
                 require(full_sha(args.source_commit) and full_sha(args.expected_parent), "FULL_SHA_REQUIRED")
-                if args.publish:
+                if args.publish or args.diagnose:
                     check_actions(args.source_commit)
                 data, blob = capture_source(args.target, args.source_commit)
                 receipt.update({"source_git_blob": blob, "card_sha256": digest(data), "card_bytes": len(data),
                                 "source_signature": "GITHUB_VERIFIED_CURRENT_COMMIT_ONLY",
                                 "publication_status": "PLAN_ONLY"})
                 checkpoint(receipt)
-                if args.publish:
+                if args.diagnose:
+                    diagnose_provider(receipt)
+                elif args.publish:
                     receipt["phase"] = "PROVIDER_PREFLIGHT"
                     publish_card(data, receipt, checkpoint=checkpoint)
                 else:
@@ -334,7 +415,7 @@ def main(argv=None) -> int:
                 handle.flush()
                 os.fsync(handle.fileno())
     except Exception as exc:
-        print("card publication receipt unavailable: " + type(exc).__name__, file=sys.stderr)
+        print("card publication receipt unavailable: " + failure_metadata(exc)["error_type"], file=sys.stderr)
         return 1
     print(json.dumps({"target": args.target, "publication_status": receipt["publication_status"],
                       "phase": receipt["phase"]}))

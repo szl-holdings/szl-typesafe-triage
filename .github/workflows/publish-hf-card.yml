@@ -18,6 +18,11 @@ on:
         type: boolean
         default: false
         required: true
+      diagnose:
+        description: "Read-only identity and parent metadata checks for the existing credential entries"
+        type: boolean
+        default: false
+        required: true
 permissions:
   contents: read
 
@@ -47,12 +52,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
+          HF_PROVIDER_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}
+          HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}
           CARD_TARGET: ${{ inputs.target }}
           EXPECTED_PARENT: ${{ inputs.expected_parent }}
           PUBLISH_REQUESTED: ${{ inputs.publish }}
+          DIAGNOSE_REQUESTED: ${{ inputs.diagnose }}
         run: |
           args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-parent "$EXPECTED_PARENT" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
           if [ "$PUBLISH_REQUESTED" = "true" ]; then args+=(--publish); fi
+          if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi
           python scripts/publish_hf_card.py "${args[@]}"
       - name: Retain the success or failure receipt
         if: ${{ always() }}
