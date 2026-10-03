@@ -88,3 +88,11 @@ raw predictions, recomputed metrics, split hashes, and the exact five seeds.
 It reports integrity separately from promotion. A bounded GPU smoke test can
 write a new receipt without replacing the historical results. See
 [study replay and inference](docs/STUDY_REPLAY.md) for commands and limitations.
+
+The current GitHub head retains the five inference adapters, their
+`.safetensors` weights/configuration, and the recorded study evidence. It does
+not retain serialized Trainer resume state (`.bin`, `.pt`, `.pth`) at current
+head. The old `checkpoint-387` directories are therefore not a complete
+resume-from-checkpoint source. Historical Git revisions remain accessible;
+neither this current-head cleanup nor the Hub cleanup erases them or makes
+loading old serialized training state safe.

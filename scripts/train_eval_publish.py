@@ -48,6 +48,77 @@ PUBLISH = ROOT / "out" / "publish" / "triage-lora-study5"
 RUN1_ADAPTER = ROOT / "out" / "train" / "adapter"
 RUN1_RECEIPT = ROOT / "out" / "train" / "training_receipt.json"
 
+# Publication is an exact file contract, not a recursive copy of training output.
+# In particular, Trainer checkpoints (.bin/.pt/.pth) are not inference adapters.
+ADAPTER_FILES = frozenset({
+    "README.md",
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "chat_template.jinja",
+    "processor_config.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+})
+EVIDENCE_FILES = frozenset({
+    "README.md",
+    "adapter-index.json",
+    "environment-receipt.json",
+    "huggingface-publication.json",
+    "evaluation/aggregate_metrics.json",
+    "evaluation/metrics.csv",
+    "frozen/experiment_manifest.json",
+    "frozen/held.jsonl",
+    "frozen/train.jsonl",
+    *(
+        f"evaluation/{name}-{subject}.{suffix}"
+        for name, suffix, subjects in (
+            ("failures", "jsonl", ("base", *(f"seed-{seed:03d}" for seed in SEEDS))),
+            ("metrics", "json", ("base", *(f"seed-{seed:03d}" for seed in SEEDS))),
+            ("predictions", "jsonl", ("base", *(f"seed-{seed:03d}" for seed in SEEDS))),
+        )
+        for subject in subjects
+    ),
+    *(f"training/training_receipt-seed-{seed:03d}.json" for seed in SEEDS),
+})
+PUBLISH_FILES = frozenset({
+    "README.md",
+    "publication-receipt.json",
+    *ADAPTER_FILES,
+    *(f"adapters/seed-{seed:03d}/{name}" for seed in SEEDS for name in ADAPTER_FILES),
+    *(f"evidence/{name}" for name in EVIDENCE_FILES),
+})
+
+
+def require_exact_regular_files(root: Path, expected: frozenset[str]) -> list[str]:
+    """Refuse links, special files, and any file outside the reviewed contract."""
+    if root.is_symlink() or not root.is_dir():
+        raise RuntimeError(f"Publication source is not a regular directory: {root}")
+
+    found = set()
+    for item in root.rglob("*"):
+        if item.is_symlink():
+            raise RuntimeError(f"Publication source contains a link: {item}")
+        if item.is_file():
+            found.add(item.relative_to(root).as_posix())
+        elif not item.is_dir():
+            raise RuntimeError(f"Publication source contains a special file: {item}")
+
+    if found != expected:
+        missing = sorted(expected - found)
+        unexpected = sorted(found - expected)
+        raise RuntimeError(
+            f"Publication file contract mismatch in {root}: "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+    return sorted(found)
+
+
+def copy_exact_files(source: Path, target: Path, expected: frozenset[str]) -> None:
+    for name in require_exact_regular_files(source, expected):
+        destination = target / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source / name, destination)
+
 def log(message: str) -> None:
     print(message, flush=True)
 
@@ -1430,23 +1501,21 @@ def build_publish_directory(
 ) -> None:
     log("\n=== BUILD HUGGING FACE MODEL DIRECTORY ===")
 
+    # Check every input before replacing a previous local build.
+    require_exact_regular_files(RUN1_ADAPTER, ADAPTER_FILES)
+    for seed in SEEDS:
+        require_exact_regular_files(adapter_path_for_seed(seed), ADAPTER_FILES)
+    require_exact_regular_files(EVIDENCE, EVIDENCE_FILES)
+
     if PUBLISH.exists():
+        if PUBLISH.is_symlink():
+            raise RuntimeError(f"Publication directory is a link: {PUBLISH}")
         shutil.rmtree(PUBLISH)
 
     PUBLISH.mkdir(parents=True, exist_ok=True)
 
     # Root adapter is seed 11, making the repository directly loadable.
-    for item in RUN1_ADAPTER.iterdir():
-        target = PUBLISH / item.name
-
-        if item.is_dir():
-            shutil.copytree(
-                item,
-                target,
-                dirs_exist_ok=True,
-            )
-        else:
-            shutil.copy2(item, target)
+    copy_exact_files(RUN1_ADAPTER, PUBLISH, ADAPTER_FILES)
 
     adapters_dir = PUBLISH / "adapters"
     adapters_dir.mkdir(parents=True, exist_ok=True)
@@ -1455,17 +1524,9 @@ def build_publish_directory(
         source = adapter_path_for_seed(seed)
         target = adapters_dir / f"seed-{seed:03d}"
 
-        shutil.copytree(
-            source,
-            target,
-            dirs_exist_ok=True,
-        )
+        copy_exact_files(source, target, ADAPTER_FILES)
 
-    shutil.copytree(
-        EVIDENCE,
-        PUBLISH / "evidence",
-        dirs_exist_ok=True,
-    )
+    copy_exact_files(EVIDENCE, PUBLISH / "evidence", EVIDENCE_FILES)
 
     (PUBLISH / "README.md").write_text(
         model_card,
@@ -1495,10 +1556,15 @@ def build_publish_directory(
         PUBLISH / "publication-receipt.json",
         publish_manifest,
     )
+    require_exact_regular_files(PUBLISH, PUBLISH_FILES)
 
 
 def publish_to_hub() -> str:
     log("\n=== PUBLISH MODEL TO HUGGING FACE ===")
+
+    # Revalidate immediately before provider access. The exact patterns also
+    # keep a later stray training file out of upload_folder's enumeration.
+    allowed_paths = require_exact_regular_files(PUBLISH, PUBLISH_FILES)
 
     from huggingface_hub import HfApi
 
@@ -1519,6 +1585,7 @@ def publish_to_hub() -> str:
         folder_path=str(PUBLISH),
         repo_id=HF_REPO,
         repo_type="model",
+        allow_patterns=allowed_paths,
         commit_message=(
             "Publish five-seed measured triage LoRA study "
             "with frozen evaluation and receipts"
