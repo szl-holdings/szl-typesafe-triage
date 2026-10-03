@@ -546,3 +546,198 @@ def test_workflow_one_manual_serialized_main_only_writer():
     assert "repo_id:" not in text and "path:" not in text.split("Retain the success or failure receipt")[0]
     assert "parent_commit" not in text  # CAS lives only in the tested helper.
     assert "upload_folder" not in text and "create_repo" not in text and "set -" not in text
+
+
+@pytest.mark.parametrize("status,expected", [(400, "BAD_REQUEST"), (401, "UNAUTHORIZED"),
+    (403, "FORBIDDEN"), (404, "NOT_FOUND"), (409, "CONFLICT"), (429, "RATE_LIMITED"),
+    (503, "SERVER_ERROR"), (418, "HTTP_ERROR"), (True, "STATUS_UNAVAILABLE"),
+    (99, "STATUS_UNAVAILABLE"), (600, "STATUS_UNAVAILABLE"), ("401", "STATUS_UNAVAILABLE"),
+    (None, "STATUS_UNAVAILABLE")])
+def test_failure_metadata_only_retains_fixed_categories(publisher, status, expected):
+    class HfHubHTTPError(RuntimeError):
+        pass
+    error = HfHubHTTPError(TOKEN + " https://provider.example/?token=" + TOKEN)
+    error.response = SimpleNamespace(status_code=status)
+    metadata = publisher.failure_metadata(error)
+    assert metadata["provider_failure_code"] == expected
+    assert metadata["provider_http_status"] == (None if expected == "STATUS_UNAVAILABLE" else status)
+    assert metadata["error_type"] == "HfHubHTTPError"
+    assert TOKEN not in json.dumps(metadata) and "provider.example" not in json.dumps(metadata)
+
+
+def test_failure_metadata_redacts_arbitrary_exception_class_and_url(publisher):
+    from urllib.error import HTTPError
+    error = HTTPError("https://provider.example/?token=" + TOKEN, 401, TOKEN, {}, None)
+    assert publisher.failure_metadata(error) == {
+        "error_type": "HTTPError", "provider_http_status": 401, "provider_failure_code": "UNAUTHORIZED"}
+    unknown = type(TOKEN, (Exception,), {})(TOKEN)
+    assert publisher.failure_metadata(unknown)["error_type"] == "UNCLASSIFIED_EXCEPTION"
+    receipt = {"publication_status": "FAILED"}
+    publisher.record_failure(receipt, unknown)
+    assert receipt["checkpoint_error_type"] == "UNCLASSIFIED_EXCEPTION"
+    assert TOKEN not in json.dumps(receipt)
+
+
+@pytest.mark.parametrize("failed_revision,phase", [(None, "PARENT_HEAD_METADATA"),
+    (PARENT, "PARENT_IMMUTABLE_FILE_METADATA")])
+def test_parent_metadata_error_is_typed_before_zero_write(
+        publisher, source, actions, provider, monkeypatch, tmp_path, capsys, failed_revision, phase):
+    class BadRequestError(RuntimeError):
+        pass
+    api = sys.modules["huggingface_hub"].HfApi
+    actual = api.repo_info
+    def repo_info(self, *args, **kwargs):
+        if kwargs.get("revision") == failed_revision:
+            error = BadRequestError(TOKEN + " https://provider.example/private-request")
+            error.response = SimpleNamespace(status_code=400)
+            raise error
+        return actual(self, *args, **kwargs)
+    monkeypatch.setattr(api, "repo_info", repo_info)
+    code, receipt = run(publisher, tmp_path)
+    assert code == 1 and receipt["phase"] == phase
+    assert receipt["error_type"] == "BadRequestError" and receipt["provider_http_status"] == 400
+    assert receipt["provider_failure_code"] == "BAD_REQUEST"
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert provider.writes == provider.reads == []
+    captured = capsys.readouterr()
+    output = json.dumps(receipt) + json.dumps(journal_records(tmp_path)) + captured.out + captured.err
+    assert TOKEN not in output and "provider.example" not in output
+
+
+@pytest.fixture
+def diagnostic_provider(publisher, monkeypatch):
+    sdk = ModuleType("huggingface_hub")
+    primary, fallback = TOKEN + "-primary", TOKEN + "-fallback"
+    monkeypatch.setenv("HF_PROVIDER_ORG_TOKEN", primary)
+    monkeypatch.setenv("HF_PROVIDER_FALLBACK_TOKEN", fallback)
+    state = SimpleNamespace(calls=[], failed_operation=None, head=PARENT,
+                            who={"name": "fixture-account", "orgs": [{"name": "SZLHOLDINGS", "roleInOrg": "admin"}],
+                                 "auth": {"accessToken": {"role": "write"}}})
+    class HfHubHTTPError(RuntimeError):
+        pass
+    class HfApi:
+        def __init__(self, *, endpoint, token):
+            assert endpoint == "https://huggingface.co" and token in (primary, fallback)
+            self.label = "org_primary" if token == primary else "fallback"
+        def check(self, operation):
+            state.calls.append((self.label, operation))
+            if self.label == "org_primary" and operation == state.failed_operation:
+                error = HfHubHTTPError(TOKEN + " https://provider.example/?secret=" + TOKEN)
+                error.response = SimpleNamespace(status_code=401)
+                raise error
+        def whoami(self):
+            self.check("identity")
+            return state.who
+        def repo_info(self, repo, *, repo_type, timeout, revision=None, files_metadata=False):
+            assert repo == publisher.TARGETS["study5"][1] and repo_type == "model" and timeout == 20
+            if revision is None:
+                assert files_metadata is False
+                self.check("current_metadata")
+                return SimpleNamespace(sha=state.head)
+            assert revision == PARENT and files_metadata is True
+            self.check("immutable_file_metadata")
+            return SimpleNamespace(sha=PARENT, private=False, gated=False, siblings=[
+                SimpleNamespace(rfilename="README.md", blob_id=git_blob(CARD), size=len(CARD), lfs=None)])
+        def create_commit(self, **kwargs):
+            raise AssertionError("A read-only diagnostic must never call a mutation API")
+    sdk.HfApi = HfApi
+    monkeypatch.setitem(sys.modules, "huggingface_hub", sdk)
+    monkeypatch.setattr(publisher, "read_card", lambda *a, **k: pytest.fail("Diagnostic must not read artifact bytes"))
+    return state
+
+
+def run_diagnostic(publisher, tmp_path):
+    path = tmp_path / "new-receipt.json"
+    code = publisher.main(["--target", "study5", "--source-commit", SOURCE,
+        "--expected-parent", PARENT, "--receipt", str(path), "--diagnose"])
+    return code, json.loads(path.read_text(encoding="utf-8"))
+
+
+def test_diagnostic_compares_both_entries_without_write_or_promotion(
+        publisher, source, actions, diagnostic_provider, tmp_path):
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 0 and receipt["publication_status"] == "DIAGNOSTIC_ONLY" and receipt["phase"] == "COMPLETE"
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert receipt["model_runtime"] == "NOT_EVALUATED" and receipt["promotion_authorization"] == "NONE"
+    assert [row["status"] for row in receipt["provider_diagnostics"]] == ["VERIFIED_READ_ONLY"] * 2
+    assert len(diagnostic_provider.calls) == 6
+    for row in receipt["provider_diagnostics"]:
+        identity = row["operations"][0]
+        assert identity["account"] == "fixture-account" and identity["organization_role"] == "admin"
+        assert identity["token_role"] == "write"
+        assert row["operations"][2]["file_count"] == 1
+    assert TOKEN not in json.dumps(receipt) + json.dumps(journal_records(tmp_path))
+
+
+@pytest.mark.parametrize("operation", ["identity", "current_metadata", "immutable_file_metadata"])
+def test_diagnostic_failure_retains_fallback_probe_but_stays_red_and_secret_free(
+        publisher, source, actions, diagnostic_provider, tmp_path, capsys, operation):
+    diagnostic_provider.failed_operation = operation
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 1 and receipt["publication_status"] == "FAILED"
+    assert receipt["prior_publication_status"] == "DIAGNOSTIC_ONLY"
+    assert receipt["refusal_code"] == "PROVIDER_DIAGNOSTIC_FAILED"
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    primary, fallback = receipt["provider_diagnostics"]
+    assert primary["status"] == "PROVIDER_FAILURE" and fallback["status"] == "VERIFIED_READ_ONLY"
+    failed = next(item for item in primary["operations"] if item["operation"] == operation)
+    assert failed["provider_http_status"] == 401 and failed["provider_failure_code"] == "UNAUTHORIZED"
+    assert failed["error_type"] == "HfHubHTTPError" and len(diagnostic_provider.calls) == 6
+    captured = capsys.readouterr()
+    output = json.dumps(receipt) + json.dumps(journal_records(tmp_path)) + captured.out + captured.err
+    assert TOKEN not in output and "provider.example" not in output
+
+
+def test_diagnostic_missing_primary_does_not_silently_select_fallback(
+        publisher, source, actions, diagnostic_provider, monkeypatch, tmp_path):
+    monkeypatch.delenv("HF_PROVIDER_ORG_TOKEN")
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 1 and receipt["mutation_count"] == 0
+    assert receipt["provider_diagnostics"][0]["status"] == "CREDENTIAL_MISSING"
+    assert receipt["provider_diagnostics"][1]["status"] == "VERIFIED_READ_ONLY"
+    assert len(diagnostic_provider.calls) == 3
+
+
+def test_diagnostic_nullable_token_metadata_and_unsafe_identity_are_redacted(
+        publisher, source, actions, diagnostic_provider, tmp_path):
+    diagnostic_provider.who = {"name": TOKEN + " https://provider.example", "orgs": [],
+                               "auth": {"accessToken": None}}
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 0
+    for row in receipt["provider_diagnostics"]:
+        identity = row["operations"][0]
+        assert identity["account"] is identity["organization_role"] is identity["token_role"] is None
+    assert TOKEN not in json.dumps(receipt) and "provider.example" not in json.dumps(receipt)
+
+
+def test_diagnostic_changed_parent_fails_with_zero_writes(
+        publisher, source, actions, diagnostic_provider, tmp_path):
+    diagnostic_provider.head = UPLOADED
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 1 and receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    for row in receipt["provider_diagnostics"]:
+        assert row["operations"][1]["refusal_code"] == "HF_PARENT_CHANGED"
+
+
+def test_diagnostic_requires_actions_before_source_or_provider(
+        publisher, source, diagnostic_provider, monkeypatch, tmp_path):
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 1 and receipt["refusal_code"] == "ACTIONS_REQUIRED"
+    assert source.calls == diagnostic_provider.calls == []
+
+
+def test_diagnose_and_publish_are_mutually_exclusive_before_io(publisher, tmp_path):
+    path = tmp_path / "new-receipt.json"
+    with pytest.raises(SystemExit) as failure:
+        publisher.main(["--target", "study5", "--source-commit", SOURCE, "--expected-parent", PARENT,
+                        "--receipt", str(path), "--publish", "--diagnose"])
+    assert failure.value.code == 2 and not path.exists()
+
+
+def test_workflow_keeps_publishing_priority_and_read_only_diagnostics_explicit():
+    text = (ROOT / ".github/workflows/publish-hf-card.yml").read_text(encoding="utf-8")
+    assert "HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}" in text
+    assert "HF_PROVIDER_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}" in text
+    assert "HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}" in text
+    assert 'if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi' in text
