@@ -664,6 +664,7 @@ def test_diagnostic_compares_both_entries_without_write_or_promotion(
     for row in receipt["provider_diagnostics"]:
         identity = row["operations"][0]
         assert identity["account"] == "fixture-account" and identity["organization_role"] == "admin"
+        assert identity["identity_metadata"] == "OBSERVED"
         assert identity["token_role"] == "write"
         assert row["operations"][2]["file_count"] == 1
     assert TOKEN not in json.dumps(receipt) + json.dumps(journal_records(tmp_path))
@@ -707,6 +708,7 @@ def test_diagnostic_nullable_token_metadata_and_unsafe_identity_are_redacted(
     for row in receipt["provider_diagnostics"]:
         identity = row["operations"][0]
         assert identity["account"] is identity["organization_role"] is identity["token_role"] is None
+        assert identity["identity_metadata"] == "UNKNOWN"
     assert TOKEN not in json.dumps(receipt) and "provider.example" not in json.dumps(receipt)
 
 
@@ -717,6 +719,27 @@ def test_diagnostic_changed_parent_fails_with_zero_writes(
     assert code == 1 and receipt["mutation_count"] == receipt["mutation_attempts"] == 0
     for row in receipt["provider_diagnostics"]:
         assert row["operations"][1]["refusal_code"] == "HF_PARENT_CHANGED"
+
+
+@pytest.mark.parametrize("variable,prefix,suffix", [
+    ("HF_PROVIDER_ORG_TOKEN", "", ""), ("HF_PROVIDER_FALLBACK_TOKEN", "", ""),
+    ("HF_TOKEN", "", ""), ("HF_PROVIDER_ORG_TOKEN", "p_", "_s"),
+    ("HF_PROVIDER_FALLBACK_TOKEN", "p_", "_s"), ("HF_TOKEN", "p_", "_s")])
+def test_regex_valid_identity_credential_echo_is_unknown_and_never_retained(
+        publisher, source, actions, diagnostic_provider, tmp_path, capsys, variable, prefix, suffix):
+    credential = publisher.os.environ[variable]
+    account = prefix + credential + suffix
+    assert publisher.re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", account)
+    diagnostic_provider.who["name"] = account
+    code, receipt = run_diagnostic(publisher, tmp_path)
+    assert code == 0 and receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    for row in receipt["provider_diagnostics"]:
+        identity = row["operations"][0]
+        assert identity["identity_metadata"] == "UNKNOWN"
+        assert identity["account"] is identity["organization_role"] is identity["token_role"] is None
+    captured = capsys.readouterr()
+    output = json.dumps(receipt) + json.dumps(journal_records(tmp_path)) + captured.out + captured.err
+    assert credential not in output and account not in output and TOKEN not in output
 
 
 def test_diagnostic_requires_actions_before_source_or_provider(
