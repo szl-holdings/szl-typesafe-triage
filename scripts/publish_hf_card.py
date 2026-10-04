@@ -21,6 +21,7 @@ TARGETS = {
     "retrain": ("hf/szl-triage-retrain/README.md", "SZLHOLDINGS/szl-triage-retrain"),
     "study5": ("out/publish/triage-lora-study5/README.md",
                "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5"),
+    "root_lora": ("HF_MODEL_CARD_README.md", "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora"),
 }
 MAX_CARD_BYTES = 128 * 1024
 MAX_JSON_BYTES = 256 * 1024
@@ -132,11 +133,22 @@ def capture_source(target: str, commit: str) -> tuple[bytes, str]:
     text = data.decode("utf-8")
     require(re.match(r"^---\nlicense: [a-z0-9.-]+\n", text) is not None,
             "CARD_LICENSE_BOUNDARY_MISSING")
-    specific = (("**BLOCKED — 11/12**", "Inline inference example withdrawn",
-                 "No fresh inference was performed for this card correction",
-                 "earlier 66-row gate", "113-row study") if target == "study5"
-                else ("Status: training scripts only", "Claim boundary",
-                      "Publication of scripts is not publication of a model"))
+    if target == "study5":
+        specific = ("**BLOCKED — 11/12**", "Inline inference example withdrawn",
+                    "No fresh inference was performed for this card correction",
+                    "earlier 66-row gate", "113-row study")
+    elif target == "root_lora":
+        specific = ("**Status: NOT PROMOTABLE. Reference run only.**",
+                    "**Blocked. Not promotable. Do not deploy.**",
+                    "Contamination / leakage review did not clear.",
+                    "## Retained 66-row behavioral gate",
+                    "records 66 rows: 66/66 exact labels, 66/66 exact states",
+                    "Its literal `PROMOTABLE` verdict belongs to that bounded behavioral gate.",
+                    "The contamination finding keeps this reference run **BLOCKED / NOT PROMOTABLE**;",
+                    "Do not combine these rows with later five-seed or release-gate results.")
+    else:
+        specific = ("Status: training scripts only", "Claim boundary",
+                    "Publication of scripts is not publication of a model")
     require(all(needle in text for needle in ("NOT_PROMOTABLE",) + specific),
             "CARD_CLAIM_BOUNDARY_MISSING")
     return data, fields[2]
