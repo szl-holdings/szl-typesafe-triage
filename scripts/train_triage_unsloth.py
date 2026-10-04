@@ -1,10 +1,14 @@
 import json, sys, hashlib
 from pathlib import Path
+import os as _os
+# Seed is the run knob of the five-seed protocol; hyperparameters stay sealed.
+# argv[3] (optional) selects the seed; default 11 preserves the original single-seed behavior.
 SEED, LORA_R, LORA_ALPHA = 11, 16, 16
 MAX_SEQ_LEN, EPOCHS, BATCH, GRAD_ACCUM, LR = 2048, 3, 1, 4, 2e-4
-import os as _os
 DATA = Path(_os.environ.get("SZL_DATA", "output/triage_distill_split_v0.4.0.jsonl"))
 BASE, OUT = sys.argv[1], sys.argv[2]
+if len(sys.argv) > 3:
+    SEED = int(sys.argv[3])
 SYSTEM = ('You are a triage classifier. Return only JSON with keys "label", '
           '"state", "evidence". Use state REVIEW and label REVIEW when evidence '
           'is thin, when two labels are equally supported, or when the text '

@@ -1,0 +1,75 @@
+# Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
+# One serialized, manual canonical-main card writer; no model/weight publication.
+name: publish-hf-card
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Allowlisted canonical card"
+        type: choice
+        options: [retrain, study5]
+        default: retrain
+        required: true
+      expected_parent:
+        description: "Exact current 40-character Hugging Face model commit"
+        required: true
+      publish:
+        description: "Publish README only; false creates a source-verified plan"
+        type: boolean
+        default: false
+        required: true
+      diagnose:
+        description: "Read-only identity and parent metadata checks for the existing credential entries"
+        type: boolean
+        default: false
+        required: true
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-hf-card-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  card:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Require canonical main manual dispatch (never skip green)
+        run: |
+          test "$GITHUB_REPOSITORY" = "szl-holdings/szl-typesafe-triage"
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$GITHUB_EVENT_NAME" = "workflow_dispatch"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install only the pinned publication SDK
+        run: python -m pip install "huggingface_hub==1.33.0"
+      - name: Plan or publish one source-bound card
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}
+          HF_PROVIDER_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}
+          HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}
+          CARD_TARGET: ${{ inputs.target }}
+          EXPECTED_PARENT: ${{ inputs.expected_parent }}
+          PUBLISH_REQUESTED: ${{ inputs.publish }}
+          DIAGNOSE_REQUESTED: ${{ inputs.diagnose }}
+        run: |
+          args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-parent "$EXPECTED_PARENT" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
+          if [ "$PUBLISH_REQUESTED" = "true" ]; then args+=(--publish); fi
+          if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi
+          python scripts/publish_hf_card.py "${args[@]}"
+      - name: Retain the success or failure receipt
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: card-publication-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/card-publication-receipt.json
+            ${{ runner.temp }}/card-publication-receipt.json.journal.jsonl
+          if-no-files-found: error
+          retention-days: 30

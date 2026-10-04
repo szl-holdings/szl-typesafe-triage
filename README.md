@@ -1,6 +1,6 @@
 # szl-typesafe-triage
 
-[![PyPI](https://img.shields.io/pypi/v/szl-triage)](https://pypi.org/project/szl-triage/) [![Python](https://img.shields.io/pypi/pyversions/szl-triage)](https://pypi.org/project/szl-triage/)
+[![PyPI](https://img.shields.io/pypi/v/szl-triage)](https://pypi.org/project/szl-triage/) [![Python](https://img.shields.io/pypi/pyversions/szl-triage)](https://pypi.org/project/szl-triage/) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/szl-holdings/szl-typesafe-triage/badge)](https://scorecard.dev/viewer/?uri=github.com/szl-holdings/szl-typesafe-triage)
 
 A deterministic, receipt-bearing triage engine, and an honest account of what it cannot do.
 
@@ -88,3 +88,11 @@ raw predictions, recomputed metrics, split hashes, and the exact five seeds.
 It reports integrity separately from promotion. A bounded GPU smoke test can
 write a new receipt without replacing the historical results. See
 [study replay and inference](docs/STUDY_REPLAY.md) for commands and limitations.
+
+The current GitHub head retains the five inference adapters, their
+`.safetensors` weights/configuration, and the recorded study evidence. It does
+not retain serialized Trainer resume state (`.bin`, `.pt`, `.pth`) at current
+head. The old `checkpoint-387` directories are therefore not a complete
+resume-from-checkpoint source. Historical Git revisions remain accessible;
+neither this current-head cleanup nor the Hub cleanup erases them or makes
+loading old serialized training state safe.

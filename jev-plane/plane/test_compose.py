@@ -26,12 +26,22 @@ PACK_KEYS = {
     "szl.github_item.v1": ("kind", "claim_risk", "secret_risk", "actionable",
                            "ready_to_merge", "urgency"),
     "szl.router_intent.v1": ("handler", "needs_yuyay", "stakes", "prompt_injection"),
+    "szl.overclaim_reader.v1": (
+        "evidence_class",
+        "claims_live",
+        "invents_joules",
+        "treats_hf_as_source",
+        "lambda_as_theorem",
+        "unsigned_as_live",
+        "overclaim_severity",
+    ),
 }
 FIXTURE_FOR_PACK = {
     "szl.origin_claim.v1": "origin_honest_ok.json",
     "szl.hub_card.v1": "hub_lora_candidate.json",
     "szl.github_item.v1": "github_11_12.json",
     "szl.router_intent.v1": "router_refuse_gates.json",
+    "szl.overclaim_reader.v1": "overclaim_measured_ok.json",
 }
 NON_FINITE = (float("nan"), float("inf"), float("-inf"))
 NOT_NUMBERS = (None, "0.9", True, [0.9], {"v": 0.9})
@@ -327,3 +337,189 @@ def test_auto_and_allow_alone_constants_stay_false():
 def test_unknown_pack_fails_loudly():
     with pytest.raises(SystemExit):
         plane.compose("szl.unknown.v1", {})
+
+
+def test_overclaim_live_stamp_blocks_publish():
+    decision = run("overclaim_live_stamp.json")["decision"]
+    assert decision["block_publish"] is True, decision
+    assert decision["block_merge"] is True
+    assert decision["action"] == "block_publish"
+    assert decision["auto_merge"] is False
+    assert decision["jev_allow_alone"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_measured_ok_labels_and_does_not_block():
+    decision = run("overclaim_measured_ok.json")["decision"]
+    assert decision["reader_status"] == "OK", decision
+    assert decision["block_publish"] is False
+    assert "class:MEASURED" in decision["labels"]
+    assert "reader:MEASURED" in decision["labels"]
+    assert decision["auto_merge"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_unavailable_holds_and_never_passes():
+    decision = run("overclaim_unavailable.json")["decision"]
+    assert decision["action"] == "hold", decision
+    assert decision["block_merge"] is True
+    assert decision["block_publish"] is False
+    assert "never PASS" in " ".join(decision["reasons"])
+    assert decision["auto_merge"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_cli_fixtures_do_not_systemexit():
+    for name in (
+        "overclaim_live_stamp.json",
+        "overclaim_measured_ok.json",
+        "overclaim_unavailable.json",
+    ):
+        out = run(name)
+        assert out["decision"]["pack_id"].endswith("overclaim_reader.v1")
+# --- the optional overclaim reader never acquires action authority -----------------------------
+
+OVERCLAIM_PACK = "szl.overclaim_reader.v1"
+OVERCLAIM_NOULS = PACK_KEYS[OVERCLAIM_PACK][1:-1]
+
+
+def test_overclaim_live_stamp_blocks_even_with_out_of_range_severity():
+    decision = run("overclaim_live_stamp.json")["decision"]
+    assert decision["block_publish"] is True
+    assert decision["block_merge"] is True
+    assert decision["action"] == "block_publish"
+    # Three criteria make the score domain [0, 2]; 2.1 is not usable evidence.
+    assert "overclaim_severity" in decision["unavailable"]
+    assert decision["reader_status"] == "DEGRADED"
+    assert_advisory(decision)
+
+
+def test_overclaim_measured_fixture_is_advisory_not_authorization():
+    decision = run("overclaim_measured_ok.json")["decision"]
+    assert decision["action"] == "label", decision
+    assert decision["reader_status"] == "OK"
+    assert decision["block_publish"] is False
+    assert decision["block_merge"] is False
+    assert decision["request_info"] is False
+    assert_advisory(decision)
+
+
+def test_overclaim_unavailable_fixture_is_held_not_an_ok_answer():
+    decision = run("overclaim_unavailable.json")["decision"]
+    assert decision["reader_status"] == "UNAVAILABLE", decision
+    assert decision["request_info"] is True
+    assert decision["block_merge"] is True
+    assert decision["action"] != "label"
+    assert decision["labels"] == []
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("choice", ["LIVE", "PASS", "UNKNOWN", "measured", " MEASURED ", 0, True])
+def test_overclaim_unknown_or_untyped_choice_never_gets_clean_label(choice):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers["evidence_class"]["choice"] = choice
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert "evidence_class" in decision["unavailable"]
+    assert decision["reader_status"] != "OK"
+    assert decision["action"] != "label"
+    assert not [label for label in decision["labels"] if "MEASURED" in label or "LIVE" in label]
+    assert decision["request_info"] is True
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("key", PACK_KEYS[OVERCLAIM_PACK])
+@pytest.mark.parametrize("wrong_type", [None, "wrong", True, 1, {}, []])
+def test_overclaim_mismatched_node_type_is_unavailable(key, wrong_type):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    if wrong_type is None:
+        del answers[key]["type"]
+    else:
+        answers[key]["type"] = wrong_type
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert key in decision["unavailable"], (key, wrong_type, decision)
+    assert decision["reader_status"] != "OK"
+    assert decision["action"] != "label"
+    assert decision["request_info"] is True
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("bad", NON_FINITE + NOT_NUMBERS + (-0.01, 1.01))
+@pytest.mark.parametrize("key", OVERCLAIM_NOULS)
+def test_overclaim_noul_unusable_values_do_not_become_zero(key, bad):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers[key]["noul"] = bad
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert key in decision["unavailable"]
+    assert decision["reader_status"] != "OK"
+    assert decision["action"] != "label"
+    assert decision["request_info"] is True
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("bad", NON_FINITE + NOT_NUMBERS + (-0.01, 2.01))
+def test_overclaim_score_is_bounded_to_three_criteria(bad):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers["overclaim_severity"]["score"] = bad
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert "overclaim_severity" in decision["unavailable"]
+    assert decision["reader_status"] != "OK"
+    assert decision["action"] != "label"
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("key", OVERCLAIM_NOULS)
+def test_overclaim_present_risk_still_blocks_when_class_unavailable(key):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers["evidence_class"]["choice"] = "UNAVAILABLE"
+    answers[key]["noul"] = 0.91
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert decision["block_publish"] is True, decision
+    assert decision["block_merge"] is True
+    assert decision["action"] == "block_publish"
+    assert decision["request_info"] is True
+    assert_advisory(decision)
+
+
+def test_overclaim_present_score_still_blocks_when_class_missing():
+    answers = fixture_answers("overclaim_measured_ok.json")
+    del answers["evidence_class"]
+    answers["overclaim_severity"]["score"] = 2
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert decision["block_publish"] is True
+    assert decision["block_merge"] is True
+    assert decision["action"] == "block_publish"
+    assert decision["reader_status"] == "DEGRADED"
+    assert_advisory(decision)
+
+
+def test_overclaim_measured_choice_cannot_hide_a_missing_sibling():
+    answers = fixture_answers("overclaim_measured_ok.json")
+    del answers["unsigned_as_live"]
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert decision["reader_status"] == "DEGRADED"
+    assert decision["block_merge"] is True
+    assert decision["action"] != "label"
+    assert not [label for label in decision["labels"] if "MEASURED" in label]
+    assert_advisory(decision)
+
+
+@pytest.mark.parametrize("choice,confidence", [("HOLD", 0.91), ("MEASURED", 0.54)])
+def test_overclaim_hold_or_low_confidence_cannot_label_measured(choice, confidence):
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers["evidence_class"].update(choice=choice, confidence=confidence)
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert decision["block_merge"] is True
+    assert decision["action"] == "hold"
+    assert not [label for label in decision["labels"] if "MEASURED" in label]
+    assert_advisory(decision)
+
+
+def test_overclaim_unavailable_choice_with_complete_nodes_never_reports_ok():
+    answers = fixture_answers("overclaim_measured_ok.json")
+    answers["evidence_class"].update(choice="UNAVAILABLE", confidence=0.91)
+    decision = plane.compose(OVERCLAIM_PACK, answers)
+    assert decision["reader_status"] != "OK"
+    assert decision["request_info"] is True
+    assert decision["block_merge"] is True
+    assert decision["action"] != "label"
+    assert_advisory(decision)
