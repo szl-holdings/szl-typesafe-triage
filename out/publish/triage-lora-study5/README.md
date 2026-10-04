@@ -15,6 +15,30 @@ tags:
 - experimental
 ---
 
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# TypeSafe Triage · Five-Seed LoRA Study
+
+Inspect five LoRA adapters and the frozen training, evaluation and failure evidence behind this structured-triage study.
+
+**Artifact:** Five PEFT LoRA adapters and retained research evidence · **Stage:** Research · **BLOCKED — 11/12** · **NOT_PROMOTABLE**
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-typesafe-triage) · [Evidence](https://github.com/szl-holdings/szl-typesafe-triage/blob/6c3ed43318b40dda5bf814744dcffcf0b1ff8149/out/publish/triage-lora-study5/README.md)
+
+## Before you use it
+
+- The recorded contamination verdict remains a release blocker. Published adapters do not establish deployment clearance.
+- Results describe the frozen 113-row family holdout; they do not establish generalization, calibration or production readiness.
+- The earlier 66-row gate report does not clear this later five-seed study.
+- The inline inference example remains withdrawn. Read the original implementation caveat below before planning an experiment; this card supplies no new runtime evidence.
+
+<details>
+<summary>Technical details and original evidence</summary>
+
+The complete canonical source body follows, including all measured results, historical gate scope, contamination limits and the withdrawn inference example notice.
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:START -->
+
 # SZL TypeSafe Triage · Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
@@ -211,3 +235,7 @@ If this artifact is discussed, describe it as:
 
 > SZL TypeSafe Triage five-seed LoRA study: training and frozen evaluation
 > measured; public experimental artifact; promotion not established.
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:END -->
+
+</details>
