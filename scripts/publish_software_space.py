@@ -63,6 +63,29 @@ app_port: 7860
 license: apache-2.0
 ---
 
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# TypeSafe Triage Lab
+
+Inspect a deterministic triage engine with source and policy bindings. The Space makes explicit decisions without loading a language model or adapter.
+
+**Artifact:** Deterministic Python software lab · **Stage:** Software lab; learned-model promotion on hold
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-typesafe-triage) · [Evidence](https://github.com/szl-holdings/szl-typesafe-triage/blob/5a815b5e743e5d156ee4f875546ac4bda38a4341/docs/PROMOTION_PROGRAM.md)
+
+## Before you use it
+
+- Learned-model promotion remains HOLD / NOT\\_PROMOTABLE. A running service does not establish model accuracy or immunity to prompt injection.
+- Decision content-integrity hashes are unsigned and do not authenticate an issuer.
+- Experimental research modules do not participate in live decisions or confer release authority.
+
+<details>
+<summary>Technical details and original evidence</summary>
+
+The retained source below is exact and may contain historical observations. Its dates, use restrictions, licenses and evidence boundaries continue to apply.
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:START -->
+
 # TypeSafe Triage Lab
 
 This Space runs the deterministic Python triage engine. No language model or
@@ -80,6 +103,10 @@ The experimental span-choice task, six-criterion evaluator and fixed-grid risk
 audit are available as Python research modules. They do not participate in
 live decisions and do not confer release authority. Read
 `docs/PROMOTION_PROGRAM.md` and `SOURCE_README.md` for assumptions and limits.
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:END -->
+
+</details>
 '''
     (destination/'README.md').write_text(card, encoding='utf-8')
     files = {p.relative_to(destination).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
