@@ -26,10 +26,10 @@
       "original_source_bytes": 4982,
       "before_sha256": "596619c7534b43f3df587c4167340342c856ba5bca21327aed846d91199e4461",
       "before_bytes": 4982,
-      "output_git_blob": "0a60a9ef31d10fe240fd073fa36bf9026d01a25b",
-      "output_sha256": "ba410dd778542ea67e931bb44fcff27eaa295c75823a76af7bc8dc8fdb2f20c3",
-      "after_sha256": "ba410dd778542ea67e931bb44fcff27eaa295c75823a76af7bc8dc8fdb2f20c3",
-      "output_bytes": 7465,
+      "output_git_blob": "3dd08b2cb911aec752a79db270f2993b0168a836",
+      "output_sha256": "903f4c8df620b1d736781f386a3722e09e1088cdd6c0fca3fdc5ef6bf98c75ff",
+      "after_sha256": "903f4c8df620b1d736781f386a3722e09e1088cdd6c0fca3fdc5ef6bf98c75ff",
+      "output_bytes": 6687,
       "front_matter_present": true,
       "front_matter_preserved": true,
       "front_matter_sha256": "b445f08b4413028aff7ae994242ab6cd0c248ba1b0edb490328783a3bc05c8f9",
@@ -53,10 +53,8 @@
       "visible_limits": [
         "Contamination / corpus leakage keeps this reference run **BLOCKED / NOT_PROMOTABLE**. Do not deploy it or present it as an approved classifier.",
         "The retained 66-row behavioral gate is historical, bounded evidence. Its literal `PROMOTABLE` verdict does not clear the contamination finding or this release.",
-        "The adapter configuration declares `Qwen/Qwen3.5-0.8B`; the base revision used in training has not been verified. This is a generative PEFT LoRA adapter, not a standalone model or a conventional classifier head.",
-        "This presentation adds no training, evaluation, inference, deployment clearance or runtime qualification. Existing metrics and release limits remain as recorded below."
+        "The adapter configuration declares `Qwen/Qwen3.5-0.8B`; the base revision used in training has not been verified. This is a generative PEFT LoRA adapter, not a standalone model or a conventional classifier head."
       ],
-      "visible_publication_limit": "Before this source change, the [manual README-only workflow](https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/.github/workflows/publish-hf-card.yml) covered only `retrain` and `study5`. This candidate adds the fixed `root_lora` target for this card to that same serialized writer. Publication remains a separate manual action from signed current `main`, with the exact expected Hub parent and matching authenticated and public immutable README readbacks. Preparing or merging this source change does not itself publish a Hub commit.",
       "primary_try_url": null,
       "explore_url": "https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab",
       "build_url": "https://github.com/szl-holdings/szl-typesafe-triage",

@@ -32,11 +32,6 @@ Inspect the reference LoRA adapter and retained evidence for structured JSON tri
 - Contamination / corpus leakage keeps this reference run **BLOCKED / NOT_PROMOTABLE**. Do not deploy it or present it as an approved classifier.
 - The retained 66-row behavioral gate is historical, bounded evidence. Its literal `PROMOTABLE` verdict does not clear the contamination finding or this release.
 - The adapter configuration declares `Qwen/Qwen3.5-0.8B`; the base revision used in training has not been verified. This is a generative PEFT LoRA adapter, not a standalone model or a conventional classifier head.
-- This presentation adds no training, evaluation, inference, deployment clearance or runtime qualification. Existing metrics and release limits remain as recorded below.
-
-## Publication boundary
-
-Before this source change, the [manual README-only workflow](https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/.github/workflows/publish-hf-card.yml) covered only `retrain` and `study5`. This candidate adds the fixed `root_lora` target for this card to that same serialized writer. Publication remains a separate manual action from signed current `main`, with the exact expected Hub parent and matching authenticated and public immutable README readbacks. Preparing or merging this source change does not itself publish a Hub commit.
 
 <details>
 <summary>Technical details and original evidence</summary>
