@@ -129,7 +129,7 @@ label{display:block;margin:30px 0 12px;font-weight:600}textarea{box-sizing:borde
 border:1px solid #45607d;border-radius:12px;padding:16px;background:#172337;color:#f1f5f9;font:inherit;resize:vertical}
 button{margin:16px 0;padding:12px 20px;border:0;border-radius:8px;background:#7dd3fc;color:#082f49;font:600 16px system-ui;cursor:pointer}
 button:disabled{opacity:.6}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#172337;padding:20px;border-radius:12px;font-size:13px}
-#identity{font-size:13px}#status{margin-left:12px;color:#b8c7db}small{display:block;color:#91a4bd;line-height:1.6}
+#identity{font-size:13px;overflow-wrap:anywhere}#status{margin-left:12px;color:#b8c7db}small{display:block;color:#91a4bd;line-height:1.6}
 </style></head><body><main><div class="eyebrow">SZL · DETERMINISTIC LOCAL RESEARCH</div>
 <h1>Local triage</h1><p>Inspect how the rule-based engine classifies a report and where it refuses to decide.
 It uses vocabulary and policy rules. No language model is loaded.</p><p id="identity">Loading policy identity…</p>
