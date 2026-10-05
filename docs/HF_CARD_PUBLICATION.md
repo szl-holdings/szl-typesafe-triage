@@ -58,6 +58,16 @@ cards, logs or receipts. GITHUB_TOKEN contacts only fixed-host read-only
 commit-signature metadata. Membership alone is not write authority; the provider
 must authorize the normal operation.
 
+For the specifically approved study5 card action, the caller may explicitly
+choose `credential_entry: study5_hf_token` (CLI `--credential-entry study5_hf_token`).
+It uses only the existing `HF_TOKEN` secret, passed as `HF_PROVIDER_FALLBACK_TOKEN`,
+and records the non-secret entry label in every receipt/journal checkpoint.
+An absent entry or provider failure stops without selecting another credential.
+The choice is rejected for retrain/root_lora before provider access. The default
+`existing_preference` preserves the original selection for every target.
+No credential values, scopes, permissions or other-target behavior are changed.
+Read-only identity/role metadata does not prove that publication will succeed.
+
 The writer captures source bytes before HF access, verifies the parent and its
 complete blob/size/LFS metadata, then rechecks canonical source before mutation.
 It submits exactly one README operation with expected-parent CAS. Every other

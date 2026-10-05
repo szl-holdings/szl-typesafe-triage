@@ -152,11 +152,13 @@ def provider(publisher, monkeypatch):
 
 
 def run(publisher, tmp_path, *, publish=True, source_commit=SOURCE, parent=PARENT, target="study5",
-        expected_source_commit=SOURCE, expected_card_sha256=CARD_SHA256):
+        expected_source_commit=SOURCE, expected_card_sha256=CARD_SHA256,
+        credential_entry="existing_preference"):
     path = tmp_path / "new-receipt.json"
     args = ["--target", target, "--source-commit", source_commit, "--expected-parent", parent,
             "--expected-source-commit", expected_source_commit,
             "--expected-card-sha256", expected_card_sha256,
+            "--credential-entry", credential_entry,
             "--receipt", str(path)]
     if publish:
         args.append("--publish")
@@ -1018,3 +1020,65 @@ def test_target_race_after_final_head_check_keeps_the_reviewed_cas_parent(
     assert receipt["prior_publication_status"] == "COMMIT_REQUESTED_OUTCOME_UNKNOWN"
     assert receipt["mutation_attempts"] == 1 and receipt["mutation_count"] is None
     assert "huggingface_commit" not in receipt
+
+
+def test_explicit_study5_entry_is_used_and_recorded_without_credential_values(
+        publisher, source, actions, provider, monkeypatch, tmp_path):
+    monkeypatch.setenv("HF_TOKEN", TOKEN + "-unselected-primary")
+    monkeypatch.setenv("HF_PROVIDER_FALLBACK_TOKEN", TOKEN)
+    code, receipt = run(publisher, tmp_path, credential_entry="study5_hf_token")
+    assert code == 0 and receipt["publication_status"] == "BYTE_PARITY_VERIFIED"
+    assert provider.writes == [(PARENT, CARD)]
+    assert all(row["credential_entry"] == "study5_hf_token" for row in journal_records(tmp_path))
+    assert TOKEN not in json.dumps(receipt) + json.dumps(journal_records(tmp_path))
+
+
+def test_explicit_entry_missing_never_uses_present_primary(
+        publisher, source, actions, provider, monkeypatch, tmp_path):
+    monkeypatch.delenv("HF_PROVIDER_FALLBACK_TOKEN", raising=False)
+    code, receipt = run(publisher, tmp_path, credential_entry="study5_hf_token")
+    assert code == 1 and receipt["refusal_code"] == "HF_AUTHORITY_MISSING"
+    assert provider.calls == provider.writes == []
+    assert receipt["mutation_attempts"] == receipt["mutation_count"] == 0
+
+
+@pytest.mark.parametrize("target", ["retrain", "root_lora"])
+def test_explicit_entry_is_rejected_for_other_targets_before_source_or_provider(
+        publisher, source, actions, provider, tmp_path, target):
+    code, receipt = run(publisher, tmp_path, target=target, credential_entry="study5_hf_token")
+    assert code == 1 and receipt["refusal_code"] == "CREDENTIAL_ENTRY_TARGET_MISMATCH"
+    assert source.calls == provider.calls == provider.writes == []
+
+
+def test_selected_entry_provider_failure_never_retries_with_primary(
+        publisher, source, actions, provider, monkeypatch, tmp_path):
+    monkeypatch.setenv("HF_TOKEN", TOKEN + "-unselected-primary")
+    monkeypatch.setenv("HF_PROVIDER_FALLBACK_TOKEN", TOKEN)
+    api = sys.modules["huggingface_hub"].HfApi
+    def fail(self, *args, **kwargs):
+        raise RuntimeError(TOKEN)
+    monkeypatch.setattr(api, "repo_info", fail)
+    code, receipt = run(publisher, tmp_path, credential_entry="study5_hf_token")
+    assert code == 1 and provider.calls == [("init",)] and provider.writes == []
+    assert receipt["credential_entry"] == "study5_hf_token"
+    assert receipt["mutation_attempts"] == receipt["mutation_count"] == 0
+    assert TOKEN not in json.dumps(receipt) + json.dumps(journal_records(tmp_path))
+
+
+def test_invalid_credential_entry_is_rejected_before_io(
+        publisher, source, actions, provider, tmp_path):
+    with pytest.raises(SystemExit) as failure:
+        run(publisher, tmp_path, credential_entry="automatic")
+    assert failure.value.code == 2 and not (tmp_path / "new-receipt.json").exists()
+    assert source.calls == provider.calls == provider.writes == []
+
+
+def test_workflow_explicit_selection_is_study5_only_and_keeps_existing_other_target_mapping():
+    text = (ROOT / ".github/workflows/publish-hf-card.yml").read_text(encoding="utf-8")
+    assert "options: [existing_preference, study5_hf_token]" in text
+    assert "default: existing_preference" in text
+    assert '"$CREDENTIAL_ENTRY" = "study5_hf_token" && "$CARD_TARGET" = "study5"' in text
+    assert "HF_TOKEN: ${{ secrets.HF_ORG_TOKEN || secrets.HF_TOKEN }}" in text
+    assert "HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}" in text
+    assert text.count("CREDENTIAL_ENTRY: ${{ inputs.credential_entry }}") == 2
+    assert '--credential-entry "$CREDENTIAL_ENTRY"' in text
