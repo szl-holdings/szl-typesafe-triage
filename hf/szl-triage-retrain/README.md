@@ -14,6 +14,30 @@ tags:
 - not-promotable
 ---
 
+<p><a href="https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab"><img src="https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg" alt="SZL Holdings" width="112" /></a></p>
+
+# TypeSafe Triage · Refusal Retrain Scripts
+
+Review the training and evaluation scripts prepared to investigate the triage study’s unresolved refusal gate.
+
+**Artifact:** Training and evaluation scripts · **Stage:** Scripts only · Research · **NOT_PROMOTABLE**
+
+[Explore in Command Lab](https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab) · [Build](https://github.com/szl-holdings/szl-typesafe-triage) · [Evidence](https://github.com/szl-holdings/szl-typesafe-triage/blob/6c3ed43318b40dda5bf814744dcffcf0b1ff8149/hf/szl-triage-retrain/README.md)
+
+## Before you use it
+
+- This source describes a scripts-only target, without a standalone neural checkpoint or adapter to evaluate.
+- The five-seed study remains blocked at 11 of 12 gates. Promotion requires a clean evaluation and a new verified source release receipt.
+- The 42 red-team probes are evaluation-only. They are excluded from training.
+- Job energy is UNAVAILABLE unless measured. This presentation supplies no new training, evaluation or energy receipt.
+
+<details>
+<summary>Technical details and original evidence</summary>
+
+The complete canonical source body follows, including the scripts’ roles, evaluation-only probes, research boundary and requirements for a future adapter.
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:START -->
+
 # SZL TypeSafe Triage · twelfth-gate refusal retrain (Hub-job target)
 
 > **Status: training scripts only. No adapter has been uploaded here yet. This is not a checkpoint.**
@@ -41,3 +65,7 @@ The published five-seed study ([szl-triage-qwen3.5-0.8b-lora-study5](https://hug
 - Source repository and release gates: https://github.com/szl-holdings/szl-typesafe-triage
 - Frozen study evidence: https://github.com/szl-holdings/szl-typesafe-triage/tree/main/evidence/five-seed-study
 - License: Apache-2.0 (scripts carry SPDX headers)
+
+<!-- SZL-PRESERVED-TECHNICAL-BODY:END -->
+
+</details>

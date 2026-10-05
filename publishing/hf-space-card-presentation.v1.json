@@ -1,0 +1,95 @@
+{
+  "_notice": "SPDX-License-Identifier: Apache-2.0; (c) 2026 SZL Holdings",
+  "schema": "szl.hf.space-card-presentation.v1",
+  "source_repository": "szl-holdings/szl-typesafe-triage",
+  "cards": [
+    {
+      "kind": "spaces",
+      "repo_id": "SZLHOLDINGS/szl-typesafe-triage",
+      "source_repository": "szl-holdings/szl-typesafe-triage",
+      "source_revision_before_presentation": "5a815b5e743e5d156ee4f875546ac4bda38a4341",
+      "source_path": "scripts/publish_software_space.py",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/5a815b5e743e5d156ee4f875546ac4bda38a4341/scripts/publish_software_space.py",
+      "presentation": {
+        "title": "TypeSafe Triage Lab",
+        "summary": "Inspect a deterministic triage engine with source and policy bindings. The Space makes explicit decisions without loading a language model or adapter.",
+        "artifact_type": "Deterministic Python software lab",
+        "stage": "Software lab; learned-model promotion on hold",
+        "build_url": "https://github.com/szl-holdings/szl-typesafe-triage",
+        "evidence_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/5a815b5e743e5d156ee4f875546ac4bda38a4341/docs/PROMOTION_PROGRAM.md",
+        "visible_limits": [
+          "Learned-model promotion remains HOLD / NOT_PROMOTABLE. A running service does not establish model accuracy or immunity to prompt injection.",
+          "Decision content-integrity hashes are unsigned and do not authenticate an issuer.",
+          "Experimental research modules do not participate in live decisions or confer release authority."
+        ]
+      },
+      "before_sha256": "7aa831f9afbeafcde424e0352f472cbb6e98b2f41e110d5e1b4b9794ff95e9a0",
+      "after_sha256": "88a43ef7dca87e31ca6a17efb6b1bcd1d262acc249f83df8a29af83ec5b66731",
+      "front_matter_sha256": "b77c68c7063e659ee09fa87e22e9cbe86607accacb058e26fdbb69cf80b9ba0b",
+      "preserved_body_sha256": "225aa3da9e95d4e5fd9b966a5048b7c7c565bb0c5bdd7cabb158c943d167ee08",
+      "bytes_before": 1135,
+      "bytes_after": 2618,
+      "front_matter_preserved": true,
+      "original_body_preserved": true,
+      "card_definition": "export() local card f-string; published README.md is generated, not the repository root README.md",
+      "hash_scope": "Card hashes above are the generated README materialized with the prior canonical source SHA. Future source commits change its intentional revision interpolation and therefore its full/body hashes.",
+      "source_file_before_sha256": "c228d4566ea5e3b98264eabd95405a49694a9d880595851054a27b7421f93ff8",
+      "source_file_after_sha256": "811070f2b2ad85b034bc5c9b75218a0a3bbebe40b3917faf84904370865a1715",
+      "template_before_sha256": "2fd6dafa9c49d3902b58e6d9f23e78673e37e2c478389b87f608cd78352295fc",
+      "template_after_sha256": "c84b824b99f99d52a586ada3c954eec7f8ec5486a302431d84fc795ee0314d9b",
+      "dynamic_fields_preserved": [
+        "commit",
+        "REPOSITORY"
+      ],
+      "publisher_ast_except_card_literal_unchanged": true,
+      "rendered_card_preservation_samples": [
+        {
+          "source_revision_parameter": "5a815b5e743e5d156ee4f875546ac4bda38a4341",
+          "before_sha256": "7aa831f9afbeafcde424e0352f472cbb6e98b2f41e110d5e1b4b9794ff95e9a0",
+          "after_sha256": "88a43ef7dca87e31ca6a17efb6b1bcd1d262acc249f83df8a29af83ec5b66731",
+          "front_matter_sha256": "b77c68c7063e659ee09fa87e22e9cbe86607accacb058e26fdbb69cf80b9ba0b",
+          "preserved_body_sha256": "225aa3da9e95d4e5fd9b966a5048b7c7c565bb0c5bdd7cabb158c943d167ee08",
+          "bytes_before": 1135,
+          "bytes_after": 2618,
+          "front_matter_preserved": true,
+          "original_body_preserved": true
+        },
+        {
+          "source_revision_parameter": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "before_sha256": "51ba1d56d66074093f4de677e6936c8e008cdf13c2fb52d80faf45c48b4612d6",
+          "after_sha256": "83f5146ce63162d88661a0d1e1609ad2b18c29ba8418daf94516ce4b85da86d8",
+          "front_matter_sha256": "b77c68c7063e659ee09fa87e22e9cbe86607accacb058e26fdbb69cf80b9ba0b",
+          "preserved_body_sha256": "7e511f48a15cfc8a6830104c29370f5e23549dded3e8a12f4cda087108a84088",
+          "bytes_before": 1135,
+          "bytes_after": 2618,
+          "front_matter_preserved": true,
+          "original_body_preserved": true
+        },
+        {
+          "source_revision_parameter": "0123456789abcdef0123456789abcdef01234567",
+          "before_sha256": "712d978597ce895c3dcde3d253c04f95bd568bbfdc324906c632f9959abdaf0c",
+          "after_sha256": "b2b2d7753e4bb066b39913359cffd2a5cc85ad7d6c8b66f48a627241d990242b",
+          "front_matter_sha256": "b77c68c7063e659ee09fa87e22e9cbe86607accacb058e26fdbb69cf80b9ba0b",
+          "preserved_body_sha256": "0aaccd9e1ddac59a546424e5d49081151b1860d9939edcf3bf52845d656183a7",
+          "bytes_before": 1135,
+          "bytes_after": 2618,
+          "front_matter_preserved": true,
+          "original_body_preserved": true
+        }
+      ],
+      "source_readme_export_unchanged": "The exact canonical root README.md continues to be copied as SOURCE_README.md.",
+      "card_template_within_publisher_changed": true,
+      "publisher_control_flow_changed": false,
+      "publisher_repository": "szl-holdings/szl-typesafe-triage",
+      "publisher_workflow": null,
+      "publisher_entrypoint": "scripts/publish_software_space.py",
+      "publisher_readme_mapping": "export() creates README.md from its existing commit-parameterized card f-string after exporting canonical Git blobs; the original root README.md remains SOURCE_README.md. Only the card presentation literal changes.",
+      "publication_trigger": "Existing manual scripts/publish_software_space.py command only. Dry export is default and --publish is explicit. This source PR does not add a workflow or invoke export/publication.",
+      "publication_state_at_preparation": "SOURCE_CANDIDATE_ONLY_NO_HUB_EVENT_BY_THIS_LANE",
+      "publication_boundary": "The existing writer still requires exact current canonical main and git verify-commit before export; publishes only the canonical software package and policy, checks parent_commit, refuses unmanaged provider files, and verifies immutable remote bytes. No learned-model weights or historical outputs are added. BYTE_PARITY_VERIFIED, runtime witnessing and learned-model promotion remain separate states; NOT_PROMOTABLE is unchanged.",
+      "writer_or_workflow_changed": true,
+      "runtime_or_artifact_code_changed": false,
+      "central_apply_allowed": false
+    }
+  ]
+}

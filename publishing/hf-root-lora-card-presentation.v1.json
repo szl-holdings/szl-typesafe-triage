@@ -1,0 +1,190 @@
+{
+  "schema": "szl.source-card-presentation/v1",
+  "source_repository": "szl-holdings/szl-typesafe-triage",
+  "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+  "source_tree_before_presentation": "ae5b802f216062a2d9a3a8a7fac92773e94b2608",
+  "shared_mark_dependency": {
+    "url": "https://raw.githubusercontent.com/szl-holdings/.github/main/profile/assets/szl/logos/szl_mark_holographic.svg",
+    "source_pr": "https://github.com/szl-holdings/.github/pull/864",
+    "source_revision": "40cc2b57a57934a048bb980a023f8a8e533c15e5",
+    "existing_mark_reused": true
+  },
+  "publication_boundary": "Source presentation plus a proposed fixed root_lora target in the same serialized manual README-only publisher. Before this candidate, that writer accepts only retrain and study5 and excludes the root adapter. Proposed publication remains a separate manual action from signed current main, with an exact expected Hub parent, one README operation and matching authenticated/public immutable readbacks. No training, weight upload, model evaluation, release clearance or provider action is performed by this candidate.",
+  "central_apply_allowed": false,
+  "source_repository_push_directly_triggers_publication_of_this_card": false,
+  "cards": [
+    {
+      "kind": "models",
+      "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora",
+      "source_repository": "szl-holdings/szl-typesafe-triage",
+      "source_path": "HF_MODEL_CARD_README.md",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/HF_MODEL_CARD_README.md",
+      "target_path": "README.md",
+      "preservation_source": "CANONICAL_GITHUB_SOURCE_NOT_HUB_IMPORT",
+      "original_source_git_blob": "9ba01340e70e467abaf80de088ee6732417ac570",
+      "original_source_sha256": "596619c7534b43f3df587c4167340342c856ba5bca21327aed846d91199e4461",
+      "original_source_bytes": 4982,
+      "before_sha256": "596619c7534b43f3df587c4167340342c856ba5bca21327aed846d91199e4461",
+      "before_bytes": 4982,
+      "output_git_blob": "3dd08b2cb911aec752a79db270f2993b0168a836",
+      "output_sha256": "903f4c8df620b1d736781f386a3722e09e1088cdd6c0fca3fdc5ef6bf98c75ff",
+      "after_sha256": "903f4c8df620b1d736781f386a3722e09e1088cdd6c0fca3fdc5ef6bf98c75ff",
+      "output_bytes": 6687,
+      "front_matter_present": true,
+      "front_matter_preserved": true,
+      "front_matter_sha256": "b445f08b4413028aff7ae994242ab6cd0c248ba1b0edb490328783a3bc05c8f9",
+      "front_matter_bytes": 266,
+      "original_body_preserved": true,
+      "original_body_preserved_exactly_once": true,
+      "original_body_sha256": "d4fdf9da5a43108e0a0eccf6481967528b781998ee98931a83730e0f40b75fc5",
+      "original_body_bytes": 4716,
+      "body_start_marker": "<!-- SZL-PRESERVED-TECHNICAL-BODY:START -->",
+      "body_end_marker": "<!-- SZL-PRESERVED-TECHNICAL-BODY:END -->",
+      "title": "TypeSafe Triage · Reference LoRA Adapter",
+      "purpose": "Inspect the reference LoRA adapter and retained evidence for structured JSON triage with refusal and review behavior.",
+      "artifact_type": "peft_lora_adapter",
+      "artifact": "Generative PEFT LoRA adapter for Qwen3.5-0.8B",
+      "stage": "Reference research · HOLD · Contamination BLOCKED · NOT_PROMOTABLE",
+      "contamination_release_status": "BLOCKED",
+      "promotion_status": "NOT_PROMOTABLE",
+      "model_runtime": "NOT_EVALUATED",
+      "runtime_or_provider_promotion": false,
+      "historical_gate_scope": "Retained 66-row behavioral gate only. Its literal PROMOTABLE verdict does not clear the contamination finding or release. No study5 11/12 verdict is assigned to this root adapter.",
+      "visible_limits": [
+        "Contamination / corpus leakage keeps this reference run **BLOCKED / NOT_PROMOTABLE**. Do not deploy it or present it as an approved classifier.",
+        "The retained 66-row behavioral gate is historical, bounded evidence. Its literal `PROMOTABLE` verdict does not clear the contamination finding or this release.",
+        "The adapter configuration declares `Qwen/Qwen3.5-0.8B`; the base revision used in training has not been verified. This is a generative PEFT LoRA adapter, not a standalone model or a conventional classifier head."
+      ],
+      "primary_try_url": null,
+      "explore_url": "https://huggingface.co/spaces/SZLHOLDINGS/szl-command-lab",
+      "build_url": "https://github.com/szl-holdings/szl-typesafe-triage",
+      "evidence_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/HF_MODEL_CARD_README.md",
+      "source_route": {
+        "canonical_file": "HF_MODEL_CARD_README.md",
+        "target_repo_type": "model",
+        "target_repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora",
+        "target_path": "README.md",
+        "publisher_repository": "szl-holdings/szl-typesafe-triage",
+        "publisher_path": "scripts/publish_hf_card.py",
+        "workflow_path": ".github/workflows/publish-hf-card.yml",
+        "publication_contract": "docs/HF_CARD_PUBLICATION.md",
+        "current_before": {
+          "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+          "targets": [
+            "retrain",
+            "study5"
+          ],
+          "this_model_in_closed_targets": false
+        },
+        "proposed_after": {
+          "targets": [
+            "retrain",
+            "root_lora",
+            "study5"
+          ],
+          "target": "root_lora",
+          "source_path": "HF_MODEL_CARD_README.md",
+          "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora",
+          "same_existing_serialized_writer": true,
+          "trigger": "workflow_dispatch",
+          "ref": "main",
+          "signed_current_main_source_required": true,
+          "exact_expected_hub_parent_required": true,
+          "commit_operation_count": 1,
+          "mutation_paths": [
+            "README.md"
+          ],
+          "authenticated_and_public_immutable_readback_required": true,
+          "distinct_root_contamination_boundary_required": true,
+          "root_gate_scope": "Retained 66-row behavioral gate with contamination BLOCKED / NOT_PROMOTABLE; not study5 11/12."
+        },
+        "publication_route_status": "PROPOSED_FIXED_THIRD_TARGET_IN_EXISTING_MANUAL_WRITER",
+        "source_change_directly_publishes": false,
+        "publication_performed": false
+      },
+      "hub_parent_refreshed": false,
+      "provider_actions_performed": false,
+      "training_or_weight_changes": false,
+      "publication_state": "NOT_PUBLISHED_BY_THIS_CHANGE",
+      "disposition": "READY_SOURCE_REVIEW",
+      "publisher_target": "root_lora",
+      "publisher_path": "scripts/publish_hf_card.py",
+      "publisher_workflow": ".github/workflows/publish-hf-card.yml",
+      "source_repository_push_directly_triggers_publisher": false,
+      "expected_hub_parent_required": true,
+      "authenticated_and_public_immutable_readback_required": true,
+      "publisher_mutation_paths": [
+        "README.md"
+      ]
+    }
+  ],
+  "publisher_source_bindings_before_candidate": [
+    {
+      "path": "scripts/publish_hf_card.py",
+      "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/scripts/publish_hf_card.py",
+      "git_blob": "1b4cc0868d3f60a5ff0e7b331b82fb838002076c",
+      "sha256": "51a42fe16fb4b8c245934775f7d4fbbace808299f68330e3fa150a1413894820",
+      "bytes": 22234,
+      "binding_scope": "IMMUTABLE_SOURCE_BEFORE_CANDIDATE",
+      "modified_in_combined_candidate": true
+    },
+    {
+      "path": ".github/workflows/publish-hf-card.yml",
+      "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/.github/workflows/publish-hf-card.yml",
+      "git_blob": "5bc13931a57b260eda96db958543d5a8e1cb1936",
+      "sha256": "c45bd1824594485ec2c796b00cb5da99cfef66206a8973f5d1c55b08ea7bdef0",
+      "bytes": 3069,
+      "binding_scope": "IMMUTABLE_SOURCE_BEFORE_CANDIDATE",
+      "modified_in_combined_candidate": true
+    },
+    {
+      "path": "docs/HF_CARD_PUBLICATION.md",
+      "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/docs/HF_CARD_PUBLICATION.md",
+      "git_blob": "f0a68eb25af45946ab829e4af2da4910879cdbdd",
+      "sha256": "823b713e97aa83b90aa7fe595ff7804cb19910d37a0e8b59bf1941254e4d14bb",
+      "bytes": 4299,
+      "binding_scope": "IMMUTABLE_SOURCE_BEFORE_CANDIDATE",
+      "modified_in_combined_candidate": true
+    },
+    {
+      "path": "scripts/train_lora.py",
+      "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/scripts/train_lora.py",
+      "git_blob": "a83146f217cf51e9b4da1ad027a18a87c599d67a",
+      "sha256": "e618364ae04a5b49803a62a77f06723bea735c2746a5c6957be94fcbebbf7536",
+      "bytes": 7750,
+      "binding_scope": "IMMUTABLE_SOURCE_BEFORE_CANDIDATE",
+      "modified_in_combined_candidate": false,
+      "bytes_unchanged": true
+    },
+    {
+      "path": "scripts/train_eval_publish.py",
+      "source_revision": "e9fe792fc55892849f07b4f1bc3be651862b770e",
+      "source_url": "https://github.com/szl-holdings/szl-typesafe-triage/blob/e9fe792fc55892849f07b4f1bc3be651862b770e/scripts/train_eval_publish.py",
+      "git_blob": "e444709c32cfe06688c787a8c6c6fe2c61d929db",
+      "sha256": "62718f23f33f90210c5637435f8f254ebd4793eb699a2108581031f5ed4c4326",
+      "bytes": 48311,
+      "binding_scope": "IMMUTABLE_SOURCE_BEFORE_CANDIDATE",
+      "modified_in_combined_candidate": false,
+      "bytes_unchanged": true
+    }
+  ],
+  "combined_candidate_boundary": {
+    "presentation_paths_owned_here": [
+      "HF_MODEL_CARD_README.md",
+      "publishing/hf-root-lora-card-presentation.v1.json"
+    ],
+    "existing_writer_extension_paths_owned_by_parent": [
+      "scripts/publish_hf_card.py",
+      "tests/test_publish_hf_card.py",
+      ".github/workflows/publish-hf-card.yml",
+      "docs/HF_CARD_PUBLICATION.md"
+    ],
+    "training_refuse_overwrite_unchanged": true,
+    "new_publisher_created": false,
+    "no_provider_action_performed": true
+  }
+}

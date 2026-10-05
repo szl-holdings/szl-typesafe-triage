@@ -75,7 +75,8 @@ def provider(publisher, monkeypatch):
     state = SimpleNamespace(calls=[], writes=[], reads=[], old=b"# old README\n", data=None,
                             failure=None, returned=UPLOADED, changed_metadata=None,
                             on_first_read=None, current_parent=PARENT, final_head=None,
-                            before_write=None, before_result_read=None)
+                            before_write=None, before_result_read=None,
+                            repo=publisher.TARGETS["study5"][1])
 
     class CommitOperationAdd:
         def __init__(self, *, path_in_repo, path_or_fileobj):
@@ -94,7 +95,7 @@ def provider(publisher, monkeypatch):
             state.calls.append(("init",))
 
         def repo_info(self, repo, *, repo_type, revision=None, files_metadata=False, timeout):
-            assert repo == publisher.TARGETS["study5"][1] and repo_type == "model" and timeout == 20
+            assert repo == state.repo and repo_type == "model" and timeout == 20
             state.calls.append(("repo_info", revision, files_metadata))
             if state.on_first_read:
                 callback, state.on_first_read = state.on_first_read, None
@@ -114,7 +115,7 @@ def provider(publisher, monkeypatch):
             return SimpleNamespace(sha=revision, private=False, gated=False, siblings=entries)
 
         def create_commit(self, *, repo_id, repo_type, parent_commit, operations, commit_message):
-            assert repo_id == publisher.TARGETS["study5"][1] and repo_type == "model"
+            assert repo_id == state.repo and repo_type == "model"
             assert parent_commit == PARENT and SOURCE in commit_message and len(operations) == 1
             operation = operations[0]
             assert type(operation) is CommitOperationAdd and operation.path_in_repo == "README.md"
@@ -127,7 +128,7 @@ def provider(publisher, monkeypatch):
             return SimpleNamespace(oid=state.returned)
 
     def read_card(repo, revision, *, token):
-        assert repo == publisher.TARGETS["study5"][1] and revision in (PARENT, UPLOADED)
+        assert repo == state.repo and revision in (PARENT, UPLOADED)
         assert token == TOKEN or token is False
         state.reads.append((revision, token))
         if state.failure == "auth" and revision == UPLOADED and token == TOKEN:
@@ -317,6 +318,96 @@ def test_retrain_has_independent_static_mapping_and_boundary(publisher, source, 
     source.data, source.path = RETRAIN, publisher.TARGETS["retrain"][0]
     code, receipt = run(publisher, tmp_path, publish=False, target="retrain")
     assert code == 0 and receipt["repo_id"] == "SZLHOLDINGS/szl-triage-retrain" and provider.calls == []
+
+
+def root_lora_source(source, provider):
+    source.path = "HF_MODEL_CARD_README.md"
+    source.data = (ROOT / source.path).read_bytes()
+    provider.repo = "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora"
+    return source.data
+
+
+def test_root_lora_plan_uses_its_own_card_and_never_calls_provider(
+        publisher, source, provider, monkeypatch, tmp_path):
+    data = root_lora_source(source, provider)
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    code, receipt = run(publisher, tmp_path, publish=False, target="root_lora")
+    assert code == 0 and receipt["publication_status"] == "PLAN_ONLY"
+    assert receipt["source_path"] == "HF_MODEL_CARD_README.md"
+    assert receipt["repo_id"] == "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora"
+    assert receipt["source_git_blob"] == git_blob(data)
+    assert receipt["card_sha256"] == publisher.digest(data)
+    assert source.signatures == [SOURCE] and provider.calls == provider.writes == provider.reads == []
+    assert receipt["promotion_authorization"] == "NONE"
+    assert receipt["qualification_state"] == "UNCHANGED_NOT_EVALUATED"
+
+
+def test_root_lora_publish_retains_one_readme_cas_and_both_immutable_witnesses(
+        publisher, source, actions, provider, tmp_path):
+    data = root_lora_source(source, provider)
+    code, receipt = run(publisher, tmp_path, target="root_lora")
+    assert code == 0 and receipt["publication_status"] == "BYTE_PARITY_VERIFIED"
+    assert provider.writes == [(PARENT, data)] and source.signatures == [SOURCE, SOURCE]
+    assert receipt["changed_paths"] == ["README.md"]
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 1
+    assert receipt["huggingface_commit"] == UPLOADED
+    assert provider.reads == [(PARENT, TOKEN), (UPLOADED, TOKEN), (UPLOADED, False)]
+    assert receipt["parent_file_count"] == receipt["result_file_count"] == 3
+    assert receipt["model_runtime"] == "NOT_EVALUATED" and receipt["promotion_authorization"] == "NONE"
+
+
+@pytest.mark.parametrize("boundary", [
+    "NOT_PROMOTABLE",
+    "**Status: NOT PROMOTABLE. Reference run only.**",
+    "**Blocked. Not promotable. Do not deploy.**",
+    "Contamination / leakage review did not clear.",
+    "## Retained 66-row behavioral gate",
+    "records 66 rows: 66/66 exact labels, 66/66 exact states",
+    "Its literal `PROMOTABLE` verdict belongs to that bounded behavioral gate.",
+    "The contamination finding keeps this reference run **BLOCKED / NOT PROMOTABLE**;",
+    "Do not combine these rows with later five-seed or release-gate results.",
+])
+def test_root_lora_each_research_hold_is_required_before_provider_access(
+        publisher, source, actions, provider, tmp_path, boundary):
+    data = root_lora_source(source, provider)
+    assert boundary.encode() in data
+    source.data = data.replace(boundary.encode(), b"withdrawn")
+    code, receipt = run(publisher, tmp_path, target="root_lora")
+    assert code == 1 and receipt["refusal_code"] == "CARD_CLAIM_BOUNDARY_MISSING"
+    assert provider.calls == provider.writes == provider.reads == []
+
+
+@pytest.mark.parametrize("substitute", [CARD, RETRAIN], ids=["study5", "retrain"])
+def test_root_lora_cannot_substitute_another_target_qualification(
+        publisher, source, actions, provider, tmp_path, substitute):
+    root_lora_source(source, provider)
+    source.data = substitute
+    code, receipt = run(publisher, tmp_path, target="root_lora")
+    assert code == 1 and receipt["refusal_code"] == "CARD_CLAIM_BOUNDARY_MISSING"
+    assert provider.calls == provider.writes == []
+
+
+@pytest.mark.parametrize("failure", ["main", "parent", "weight", "public", "commit"])
+def test_root_lora_retains_source_parent_weight_and_readback_guards_without_retry(
+        publisher, source, actions, provider, tmp_path, failure):
+    root_lora_source(source, provider)
+    if failure == "main":
+        provider.on_first_read = lambda: setattr(source, "main", "d" * 40)
+    elif failure == "parent":
+        provider.current_parent = "d" * 40
+    elif failure == "weight":
+        provider.changed_metadata = lambda entries: setattr(entries[1], "blob_id", "0" * 40)
+    else:
+        provider.failure = failure
+    code, receipt = run(publisher, tmp_path, target="root_lora")
+    assert code == 1 and receipt["publication_status"] == "FAILED"
+    assert len(provider.writes) == (0 if failure in {"main", "parent"} else 1)
+    assert receipt["promotion_authorization"] == "NONE"
+    if failure == "commit":
+        assert receipt["prior_publication_status"] == "COMMIT_REQUESTED_OUTCOME_UNKNOWN"
+        assert receipt["mutation_count"] is None and "huggingface_commit" not in receipt
+    elif failure in {"weight", "public"}:
+        assert receipt["huggingface_commit"] == UPLOADED
 
 
 def test_main_changed_preflight_has_no_provider_access(publisher, source, actions, provider, tmp_path):
@@ -537,7 +628,7 @@ def test_incomplete_or_unsafe_metadata_never_counts_as_full_proof(publisher, pro
 
 def test_workflow_one_manual_serialized_main_only_writer():
     text = (ROOT / ".github/workflows/publish-hf-card.yml").read_text(encoding="utf-8")
-    assert "options: [retrain, study5]" in text and "default: false" in text
+    assert "options: [retrain, study5, root_lora]" in text and "default: false" in text
     assert "huggingface_hub==1.33.0" in text and "cancel-in-progress: false" in text
     assert 'test "$GITHUB_REF" = "refs/heads/main"' in text and 'test "$GITHUB_EVENT_NAME" = "workflow_dispatch"' in text
     assert "if: ${{ always() }}" in text and "if-no-files-found: error" in text

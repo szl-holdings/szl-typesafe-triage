@@ -7,7 +7,7 @@ on:
       target:
         description: "Allowlisted canonical card"
         type: choice
-        options: [retrain, study5]
+        options: [retrain, study5, root_lora]
         default: retrain
         required: true
       expected_parent:

@@ -7,6 +7,16 @@ serialized manual card writer, restricted to canonical main. Its fixed targets:
 |---|---|---|
 | retrain | hf/szl-triage-retrain/README.md | SZLHOLDINGS/szl-triage-retrain |
 | study5 | out/publish/triage-lora-study5/README.md | SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5 |
+| root_lora | HF_MODEL_CARD_README.md | SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora |
+
+The root LoRA is the separately documented reference adapter. Its retained
+66-row behavioral gate does not override the contamination finding or the
+BLOCKED / NOT_PROMOTABLE release decision. The writer requires that card's own
+blocked-release, contamination and bounded-gate language; study5's 11/12 result
+and the retrain scripts-only boundary cannot substitute for it. This target
+adds only the existing source README to this manual card lane. The
+`scripts/train_lora.py` refusal to overwrite the live artifact is unchanged;
+no weights, training receipts or other repository files may change here.
 
 Supply the independently refreshed full HF parent commit. The workflow defaults
 to a dry plan; publish=true is an explicit card publication. Missing authority or
