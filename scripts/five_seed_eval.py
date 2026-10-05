@@ -10,7 +10,16 @@ import statistics
 import time
 from pathlib import Path
 
-BASE_MODEL = "unsloth/Qwen3.5-0.8B"
+from triage_text import build_generation_inputs, resolve_text_tokenizer, template_contract
+from twelfth_gate_contract import (
+    BASE_MODEL,
+    BASE_REVISION,
+    adapter_snapshot,
+    assert_loaded_model_identity,
+    assert_resolved_repository,
+    load_adapter_binding,
+    validate_provider_runtime,
+)
 
 
 def canonical(value):
@@ -28,6 +37,13 @@ def sha256_file(path: Path):
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def evaluation_source_snapshot() -> dict[str, str]:
+    scripts = Path(__file__).resolve().parent
+    names = ("five_seed_eval.py", "train_eval_publish.py", "triage_text.py",
+             "twelfth_gate_contract.py")
+    return {"scripts/" + name: sha256_file(scripts / name) for name in names}
 
 
 def text_of(row):
@@ -188,49 +204,46 @@ def strict_json(raw):
 
 
 def load_target(adapter: str | None):
+    model_name = adapter if adapter else BASE_MODEL
+    if adapter:
+        load_adapter_binding(Path(adapter))
+    validate_provider_runtime()
     import torch
     from unsloth import FastLanguageModel
 
-    model_name = adapter if adapter else BASE_MODEL
-
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model_name,
+        model_name=BASE_MODEL,
+        revision=BASE_REVISION,
+        use_exact_model_name=True,
+        on_model_resolved=assert_resolved_repository,
+        local_files_only=True,
         max_seq_length=1024,
         load_in_4bit=False,
         dtype=torch.bfloat16,
     )
+    assert_loaded_model_identity(model)
+    if adapter:
+        from peft import PeftModel
+        from transformers import AutoTokenizer
+
+        model = PeftModel.from_pretrained(
+            model, adapter, is_trainable=False, local_files_only=True,
+        )
+        tokenizer = AutoTokenizer.from_pretrained(
+            adapter, local_files_only=True, trust_remote_code=False,
+        )
 
     FastLanguageModel.for_inference(model)
     model.eval()
-    return model, tokenizer
-
-
-def render_prompt(tokenizer, prompt):
-    messages = [{"role": "user", "content": prompt}]
-
-    try:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-            enable_thinking=False,
-        )
-    except TypeError:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True,
-        )
+    identity = assert_loaded_model_identity(model)
+    return model, resolve_text_tokenizer(tokenizer), identity
 
 
 def generate(model, tokenizer, prompt):
     import torch
 
-    rendered = render_prompt(tokenizer, prompt)
-    inputs = tokenizer(text=rendered, return_tensors="pt")
-
     device = next(model.parameters()).device
-    inputs = {key: value.to(device) for key, value in inputs.items()}
+    inputs = build_generation_inputs(tokenizer, prompt, device)
 
     started = time.perf_counter()
 
@@ -270,8 +283,10 @@ def evaluate_target(study_root: Path, name: str, adapter: str | None):
     )
 
     held_path = frozen / "held.jsonl"
+    held_before = sha256_file(held_path)
+    source_before = evaluation_source_snapshot()
 
-    if sha256_file(held_path) != manifest["held_manifest_sha256"]:
+    if held_before != manifest["held_manifest_sha256"]:
         raise SystemExit("REFUSE: frozen held manifest changed")
 
     records = [
@@ -288,7 +303,10 @@ def evaluate_target(study_root: Path, name: str, adapter: str | None):
         if not adapter_path.exists():
             raise SystemExit(f"REFUSE: adapter absent: {adapter_path}")
 
-    model, tokenizer = load_target(adapter)
+    binding = load_adapter_binding(Path(adapter)) if adapter else None
+    snapshot_before = adapter_snapshot(Path(adapter)) if adapter else None
+    model, tokenizer, model_identity = load_target(adapter)
+    template_before = template_contract(tokenizer)
 
     predictions = []
     counts = {
@@ -396,7 +414,16 @@ def evaluate_target(study_root: Path, name: str, adapter: str | None):
         "schema": "szl.frozen-held-evaluation/v1",
         "name": name,
         "base_model": BASE_MODEL,
+        "base_revision": BASE_REVISION,
+        "model_identity": model_identity,
         "adapter": adapter,
+        "adapter_binding": binding,
+        "adapter_snapshot": snapshot_before,
+        "source_commit": binding.get("source_commit") if binding else None,
+        "trainer_sha256": binding.get("trainer_sha256") if binding else None,
+        "evaluator_sha256": sha256_file(Path(__file__)),
+        "source": source_before,
+        "template_contract": template_before,
         "held_manifest_sha256": manifest["held_manifest_sha256"],
         "decoding": {
             "do_sample": False,
@@ -431,6 +458,22 @@ def evaluate_target(study_root: Path, name: str, adapter: str | None):
             "Promotion remains derived from all release gates."
         ),
     }
+
+    if adapter:
+        snapshot_after = adapter_snapshot(Path(adapter))
+        binding_after = load_adapter_binding(Path(adapter))
+        template_after = template_contract(tokenizer)
+        source_after = evaluation_source_snapshot()
+        held_after = sha256_file(held_path)
+        if snapshot_after != snapshot_before or binding_after != binding \
+                or template_after != template_before or source_after != source_before \
+                or held_after != held_before:
+            raise RuntimeError(
+                "adapter, binding, tokenizer, source, or held input changed during held evaluation")
+        metrics["adapter_snapshot_after"] = snapshot_after
+        metrics["template_contract_after"] = template_after
+        metrics["source_after"] = source_after
+        metrics["held_manifest_sha256_after"] = held_after
 
     (evaluation / f"metrics-{name}.json").write_text(
         json.dumps(metrics, indent=2),

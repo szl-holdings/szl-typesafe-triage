@@ -20,7 +20,8 @@ param(
     [string]$StudyRepo = "C:\Users\steph\szl-typesafe-triage",
     [switch]$NoPublish,
     [switch]$PreflightOnly,
-    [switch]$SkipGpu
+    [switch]$SkipGpu,
+    [int]$GpuIndex = 0
 )
 
 $ErrorActionPreference = "Continue"
@@ -31,6 +32,7 @@ Set-Location -LiteralPath $Repo
 $Work = Join-Path $Repo "out\retrain-v110"
 $Logs = Join-Path $Work "logs"
 $Runner = "scripts\twelfth_gate_v110.py"
+$Supervisor = "scripts\study_process_guard.py"
 $Seeds = @(11, 23, 37, 53, 71)
 $Stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $MAX_WALLCLOCK_MINUTES = 180
@@ -56,82 +58,35 @@ function Show-Tail([string]$Log, [int]$Lines = 8) {
     }
 }
 
-function Invoke-Py([string]$Title, [string]$ArgLine, [string]$Log) {
-    # python runs under cmd.exe with output redirected to a log, so native stderr (unsloth, tqdm)
-    # can never become a PowerShell error record. A heartbeat shows the latest log line.
+function Invoke-Py([string]$Title, [string[]]$PyArgs, [string]$Log) {
+    # A model-free supervisor verifies selected-GPU telemetry before launch and
+    # during execution, applies the remaining global wall-clock budget, and
+    # proves descendant-tree termination after a guard trip.
     if (Test-Path -LiteralPath $Log) { Remove-Item -LiteralPath $Log -Force }
-    $cmdLine = '/c ""' + $Python + '" ' + $ArgLine + ' > "' + $Log + '" 2>&1"'
-    $proc = Start-Process -FilePath "cmd.exe" -ArgumentList $cmdLine -WorkingDirectory $Repo -NoNewWindow -PassThru
-    $null = $proc.Handle
-    $shown = ""
-    while (-not $proc.HasExited) {
-        Start-Sleep -Seconds 15
-        $elapsed = ((Get-Date) - $RunStarted).TotalMinutes
-        if ($elapsed -ge $MAX_WALLCLOCK_MINUTES) {
-            Stop-ProcessTree $proc.Id
-            Write-Host ("        [" + $Title + "] wallclock guard exceeded") -ForegroundColor Red
-            return 97
-        }
-        if (-not ($PreflightOnly -and $SkipGpu)) {
-            $temperature = Get-GpuTemperature
-            if ($null -eq $temperature) {
-                Stop-ProcessTree $proc.Id
-                Write-Host ("        [" + $Title + "] GPU temperature unavailable") -ForegroundColor Red
-                return 96
-            }
-            if ($temperature -ge $THERMAL_GUARD_CELSIUS) {
-                Stop-ProcessTree $proc.Id
-                Write-Host ("        [" + $Title + "] thermal guard reached " + $temperature + " C") -ForegroundColor Red
-                return 98
-            }
-        }
-        if (Test-Path -LiteralPath $Log) {
-            $tail = Get-Content -LiteralPath $Log -Tail 1 -ErrorAction SilentlyContinue
-            if ($tail) {
-                $seg = (([string]$tail) -split "`r" | Where-Object { $_.Trim().Length -gt 0 } | Select-Object -Last 1)
-                if ($seg) {
-                    $seg = ($seg -replace "\s+", " ").Trim()
-                    if ($seg.Length -gt 110) { $seg = $seg.Substring(0, 110) }
-                    if ($seg -ne $shown) {
-                        $shown = $seg
-                        Write-Host ("        [" + $Title + "] " + $seg) -ForegroundColor DarkGray
-                    }
-                }
-            }
-        }
-    }
-    $proc.WaitForExit()
-    $exitCode = $proc.ExitCode
+    $elapsedSeconds = [int](((Get-Date) - $RunStarted).TotalSeconds)
+    $remainingSeconds = ($MAX_WALLCLOCK_MINUTES * 60) - $elapsedSeconds
+    $guardArgs = @(
+        $Supervisor, "--python", $Python, "--log", $Log,
+        "--max-seconds", ([string]$remainingSeconds),
+        "--thermal-celsius", ([string]$THERMAL_GUARD_CELSIUS),
+        "--gpu-index", ([string]$GpuIndex)
+    )
+    if ($SkipGpu) { $guardArgs += "--skip-gpu" }
+    $guardArgs += "--"
+    $guardArgs += $PyArgs
+    & $Python @guardArgs
+    $exitCode = $LASTEXITCODE
     if ($null -eq $exitCode) { return 99 }
+    if ($exitCode -ge 96) {
+        Write-Host ("        [" + $Title + "] process guard refused with exit " + $exitCode) -ForegroundColor Red
+    }
     return [int]$exitCode
-}
-
-function Stop-ProcessTree([int]$ProcessId) {
-    & taskkill.exe /PID $ProcessId /T /F 2>&1 | Out-Null
-}
-
-function Get-GpuTemperature {
-    $raw = (& nvidia-smi.exe --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>$null | Select-Object -First 1)
-    if ($LASTEXITCODE -ne 0) { return $null }
-    $value = 0
-    if (-not [int]::TryParse(([string]$raw).Trim(), [ref]$value)) { return $null }
-    return $value
-}
-
-function Assert-ProductionHost {
-    if (-not (Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue)) {
-        Stop-Run "nvidia-smi is required for the production thermal guard"
-    }
-    $temperature = Get-GpuTemperature
-    if ($null -eq $temperature) { Stop-Run "GPU temperature is unavailable" }
-    if ($temperature -ge $THERMAL_GUARD_CELSIUS) {
-        Stop-Run ("GPU is already at or above the " + $THERMAL_GUARD_CELSIUS + " C guard")
-    }
 }
 
 Say "=== SZL twelfth gate v1.1.0 | study trainer + 50 ratified rows | frozen held | 42-row challenge ==="
 if (-not $NoPublish) { Stop-Run "this research runner is local-only and requires -NoPublish" }
 if ($SkipGpu -and -not $PreflightOnly) { Stop-Run "-SkipGpu is allowed only with -PreflightOnly" }
+if ($GpuIndex -lt 0) { Stop-Run "GpuIndex must name a nonnegative physical device index" }
 if (-not (Test-Path -LiteralPath $Python)) { Stop-Run ("study venv python not found: " + $Python) }
 $env:PYTHONUTF8 = "1"
 $env:PYTHONIOENCODING = "utf-8"
@@ -139,6 +94,8 @@ $env:PYTHONUNBUFFERED = "1"
 $env:HF_HUB_DISABLE_TELEMETRY = "1"
 $env:SZL_ALLOW_HUB_PUSH = "0"
 $env:TOKENIZERS_PARALLELISM = "false"
+$env:CUDA_DEVICE_ORDER = "PCI_BUS_ID"
+$env:CUDA_VISIBLE_DEVICES = [string]$GpuIndex
 Say ("repo " + $Repo + " @ " + (git rev-parse --short HEAD 2>$null) + " | python " + $Python) "DarkGray"
 
 # The study corpus is untracked; it only feeds the trainer's split preamble. Preflight records
@@ -153,36 +110,26 @@ if ((-not (Test-Path -LiteralPath $corpusDst)) -and (Test-Path -LiteralPath $cor
 # ---------------------------------------------------------------- 1) preflight
 Say "[1/6] preflight: frozen split, ratified corpus, challenge, trainer anchors, GPU"
 $log = Join-Path $Logs "preflight.log"
-$preflightArgs = $Runner + " preflight"
-if ($SkipGpu) { $preflightArgs += " --skip-gpu" }
+$preflightArgs = @($Runner, "preflight")
+if ($SkipGpu) { $preflightArgs += "--skip-gpu" }
 $code = Invoke-Py "preflight" $preflightArgs $log
 Show-Tail $log 2
 if ($code -ne 0) { Stop-Run "preflight refused - see out\retrain-v110\logs\preflight.log" }
 if ($PreflightOnly) {
-    if (-not $SkipGpu) { Assert-ProductionHost }
     Say "PreflightOnly complete. No model was loaded or trained." "Green"
     exit 0
 }
-Assert-ProductionHost
 
 # ---------------------------------------------------------------- 2) inference smoke
 Say "[2/6] smoke: two challenge rows through the study inference boundary, before any training"
-$smokeOk = Join-Path $Work "smoke.ok"
-if (-not (Test-Path -LiteralPath $smokeOk)) {
-    $smokeAdapter = "unsloth/Qwen3.5-0.8B"
-    foreach ($candidate in @((Join-Path $StudyRepo "out\train\adapter"), (Join-Path $StudyRepo "out\train\study\seed-023\adapter"))) {
-        if (Test-Path -LiteralPath (Join-Path $candidate "adapter_model.safetensors")) { $smokeAdapter = $candidate; break }
-    }
-    $log = Join-Path $Logs "smoke.log"
-    $code = Invoke-Py "smoke" ($Runner + ' smoke --adapter "' + $smokeAdapter + '" --rows 2') $log
-    Show-Tail $log 3
-    if ($code -ne 0) { Show-Tail $log 15; Stop-Run "inference smoke failed - nothing has been trained; see out\retrain-v110\logs\smoke.log" }
-    Set-Content -LiteralPath $smokeOk -Value $smokeAdapter -Encoding ASCII
-}
-else { Say "      smoke already passed on this host" "DarkGray" }
+$smokeAdapter = "Qwen/Qwen3.5-0.8B"
+$log = Join-Path $Logs "smoke.log"
+$code = Invoke-Py "smoke" @($Runner, "smoke", "--adapter", $smokeAdapter, "--rows", "2") $log
+Show-Tail $log 3
+if ($code -ne 0) { Show-Tail $log 15; Stop-Run "inference smoke failed - nothing has been trained; see out\retrain-v110\logs\smoke.log" }
 
 $log = Join-Path $Logs "held-root.log"
-$code = Invoke-Py "held-root" ($Runner + " held-root") $log
+$code = Invoke-Py "held-root" @($Runner, "held-root") $log
 if ($code -ne 0) { Show-Tail $log; Stop-Run "could not prepare the frozen held root" }
 
 # ---------------------------------------------------------------- 3) five seeds
@@ -191,7 +138,7 @@ foreach ($seed in $Seeds) {
     $tag = "seed-{0:d3}" -f $seed
     $runDir = Join-Path $Work $tag
     $checkLog = Join-Path $Logs ("check-train-" + $tag + ".log")
-    $code = Invoke-Py ("check " + $tag) ($Runner + " check-train --seed " + $seed) $checkLog
+    $code = Invoke-Py ("check " + $tag) @($Runner, "check-train", "--seed", [string]$seed) $checkLog
     if ($code -ne 0) {
         if (Test-Path -LiteralPath $runDir) {
             $aside = $tag + ".partial-" + $Stamp
@@ -199,37 +146,50 @@ foreach ($seed in $Seeds) {
             Say ("      moved an incomplete " + $tag + " aside as " + $aside) "DarkYellow"
         }
         $patchLog = Join-Path $Logs ("make-trainer-" + $tag + ".log")
-        $code = Invoke-Py ("patch " + $tag) ($Runner + " make-trainer --seed " + $seed) $patchLog
+        $code = Invoke-Py ("patch " + $tag) @($Runner, "make-trainer", "--seed", [string]$seed) $patchLog
         if ($code -ne 0) { Show-Tail $patchLog; Stop-Run ("trainer patch refused for " + $tag) }
         Say ("      training " + $tag + " (study trainer, 565 rows)") "Yellow"
         $trainLog = Join-Path $Logs ("train-" + $tag + ".log")
-        $code = Invoke-Py ("train " + $tag) ("out\retrain-v110\control\train_" + $tag + ".py") $trainLog
-        $code = Invoke-Py ("check " + $tag) ($Runner + " check-train --seed " + $seed) $checkLog
+        $code = Invoke-Py ("train " + $tag) @(("out\retrain-v110\control\train_" + $tag + ".py")) $trainLog
+        if ($code -ne 0) { Show-Tail $trainLog 15; Stop-Run ($tag + " training process failed") }
+        $code = Invoke-Py ("check " + $tag) @($Runner, "check-train", "--seed", [string]$seed) $checkLog
         if ($code -ne 0) { Show-Tail $trainLog 15; Show-Tail $checkLog 2; Stop-Run ($tag + " training did not produce a valid MEASURED receipt") }
     }
     Show-Tail $checkLog 1
 
     $metrics = Join-Path $Work ("study\evaluation\metrics-" + $tag + ".json")
-    if (-not (Test-Path -LiteralPath $metrics)) {
+    $heldCheckLog = Join-Path $Logs ("check-held-" + $tag + ".log")
+    $code = Invoke-Py ("check held " + $tag) @($Runner, "check-held", "--seed", [string]$seed) $heldCheckLog
+    if ($code -ne 0) {
+        foreach ($name in @(("metrics-" + $tag + ".json"), ("predictions-" + $tag + ".jsonl"), ("failures-" + $tag + ".jsonl"))) {
+            $stale = Join-Path $Work ("study\evaluation\" + $name)
+            if (Test-Path -LiteralPath $stale) { Rename-Item -LiteralPath $stale -NewName ($name + ".stale-" + $Stamp) }
+        }
         Say ("      held eval " + $tag + " (113 frozen rows)") "Yellow"
         $heldLog = Join-Path $Logs ("held-" + $tag + ".log")
         $studyRoot = Join-Path $Work "study"
         $adapterDir = Join-Path $runDir "adapter"
-        $code = Invoke-Py ("held " + $tag) ('scripts\five_seed_eval.py --study-root "' + $studyRoot + '" --name ' + $tag + ' --adapter "' + $adapterDir + '"') $heldLog
+        $code = Invoke-Py ("held " + $tag) @("scripts\five_seed_eval.py", "--study-root", $studyRoot, "--name", $tag, "--adapter", $adapterDir) $heldLog
         if (($code -ne 0) -or (-not (Test-Path -LiteralPath $metrics))) { Show-Tail $heldLog 15; Stop-Run ("held evaluation failed for " + $tag) }
+        $code = Invoke-Py ("check held " + $tag) @($Runner, "check-held", "--seed", [string]$seed) $heldCheckLog
+        if ($code -ne 0) { Show-Tail $heldCheckLog 4; Stop-Run ("held receipt binding failed for " + $tag) }
     }
+    Show-Tail $heldCheckLog 1
 
     Say ("      challenge " + $tag + " (42 rows: 30 paraphrase, 12 steering)") "Yellow"
     $challengeLog = Join-Path $Logs ("challenge-" + $tag + ".log")
-    $code = Invoke-Py ("challenge " + $tag) ($Runner + " challenge --seed " + $seed) $challengeLog
+    $code = Invoke-Py ("challenge " + $tag) @($Runner, "challenge", "--seed", [string]$seed) $challengeLog
     Show-Tail $challengeLog 1
     if ($code -ne 0) { Show-Tail $challengeLog 15; Stop-Run ("challenge failed for " + $tag + " (the FAILED receipt is kept as evidence)") }
+    $challengeCheckLog = Join-Path $Logs ("check-challenge-" + $tag + ".log")
+    $code = Invoke-Py ("check challenge " + $tag) @($Runner, "check-challenge", "--seed", [string]$seed) $challengeCheckLog
+    if ($code -ne 0) { Show-Tail $challengeCheckLog 4; Stop-Run ("challenge receipt binding failed for " + $tag) }
 }
 
 # ---------------------------------------------------------------- 4) verdict
 Say "[4/6] verdict"
 $verdictLog = Join-Path $Logs "verdict.log"
-$verdictCode = Invoke-Py "verdict" ($Runner + " verdict") $verdictLog
+$verdictCode = Invoke-Py "verdict" @($Runner, "verdict") $verdictLog
 Get-Content -LiteralPath $verdictLog | ForEach-Object { Write-Host ("    " + $_) }
 $summaryPath = Join-Path $Work "VERDICT_SUMMARY.txt"
 if (($verdictCode -eq 3) -or (-not (Test-Path -LiteralPath $summaryPath))) { Stop-Run "verdict INCOMPLETE - an evaluation is missing" }

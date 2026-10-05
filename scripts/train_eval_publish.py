@@ -20,6 +20,14 @@ if __package__:
     from .triage_text import build_generation_inputs, resolve_text_tokenizer
 else:
     from triage_text import build_generation_inputs, resolve_text_tokenizer
+from twelfth_gate_contract import (
+    BASE_MODEL as TWELFTH_GATE_BASE_MODEL,
+    BASE_REVISION as TWELFTH_GATE_BASE_REVISION,
+    assert_loaded_model_identity,
+    assert_resolved_repository,
+    load_adapter_binding,
+    validate_provider_runtime,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -656,19 +664,53 @@ def strict_json(raw: str) -> dict | None:
     return value
 
 
-def load_model(model_name: str):
+def load_model(
+    model_name: str,
+    *,
+    base_model: str = TWELFTH_GATE_BASE_MODEL,
+    base_revision: str = TWELFTH_GATE_BASE_REVISION,
+    expected_source_commit: str | None = None,
+    expected_trainer_sha256: str | None = None,
+):
+    if base_model != TWELFTH_GATE_BASE_MODEL or base_revision != TWELFTH_GATE_BASE_REVISION:
+        raise RuntimeError("model loader contract differs from the approved twelfth-gate base")
+    candidate = Path(model_name)
+    if candidate.exists():
+        load_adapter_binding(candidate, expected_source_commit=expected_source_commit,
+                             expected_trainer_sha256=expected_trainer_sha256)
+    elif model_name != base_model:
+        raise RuntimeError("remote model id differs from the approved twelfth-gate base")
+    validate_provider_runtime()
     import torch
     from unsloth import FastLanguageModel
 
+    # The installed Unsloth loader deliberately drops base revision on a PEFT
+    # path. Load and verify the immutable base first, then attach the adapter.
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name=model_name,
+        model_name=base_model,
+        revision=base_revision,
+        use_exact_model_name=True,
+        on_model_resolved=assert_resolved_repository,
+        local_files_only=True,
         max_seq_length=1024,
         load_in_4bit=False,
         dtype=torch.bfloat16,
     )
+    assert_loaded_model_identity(model)
+    if candidate.exists():
+        from peft import PeftModel
+        from transformers import AutoTokenizer
+
+        model = PeftModel.from_pretrained(
+            model, str(candidate), is_trainable=False, local_files_only=True,
+        )
+        tokenizer = AutoTokenizer.from_pretrained(
+            str(candidate), local_files_only=True, trust_remote_code=False,
+        )
 
     FastLanguageModel.for_inference(model)
     model.eval()
+    assert_loaded_model_identity(model)
 
     return model, tokenizer
 
@@ -1300,7 +1342,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage · Five-Seed LoRA Study
+# SZL TypeSafe Triage � Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1316,7 +1358,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED — 11/12** |
+| Release gate | **BLOCKED - 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
@@ -1329,7 +1371,7 @@ release boundary remain visible instead of being removed.
 The root [gate_report.json](./gate_report.json) records an
 earlier 66-row gate with verdict `PROMOTABLE`.
 It is retained historical evidence, not promotion of this later five-seed, 113-row study.
-The current study remains **BLOCKED — 11/12** and **NOT_PROMOTABLE**.
+The current study remains **BLOCKED - 11/12** and **NOT_PROMOTABLE**.
 Published adapter files and historical gate labels do not supersede this release boundary.
 
 ## What it does

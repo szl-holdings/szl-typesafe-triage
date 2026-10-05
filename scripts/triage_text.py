@@ -124,6 +124,90 @@ def render_prompt(obj: Any, prompt: str) -> str:
     return rendered
 
 
+def render_training_example(obj: Any, prompt: str, response: str) -> str:
+    """Render one complete text-only training exchange in the fixed mode."""
+    if not isinstance(prompt, str) or not isinstance(response, str):
+        raise TypeError("Training prompt and response must be strings")
+    tokenizer = resolve_text_tokenizer(obj)
+    rendered = tokenizer.apply_chat_template(
+        [{"role": "user", "content": prompt}, {"role": "assistant", "content": response}],
+        chat_template=_selected_chat_template(tokenizer),
+        tokenize=False,
+        add_generation_prompt=False,
+        enable_thinking=False,
+    )
+    if not isinstance(rendered, str) or not rendered:
+        raise RuntimeError("Text tokenizer training render did not return a nonempty string")
+    return rendered
+
+
+def _plain_tokens(value: Any) -> list[int]:
+    tolist = getattr(value, "tolist", None)
+    value = tolist() if callable(tolist) else value
+    if not isinstance(value, list) or any(not isinstance(item, int) for item in value):
+        raise RuntimeError("Response-only label contract requires integer token lists")
+    return value
+
+
+def _subsequence_offsets(values: list[int], needle: list[int]) -> list[int]:
+    if not needle:
+        raise RuntimeError("Response marker tokenization is empty")
+    return [index for index in range(len(values) - len(needle) + 1)
+            if values[index:index + len(needle)] == needle]
+
+
+def validate_response_only_batch(batch: Mapping[str, Any], response_marker_ids: Any) -> dict[str, int]:
+    """Prove final collator labels mask users and train assistant responses.
+
+    This checks the actual batch returned by the trainer's data collator after
+    ``train_on_responses_only``. Merely calling the helper is insufficient.
+    """
+    if not isinstance(batch, Mapping) or "input_ids" not in batch or "labels" not in batch:
+        raise RuntimeError("Response-only collator batch must contain input_ids and labels")
+    input_rows = getattr(batch["input_ids"], "tolist", lambda: batch["input_ids"])()
+    label_rows = getattr(batch["labels"], "tolist", lambda: batch["labels"])()
+    marker = _plain_tokens(response_marker_ids)
+    if not isinstance(input_rows, list) or not isinstance(label_rows, list) \
+            or len(input_rows) != len(label_rows) or not input_rows:
+        raise RuntimeError("Response-only collator batch dimensions are invalid")
+    supervised = masked = 0
+    for input_row, label_row in zip(input_rows, label_rows):
+        inputs, labels = _plain_tokens(input_row), _plain_tokens(label_row)
+        if len(inputs) != len(labels):
+            raise RuntimeError("Response-only labels do not align with input_ids")
+        offsets = _subsequence_offsets(inputs, marker)
+        if len(offsets) != 1:
+            raise RuntimeError("Expected exactly one assistant response marker in each example")
+        response_start = offsets[0] + len(marker)
+        if any(label != -100 for label in labels[:response_start]):
+            raise RuntimeError("User or response-marker tokens remain trainable")
+        trainable = [(token, label) for token, label in zip(inputs[response_start:], labels[response_start:])
+                     if label != -100]
+        if not trainable:
+            raise RuntimeError("Assistant response has no trainable labels")
+        if any(token != label for token, label in trainable):
+            raise RuntimeError("Trainable response labels differ from their input tokens")
+        supervised += len(trainable)
+        masked += sum(label == -100 for label in labels)
+    return {"rows": len(input_rows), "masked_tokens": masked,
+            "supervised_response_tokens": supervised}
+
+
+def validate_trainer_response_labels(trainer: Any, response_marker_ids: Any) -> dict[str, int]:
+    """Verify final collator labels for every prepared training example."""
+    dataset = trainer.train_dataset
+    if len(dataset) == 0:
+        raise RuntimeError("Prepared training dataset is empty")
+    totals = {"rows": 0, "masked_tokens": 0, "supervised_response_tokens": 0}
+    for index in range(len(dataset)):
+        observed = validate_response_only_batch(
+            trainer.data_collator([dataset[index]]), response_marker_ids,
+        )
+        for key in totals:
+            totals[key] += observed[key]
+    return totals
+
+
 def _validate_inputs(inputs: Any) -> None:
     if not isinstance(inputs, Mapping) or "input_ids" not in inputs:
         raise RuntimeError("Text tokenizer must return a mapping containing input_ids")
