@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
 import sys
 from types import ModuleType, SimpleNamespace
 from urllib.request import Request
@@ -20,6 +21,8 @@ CARD = ("---\nlicense: apache-2.0\n---\nNOT_PROMOTABLE\n"
 RETRAIN = ("---\nlicense: apache-2.0\n---\nNOT_PROMOTABLE\n"
            "Status: training scripts only\nClaim boundary\n"
            "Publication of scripts is not publication of a model\n").encode()
+CARD_SHA256 = hashlib.sha256(CARD).hexdigest()
+REVIEW_ARGS = ["--expected-source-commit", SOURCE, "--expected-card-sha256", CARD_SHA256]
 
 
 def git_blob(data):
@@ -121,6 +124,12 @@ def provider(publisher, monkeypatch):
             assert type(operation) is CommitOperationAdd and operation.path_in_repo == "README.md"
             if state.before_write:
                 state.before_write()
+            if state.current_parent != parent_commit:
+                class HfHubHTTPError(RuntimeError):
+                    pass
+                error = HfHubHTTPError("Synthetic expected-parent conflict")
+                error.response = SimpleNamespace(status_code=409)
+                raise error
             state.writes.append((parent_commit, operation.path_or_fileobj))
             if state.failure == "commit":
                 raise TimeoutError(TOKEN)
@@ -142,9 +151,12 @@ def provider(publisher, monkeypatch):
     return state
 
 
-def run(publisher, tmp_path, *, publish=True, source_commit=SOURCE, parent=PARENT, target="study5"):
+def run(publisher, tmp_path, *, publish=True, source_commit=SOURCE, parent=PARENT, target="study5",
+        expected_source_commit=SOURCE, expected_card_sha256=CARD_SHA256):
     path = tmp_path / "new-receipt.json"
     args = ["--target", target, "--source-commit", source_commit, "--expected-parent", parent,
+            "--expected-source-commit", expected_source_commit,
+            "--expected-card-sha256", expected_card_sha256,
             "--receipt", str(path)]
     if publish:
         args.append("--publish")
@@ -169,7 +181,8 @@ def test_default_plan_no_actions_no_provider(publisher, source, provider, monkey
 def test_publish_exactly_one_cas_readme_and_public_witness(publisher, source, actions, provider, tmp_path):
     code, receipt = run(publisher, tmp_path)
     assert code == 0 and receipt["publication_status"] == "BYTE_PARITY_VERIFIED"
-    assert provider.writes == [(PARENT, CARD)] and source.signatures == [SOURCE, SOURCE]
+    assert provider.writes == [(PARENT, CARD)] and source.signatures == [SOURCE, SOURCE, SOURCE]
+    assert receipt["expected_source_commit"] == SOURCE and receipt["expected_card_sha256"] == CARD_SHA256
     assert receipt["huggingface_commit"] == UPLOADED and receipt["changed_paths"] == ["README.md"]
     assert receipt["mutation_count"] == receipt["mutation_attempts"] == 1
     assert provider.reads == [(PARENT, TOKEN), (UPLOADED, TOKEN), (UPLOADED, False)]
@@ -282,7 +295,7 @@ def test_existing_receipt_never_overwritten(publisher, source, actions, provider
     path = tmp_path / "new-receipt.json"
     path.write_text("preserve prior evidence", encoding="utf-8")
     assert publisher.main(["--target", "study5", "--source-commit", SOURCE, "--expected-parent", PARENT,
-                           "--receipt", str(path), "--publish"]) == 1
+                           "--receipt", str(path), "--publish", *REVIEW_ARGS]) == 1
     assert path.read_text(encoding="utf-8") == "preserve prior evidence" and provider.calls == source.calls == []
 
 
@@ -316,7 +329,8 @@ def test_git_blob_digest_cannot_be_spoofed(publisher, source, actions, provider,
 
 def test_retrain_has_independent_static_mapping_and_boundary(publisher, source, provider, tmp_path):
     source.data, source.path = RETRAIN, publisher.TARGETS["retrain"][0]
-    code, receipt = run(publisher, tmp_path, publish=False, target="retrain")
+    code, receipt = run(publisher, tmp_path, publish=False, target="retrain",
+                        expected_card_sha256=publisher.digest(RETRAIN))
     assert code == 0 and receipt["repo_id"] == "SZLHOLDINGS/szl-triage-retrain" and provider.calls == []
 
 
@@ -331,7 +345,8 @@ def test_root_lora_plan_uses_its_own_card_and_never_calls_provider(
         publisher, source, provider, monkeypatch, tmp_path):
     data = root_lora_source(source, provider)
     monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
-    code, receipt = run(publisher, tmp_path, publish=False, target="root_lora")
+    code, receipt = run(publisher, tmp_path, publish=False, target="root_lora",
+                        expected_card_sha256=publisher.digest(data))
     assert code == 0 and receipt["publication_status"] == "PLAN_ONLY"
     assert receipt["source_path"] == "HF_MODEL_CARD_README.md"
     assert receipt["repo_id"] == "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora"
@@ -345,9 +360,10 @@ def test_root_lora_plan_uses_its_own_card_and_never_calls_provider(
 def test_root_lora_publish_retains_one_readme_cas_and_both_immutable_witnesses(
         publisher, source, actions, provider, tmp_path):
     data = root_lora_source(source, provider)
-    code, receipt = run(publisher, tmp_path, target="root_lora")
+    code, receipt = run(publisher, tmp_path, target="root_lora",
+                        expected_card_sha256=publisher.digest(data))
     assert code == 0 and receipt["publication_status"] == "BYTE_PARITY_VERIFIED"
-    assert provider.writes == [(PARENT, data)] and source.signatures == [SOURCE, SOURCE]
+    assert provider.writes == [(PARENT, data)] and source.signatures == [SOURCE, SOURCE, SOURCE]
     assert receipt["changed_paths"] == ["README.md"]
     assert receipt["mutation_count"] == receipt["mutation_attempts"] == 1
     assert receipt["huggingface_commit"] == UPLOADED
@@ -372,7 +388,8 @@ def test_root_lora_each_research_hold_is_required_before_provider_access(
     data = root_lora_source(source, provider)
     assert boundary.encode() in data
     source.data = data.replace(boundary.encode(), b"withdrawn")
-    code, receipt = run(publisher, tmp_path, target="root_lora")
+    code, receipt = run(publisher, tmp_path, target="root_lora",
+                        expected_card_sha256=publisher.digest(source.data))
     assert code == 1 and receipt["refusal_code"] == "CARD_CLAIM_BOUNDARY_MISSING"
     assert provider.calls == provider.writes == provider.reads == []
 
@@ -399,7 +416,8 @@ def test_root_lora_retains_source_parent_weight_and_readback_guards_without_retr
         provider.changed_metadata = lambda entries: setattr(entries[1], "blob_id", "0" * 40)
     else:
         provider.failure = failure
-    code, receipt = run(publisher, tmp_path, target="root_lora")
+    code, receipt = run(publisher, tmp_path, target="root_lora",
+                        expected_card_sha256=publisher.digest(source.data))
     assert code == 1 and receipt["publication_status"] == "FAILED"
     assert len(provider.writes) == (0 if failure in {"main", "parent"} else 1)
     assert receipt["promotion_authorization"] == "NONE"
@@ -740,7 +758,7 @@ def diagnostic_provider(publisher, monkeypatch):
 def run_diagnostic(publisher, tmp_path):
     path = tmp_path / "new-receipt.json"
     code = publisher.main(["--target", "study5", "--source-commit", SOURCE,
-        "--expected-parent", PARENT, "--receipt", str(path), "--diagnose"])
+        "--expected-parent", PARENT, "--receipt", str(path), "--diagnose", *REVIEW_ARGS])
     return code, json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -845,7 +863,7 @@ def test_diagnose_and_publish_are_mutually_exclusive_before_io(publisher, tmp_pa
     path = tmp_path / "new-receipt.json"
     with pytest.raises(SystemExit) as failure:
         publisher.main(["--target", "study5", "--source-commit", SOURCE, "--expected-parent", PARENT,
-                        "--receipt", str(path), "--publish", "--diagnose"])
+                        "--receipt", str(path), "--publish", "--diagnose", *REVIEW_ARGS])
     assert failure.value.code == 2 and not path.exists()
 
 
@@ -855,3 +873,148 @@ def test_workflow_keeps_publishing_priority_and_read_only_diagnostics_explicit()
     assert "HF_PROVIDER_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}" in text
     assert "HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}" in text
     assert 'if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi' in text
+
+
+@pytest.mark.parametrize("mode", ["plan", "publish", "diagnose"])
+def test_newer_executing_main_cannot_replace_the_caller_reviewed_source(
+        publisher, source, actions, provider, monkeypatch, tmp_path, mode):
+    source.main = UPLOADED
+    monkeypatch.setenv("GITHUB_SHA", UPLOADED)
+    path = tmp_path / "new-receipt.json"
+    args = ["--target", "study5", "--source-commit", UPLOADED,
+            "--expected-parent", PARENT, "--receipt", str(path), *REVIEW_ARGS]
+    if mode != "plan":
+        args.append("--" + mode)
+    assert publisher.main(args) == 1
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    assert receipt["refusal_code"] == "REVIEWED_SOURCE_CHANGED"
+    assert receipt["source_commit"] == UPLOADED and receipt["expected_source_commit"] == SOURCE
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert source.calls == source.signatures == provider.calls == provider.writes == []
+
+
+@pytest.mark.parametrize("value", ["", "main", "a" * 39, "a" * 41, SOURCE.upper(), "g" * 40])
+def test_malformed_reviewed_source_fails_before_source_or_provider(
+        publisher, source, actions, provider, tmp_path, value):
+    code, receipt = run(publisher, tmp_path, expected_source_commit=value)
+    assert code == 1 and receipt["refusal_code"] == "EXPECTED_SOURCE_COMMIT_INVALID"
+    assert receipt["expected_source_commit"] == value
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert source.calls == provider.calls == provider.writes == []
+
+
+@pytest.mark.parametrize("value", ["", "a" * 63, "a" * 65, CARD_SHA256.upper(), "g" * 64])
+def test_malformed_reviewed_card_digest_fails_before_source_or_provider(
+        publisher, source, actions, provider, tmp_path, value):
+    code, receipt = run(publisher, tmp_path, expected_card_sha256=value)
+    assert code == 1 and receipt["refusal_code"] == "EXPECTED_CARD_SHA256_INVALID"
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert source.calls == provider.calls == provider.writes == []
+
+
+def test_unreviewed_card_bytes_fail_before_provider_without_refresh(
+        publisher, source, actions, provider, tmp_path):
+    source.data = CARD + b"unreviewed change\n"
+    code, receipt = run(publisher, tmp_path)
+    assert code == 1 and receipt["refusal_code"] == "REVIEWED_CARD_CHANGED"
+    assert receipt["expected_card_sha256"] == CARD_SHA256
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert provider.calls == provider.writes == provider.reads == []
+
+
+@pytest.mark.parametrize("option", ["--expected-source-commit", "--expected-card-sha256",
+                                    "--expected-parent"])
+def test_missing_caller_fence_fails_argument_parsing_before_io(
+        publisher, source, actions, provider, tmp_path, option):
+    path = tmp_path / "new-receipt.json"
+    args = ["--target", "study5", "--source-commit", SOURCE, "--expected-parent", PARENT,
+            "--receipt", str(path), "--publish", *REVIEW_ARGS]
+    index = args.index(option)
+    del args[index:index + 2]
+    with pytest.raises(SystemExit) as failure:
+        publisher.main(args)
+    assert failure.value.code == 2 and not path.exists()
+    assert source.calls == provider.calls == provider.writes == []
+
+
+@pytest.mark.parametrize("drift,refusal", [
+    ("main", "CANONICAL_MAIN_CHANGED"),
+    ("dispatch", "DISPATCH_SOURCE_MISMATCH"),
+    ("target", "HF_PARENT_CHANGED"),
+])
+def test_drift_during_durable_intent_is_rechecked_before_zero_provider_requests(
+        publisher, source, actions, provider, monkeypatch, tmp_path, drift, refusal):
+    actual = publisher.append_checkpoint
+
+    def checkpoint(handle, receipt):
+        actual(handle, receipt)
+        if receipt["publication_status"] == "COMMIT_REQUESTED_OUTCOME_UNKNOWN":
+            if drift == "main":
+                source.main = UPLOADED
+            elif drift == "dispatch":
+                monkeypatch.setenv("GITHUB_SHA", UPLOADED)
+            else:
+                provider.current_parent = UPLOADED
+
+    monkeypatch.setattr(publisher, "append_checkpoint", checkpoint)
+    code, receipt = run(publisher, tmp_path)
+    assert code == 1 and receipt["refusal_code"] == refusal
+    assert receipt["prior_publication_status"] == "PRE_COMMIT_GUARD_FAILED"
+    assert receipt["source_commit"] == receipt["expected_source_commit"] == SOURCE
+    assert receipt["expected_parent"] == PARENT and receipt["expected_card_sha256"] == CARD_SHA256
+    assert receipt["mutation_attempts"] == receipt["mutation_count"] == 0
+    assert provider.writes == [] and "huggingface_commit" not in receipt
+    records = journal_records(tmp_path)
+    assert records[-2]["publication_status"] == "COMMIT_REQUESTED_OUTCOME_UNKNOWN"
+    assert records[-1]["publication_status"] == "FAILED"
+    assert records[-1]["mutation_count"] == records[-1]["mutation_attempts"] == 0
+    assert all(row["expected_source_commit"] == SOURCE and row["expected_parent"] == PARENT
+               for row in records)
+
+
+def test_direct_publisher_call_checks_reviewed_source_before_sdk_access(
+        publisher, actions, provider):
+    receipt = {"source_commit": SOURCE, "expected_source_commit": UPLOADED,
+               "expected_card_sha256": CARD_SHA256}
+    with pytest.raises(publisher.Refusal, match="REVIEWED_SOURCE_CHANGED"):
+        publisher.publish_card(CARD, receipt)
+    assert provider.calls == provider.writes == []
+
+
+def test_workflow_requires_independent_caller_pins_before_checkout_and_forwards_them():
+    text = (ROOT / ".github/workflows/publish-hf-card.yml").read_text(encoding="utf-8")
+    for field in ("expected_source_commit", "expected_card_sha256", "expected_parent"):
+        block = re.search(r"(?m)^      " + field + r":\n((?:^        .*\n)+)", text)
+        assert block is not None and "required: true" in block.group(1)
+        assert "default:" not in block.group(1)
+    assert 'test "$EXPECTED_SOURCE_COMMIT" = "$GITHUB_SHA"' in text
+    assert '[[ "$EXPECTED_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]' in text
+    assert '[[ "$EXPECTED_CARD_SHA256" =~ ^[0-9a-f]{64}$ ]]' in text
+    assert text.index('test "$EXPECTED_SOURCE_COMMIT" = "$GITHUB_SHA"') < text.index("actions/checkout@")
+    assert "EXPECTED_SOURCE_COMMIT: ${{ inputs.expected_source_commit }}" in text
+    assert "EXPECTED_CARD_SHA256: ${{ inputs.expected_card_sha256 }}" in text
+    assert '--expected-source-commit "$EXPECTED_SOURCE_COMMIT"' in text
+    assert '--expected-card-sha256 "$EXPECTED_CARD_SHA256"' in text
+    assert '--expected-parent "$EXPECTED_PARENT"' in text
+
+
+@pytest.mark.parametrize("value", ["", "main", "b" * 39, "b" * 41, PARENT.upper(), "g" * 40])
+def test_malformed_reviewed_target_fails_before_source_or_provider(
+        publisher, source, actions, provider, tmp_path, value):
+    code, receipt = run(publisher, tmp_path, parent=value)
+    assert code == 1 and receipt["refusal_code"] == "FULL_SHA_REQUIRED"
+    assert receipt["expected_parent"] == value
+    assert receipt["mutation_count"] == receipt["mutation_attempts"] == 0
+    assert source.calls == provider.calls == provider.writes == []
+
+
+def test_target_race_after_final_head_check_keeps_the_reviewed_cas_parent(
+        publisher, source, actions, provider, tmp_path):
+    provider.before_write = lambda: setattr(provider, "current_parent", UPLOADED)
+    code, receipt = run(publisher, tmp_path)
+    assert code == 1 and provider.writes == []
+    assert receipt["expected_parent"] == PARENT and receipt["provider_http_status"] == 409
+    assert receipt["provider_failure_code"] == "CONFLICT"
+    assert receipt["prior_publication_status"] == "COMMIT_REQUESTED_OUTCOME_UNKNOWN"
+    assert receipt["mutation_attempts"] == 1 and receipt["mutation_count"] is None
+    assert "huggingface_commit" not in receipt

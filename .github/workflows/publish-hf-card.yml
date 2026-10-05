@@ -13,6 +13,12 @@ on:
       expected_parent:
         description: "Exact current 40-character Hugging Face model commit"
         required: true
+      expected_source_commit:
+        description: "Exact independently reviewed 40-character canonical source commit"
+        required: true
+      expected_card_sha256:
+        description: "Exact reviewed canonical README SHA-256"
+        required: true
       publish:
         description: "Publish README only; false creates a source-verified plan"
         type: boolean
@@ -36,10 +42,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Require canonical main manual dispatch (never skip green)
+        env:
+          EXPECTED_SOURCE_COMMIT: ${{ inputs.expected_source_commit }}
+          EXPECTED_CARD_SHA256: ${{ inputs.expected_card_sha256 }}
         run: |
           test "$GITHUB_REPOSITORY" = "szl-holdings/szl-typesafe-triage"
           test "$GITHUB_REF" = "refs/heads/main"
           test "$GITHUB_EVENT_NAME" = "workflow_dispatch"
+          [[ "$EXPECTED_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          test "$EXPECTED_SOURCE_COMMIT" = "$GITHUB_SHA"
+          [[ "$EXPECTED_CARD_SHA256" =~ ^[0-9a-f]{64}$ ]]
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -56,10 +68,12 @@ jobs:
           HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}
           CARD_TARGET: ${{ inputs.target }}
           EXPECTED_PARENT: ${{ inputs.expected_parent }}
+          EXPECTED_SOURCE_COMMIT: ${{ inputs.expected_source_commit }}
+          EXPECTED_CARD_SHA256: ${{ inputs.expected_card_sha256 }}
           PUBLISH_REQUESTED: ${{ inputs.publish }}
           DIAGNOSE_REQUESTED: ${{ inputs.diagnose }}
         run: |
-          args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-parent "$EXPECTED_PARENT" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
+          args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-source-commit "$EXPECTED_SOURCE_COMMIT" --expected-card-sha256 "$EXPECTED_CARD_SHA256" --expected-parent "$EXPECTED_PARENT" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
           if [ "$PUBLISH_REQUESTED" = "true" ]; then args+=(--publish); fi
           if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi
           python scripts/publish_hf_card.py "${args[@]}"

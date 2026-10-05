@@ -54,7 +54,20 @@ def check_main(commit: str) -> None:
     require(rows == [commit + "\trefs/heads/main"], "CANONICAL_MAIN_CHANGED")
 
 
-def check_actions(commit: str) -> None:
+def check_reviewed_source(commit: str, expected_commit: str) -> None:
+    require(full_sha(expected_commit), "EXPECTED_SOURCE_COMMIT_INVALID")
+    require(commit == expected_commit, "REVIEWED_SOURCE_CHANGED")
+
+
+def check_reviewed_card(data: bytes, expected_digest: str) -> None:
+    require(isinstance(expected_digest, str)
+            and re.fullmatch(r"[0-9a-f]{64}", expected_digest) is not None,
+            "EXPECTED_CARD_SHA256_INVALID")
+    require(digest(data) == expected_digest, "REVIEWED_CARD_CHANGED")
+
+
+def check_actions(commit: str, expected_commit: str) -> None:
+    check_reviewed_source(commit, expected_commit)
     require(os.environ.get("GITHUB_ACTIONS") == "true", "ACTIONS_REQUIRED")
     require(os.environ.get("GITHUB_REPOSITORY") == REPOSITORY, "NONCANONICAL_REPOSITORY")
     require(os.environ.get("GITHUB_REF") == "refs/heads/main", "MAIN_REF_REQUIRED")
@@ -247,7 +260,11 @@ def record_failure(receipt: dict, exc: Exception) -> None:
 
 
 def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
-    check_actions(receipt["source_commit"])
+    commit = receipt["source_commit"]
+    expected_commit = receipt["expected_source_commit"]
+    expected_digest = receipt["expected_card_sha256"]
+    check_actions(commit, expected_commit)
+    check_reviewed_card(data, expected_digest)
     checkpoint = checkpoint or (lambda current: None)
     from huggingface_hub import CommitOperationAdd, HfApi
     token = os.environ.get("HF_TOKEN")
@@ -267,9 +284,9 @@ def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
     receipt.update({"parent_tree_sha256": snapshot_digest(before),
                     "parent_file_count": len(before), "prior_card_sha256": digest(old)})
     receipt["phase"] = "PRE_MUTATION_SOURCE_CHECK"
-    check_actions(receipt["source_commit"])
-    check_main(receipt["source_commit"])
-    signature_readback(receipt["source_commit"])
+    check_actions(commit, expected_commit)
+    check_main(commit)
+    signature_readback(commit)
     if old == data:
         revision = parent
         receipt.update({"publication_status": "NO_OP_NOT_YET_VERIFIED",
@@ -283,6 +300,19 @@ def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
             checkpoint(receipt)
         except Exception:
             receipt.update(publication_status="PRE_COMMIT_CHECKPOINT_FAILED",
+                           mutation_attempts=0, mutation_count=0)
+            raise
+        # Durable intent is not a provider request. Recheck caller fences after
+        # the journal flush; a known pre-request refusal still made zero writes.
+        try:
+            check_main(commit)
+            signature_readback(commit)
+            check_reviewed_card(data, expected_digest)
+            require(api.repo_info(repo, repo_type="model", timeout=20).sha == parent,
+                    "HF_PARENT_CHANGED")
+            check_actions(commit, expected_commit)
+        except Exception:
+            receipt.update(publication_status="PRE_COMMIT_GUARD_FAILED",
                            mutation_attempts=0, mutation_count=0)
             raise
         result = api.create_commit(
@@ -319,7 +349,7 @@ def publish_card(data: bytes, receipt: dict, *, checkpoint=None) -> None:
 
 def diagnose_provider(receipt: dict) -> None:
     """Read both existing credential entries without selecting or changing one."""
-    check_actions(receipt["source_commit"])
+    check_actions(receipt["source_commit"], receipt["expected_source_commit"])
     from huggingface_hub import HfApi
     receipt.update(phase="PROVIDER_DIAGNOSTICS", publication_status="DIAGNOSTIC_ONLY",
                    provider_diagnostics=[])
@@ -378,6 +408,10 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=sorted(TARGETS), required=True)
     parser.add_argument("--source-commit", required=True)
+    parser.add_argument("--expected-source-commit", required=True,
+                        help="Caller-reviewed source SHA; never refresh on drift")
+    parser.add_argument("--expected-card-sha256", required=True,
+                        help="Caller-reviewed canonical README SHA-256")
     parser.add_argument("--expected-parent", required=True)
     parser.add_argument("--receipt", type=Path, required=True, help="New exclusive output file")
     mode = parser.add_mutually_exclusive_group()
@@ -385,7 +419,9 @@ def main(argv=None) -> int:
     mode.add_argument("--diagnose", action="store_true", help="Read-only canonical main Actions credential probes")
     args = parser.parse_args(argv)
     receipt = {"schema": "szl.model-card-publication/v1", "source_repository": REPOSITORY,
-               "source_commit": args.source_commit, "target": args.target,
+               "source_commit": args.source_commit,
+               "expected_source_commit": args.expected_source_commit,
+               "expected_card_sha256": args.expected_card_sha256, "target": args.target,
                "source_path": TARGETS[args.target][0], "repo_id": TARGETS[args.target][1],
                "expected_parent": args.expected_parent, "publication_status": "NOT_STARTED",
                "phase": "SOURCE_PREFLIGHT", "mutation_count": 0, "mutation_attempts": 0,
@@ -399,9 +435,13 @@ def main(argv=None) -> int:
                 journal = Path(str(args.receipt) + ".journal.jsonl").open("x", encoding="utf-8")
                 checkpoint = lambda current: append_checkpoint(journal, current)
                 require(full_sha(args.source_commit) and full_sha(args.expected_parent), "FULL_SHA_REQUIRED")
+                check_reviewed_source(args.source_commit, args.expected_source_commit)
+                require(re.fullmatch(r"[0-9a-f]{64}", args.expected_card_sha256) is not None,
+                        "EXPECTED_CARD_SHA256_INVALID")
                 if args.publish or args.diagnose:
-                    check_actions(args.source_commit)
+                    check_actions(args.source_commit, args.expected_source_commit)
                 data, blob = capture_source(args.target, args.source_commit)
+                check_reviewed_card(data, args.expected_card_sha256)
                 receipt.update({"source_git_blob": blob, "card_sha256": digest(data), "card_bytes": len(data),
                                 "source_signature": "GITHUB_VERIFIED_CURRENT_COMMIT_ONLY",
                                 "publication_status": "PLAN_ONLY"})
