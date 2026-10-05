@@ -266,7 +266,8 @@ def validate_powershell_runner(source: str) -> dict:
     active = re.sub(r"<#.*?#>", "", source, flags=re.DOTALL)
     required = ("[switch]$NoPublish", "[switch]$PreflightOnly", "[switch]$SkipGpu",
                 "MAX_WALLCLOCK_MINUTES = 180", "THERMAL_GUARD_CELSIUS = 78",
-                "if (-not $NoPublish)", "if ($PreflightOnly)", "Assert-ProductionHost",
+                "if (-not $NoPublish)", "if ($PreflightOnly)",
+                "if (-not $SkipGpu) { Assert-ProductionHost }", "Assert-ProductionHost",
                 "Stop-ProcessTree")
     missing = [item for item in required if item not in active]
     banned = [item for item in ("gh pr ", "gh release ", "git push ", "--admin",

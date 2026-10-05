@@ -158,7 +158,11 @@ if ($SkipGpu) { $preflightArgs += " --skip-gpu" }
 $code = Invoke-Py "preflight" $preflightArgs $log
 Show-Tail $log 2
 if ($code -ne 0) { Stop-Run "preflight refused - see out\retrain-v110\logs\preflight.log" }
-if ($PreflightOnly) { Say "PreflightOnly complete. No model was loaded or trained." "Green"; exit 0 }
+if ($PreflightOnly) {
+    if (-not $SkipGpu) { Assert-ProductionHost }
+    Say "PreflightOnly complete. No model was loaded or trained." "Green"
+    exit 0
+}
 Assert-ProductionHost
 
 # ---------------------------------------------------------------- 2) inference smoke
