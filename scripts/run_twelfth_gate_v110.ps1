@@ -8,9 +8,9 @@
   scripts/five_seed_eval.py, scores the 42-row challenge with challenge_eval through the study
   inference boundary, and computes the verdict with scripts/twelfth_gate_v110.py.
 
-  EARNED      -> unHOLD #44, evidence PR, tag, GitHub release (Zenodo mints the DOI), Hub adapters.
-  NOT_EARNED  -> measured failure evidence PR only; #44 stays on HOLD.
-  INCOMPLETE  -> nothing is published.
+  EARNED      -> local measured receipt only; #44 stays on HOLD pending separate review.
+  NOT_EARNED  -> local measured failure receipt only; #44 stays on HOLD.
+  INCOMPLETE  -> local incomplete receipt only.
 
   Finished seeds, held evaluations and challenge receipts are reused on rerun.
   A release condition is not promotion: every receipt keeps promotion_status NOT_PROMOTABLE.
@@ -18,7 +18,9 @@
 param(
     [string]$Python = "C:\Users\steph\szl-typesafe-triage\.venv\Scripts\python.exe",
     [string]$StudyRepo = "C:\Users\steph\szl-typesafe-triage",
-    [switch]$NoPublish
+    [switch]$NoPublish,
+    [switch]$PreflightOnly,
+    [switch]$SkipGpu
 )
 
 $ErrorActionPreference = "Continue"
@@ -26,13 +28,14 @@ Set-StrictMode -Version Latest
 
 $Repo = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 Set-Location -LiteralPath $Repo
-$Org = "szl-holdings/szl-typesafe-triage"
 $Work = Join-Path $Repo "out\retrain-v110"
 $Logs = Join-Path $Work "logs"
 $Runner = "scripts\twelfth_gate_v110.py"
 $Seeds = @(11, 23, 37, 53, 71)
-$ReleaseTag = "typesafe-triage-v1.1.0"
 $Stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$MAX_WALLCLOCK_MINUTES = 180
+$THERMAL_GUARD_CELSIUS = 78
+$RunStarted = Get-Date
 New-Item -ItemType Directory -Force -Path $Logs | Out-Null
 
 function Say([string]$Text, [string]$Color = "Cyan") {
@@ -63,6 +66,25 @@ function Invoke-Py([string]$Title, [string]$ArgLine, [string]$Log) {
     $shown = ""
     while (-not $proc.HasExited) {
         Start-Sleep -Seconds 15
+        $elapsed = ((Get-Date) - $RunStarted).TotalMinutes
+        if ($elapsed -ge $MAX_WALLCLOCK_MINUTES) {
+            Stop-ProcessTree $proc.Id
+            Write-Host ("        [" + $Title + "] wallclock guard exceeded") -ForegroundColor Red
+            return 97
+        }
+        if (-not ($PreflightOnly -and $SkipGpu)) {
+            $temperature = Get-GpuTemperature
+            if ($null -eq $temperature) {
+                Stop-ProcessTree $proc.Id
+                Write-Host ("        [" + $Title + "] GPU temperature unavailable") -ForegroundColor Red
+                return 96
+            }
+            if ($temperature -ge $THERMAL_GUARD_CELSIUS) {
+                Stop-ProcessTree $proc.Id
+                Write-Host ("        [" + $Title + "] thermal guard reached " + $temperature + " C") -ForegroundColor Red
+                return 98
+            }
+        }
         if (Test-Path -LiteralPath $Log) {
             $tail = Get-Content -LiteralPath $Log -Tail 1 -ErrorAction SilentlyContinue
             if ($tail) {
@@ -84,15 +106,32 @@ function Invoke-Py([string]$Title, [string]$ArgLine, [string]$Log) {
     return [int]$exitCode
 }
 
-function Assert-Native([string]$What) {
-    if ($LASTEXITCODE -ne 0) { Stop-Run ("git/gh step failed: " + $What + " (exit " + $LASTEXITCODE + ")") }
+function Stop-ProcessTree([int]$ProcessId) {
+    & taskkill.exe /PID $ProcessId /T /F 2>&1 | Out-Null
 }
 
-function Write-Utf8([string]$Path, [string[]]$Lines) {
-    [System.IO.File]::WriteAllText($Path, (($Lines -join "`n") + "`n"), (New-Object System.Text.UTF8Encoding($false)))
+function Get-GpuTemperature {
+    $raw = (& nvidia-smi.exe --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>$null | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0) { return $null }
+    $value = 0
+    if (-not [int]::TryParse(([string]$raw).Trim(), [ref]$value)) { return $null }
+    return $value
+}
+
+function Assert-ProductionHost {
+    if (-not (Get-Command nvidia-smi.exe -ErrorAction SilentlyContinue)) {
+        Stop-Run "nvidia-smi is required for the production thermal guard"
+    }
+    $temperature = Get-GpuTemperature
+    if ($null -eq $temperature) { Stop-Run "GPU temperature is unavailable" }
+    if ($temperature -ge $THERMAL_GUARD_CELSIUS) {
+        Stop-Run ("GPU is already at or above the " + $THERMAL_GUARD_CELSIUS + " C guard")
+    }
 }
 
 Say "=== SZL twelfth gate v1.1.0 | study trainer + 50 ratified rows | frozen held | 42-row challenge ==="
+if (-not $NoPublish) { Stop-Run "this research runner is local-only and requires -NoPublish" }
+if ($SkipGpu -and -not $PreflightOnly) { Stop-Run "-SkipGpu is allowed only with -PreflightOnly" }
 if (-not (Test-Path -LiteralPath $Python)) { Stop-Run ("study venv python not found: " + $Python) }
 $env:PYTHONUTF8 = "1"
 $env:PYTHONIOENCODING = "utf-8"
@@ -114,9 +153,13 @@ if ((-not (Test-Path -LiteralPath $corpusDst)) -and (Test-Path -LiteralPath $cor
 # ---------------------------------------------------------------- 1) preflight
 Say "[1/6] preflight: frozen split, ratified corpus, challenge, trainer anchors, GPU"
 $log = Join-Path $Logs "preflight.log"
-$code = Invoke-Py "preflight" ($Runner + " preflight") $log
+$preflightArgs = $Runner + " preflight"
+if ($SkipGpu) { $preflightArgs += " --skip-gpu" }
+$code = Invoke-Py "preflight" $preflightArgs $log
 Show-Tail $log 2
 if ($code -ne 0) { Stop-Run "preflight refused - see out\retrain-v110\logs\preflight.log" }
+if ($PreflightOnly) { Say "PreflightOnly complete. No model was loaded or trained." "Green"; exit 0 }
+Assert-ProductionHost
 
 # ---------------------------------------------------------------- 2) inference smoke
 Say "[2/6] smoke: two challenge rows through the study inference boundary, before any training"
@@ -188,114 +231,5 @@ $summaryPath = Join-Path $Work "VERDICT_SUMMARY.txt"
 if (($verdictCode -eq 3) -or (-not (Test-Path -LiteralPath $summaryPath))) { Stop-Run "verdict INCOMPLETE - an evaluation is missing" }
 if (($verdictCode -ne 0) -and ($verdictCode -ne 1)) { Stop-Run ("verdict step failed with exit code " + $verdictCode) }
 $summary = (Get-Content -LiteralPath $summaryPath -Raw).Trim()
-if ($NoPublish) { Say ("NoPublish set. " + $summary) "Yellow"; exit $verdictCode }
-
-git fetch origin --prune 2>&1 | Out-Null
-Assert-Native "git fetch"
-
-# ---------------------------------------------------------------- 5) publish
-if ($verdictCode -eq 0) {
-    gh release view $ReleaseTag --repo $Org 2>&1 | Out-Null
-    $releaseExists = ($LASTEXITCODE -eq 0)
-    if ($releaseExists) {
-        Say ("[5/6] release " + $ReleaseTag + " already exists - skipping straight to the Hub step") "DarkGray"
-    }
-    else {
-        Say "[5/6] EARNED on all five seeds - unHOLD #44, evidence PR, tag, release" "Green"
-        $state44 = (((gh pr view 44 --repo $Org --json state --jq ".state" 2>$null) -join "") -replace "\s", "")
-        if ($state44 -eq "OPEN") {
-            gh pr merge 44 --repo $Org --squash --admin 2>&1 | Out-Null
-            Assert-Native "merge #44"
-            git fetch origin --prune 2>&1 | Out-Null
-        }
-        $branch = "release/v1.1.0-evidence-" + $Stamp
-        git checkout -B $branch origin/main 2>&1 | Out-Null
-        Assert-Native "branch from origin/main"
-        if (-not (Test-Path -LiteralPath "docs\release\release-notes-v1.1.0.md")) { Stop-Run "the #44 release notes are not on main" }
-        $log = Join-Path $Logs "fill-notes.log"
-        $code = Invoke-Py "notes" ($Runner + " fill-notes") $log
-        if ($code -ne 0) { Show-Tail $log; Stop-Run "release notes fill refused" }
-        $log = Join-Path $Logs "bundle.log"
-        $code = Invoke-Py "bundle" ($Runner + " bundle --dest docs/release/v1.1.0-evidence") $log
-        if ($code -ne 0) { Show-Tail $log; Stop-Run "evidence bundle failed" }
-        git add docs/release 2>&1 | Out-Null
-        git commit -q -m ("release(v1.1.0): " + $summary) 2>&1 | Out-Null
-        Assert-Native "commit evidence"
-        git push -u origin $branch 2>&1 | Out-Null
-        Assert-Native "push evidence branch"
-        $bodyPath = Join-Path $Work "pr-body-release.md"
-        Write-Utf8 $bodyPath @(
-            $summary,
-            "",
-            "Measured on the owner's GPU with the study's own tools: scripts/train_lora.py (patched per seed as in bootstrap-five-seed-study.ps1, plus the declared append of 50 ratified refusal rows), scripts/five_seed_eval.py on the sha-verified frozen held split, and challenge_eval scoring through the study inference boundary (user-only, non-thinking, no system message).",
-            "",
-            "Release condition met on every seed: 12/12 typed refusals with 0 false labels and 0 malformed on the 42-row challenge, plus held non-regression. ECE and the stratified accuracy audit are UNAVAILABLE in this run and are labeled so. Promotion stays NOT_PROMOTABLE.",
-            "",
-            "Evidence: docs/release/v1.1.0-evidence/ (receipts, metrics, predictions, logs, patched trainers, SHA256SUMS). No model weights."
-        )
-        $prUrl = ((gh pr create --repo $Org --base main --head $branch --title "release(v1.1.0): twelfth gate EARNED on all five seeds - measured receipts" --body-file $bodyPath 2>$null) -join "`n")
-        if (-not ($prUrl -match "/pull/(\d+)")) { Stop-Run "the evidence PR was not created" }
-        $prNumber = $Matches[1]
-        gh pr merge $prNumber --repo $Org --squash --admin 2>&1 | Out-Null
-        Assert-Native ("merge evidence PR #" + $prNumber)
-        git fetch origin --prune 2>&1 | Out-Null
-        git checkout -B main origin/main 2>&1 | Out-Null
-        Assert-Native "checkout main"
-        $remoteTag = ((git ls-remote --tags origin ("refs/tags/" + $ReleaseTag) 2>$null) -join "")
-        if (-not $remoteTag) {
-            git tag -a $ReleaseTag -m ("Governed Type-Safe Triage v1.1.0 - " + $summary) 2>&1 | Out-Null
-            Assert-Native "create tag"
-            git push origin $ReleaseTag 2>&1 | Out-Null
-            Assert-Native "push tag"
-        }
-        gh release create $ReleaseTag --repo $Org --title "Governed Type-Safe Triage v1.1.0 - twelfth gate earned on five seeds" --notes-file "docs\release\release-notes-v1.1.0.md" 2>&1 | Out-Null
-        Assert-Native "gh release create"
-        Say ("      evidence PR " + $prUrl + " merged") "Green"
-        Say ("      release https://github.com/" + $Org + "/releases/tag/" + $ReleaseTag) "Green"
-        Say "      Zenodo mints the versioned DOI from this release (concept 10.5281/zenodo.20567256)" "Green"
-    }
-
-    Say "[6/6] Hub: five adapters to SZLHOLDINGS/szl-triage-retrain/adapters-v1.1.0 (PUBLIC_EXPERIMENTAL_ARTIFACT, NOT_PROMOTABLE)"
-    $hubMarker = Join-Path $Work "hub.ok"
-    if (Test-Path -LiteralPath $hubMarker) { Say "      adapters already published" "DarkGray" }
-    else {
-        $log = Join-Path $Logs "hub.log"
-        $code = Invoke-Py "hub" ($Runner + " publish-adapters") $log
-        Show-Tail $log 7
-        if ($code -eq 0) { Set-Content -LiteralPath $hubMarker -Value $summary -Encoding ASCII }
-        else { Say "      Hub upload did not complete (local HF login?). The release and DOI stand; run 'huggingface-cli login' and rerun this command to finish only this step." "Yellow" }
-    }
-    Say ("DONE. " + $summary) "Green"
-    exit 0
-}
-
-Say "[5/6] NOT EARNED - publishing the measured failure evidence; #44 stays on HOLD" "Yellow"
-$branch = "evidence/twelfth-gate-v110-" + $Stamp
-git checkout -B $branch origin/main 2>&1 | Out-Null
-Assert-Native "branch from origin/main"
-$dest = "evidence/twelfth-gate-v110/" + $Stamp
-$log = Join-Path $Logs "bundle.log"
-$code = Invoke-Py "bundle" ($Runner + " bundle --dest " + $dest) $log
-if ($code -ne 0) { Show-Tail $log; Stop-Run "failure-evidence bundle failed" }
-git add evidence/twelfth-gate-v110 2>&1 | Out-Null
-git commit -q -m ("evidence: twelfth-gate v1.1.0 retrain - " + $summary + " (NOT_PROMOTABLE stands)") 2>&1 | Out-Null
-Assert-Native "commit failure evidence"
-git push -u origin $branch 2>&1 | Out-Null
-Assert-Native "push failure evidence"
-$bodyPath = Join-Path $Work "pr-body-failure.md"
-Write-Utf8 $bodyPath @(
-    $summary,
-    "",
-    "Measured with the study's own tools on all five retrained seeds. At least one seed missed the release condition (12/12 typed refusals with 0 false labels on the 42-row challenge plus held non-regression). Per-seed rows: TWELFTH_GATE_VERDICT.json in this bundle.",
-    "",
-    "The v1.1.0 release stays on HOLD (#44). Publication of failure evidence is not promotion; NOT_PROMOTABLE stands."
-)
-$prUrl = ((gh pr create --repo $Org --base main --head $branch --title ("evidence: twelfth-gate v1.1.0 retrain measured - " + $summary) --body-file $bodyPath 2>$null) -join "`n")
-if ($prUrl -match "/pull/(\d+)") {
-    gh pr merge $Matches[1] --repo $Org --squash --admin 2>&1 | Out-Null
-    gh pr comment 44 --repo $Org --body ("Twelfth-gate retrain measured: " + $summary + ". HOLD stays. Evidence: " + $prUrl) 2>&1 | Out-Null
-    Say ("      measured failure evidence: " + $prUrl) "Yellow"
-}
-else { Say "      evidence branch pushed but the PR was not created; open it from the branch on GitHub" "Yellow" }
-Say ("DONE. " + $summary) "Yellow"
-exit 1
+Say ("Local-only run complete. " + $summary) "Yellow"
+exit $verdictCode
