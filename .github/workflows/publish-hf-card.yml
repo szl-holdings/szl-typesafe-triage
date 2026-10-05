@@ -19,6 +19,12 @@ on:
       expected_card_sha256:
         description: "Exact reviewed canonical README SHA-256"
         required: true
+      credential_entry:
+        description: "Explicit study5-only existing HF_TOKEN entry; never fail over"
+        type: choice
+        options: [existing_preference, study5_hf_token]
+        default: existing_preference
+        required: true
       publish:
         description: "Publish README only; false creates a source-verified plan"
         type: boolean
@@ -45,6 +51,8 @@ jobs:
         env:
           EXPECTED_SOURCE_COMMIT: ${{ inputs.expected_source_commit }}
           EXPECTED_CARD_SHA256: ${{ inputs.expected_card_sha256 }}
+          CARD_TARGET: ${{ inputs.target }}
+          CREDENTIAL_ENTRY: ${{ inputs.credential_entry }}
         run: |
           test "$GITHUB_REPOSITORY" = "szl-holdings/szl-typesafe-triage"
           test "$GITHUB_REF" = "refs/heads/main"
@@ -52,6 +60,7 @@ jobs:
           [[ "$EXPECTED_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
           test "$EXPECTED_SOURCE_COMMIT" = "$GITHUB_SHA"
           [[ "$EXPECTED_CARD_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$CREDENTIAL_ENTRY" = "existing_preference" || ( "$CREDENTIAL_ENTRY" = "study5_hf_token" && "$CARD_TARGET" = "study5" ) ]]
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -67,13 +76,14 @@ jobs:
           HF_PROVIDER_ORG_TOKEN: ${{ secrets.HF_ORG_TOKEN }}
           HF_PROVIDER_FALLBACK_TOKEN: ${{ secrets.HF_TOKEN }}
           CARD_TARGET: ${{ inputs.target }}
+          CREDENTIAL_ENTRY: ${{ inputs.credential_entry }}
           EXPECTED_PARENT: ${{ inputs.expected_parent }}
           EXPECTED_SOURCE_COMMIT: ${{ inputs.expected_source_commit }}
           EXPECTED_CARD_SHA256: ${{ inputs.expected_card_sha256 }}
           PUBLISH_REQUESTED: ${{ inputs.publish }}
           DIAGNOSE_REQUESTED: ${{ inputs.diagnose }}
         run: |
-          args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-source-commit "$EXPECTED_SOURCE_COMMIT" --expected-card-sha256 "$EXPECTED_CARD_SHA256" --expected-parent "$EXPECTED_PARENT" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
+          args=(--target "$CARD_TARGET" --source-commit "$GITHUB_SHA" --expected-source-commit "$EXPECTED_SOURCE_COMMIT" --expected-card-sha256 "$EXPECTED_CARD_SHA256" --expected-parent "$EXPECTED_PARENT" --credential-entry "$CREDENTIAL_ENTRY" --receipt "$RUNNER_TEMP/card-publication-receipt.json")
           if [ "$PUBLISH_REQUESTED" = "true" ]; then args+=(--publish); fi
           if [ "$DIAGNOSE_REQUESTED" = "true" ]; then args+=(--diagnose); fi
           python scripts/publish_hf_card.py "${args[@]}"
