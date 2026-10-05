@@ -131,7 +131,7 @@ def test_prelaunch_telemetry_consumes_budget_and_prevents_child_start(tmp_path):
 
 
 def test_running_telemetry_timeout_is_bounded_by_remaining_budget(tmp_path, monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     clock, process, job = FakeClock(), FakeProcess(), FakeJob()
     timeouts = []
 
@@ -216,7 +216,7 @@ def test_powershell_guard_exit_stops_before_stale_reuse_or_further_launch(
 
 
 def test_wallclock_trip_terminates_child_tree(tmp_path, monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     clock = FakeClock()
     process = FakeProcess()
     job = FakeJob()
@@ -242,7 +242,7 @@ def test_wallclock_trip_terminates_child_tree(tmp_path, monkeypatch):
 
 
 def test_thermal_trip_terminates_child_tree(tmp_path, monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     clock = FakeClock()
     process = FakeProcess()
     job = FakeJob()
@@ -268,7 +268,7 @@ def test_thermal_trip_terminates_child_tree(tmp_path, monkeypatch):
 
 
 def test_descendants_remain_guarded_after_root_exit(tmp_path, monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     clock = FakeClock()
     process = FakeProcess()
     process.returncode = 0  # The root has exited; its descendant remains in the job.
@@ -286,7 +286,7 @@ def test_descendants_remain_guarded_after_root_exit(tmp_path, monkeypatch):
 
 
 def test_unverified_descendant_termination_is_terminal(tmp_path, monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     clock = FakeClock()
     process = FakeProcess()
     job = FakeJob()
@@ -308,7 +308,7 @@ def test_unverified_descendant_termination_is_terminal(tmp_path, monkeypatch):
 
 
 def test_failed_taskkill_is_terminal(monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     process = FakeProcess()
     with pytest.raises(guard.GuardFailure, match="returned a failure") as caught:
         guard.terminate_process_tree(
@@ -318,13 +318,23 @@ def test_failed_taskkill_is_terminal(monkeypatch):
 
 
 def test_surviving_child_after_taskkill_is_terminal(monkeypatch):
-    monkeypatch.setattr(guard.os, "name", "nt")
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
     process = FakeProcess()
     with pytest.raises(guard.GuardFailure, match="survived") as caught:
         guard.terminate_process_tree(
             process, run_command=lambda *a, **k: result("", returncode=0),
         )
     assert caught.value.exit_code == guard.EXIT_TERMINATION
+
+
+def test_windows_mock_preserves_global_platform_and_path_behavior(monkeypatch, tmp_path):
+    original_name = os.name
+    original_path_type = type(Path.cwd())
+    monkeypatch.setattr(guard, "os", SimpleNamespace(name="nt"))
+    assert guard.os.name == "nt"
+    assert os.name == original_name
+    assert type(Path.cwd()) is original_path_type
+    assert Path(tmp_path) == tmp_path
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="native Windows Job Object integration")
