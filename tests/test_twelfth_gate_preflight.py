@@ -4,6 +4,7 @@ import ast
 import importlib.util
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -23,6 +24,23 @@ def load_runner():
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    return module
+
+
+def load_isolated_runner(repository, monkeypatch):
+    """Model a checkout boundary even when pytest's temp root is elsewhere."""
+    module = load_runner()
+    paths = set(module.source_identity()) | {"scripts/train_lora.py"}
+    for relative in paths:
+        target = repository / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / relative, target)
+    monkeypatch.setattr(module, "REPO", repository)
+    monkeypatch.setattr(module, "SCRIPTS", repository / "scripts")
+    monkeypatch.setattr(module, "__file__", str(repository / "scripts/twelfth_gate_v110.py"))
+    monkeypatch.setattr(module, "POWERSHELL_RUNNER", repository / "scripts/run_twelfth_gate_v110.ps1")
+    monkeypatch.setattr(module, "TRAINER", repository / "scripts/train_lora.py")
+    assert set(module.source_identity()) <= paths
     return module
 
 
@@ -742,7 +760,7 @@ def test_check_challenge_recomputes_from_authoritative_rows(tmp_path, monkeypatc
 @pytest.mark.parametrize("stage", ["held", "challenge"])
 @pytest.mark.parametrize("tamper", ["summary", "missing", "duplicate", "raw", "flags"])
 def test_seed_row_cannot_accept_forged_summary_metrics(tmp_path, monkeypatch, stage, tamper):
-    module = load_runner()
+    module = load_isolated_runner(tmp_path, monkeypatch)
     _, binding = prepare_training_receipt(module, tmp_path, monkeypatch)
     held_path = prepare_held_receipt(module, tmp_path, binding)
     challenge_path = prepare_challenge_receipt(module, tmp_path, binding)
@@ -783,7 +801,7 @@ def test_seed_row_cannot_accept_forged_summary_metrics(tmp_path, monkeypatch, st
 
 
 def test_challenge_entrypoint_fails_if_study_audit_changes_during_run(tmp_path, monkeypatch):
-    module = load_runner()
+    module = load_isolated_runner(tmp_path, monkeypatch)
     prepare_training_receipt(module, tmp_path, monkeypatch)
     real_challenge, _ = module.import_study_modules()
     rows, corpus = real_challenge.load_corpus(module.CHALLENGE)

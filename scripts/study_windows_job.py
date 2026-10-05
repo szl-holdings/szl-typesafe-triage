@@ -9,8 +9,8 @@ parent has already exited. No credential or permission changes are performed.
 from __future__ import annotations
 
 import ctypes
+import ctypes.wintypes as wintypes
 import time
-from ctypes import wintypes
 
 
 class JobError(RuntimeError):

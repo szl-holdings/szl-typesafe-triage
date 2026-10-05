@@ -1342,7 +1342,7 @@ tags:
 - experimental
 ---
 
-# SZL TypeSafe Triage � Five-Seed LoRA Study
+# SZL TypeSafe Triage · Five-Seed LoRA Study
 
 > **A measured model artifact with its limits attached.**
 
@@ -1358,7 +1358,7 @@ raw predictions, failure records, training receipts, and aggregate metrics.
 | Public model publication | **Published** |
 | Training | **Measured** |
 | Frozen held-family evaluation | **Measured** |
-| Release gate | **BLOCKED - 11/12** |
+| Release gate | **BLOCKED — 11/12** |
 | Promotion | **NOT_PROMOTABLE** |
 | Production replacement | **No** |
 
@@ -1371,7 +1371,7 @@ release boundary remain visible instead of being removed.
 The root [gate_report.json](./gate_report.json) records an
 earlier 66-row gate with verdict `PROMOTABLE`.
 It is retained historical evidence, not promotion of this later five-seed, 113-row study.
-The current study remains **BLOCKED - 11/12** and **NOT_PROMOTABLE**.
+The current study remains **BLOCKED — 11/12** and **NOT_PROMOTABLE**.
 Published adapter files and historical gate labels do not supersede this release boundary.
 
 ## What it does

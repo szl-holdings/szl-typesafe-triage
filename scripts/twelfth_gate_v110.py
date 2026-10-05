@@ -360,6 +360,8 @@ def validate_trainer_contract(source: str) -> dict:
             try:
                 assignments[node.targets[0].id] = ast.literal_eval(node.value)
             except (TypeError, ValueError):
+                # Only literal assignments establish the expected constants.
+                # Non-literals remain absent and fail the checks below.
                 pass
     problems = []
     if assignments.get("BASE") != BASE_MODEL:
@@ -825,6 +827,7 @@ def cmd_challenge(args) -> int:
             print("CHALLENGE_REUSED " + json.dumps(challenge_summary(seed, prior)), flush=True)
             return 0
         except (OSError, ValueError, KeyError, TypeError):
+            # Preserve rejected evidence before an explicitly requested rerun.
             pass
         stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         os.replace(output, output.with_name("challenge-{}.failed-{}.json".format(tag, stamp)))

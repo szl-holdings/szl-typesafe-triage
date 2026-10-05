@@ -199,7 +199,6 @@ def strict_json(raw):
 
 
 def load_target(adapter: str | None):
-    model_name = adapter if adapter else BASE_MODEL
     if adapter:
         load_adapter_binding(Path(adapter))
     validate_provider_runtime()
