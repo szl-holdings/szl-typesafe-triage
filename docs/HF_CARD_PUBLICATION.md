@@ -22,13 +22,32 @@ Supply the independently refreshed full HF parent commit. The workflow defaults
 to a dry plan; publish=true is an explicit card publication. Missing authority or
 failed checks fail the run rather than becoming a successful skip.
 
+Every plan, diagnostic or publication also requires caller-supplied
+`expected_source_commit` and `expected_card_sha256`: the full lowercase source
+commit reviewed for this action and the SHA-256 of its exact canonical card
+bytes. These values are not derived from the executing main. The workflow
+rejects a missing/malformed source pin or any difference from `GITHUB_SHA`
+before checkout and provider work. The helper retains both caller pins in its
+receipt/journal, validates source equality and card parity before provider
+access, and checks the pins again after durable intent, immediately before the
+README commit. A newer main does not refresh the reviewed source automatically.
+After admitting a publisher change, review its new signed source SHA before
+requesting publication; a reviewed older source SHA must fail against newer main.
+
+The existing required `expected_parent` input is already the caller-reviewed
+target revision. It is checked against the Hub head before metadata/readback,
+rechecked after durable intent, and passed unchanged as `parent_commit` to the
+README-only commit. No target revision is selected or refreshed on drift. A
+known final guard failure records zero request attempts/writes; an error after
+the commit request retains the existing outcome-unknown/known-commit semantics.
+
 The helper reads one regular immutable Git blob. It verifies that the source SHA
 is current canonical main and GitHub reports that same commit's signature as
 verified/valid. This is provider-attested current-commit verification, not
 independent signer ownership or validation of ancestry. No trust store changes.
 Local dry plans need no manufactured Actions environment and do not contact HF:
 
-    python scripts/publish_hf_card.py --target study5 --source-commit FULL_GITHUB_SHA --expected-parent FULL_HF_SHA --receipt NEW_RECEIPT.json
+    python scripts/publish_hf_card.py --target study5 --source-commit FULL_GITHUB_SHA --expected-source-commit REVIEWED_GITHUB_SHA --expected-card-sha256 REVIEWED_CARD_SHA256 --expected-parent REVIEWED_HF_SHA --receipt NEW_RECEIPT.json
 
 Publication additionally requires canonical GitHub Actions repository, main ref,
 manual-dispatch event and exact dispatch SHA, plus explicit HF_TOKEN. The
