@@ -76,9 +76,9 @@ function Invoke-Py([string]$Title, [string[]]$PyArgs, [string]$Log) {
     $guardArgs += $PyArgs
     & $Python @guardArgs
     $exitCode = $LASTEXITCODE
-    if ($null -eq $exitCode) { return 99 }
-    if ($exitCode -ge 96) {
-        Write-Host ("        [" + $Title + "] process guard refused with exit " + $exitCode) -ForegroundColor Red
+    if ($null -eq $exitCode) { $exitCode = 99 }
+    if (($exitCode -ge 96) -and ($exitCode -le 99)) {
+        Stop-Run ("process guard refused [" + $Title + "] with exit " + $exitCode)
     }
     return [int]$exitCode
 }

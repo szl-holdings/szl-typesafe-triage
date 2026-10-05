@@ -53,6 +53,7 @@ def test_generated_trainer_pins_base_revision_and_requires_response_masking():
         lambda source: source.replace("revision=BASE_REVISION, ", "", 1),
         lambda source: source.replace("Qwen/Qwen3.5-0.8B", "unsloth/Qwen3.5-0.8B", 1),
         lambda source: source.replace("trainer = train_on_responses_only", "trainer = object", 1),
+        lambda source: source.replace("processing_class=text_tok,", "processing_class=tok,", 1),
     ],
 )
 def test_generated_trainer_contract_rejects_unbound_or_optional_training(tamper):
@@ -192,7 +193,7 @@ def test_response_only_contract_checks_actual_collator_labels():
         )
 
 
-@pytest.mark.parametrize("mode", ["helper-fails", "bad-last-labels", "valid"])
+@pytest.mark.parametrize("mode", ["helper-fails", "bad-last-labels", "missing-row", "valid"])
 def test_generated_training_section_requires_masking_before_train_or_save(mode, tmp_path):
     from triage_text import validate_trainer_response_labels
 
@@ -208,11 +209,11 @@ def test_generated_training_section_requires_masking_before_train_or_save(mode, 
     calls = []
 
     class Trainer:
-        train_dataset = [0, 1]
+        train_dataset = list(range(564 if mode == "missing-row" else 565))
 
         def data_collator(self, records):
             labels = [-100, -100, -100, 30]
-            if mode == "bad-last-labels" and records == [1]:
+            if mode == "bad-last-labels" and records == [564]:
                 labels[0] = 10
             return {"input_ids": [[10, 20, 21, 30]], "labels": [labels]}
 
@@ -251,11 +252,34 @@ def test_generated_training_section_requires_masking_before_train_or_save(mode, 
         exec(code, namespace)
         assert calls == ["train", "save-model", "save-tokenizer"]
         assert namespace["trainer"] is returned_trainer
-        assert namespace["mask_contract"]["rows"] == 2
+        assert namespace["mask_contract"]["rows"] == 565
     else:
         with pytest.raises(RuntimeError):
             exec(code, namespace)
         assert calls == []
+
+
+def test_generated_sft_constructor_uses_resolved_text_tokenizer():
+    module = load_runner()
+    tree = ast.parse(generated_trainer(module))
+    constructor = next(node for node in tree.body if isinstance(node, ast.Assign)
+                       and isinstance(node.value, ast.Call)
+                       and module._call_name(node.value) == "SFTTrainer")
+    tokenizer = TextTokenizer()
+
+    class WrapperThatRaises:
+        def __call__(self, *args, **kwargs):
+            raise AssertionError("unresolved processor used by trainer")
+
+    def trainer_constructor(**kwargs):
+        kwargs["processing_class"](text="training text", add_special_tokens=False)
+        return kwargs
+
+    namespace = {"SFTTrainer": trainer_constructor, "SFTConfig": lambda **kwargs: kwargs,
+                 "model": object(), "ds": [], "OUT": Path("out"),
+                 "text_tok": tokenizer, "tok": WrapperThatRaises()}
+    exec(compile(ast.Module(body=[constructor], type_ignores=[]), "generated-constructor", "exec"), namespace)
+    assert namespace["trainer"]["processing_class"] is tokenizer
 
 
 def make_adapter(path: Path, *, base_model="Qwen/Qwen3.5-0.8B", source="commit",
@@ -531,16 +555,24 @@ def prepare_held_receipt(module, work: Path, binding: dict):
     evaluation.mkdir(parents=True)
     prediction = evaluation / "predictions-seed-011.jsonl"
     failure = evaluation / "failures-seed-011.jsonl"
-    prediction.write_text("{}\n", encoding="utf-8")
-    failure.write_text("", encoding="utf-8")
+    # Historical outputs are copied only into the unit-test fixture; no new
+    # inference score is supplied or claimed by this source contract test.
+    prediction.write_bytes((module.STUDY_EVAL / prediction.name).read_bytes())
+    failure.write_bytes((module.STUDY_EVAL / failure.name).read_bytes())
+    frozen = work / "study" / "frozen"
+    frozen.mkdir()
+    for name in ("train.jsonl", "held.jsonl", "experiment_manifest.json"):
+        (frozen / name).write_bytes((module.FROZEN / name).read_bytes())
     source = {
         "scripts/" + name: module.sha256_file(module.SCRIPTS / name)
         for name in ("five_seed_eval.py", "train_eval_publish.py", "triage_text.py",
                      "twelfth_gate_contract.py")
     }
+    source["src/szl_triage/study_evidence.py"] = module.sha256_file(
+        module.REPO / "src" / "szl_triage" / "study_evidence.py")
     snapshot = contract.adapter_snapshot(work / "seed-011" / "adapter")
     template = {"schema": "test-template", "sha256": "template"}
-    metrics = {
+    metrics = {**module.read_json(module.STUDY_EVAL / "metrics-seed-011.json"),
         "rows": module.HELD_ROWS,
         "base_model": module.BASE_MODEL,
         "base_revision": module.BASE_REVISION,
@@ -588,6 +620,37 @@ def test_check_held_entrypoint_rejects_reused_unbound_metrics(tmp_path, monkeypa
         module.cmd_check_held(SimpleNamespace(seed=11))
 
 
+@pytest.mark.parametrize("tamper", ["summary", "missing", "duplicate", "raw-rehashed", "flags", "failures"])
+def test_check_held_replays_raw_outputs_despite_rebound_file_hashes(tmp_path, monkeypatch, tamper):
+    module = load_runner()
+    _, binding = prepare_training_receipt(module, tmp_path, monkeypatch)
+    metrics_path = prepare_held_receipt(module, tmp_path, binding)
+    assert module.cmd_check_held(SimpleNamespace(seed=11)) == 0
+    metrics = module.read_json(metrics_path)
+    prediction_path = metrics_path.parent / "predictions-seed-011.jsonl"
+    failure_path = metrics_path.parent / "failures-seed-011.jsonl"
+    predictions = module.read_jsonl(prediction_path)
+    if tamper == "summary":
+        metrics["joint_accuracy"] = 0.123
+    elif tamper == "missing":
+        predictions.pop()
+    elif tamper == "duplicate":
+        predictions[1] = predictions[0]
+    elif tamper == "raw-rehashed":
+        predictions[0]["raw_output"] = "{}"
+    elif tamper == "flags":
+        predictions[0]["joint_exact"] = not predictions[0]["joint_exact"]
+    elif tamper == "failures":
+        failure_path.write_text(json.dumps(predictions[0]) + "\n", encoding="utf-8")
+    prediction_path.write_text(
+        "\n".join(json.dumps(row) for row in predictions) + "\n", encoding="utf-8")
+    metrics["predictions_sha256"] = module.sha256_file(prediction_path)
+    metrics["failures_sha256"] = module.sha256_file(failure_path)
+    metrics_path.write_text(json.dumps(metrics), encoding="utf-8")
+    with pytest.raises(SystemExit):
+        module.cmd_check_held(SimpleNamespace(seed=11))
+
+
 def prepare_challenge_receipt(module, work: Path, binding: dict):
     import twelfth_gate_contract as contract
 
@@ -597,6 +660,9 @@ def prepare_challenge_receipt(module, work: Path, binding: dict):
     source = module.source_identity()
     snapshot = contract.adapter_snapshot(work / "seed-011" / "adapter")
     template = {"schema": "test-template", "sha256": "template"}
+    results = [challenge_eval.score_output(
+        row, '{"label":"REVIEW","state":"REVIEW","evidence":[]}', 0.01, index)
+        for index, row in enumerate(rows, 1)]
     receipt = {
         "schema": module.SCHEMA + "/challenge",
         "state": "EXECUTED",
@@ -618,8 +684,8 @@ def prepare_challenge_receipt(module, work: Path, binding: dict):
         "template_contract_after": template,
         "model_identity": {"base_model": module.BASE_MODEL,
                            "base_revision": module.BASE_REVISION},
-        "metrics": {"rows": module.CHALLENGE_ROWS,
-                    "gold_refusals": module.GOLD_REFUSALS},
+        "results": results,
+        "metrics": challenge_eval.aggregate_results(results),
     }
     target = work / "challenge" / "challenge-seed-011.json"
     target.parent.mkdir(parents=True)
@@ -647,6 +713,73 @@ def test_check_challenge_entrypoint_rejects_reused_unbound_receipt(tmp_path, mon
     receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
     with pytest.raises(SystemExit):
         module.cmd_check_challenge(SimpleNamespace(seed=11))
+
+
+@pytest.mark.parametrize("tamper", ["summary", "no-results", "missing", "duplicate", "raw", "flags"])
+def test_check_challenge_recomputes_from_authoritative_rows(tmp_path, monkeypatch, tamper):
+    module = load_runner()
+    _, binding = prepare_training_receipt(module, tmp_path, monkeypatch)
+    receipt_path = prepare_challenge_receipt(module, tmp_path, binding)
+    assert module.cmd_check_challenge(SimpleNamespace(seed=11)) == 0
+    receipt = module.read_json(receipt_path)
+    if tamper == "summary":
+        receipt["metrics"]["refusal_correct"] = 0
+    elif tamper == "no-results":
+        receipt.pop("results")
+    elif tamper == "missing":
+        receipt["results"].pop()
+    elif tamper == "duplicate":
+        receipt["results"][1] = receipt["results"][0]
+    elif tamper == "raw":
+        receipt["results"][0]["raw_output"] = "{}"
+    elif tamper == "flags":
+        receipt["results"][0]["joint_exact"] = not receipt["results"][0]["joint_exact"]
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(SystemExit):
+        module.cmd_check_challenge(SimpleNamespace(seed=11))
+
+
+@pytest.mark.parametrize("stage", ["held", "challenge"])
+@pytest.mark.parametrize("tamper", ["summary", "missing", "duplicate", "raw", "flags"])
+def test_seed_row_cannot_accept_forged_summary_metrics(tmp_path, monkeypatch, stage, tamper):
+    module = load_runner()
+    _, binding = prepare_training_receipt(module, tmp_path, monkeypatch)
+    held_path = prepare_held_receipt(module, tmp_path, binding)
+    challenge_path = prepare_challenge_receipt(module, tmp_path, binding)
+    assert module.seed_row(11, module.thresholds())["status"] != "INCOMPLETE"
+    path = held_path if stage == "held" else challenge_path
+    value = module.read_json(path)
+    if stage == "held":
+        prediction_path = path.parent / "predictions-seed-011.jsonl"
+        predictions = module.read_jsonl(prediction_path)
+        if tamper == "summary":
+            value["joint_accuracy"] = 0.123
+        elif tamper == "missing":
+            predictions.pop()
+        elif tamper == "duplicate":
+            predictions[1] = predictions[0]
+        elif tamper == "raw":
+            predictions[0]["raw_output"] = "{}"
+        elif tamper == "flags":
+            predictions[0]["joint_exact"] = not predictions[0]["joint_exact"]
+        prediction_path.write_text(
+            "\n".join(json.dumps(row) for row in predictions) + "\n", encoding="utf-8")
+        value["predictions_sha256"] = module.sha256_file(prediction_path)
+    else:
+        if tamper == "summary":
+            value["metrics"]["refusal_correct"] = 0
+        elif tamper == "missing":
+            value["results"].pop()
+        elif tamper == "duplicate":
+            value["results"][1] = value["results"][0]
+        elif tamper == "raw":
+            value["results"][0]["raw_output"] = "{}"
+        elif tamper == "flags":
+            value["results"][0]["joint_exact"] = not value["results"][0]["joint_exact"]
+    path.write_text(json.dumps(value), encoding="utf-8")
+    row = module.seed_row(11, module.thresholds())
+    assert row["status"] == "INCOMPLETE"
+    assert "binding validation failed" in row["reason"]
 
 
 def test_challenge_entrypoint_fails_if_study_audit_changes_during_run(tmp_path, monkeypatch):

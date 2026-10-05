@@ -38,6 +38,8 @@ def read_gpu_temperature(
     timeout_seconds: float = 5.0,
 ) -> int:
     """Return one temperature for the selected GPU or fail closed."""
+    if timeout_seconds <= 0:
+        raise GuardFailure("no telemetry wall-clock budget remains", EXIT_WALLCLOCK)
     command = [
         "nvidia-smi.exe",
         "--id={}".format(gpu_index),
@@ -120,8 +122,14 @@ def supervise(
         raise GuardFailure("no wall-clock budget remains", EXIT_WALLCLOCK)
     if not command:
         raise ValueError("a Python command is required")
+    started = monotonic()
     if not skip_gpu:
-        temperature = read_gpu_temperature(gpu_index, run_command=run_command)
+        temperature = read_gpu_temperature(
+            gpu_index, run_command=run_command,
+            timeout_seconds=min(5.0, max_seconds - (monotonic() - started)),
+        )
+        if monotonic() - started >= max_seconds:
+            raise GuardFailure("pre-launch wall-clock guard exceeded", EXIT_WALLCLOCK)
         if temperature >= thermal_celsius:
             raise GuardFailure(
                 "pre-launch thermal guard reached {} C".format(temperature), EXIT_THERMAL,
@@ -129,7 +137,6 @@ def supervise(
 
     log = Path(log)
     log.parent.mkdir(parents=True, exist_ok=True)
-    started = monotonic()
     creationflags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) if os.name == "nt" else 0
     job = None
     if os.name == "nt":
@@ -154,6 +161,8 @@ def supervise(
 
     with log.open("w", encoding="utf-8", newline="\n") as handle:
         try:
+            if monotonic() - started >= max_seconds:
+                raise GuardFailure("pre-launch wall-clock guard exceeded", EXIT_WALLCLOCK)
             process = popen_factory(
                 [str(python), *command],
                 cwd=str(Path.cwd()),
@@ -181,7 +190,10 @@ def supervise(
                     raise GuardFailure("wall-clock guard exceeded", EXIT_WALLCLOCK)
                 if not skip_gpu and current - last_telemetry >= telemetry_seconds:
                     try:
-                        temperature = read_gpu_temperature(gpu_index, run_command=run_command)
+                        temperature = read_gpu_temperature(
+                            gpu_index, run_command=run_command,
+                            timeout_seconds=min(5.0, max_seconds - (monotonic() - started)),
+                        )
                     except GuardFailure:
                         terminate_tree(process)
                         raise
@@ -190,6 +202,10 @@ def supervise(
                         raise GuardFailure(
                             "thermal guard reached {} C".format(temperature), EXIT_THERMAL,
                         )
+                    current = monotonic()
+                    if current - started >= max_seconds:
+                        terminate_tree(process)
+                        raise GuardFailure("wall-clock guard exceeded", EXIT_WALLCLOCK)
                     last_telemetry = current
                 sleep(min(poll_seconds, max_seconds - (current - started)))
         except JobError as exc:

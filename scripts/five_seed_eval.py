@@ -7,8 +7,14 @@ import hashlib
 import json
 import re
 import statistics
+import sys
 import time
 from pathlib import Path
+
+_SOURCE_ROOT = Path(__file__).resolve().parents[1]
+if str(_SOURCE_ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(_SOURCE_ROOT / "src"))
+from szl_triage.study_evidence import parse_held_output
 
 from triage_text import build_generation_inputs, resolve_text_tokenizer, template_contract
 from twelfth_gate_contract import (
@@ -43,7 +49,10 @@ def evaluation_source_snapshot() -> dict[str, str]:
     scripts = Path(__file__).resolve().parent
     names = ("five_seed_eval.py", "train_eval_publish.py", "triage_text.py",
              "twelfth_gate_contract.py")
-    return {"scripts/" + name: sha256_file(scripts / name) for name in names}
+    identity = {"scripts/" + name: sha256_file(scripts / name) for name in names}
+    identity["src/szl_triage/study_evidence.py"] = sha256_file(
+        scripts.parent / "src" / "szl_triage" / "study_evidence.py")
+    return identity
 
 
 def text_of(row):
@@ -186,21 +195,7 @@ def freeze(study_root: Path):
 
 
 def strict_json(raw):
-    try:
-        value = json.loads(raw.strip())
-    except Exception:
-        return None
-
-    if not isinstance(value, dict):
-        return None
-
-    if not {"label", "state", "evidence"}.issubset(value):
-        return None
-
-    if not isinstance(value.get("evidence"), list):
-        return None
-
-    return value
+    return parse_held_output(raw)
 
 
 def load_target(adapter: str | None):

@@ -109,6 +109,112 @@ def test_prelaunch_telemetry_failure_never_starts_child(tmp_path):
     assert launched == []
 
 
+def test_prelaunch_telemetry_consumes_budget_and_prevents_child_start(tmp_path):
+    clock = FakeClock()
+    launched, timeouts = [], []
+
+    def runner(command, **kwargs):
+        timeouts.append(kwargs["timeout"])
+        clock.value += 2.0
+        return result("50\n")
+
+    with pytest.raises(guard.GuardFailure) as caught:
+        guard.supervise(
+            Path("python.exe"), ["work.py"], tmp_path / "run.log",
+            max_seconds=1.5, thermal_celsius=78, gpu_index=0,
+            popen_factory=lambda *a, **k: launched.append((a, k)), run_command=runner,
+            monotonic=clock.monotonic, sleep=clock.sleep,
+        )
+    assert caught.value.exit_code == guard.EXIT_WALLCLOCK
+    assert launched == []
+    assert timeouts == [1.5]
+
+
+def test_running_telemetry_timeout_is_bounded_by_remaining_budget(tmp_path, monkeypatch):
+    monkeypatch.setattr(guard.os, "name", "nt")
+    clock, process, job = FakeClock(), FakeProcess(), FakeJob()
+    timeouts = []
+
+    def runner(command, **kwargs):
+        timeouts.append(kwargs["timeout"])
+        if len(timeouts) == 2:
+            clock.value += 0.6
+        return result("50\n")
+
+    with pytest.raises(guard.GuardFailure) as caught:
+        guard.supervise(
+            Path("python.exe"), ["work.py"], tmp_path / "run.log",
+            max_seconds=1.5, thermal_celsius=78, gpu_index=0,
+            popen_factory=lambda *a, **k: process, run_command=runner,
+            monotonic=clock.monotonic, sleep=clock.sleep,
+            windows_job_factory=lambda: job, telemetry_seconds=1,
+        )
+    assert caught.value.exit_code == guard.EXIT_WALLCLOCK
+    assert timeouts == [1.5, 0.5]
+    assert job.terminated
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="actual PowerShell caller regression")
+@pytest.mark.parametrize("entrypoint", ["check-train", "check-held"])
+@pytest.mark.parametrize("guard_exit", [96, 97, 98, 99])
+def test_powershell_guard_exit_stops_before_stale_reuse_or_further_launch(
+        tmp_path, entrypoint, guard_exit):
+    source = (Path(__file__).resolve().parents[1] / "scripts" /
+              "run_twelfth_gate_v110.ps1").read_text(encoding="utf-8")
+    # Execute the actual wrapper functions and seed caller block. Only the
+    # supervisor executable is replaced by a CPU stub returning injected codes.
+    functions = source[source.index("function Say("):source.index('Say "=== SZL')]
+    callers = source[source.index('Say "[3/6]'):source.index(
+        "# ---------------------------------------------------------------- 4) verdict")]
+    work = tmp_path / "work"
+    run = work / "seed-011"
+    run.mkdir(parents=True)
+    marker = run / "retain.txt"
+    marker.write_text("retain", encoding="utf-8")
+    logs = work / "logs"
+    logs.mkdir()
+    evaluation = work / "study" / "evaluation"
+    evaluation.mkdir(parents=True)
+    metrics = evaluation / "metrics-seed-011.json"
+    metrics.write_text("retain", encoding="utf-8")
+    actions = tmp_path / "actions.txt"
+    fake = tmp_path / "fake_supervisor.py"
+    fake.write_text(
+        "import pathlib, sys\n"
+        "command = sys.argv[sys.argv.index('--') + 1:]\n"
+        "action = command[1] if len(command) > 1 else command[0]\n"
+        "with pathlib.Path({!r}).open('a', encoding='utf-8') as out:\n"
+        "    out.write(action + '\\n')\n"
+        "raise SystemExit({} if action == {!r} else 0)\n".format(
+            str(actions), guard_exit, entrypoint),
+        encoding="utf-8",
+    )
+    quote = lambda value: "'" + str(value).replace("'", "''") + "'"
+    harness = tmp_path / "actual_wrapper_harness.ps1"
+    harness.write_text(
+        "$ErrorActionPreference = 'Stop'\n"
+        "$Repo = {}\n$Work = {}\n$Logs = {}\n$Python = {}\n$Supervisor = {}\n".format(
+            quote(tmp_path), quote(work), quote(logs), quote(sys.executable), quote(fake))
+        + "$Runner = 'scripts\\twelfth_gate_v110.py'\n"
+        + "$Seeds = @(11)\n$Stamp = 'regression'\n$SkipGpu = $true\n$GpuIndex = 0\n"
+        + "$MAX_WALLCLOCK_MINUTES = 180\n$THERMAL_GUARD_CELSIUS = 78\n$RunStarted = Get-Date\n"
+        + functions + "\n" + callers,
+        encoding="utf-8",
+    )
+    completed = subprocess.run(
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(harness)],
+        capture_output=True, text=True, timeout=30,
+    )
+    assert completed.returncode == 2, completed.stdout + completed.stderr
+    assert "process guard refused" in completed.stdout
+    assert actions.read_text(encoding="utf-8").splitlines() == (
+        ["check-train"] if entrypoint == "check-train" else ["check-train", "check-held"])
+    assert marker.read_text(encoding="utf-8") == "retain"
+    assert metrics.read_text(encoding="utf-8") == "retain"
+    assert not list(work.glob("*.partial-*"))
+    assert not list(evaluation.glob("*.stale-*"))
+
+
 def test_wallclock_trip_terminates_child_tree(tmp_path, monkeypatch):
     monkeypatch.setattr(guard.os, "name", "nt")
     clock = FakeClock()

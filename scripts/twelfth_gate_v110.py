@@ -1,9 +1,10 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """v1.1.0 twelfth-gate retrain runner: one declared change, the study's own tools, receipts only.
 
-The only change versus the published five-seed study is the 50 owner-ratified refusal rows
+The declared data change versus the published five-seed study is the 50 owner-ratified refusal rows
 (corpus/redteam_refusal_augmentation.ratified.jsonl) appended to the frozen 515-row training
-split. Everything else is the study's existing machinery:
+split. The study's existing machinery now has fail-closed source/runtime bindings;
+these source corrections do not qualify new training or transfer historical scores:
 
   training   scripts/train_lora.py, patched per seed exactly like bootstrap-five-seed-study.ps1
              (OUT, random_state, seed, receipt seed) plus the declared corpus append.
@@ -28,6 +29,7 @@ import argparse
 import ast
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -146,6 +148,7 @@ def source_identity() -> dict[str, str]:
         SCRIPTS / "five_seed_eval.py", SCRIPTS / "train_eval_publish.py",
         SCRIPTS / "triage_text.py", SCRIPTS / "twelfth_gate_contract.py",
         SCRIPTS / "study_process_guard.py", SCRIPTS / "study_windows_job.py",
+        REPO / "src" / "szl_triage" / "study_evidence.py",
     )
     return {path.relative_to(REPO).as_posix(): sha256_file(path) for path in paths}
 
@@ -291,12 +294,13 @@ def trainer_patches(seed: int, frozen_sha: str, aug_sha: str, corpus_matches: bo
          '    tgt = {"label": r.get("label"), "state": r.get("state"), "evidence": r.get("evidence", [])}\n'
          '    return {"text": render_training_example(\n'
          '        text_tok, text_of(r), json.dumps(tgt, separators=(",", ":")))}'),
+        ("processing_class=tok,", "processing_class=text_tok,"),
         ('print("RECEIPT out/train/training_receipt.json   adapter " + str(SAVE))',
          'print("RECEIPT {}/training_receipt.json   adapter " + str(SAVE))'.format(rel)),
         ('print("train_on_responses_only applied (required; fail-closed)")',
          'response_marker_ids = text_tok(text="<|im_start|>assistant\\n", '
          'add_special_tokens=False)["input_ids"]\n'
-          'mask_contract = validate_trainer_response_labels(trainer, response_marker_ids)\n'
+          'mask_contract = validate_trainer_response_labels(trainer, response_marker_ids, expected_rows=565)\n'
           'print("train_on_responses_only applied and labels verified: " + json.dumps(mask_contract))'),
         ('model = FastLanguageModel.get_peft_model(',
          'MODEL_IDENTITY = assert_loaded_model_identity(model)\n'
@@ -395,6 +399,15 @@ def validate_trainer_contract(source: str) -> dict:
     elif any(isinstance(ancestor, ast.Try)
              for ancestor in _ancestors(response_calls[0], parent)):
         problems.append("train_on_responses_only is optional instead of fail-closed")
+    sft_calls = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
+                 and _call_name(node) == "SFTTrainer"]
+    if len(sft_calls) != 1:
+        problems.append("expected exactly one SFTTrainer construction")
+    else:
+        keyword = next((item.value for item in sft_calls[0].keywords
+                        if item.arg == "processing_class"), None)
+        if not isinstance(keyword, ast.Name) or keyword.id != "text_tok":
+            problems.append("SFTTrainer processing_class is not the resolved text tokenizer")
     calls = [(node, _call_name(node)) for node in ast.walk(tree) if isinstance(node, ast.Call)]
     required_calls = ("validate_provider_runtime", "assert_loaded_model_identity", "resolve_text_tokenizer", "render_training_example",
                        "train_on_responses_only", "validate_trainer_response_labels", "trainer.train",
@@ -435,6 +448,11 @@ def validate_trainer_contract(source: str) -> dict:
                                 for target in node.targets)]
     if len(mask_assignments) != 1:
         problems.append("validated response-only labels are not assigned to mask_contract")
+    else:
+        expected_rows = next((item.value for item in mask_assignments[0].value.keywords
+                              if item.arg == "expected_rows"), None)
+        if not isinstance(expected_rows, ast.Constant) or expected_rows.value != RETRAIN_ROWS:
+            problems.append("prepared training rows are not required to equal 565 before train/save")
     if problems:
         raise ValueError("; ".join(problems))
     return {"base_model": BASE_MODEL, "base_revision": BASE_REVISION,
@@ -590,6 +608,8 @@ def validate_held_run(seed: int) -> dict:
         "held_manifest_sha256_after": sha256_file(FROZEN / "held.jsonl"),
     }
     expected["source_after"] = expected["source"]
+    expected["source"]["src/szl_triage/study_evidence.py"] = sha256_file(
+        REPO / "src" / "szl_triage" / "study_evidence.py")
     problems = [key for key, value in expected.items() if metrics.get(key) != value]
     if metrics.get("template_contract") != metrics.get("template_contract_after"):
         problems.append("template_contract_after")
@@ -603,6 +623,13 @@ def validate_held_run(seed: int) -> dict:
             problems.append(key)
     if problems:
         raise ValueError("held binding mismatch: " + ", ".join(sorted(set(problems))))
+    import_study_modules()  # Establish the repository's src path without ML imports.
+    from szl_triage.study_evidence import replay_held_run
+    replay = replay_held_run(WORK / "study", tag, expected_base_model=BASE_MODEL)
+    if replay["integrity_status"] != "PASS":
+        codes = sorted({finding["code"] for finding in replay["findings"]
+                        if finding["severity"] == "error"})
+        raise ValueError("held raw-output replay failed: " + ", ".join(codes))
     return metrics
 
 
@@ -901,6 +928,28 @@ def validate_challenge_run(seed: int, receipt: dict | None = None) -> dict:
     metrics = receipt.get("metrics") or {}
     if metrics.get("rows") != CHALLENGE_ROWS or metrics.get("gold_refusals") != GOLD_REFUSALS:
         problems.append("metrics")
+    results = receipt.get("results")
+    if not isinstance(results, list) or len(results) != len(rows):
+        problems.append("results coverage")
+    else:
+        replayed = []
+        for index, (row, saved) in enumerate(zip(rows, results), 1):
+            if not isinstance(saved, dict):
+                problems.append("result {} type".format(index))
+                continue
+            raw, latency = saved.get("raw_output"), saved.get("latency_seconds")
+            if not isinstance(raw, str) or type(latency) not in (int, float) \
+                    or not math.isfinite(latency) or latency < 0:
+                problems.append("result {} raw/latency".format(index))
+                continue
+            scored = challenge_eval.score_output(row, raw, latency, index)
+            if json.dumps(saved, sort_keys=True, allow_nan=False) != json.dumps(
+                    scored, sort_keys=True, allow_nan=False):
+                problems.append("result {} replay".format(index))
+            replayed.append(scored)
+        if len(replayed) == len(rows) and json.dumps(metrics, sort_keys=True, allow_nan=False) \
+                != json.dumps(challenge_eval.aggregate_results(replayed), sort_keys=True, allow_nan=False):
+            problems.append("metrics raw-output replay")
     if problems:
         raise ValueError("challenge binding mismatch: " + ", ".join(sorted(set(problems))))
     return receipt

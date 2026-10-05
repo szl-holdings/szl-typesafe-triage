@@ -193,11 +193,14 @@ def validate_response_only_batch(batch: Mapping[str, Any], response_marker_ids: 
             "supervised_response_tokens": supervised}
 
 
-def validate_trainer_response_labels(trainer: Any, response_marker_ids: Any) -> dict[str, int]:
+def validate_trainer_response_labels(
+    trainer: Any, response_marker_ids: Any, *, expected_rows: int,
+) -> dict[str, int]:
     """Verify final collator labels for every prepared training example."""
     dataset = trainer.train_dataset
-    if len(dataset) == 0:
-        raise RuntimeError("Prepared training dataset is empty")
+    if len(dataset) != expected_rows:
+        raise RuntimeError("Prepared training dataset must have {} rows; found {}".format(
+            expected_rows, len(dataset)))
     totals = {"rows": 0, "masked_tokens": 0, "supervised_response_tokens": 0}
     for index in range(len(dataset)):
         observed = validate_response_only_batch(

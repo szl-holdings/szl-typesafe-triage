@@ -47,7 +47,10 @@ Reused training, held and challenge receipts must match the current source,
 trainer, seed, frozen/ratified inputs, model revision, adapter weights/config and
 tokenizer hashes. Held/challenge execution checks inputs before and after the run.
 The prepared training collator must mask user tokens and retain assistant labels
-for every training row before `train()` can run or an adapter can be saved.
+for all 565 prepared rows before `train()` can run or an adapter can be saved.
+The trainer receives the resolved text tokenizer. Held and challenge reuse also
+replays raw outputs against the frozen targets and authoritative challenge rows,
+requires exact row coverage, and compares stored flags, summaries and failure sets.
 
 The Windows supervisor checks bounded telemetry for the selected physical GPU
 before launch and throughout execution, enforces the remaining 180-minute budget
@@ -56,6 +59,9 @@ Job Object before resuming it. Descendants remain guarded after their parent
 exits; termination requires the job's active-process count to reach zero.
 CPU/native Windows tests exercise this boundary. Actual GPU telemetry and the
 production model environment still require qualification under the owner envelope.
+The deadline begins before initial telemetry, each telemetry timeout is bounded
+by the remaining budget, and supervisor exits 96-99 stop the wrapper centrally
+before stale-artifact handling or another launch.
 
 ## Focused offline verification
 
@@ -70,7 +76,8 @@ The new tests cover actual check-train/check-held/check-challenge entrypoints,
 challenge mutation failure, missing/wrong/remapped loader identities, explicit
 base-before-adapter loading, a fresh-process model-import denial, corpus-dependent
 trainer digests, actual generated masking/train/save failure paths, telemetry
-timeouts and a native CPU descendant termination after its parent exits. Any
+timeouts, injected guard exits at both reuse entrypoints, forged raw/summary replay
+and a native CPU descendant termination after its parent exits. Any
 mock outputs remain test fixtures and supply no study scores.
 
 Publication is disabled in the twelfth-gate runner. PR #44's existing HOLD and
