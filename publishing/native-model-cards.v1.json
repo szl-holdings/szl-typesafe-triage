@@ -1,0 +1,59 @@
+{
+  "schema": "szl.native-model-card-projection/v1",
+  "evidence_class": "UNSIGNED_SOURCE_PRESENTATION",
+  "source_repository": "szl-holdings/szl-typesafe-triage",
+  "base_revision": "5094be7a1e99dfdc24d87d5c7e75b621f6388eac",
+  "cards": [
+    {
+      "publisher_target": "root_lora",
+      "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora",
+      "source_path": "HF_MODEL_CARD_README.md",
+      "before_sha256": "903f4c8df620b1d736781f386a3722e09e1088cdd6c0fca3fdc5ef6bf98c75ff",
+      "after_sha256": "a669596e1e063f6575407deab3ad2644464ea752f4945b523c81764ae66d71e2",
+      "frontmatter_sha256": "b445f08b4413028aff7ae994242ab6cd0c248ba1b0edb490328783a3bc05c8f9",
+      "preserved_technical_body_sha256": "0bf578f5060543a43959306ceb0ad94372b5515b89550ae3025ec549a667cf9f",
+      "original_bytes_reconstructable": true
+    },
+    {
+      "publisher_target": "study5",
+      "repo_id": "SZLHOLDINGS/szl-triage-qwen3.5-0.8b-lora-study5",
+      "source_path": "out/publish/triage-lora-study5/README.md",
+      "before_sha256": "c2372df3c567451d0f14cf29703129199b3c66af6b2eeecc9998cdc52324a296",
+      "after_sha256": "3f1ad8fc3064ecf6d8c2872e953346fac0ba87fd5ce10d99da9ea8db474b7637",
+      "frontmatter_sha256": "12b1d48344ecb54fb8a8e8259a669369306e25002cc17e3a357f949bc215971a",
+      "preserved_technical_body_sha256": "e9b10590f0c3acb37279bc6d981559e0995f6409e1e833e30f6d70c4cce79473",
+      "original_bytes_reconstructable": true
+    },
+    {
+      "publisher_target": "retrain",
+      "repo_id": "SZLHOLDINGS/szl-triage-retrain",
+      "source_path": "hf/szl-triage-retrain/README.md",
+      "before_sha256": "b83930ece71e08e6feecb47c6c78345e725945c8232e094fc267943e4a7a05ef",
+      "after_sha256": "3cc9fcb44a2a1b5a629448a5870b220925e66b41a5e4801e53e554f45dae5aca",
+      "frontmatter_sha256": "45dba0ca4aff9b873d6a601719aa9da3b3c2057e0d0d05d80b249ac001a9eba1",
+      "preserved_technical_body_sha256": "1989c2091d197b4659da321c753856cb114d7fd13c88e400a7d63deda1dc145c",
+      "original_bytes_reconstructable": true
+    }
+  ],
+  "native_art": {
+    "repository": "szl-holdings/szl-brand",
+    "revision": "27d12e77fc0f9f1a0e5fae8b34adf2380d51d070",
+    "path": "kit/logos/orbit-v2/suite/szl-icon-32.svg",
+    "sha256": "6e2b7d72a3af3d9602b79de41df0194ede6496a9661f057108ec224c0efc92e6",
+    "render_width": 40,
+    "render_height": 40,
+    "license": "CC-BY-4.0",
+    "license_scope": "SZL artwork"
+  },
+  "canonical_publisher": ".github/workflows/publish-hf-card.yml \u2192 scripts/publish_hf_card.py; existing manual, fixed three-target card writer",
+  "publisher_changed": false,
+  "technical_bodies_changed": false,
+  "metadata_changed": false,
+  "weight_or_training_data_content_read": false,
+  "model_files_changed": false,
+  "model_runtime": "NOT_EVALUATED",
+  "training_or_evaluation_performed": false,
+  "promotion_authorization": "NONE",
+  "provider_publication": "NOT_ESTABLISHED_BY_THIS_SOURCE_RECORD",
+  "publication_hold": "Existing canonical-main manual dispatch, signed current source, independently reviewed source/card SHA, expected Hub parent, README-only CAS, unchanged non-card file metadata and authenticated/public immutable readback requirements remain unchanged."
+}
