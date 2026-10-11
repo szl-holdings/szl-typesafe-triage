@@ -298,6 +298,11 @@ def _parse_prediction(raw: str) -> dict[str, Any] | None:
     return parsed
 
 
+def parse_held_output(raw: str) -> dict[str, Any] | None:
+    """Use the same bounded, duplicate/nonfinite-rejecting held parse on a run and replay."""
+    return _parse_prediction(raw)
+
+
 def _replay(audit: _Audit, name: str, manifest: dict[str, Any],
             held: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]]:
     location = f"evaluation/metrics-{name}.json"
@@ -574,6 +579,29 @@ def _release(audit: _Audit, path: Path) -> dict[str, Any]:
                   "cannot establish freshness or bind its model/corpus to all five study adapters.", "warning")
     return {"provided": True, "status": "REPORTED_UNBOUND", "reported": verdict,
             "stages": {key: item["stage_passed"] for key, item in stages.items()}}
+
+
+def replay_held_run(evidence_dir: Path, name: str, *, expected_base_model: str) -> dict[str, Any]:
+    """Recompute one bound run from frozen targets and raw recorded outputs.
+
+    The expected model is supplied explicitly because a new study may inherit
+    the historical frozen split without rewriting its manifest. This validates
+    the existing held scoring contract; it authenticates no execution or author.
+    """
+    _require(name in NAMES, "RUN_IDENTITY", "Unknown study run name")
+    audit = _Audit(Path(evidence_dir))
+    result = audit.attempt("frozen", lambda: _frozen(audit))
+    replay = None
+    if result is not None:
+        manifest, _, held = result
+        replay = audit.attempt(name, lambda: _replay(
+            audit, name, {**manifest, "base_model": expected_base_model}, held))
+    return {
+        "integrity_status": "FAIL" if replay is None or any(
+            item["severity"] == "error" for item in audit.findings) else "PASS",
+        "findings": audit.findings,
+        "values": replay[1] if replay is not None else {},
+    }
 
 
 def audit_study(evidence_dir: Path, artifact_root: Path | None = None,
