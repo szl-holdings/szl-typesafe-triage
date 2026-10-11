@@ -35,7 +35,6 @@ jobs:
     timeout-minutes: 15
     env:
       SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
-      TRIAGE_QA_OUT: ${{ runner.temp }}/triage-native-observations
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -49,6 +48,8 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/triage-browser" --no-save --package-lock=false --ignore-scripts --no-audit --no-fund playwright@1.62.0
           node "$RUNNER_TEMP/triage-browser/node_modules/playwright/cli.js" install --with-deps chromium
       - name: Render actual local and public source fixtures
+        env:
+          TRIAGE_QA_OUT: ${{ runner.temp }}/triage-native-observations
         run: |
           export NODE_PATH="$RUNNER_TEMP/triage-browser/node_modules"
           node scripts/qualify_native_frontend.cjs
@@ -57,5 +58,5 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: triage-native-frontend-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.TRIAGE_QA_OUT }}
+          path: ${{ runner.temp }}/triage-native-observations
           if-no-files-found: warn
