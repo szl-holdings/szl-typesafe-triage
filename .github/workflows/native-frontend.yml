@@ -1,0 +1,61 @@
+# Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
+name: Native Frontend
+
+on:
+  pull_request:
+    paths:
+      - 'src/szl_triage/**'
+      - 'scripts/*native*'
+      - 'scripts/publish_software_space.py'
+      - 'tests/test_native_presentation.py'
+      - 'docs/native-frontend-projection.json'
+      - 'Dockerfile'
+      - 'pyproject.toml'
+      - '.github/workflows/native-frontend.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/szl_triage/**'
+      - 'scripts/*native*'
+      - 'scripts/publish_software_space.py'
+      - 'tests/test_native_presentation.py'
+      - 'docs/native-frontend-projection.json'
+      - 'Dockerfile'
+      - 'pyproject.toml'
+      - '.github/workflows/native-frontend.yml'
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SOURCE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+      TRIAGE_QA_OUT: ${{ runner.temp }}/triage-native-observations
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.SOURCE_REVISION }}
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Install isolated browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/triage-browser" --no-save --package-lock=false --ignore-scripts --no-audit --no-fund playwright@1.62.0
+          node "$RUNNER_TEMP/triage-browser/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Render actual local and public source fixtures
+        run: |
+          export NODE_PATH="$RUNNER_TEMP/triage-browser/node_modules"
+          node scripts/qualify_native_frontend.cjs
+      - name: Retain unsigned rendered observations
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: triage-native-frontend-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.TRIAGE_QA_OUT }}
+          if-no-files-found: warn
