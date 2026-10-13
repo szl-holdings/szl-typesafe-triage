@@ -186,12 +186,19 @@ async function inspect(page, forced = false) {
         await keyboard.page.locator('.raw-response summary').click();
         const submitted = keyboard.requests.filter(r => r.method === 'POST').length;
         await keyboard.page.locator('#text').fill('A newly edited report');
+        const edited = await keyboard.page.evaluate(() => ({
+          decisionHidden: document.querySelector('#decision').hidden,
+          stateHidden: document.querySelector('#returned-state').hidden,
+          emptyHidden: document.querySelector('#empty').hidden,
+          raw: document.querySelector('#result').textContent,
+          status: document.querySelector('#status').textContent,
+        }));
         check(name + ': editing after ' + example + ' clears the previous response without submitting',
           await keyboard.page.locator('#decision').isHidden() && await keyboard.page.locator('#returned-state').isHidden()
           && await keyboard.page.locator('#empty').isVisible()
-          && await keyboard.page.locator('#result').innerText() === 'Report changed. No request has been sent.'
+          && await keyboard.page.locator('#result').textContent() === 'Report changed. No request has been sent.'
           && await keyboard.page.locator('#status').innerText() === 'Report changed. Run triage to submit.'
-          && keyboard.requests.filter(r => r.method === 'POST').length === submitted);
+          && keyboard.requests.filter(r => r.method === 'POST').length === submitted, edited);
       }
       await keyboard.page.locator('#text').fill('   ');
       await keyboard.page.locator('#submit').click();
