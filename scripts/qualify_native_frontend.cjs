@@ -184,6 +184,14 @@ async function inspect(page, forced = false) {
         record(name + ' ' + example + ' decision at 320px', await inspect(keyboard.page));
         if (index === 1 && example === 'guard') await keyboard.page.locator('#workspace').screenshot({ path: path.join(out, 'public-320-guard-response.png') });
         await keyboard.page.locator('.raw-response summary').click();
+        const submitted = keyboard.requests.filter(r => r.method === 'POST').length;
+        await keyboard.page.locator('#text').fill('A newly edited report');
+        check(name + ': editing after ' + example + ' clears the previous response without submitting',
+          await keyboard.page.locator('#decision').isHidden() && await keyboard.page.locator('#returned-state').isHidden()
+          && await keyboard.page.locator('#empty').isVisible()
+          && await keyboard.page.locator('#result').innerText() === 'Report changed. No request has been sent.'
+          && await keyboard.page.locator('#status').innerText() === 'Report changed. Run triage to submit.'
+          && keyboard.requests.filter(r => r.method === 'POST').length === submitted);
       }
       await keyboard.page.locator('#text').fill('   ');
       await keyboard.page.locator('#submit').click();

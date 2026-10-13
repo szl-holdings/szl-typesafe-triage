@@ -97,7 +97,7 @@ function appearance(value){document.documentElement.dataset.surface=value;theme.
 appearance(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');theme.hidden=false;
 theme.addEventListener('click',()=>appearance(document.documentElement.dataset.surface==='dark'?'light':'dark'));
 function count(){byId('count').textContent=input.value.length.toLocaleString('en-US')+' / 8,192';}
-input.addEventListener('input',count);count();
+input.addEventListener('input',()=>{count();clearDecision();result.textContent='Report changed. No request has been sent.';announce('Report changed. Run triage to submit.');});count();
 function announce(message,tone=''){status.textContent=message;status.dataset.tone=tone;}
 function busy(value){pending=value;button.disabled=value;input.disabled=value;examples.forEach(item=>{item.disabled=value;});form.setAttribute('aria-busy',String(value));}
 function clearDecision(){byId('decision').hidden=true;byId('empty').hidden=false;byId('empty').textContent='Run triage to inspect a returned decision.';byId('returned-state').hidden=true;}
