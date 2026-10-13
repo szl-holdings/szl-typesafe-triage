@@ -19,6 +19,7 @@ from typing import Any
 
 from . import __version__, policy as policy_module
 from .pipeline import decide
+from .presentation import render_landing
 
 MODE = "DETERMINISTIC_LOCAL_RESEARCH"
 ENVELOPE_SCHEMA = "szl.local-decision-envelope/v1"
@@ -119,32 +120,7 @@ def verify_envelope(value: Any) -> bool:
         return False
 
 
-_LANDING_PAGE = """<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Local triage · SZL</title><style nonce="__NONCE__">
-body{margin:0;background:#0c1422;color:#e5edf7;font:16px system-ui,sans-serif}
-main{max-width:800px;margin:8vh auto;padding:24px}h1{font-size:42px;margin:16px 0}
-.eyebrow{color:#7dd3fc;font-size:13px;letter-spacing:.12em}p{line-height:1.6;color:#b8c7db}
-label{display:block;margin:30px 0 12px;font-weight:600}textarea{box-sizing:border-box;width:100%;min-height:150px;
-border:1px solid #45607d;border-radius:12px;padding:16px;background:#172337;color:#f1f5f9;font:inherit;resize:vertical}
-button{margin:16px 0;padding:12px 20px;border:0;border-radius:8px;background:#7dd3fc;color:#082f49;font:600 16px system-ui;cursor:pointer}
-button:disabled{opacity:.6}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#172337;padding:20px;border-radius:12px;font-size:13px}
-#identity{font-size:13px;overflow-wrap:anywhere}#status{margin-left:12px;color:#b8c7db}small{display:block;color:#91a4bd;line-height:1.6}
-</style></head><body><main><div class="eyebrow">SZL · DETERMINISTIC LOCAL RESEARCH</div>
-<h1>Local triage</h1><p>Inspect how the rule-based engine classifies a report and where it refuses to decide.
-It uses vocabulary and policy rules. No language model is loaded.</p><p id="identity">Loading policy identity…</p>
-<label for="text">Report or error message</label><textarea id="text" maxlength="8192">charged twice on invoice INV-2041, want a refund</textarea>
-<button id="submit" type="button">Run triage</button><span id="status" role="status"></span>
-<pre id="result" aria-live="polite">Your decision and its content digests will appear here.</pre>
-<small>Digests check that the returned contents agree. They are unsigned and do not establish model promotion or production readiness.</small>
-</main><script nonce="__NONCE__">
-const button=document.getElementById('submit'), status=document.getElementById('status'), result=document.getElementById('result');
-fetch('/readyz').then(r=>r.json()).then(r=>{document.getElementById('identity').textContent='Policy '+r.policy.version+' · SHA-256 '+r.policy.sha256.slice(0,16);}).catch(()=>{document.getElementById('identity').textContent='Readiness unavailable';});
-button.addEventListener('click',async()=>{button.disabled=true;status.textContent='Running…';try{
-const response=await fetch('/v1/decide',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:document.getElementById('text').value})});
-const body=await response.json();result.textContent=JSON.stringify(body,null,2);status.textContent=response.ok?body.decision.state:'Request rejected';
-}catch(error){result.textContent='The local service could not be reached.';status.textContent='Unavailable';}finally{button.disabled=false;}});
-</script></body></html>"""
+_LANDING_PAGE = render_landing()
 
 
 class _LocalServer(ThreadingHTTPServer):
