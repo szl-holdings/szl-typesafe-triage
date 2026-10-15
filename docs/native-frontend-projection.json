@@ -1,0 +1,36 @@
+{
+  "schema": "szl.native-python-projection/v1",
+  "unsigned": true,
+  "consumer": "szl-holdings/szl-typesafe-triage",
+  "source_repository": "szl-holdings/szl-brand",
+  "token_source_commit": "27d12e77fc0f9f1a0e5fae8b34adf2380d51d070",
+  "assets": [
+    {
+      "constant": "TOKEN_CSS",
+      "source_commit": "4309f6fce89179331b0b3ed8c99494e76c5be256",
+      "source_path": "kanchay/szl-tokens.css",
+      "sha256": "81f7c9baeef0b435e6e3f9d0c4e0d70e40fa17df5d1f30697f623cd3ef5f8eab",
+      "bytes": 9559
+    },
+    {
+      "constant": "SOURCE_MANIFEST",
+      "source_commit": "4309f6fce89179331b0b3ed8c99494e76c5be256",
+      "source_path": "kanchay/SOURCE.json",
+      "sha256": "967a77235227f1d75852fb61873e46336e67403cbc0e7e12b141e31c83fbd93d",
+      "bytes": 1695
+    },
+    {
+      "constant": "ORBIT_SVG",
+      "source_commit": "fd62fe5856ed8e5f660eaae5a9c52957cd71b0a7",
+      "source_path": "kit/logos/orbit-v2/suite/szl-icon-32.svg",
+      "sha256": "6e2b7d72a3af3d9602b79de41df0194ede6496a9661f057108ec224c0efc92e6",
+      "bytes": 2969
+    }
+  ],
+  "delivery": "Exact UTF-8 constants in the source-bound Python package; CSS and Orbit SVG are inlined under the existing nonce CSP.",
+  "source_manifest_scope": "Unchanged upstream full manifest, not a claim that all upstream files are installed here.",
+  "mark_placement": "Native 32 cut rendered at 40px with 10px clear space; no redraw or filter.",
+  "art_attribution": "SZL Holdings / Stephen Lutar, ORCID 0009-0001-0110-4173",
+  "art_license": "CC-BY-4.0",
+  "code_license": "Apache-2.0"
+}

@@ -17,6 +17,7 @@ from typing import Any, Sequence
 
 from . import policy as policy_module
 from . import server as local
+from .presentation import render_landing
 
 MODE = "DETERMINISTIC_SOFTWARE_LAB"
 RUNTIME_SCHEMA = "szl.triage-public-runtime/v1"
@@ -38,16 +39,7 @@ _AUTHORITY = re.compile(
     r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?::([0-9]{1,5}))?\Z"
 )
 
-_LANDING_PAGE = (local._LANDING_PAGE
-    .replace("Local triage", "TypeSafe Triage software lab")
-    .replace("DETERMINISTIC LOCAL RESEARCH", "DETERMINISTIC SOFTWARE LAB · HOLD")
-    .replace("Loading policy identity…", "Loading source and policy identity…")
-    .replace("'Policy '+r.policy.version+' · SHA-256 '+r.policy.sha256.slice(0,16)",
-             "'GitHub '+r.source_binding.github_commit+' · Model promotion: '+r.disposition")
-    .replace("The local service could not be reached.", "The software lab could not be reached.")
-    .replace("Digests check that the returned contents agree.",
-             "Model promotion remains HOLD. This public software lab uses deterministic rules. "
-             "Digests check that the returned contents agree."))
+_LANDING_PAGE = render_landing(public=True)
 
 
 def _source_root() -> Path:
