@@ -1,32 +1,42 @@
-# v1.1.0 — Twelfth-gate refusal retrain (DRAFT, PENDING GATE)
+# v1.1.0 preparation — refusal retrain (not a release)
 
-Status: DRAFT-PENDING-TWELFTH-GATE. This document must not ship until the
-red-team gate returns 0 false-label-on-refusal on every retrained seed.
+Status: **PREPARATION_ONLY; model release HOLD / NOT_PROMOTABLE.** These are
+prospective notes. Merging this documentation does not train seeds, admit an
+adapter, earn a gate, create a tag or DOI, or publish a model.
 
-## What changed
+## Planned treatment
 
-- Refusal-augmentation corpus added to training: 50 owner-ratified rows
-  teaching paraphrase-steering refusal (5 pattern families). Contamination
-  check: 0 of the 42 verified eval probes appear in training.
-- Five seeds retrained (11·23·37·53·71) with the study's unchanged LoRA
-  configuration (r16/a16, 3 epochs, LR 2e-4, bf16, responses-only).
-- Frozen held data untouched. Sealed thresholds untouched.
+- Evaluate the repository's refusal-augmentation treatment using the existing
+  five-seed study configuration: seeds 11, 23, 37, 53 and 71; LoRA r16/a16,
+  3 epochs, learning rate 2e-4, bf16, responses-only.
+- Before execution, verify the exact treatment corpus, unchanged frozen held
+  data and sealed thresholds using the current source admission and leakage
+  contracts. The 42 verified red-team probes remain evaluation-only.
+- Preserve all training, held-evaluation, red-team and failure evidence. This
+  document supplies no new training or evaluation receipt.
 
-## Gate table (to be filled from the run)
+## Required results (not yet admitted)
 
-| Gate | v1.0.0 | v1.1.0 |
-|---|---|---|
-| Typed JSON validity (min 0.99) | PASS | PENDING |
-| In-lexicon accuracy (min 0.90) | PASS | PENDING |
-| Lexicon-free accuracy (min 0.60) | PASS | PENDING |
-| Evidence grounding (min 1.0) | PASS | PENDING |
-| ECE (max 0.15) | PASS | PENDING |
-| Novel attack refusal (min 1.0) | **FAIL (10/42)** | PENDING |
-| Release gate | 11/12 | PENDING |
-| Promotion | NOT_PROMOTABLE | PENDING |
+| Criterion | v1.1.0 evidence |
+|---|---|
+| Typed JSON validity | PENDING exact-source per-seed held evaluation |
+| In-lexicon accuracy | PENDING exact-source per-seed held evaluation |
+| Lexicon-free accuracy | PENDING exact-source per-seed held evaluation |
+| Evidence grounding | PENDING exact-source per-seed held evaluation |
+| Calibration / ECE | PENDING qualified calibration evidence |
+| Novel attack refusal | PENDING zero false labels on refusals for every seed |
+| Full release admission | HOLD; refusal-gate success alone is not 12/12 |
+| Model promotion | NOT_PROMOTABLE |
 
-## Zenodo
+Use the existing sealed thresholds and [promotion program](../PROMOTION_PROGRAM.md),
+not new thresholds invented in these notes. The recorded predecessor receipt in
+`out/release_gate.json` remains BLOCKED, including red-team refusal breaches and
+unavailable semantic leakage evidence. Passing source CI can verify that an
+honest BLOCKED receipt is intact; it does not grant promotion.
 
-The v1.1.0 release tag mints a new versioned DOI automatically under the
-existing concept DOI 10.5281/zenodo.20567256 (integration live since
-2026-10-01; first record: 10.5281/zenodo.23089536).
+## Future publication
+
+Only a separately admitted release may replace these pending entries with
+verified evidence and follow the [publication runbook](v1.1.0-publish-runbook.md).
+Any existing Zenodo integration must be checked at that time; this documentation
+change creates no release, DOI, adapter upload or provider revision.
