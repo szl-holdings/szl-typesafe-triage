@@ -62,13 +62,17 @@ python -m pip install szl-triage
 szl-triage decide "charged twice on invoice INV-2041, want a refund"
 ```
 
-From a checkout, these commands reproduce the CI gate (`verify_seal.py` needs full
-Git history, not a shallow clone):
+From a checkout, these commands run the checks of the `ci` and `release-receipts`
+workflows (`verify_seal.py` needs full Git history, not a shallow clone):
 
 ```bash
 python -m pip install -e ".[test]"
+python -m pip check
 python -m pytest tests -ra
 python -m pytest jev-plane/plane -ra
+szl-triage decide "charged twice on invoice INV-2041, want a refund"
+python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v1.json
+python scripts/export_sft_dataset.py --check --policy policies/triage_policy.v2.json
 python scripts/verify_release_receipts.py
 python scripts/verify_seal.py
 ```
