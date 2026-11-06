@@ -1,6 +1,6 @@
 {
   "schema": "szl.bench/v1",
-  "commit": "427a70e",
+  "commit": "614e1af",
   "gate_shape": {
     "canonical_axes": 13,
     "engine_axes": 4,
@@ -21,10 +21,15 @@
     "A5_permutation_invariance": 447
   },
   "ratified": {
-    "rows": null,
-    "effective_n": null
+    "rows": 42,
+    "effective_n": 9,
+    "generated_rows": 600
   },
-  "coverage": null,
+  "coverage": {
+    "passed_on_grounds": 0,
+    "configurations": 9,
+    "status": "DIAGNOSTIC"
+  },
   "leakage": {
     "verdict": "REFUSED",
     "families": 491,
@@ -32,6 +37,7 @@
     "semantic_pass": "UNAVAILABLE"
   },
   "retractions": 16,
+  "self_corrections": 12,
   "no_winner_clause": "this bench names no winner and no baseline is beaten. it reports properties of one engine against one labelled corpus, and every number carries the receipt it came from",
   "what_is_not_benchmarked": [
     "no model weights are loaded",
