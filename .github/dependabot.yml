@@ -26,6 +26,11 @@ updates:
   # Dated pip-freeze records and run outputs are evidence, not manifests;
   # version updates must not rewrite them. Patterns are relative to the
   # directory above. exclude-paths does not apply to security updates.
+  # Security updates still act on every requirements-named .txt that the
+  # dependency graph finds, so the recorded training freeze of
+  # out/triage-unsloth-bf16 (published on the Hub as requirements-lock.txt)
+  # is kept as requirements-lock.txt.recorded. Dependabot's pip fetcher reads
+  # only .txt/.in files, so the recorded pins are no longer rewritten.
   exclude-paths:
   - env-freeze-*.txt
   - reports/**

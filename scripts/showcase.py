@@ -9,6 +9,14 @@ def rd(p):
 Y, AX, LK, RT = rd("out/yuyay_gate_conformance.json"), rd("out/axiom_conformance.json"), rd("out/leakage_gate.json"), rd("out/retractions.json")
 EA, ST, SC, EN = rd("out/estate_audit.json"), rd("out/state_of_repo.json"), rd("out/ratified_scoreboard.json"), rd("out/effective_n.json")
 PA, GD, DF = rd("out/private_audit.json"), rd("out/phrasing_guard.json"), rd("out/estate_deep_findings.json")
+# The CITATION.cff abstract states that the trained LoRA adapters remain NOT_PROMOTABLE with release BLOCKED.
+# Both release receipts are checked before anything is written: if either ever reads otherwise, the showcase
+# stops so that a person rewrites the abstract, instead of regenerating a status the receipts no longer support.
+RG, FS = rd("out/release_gate.json"), rd("evidence/five-seed-study/evaluation/aggregate_metrics.json")
+if (RG.get("release_verdict"), FS.get("release_status"), FS.get("promotion_status")) != (
+        "BLOCKED", "BLOCKED", "NOT_PROMOTABLE"):
+    raise SystemExit("showcase: the adapter release receipts no longer read BLOCKED / NOT_PROMOTABLE; "
+                     "rewrite the CITATION.cff abstract before regenerating it")
 
 N = {"repos": EA.get("public_repos_cloned", 0),
      "schemas": (EA.get("audit", {}).get("7_receipt_schemas", {}) or {}).get("distinct", 0),
@@ -154,7 +162,11 @@ cff = ["cff-version: 1.2.0",
  "  where it fails: a compensatory four-axis aggregator against a non-compensatory " + str(N["canon_axes"]) +
    "-axis governance gate,",
  "  a corpus refused by a contamination gate, and an append-only ledger of " + str(N["ret"]) + " retractions.",
- "  No model is trained and no baseline is beaten."]
+ # The engine loads no model, but this repository did train LoRA adapters; an earlier template said
+ # "No model is trained", and regenerating it reverted the corrected CITATION.cff.
+ "  The engine loads no model and no baseline is beaten. LoRA adapters trained with this repository's",
+ "  scripts (the v0.3.0 distill and a five-seed study) are retained as evidence and remain",
+ "  NOT_PROMOTABLE, with release BLOCKED."]
 Path("CITATION.cff").write_text("\n".join(cff), encoding="utf-8")
 
 Path("out/showcase.json").write_text(json.dumps(

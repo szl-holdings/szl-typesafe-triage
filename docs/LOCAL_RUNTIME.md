@@ -2,10 +2,12 @@
 
 The installed package includes its default policy. Both commands work outside
 the repository and need only Python 3.10 or newer; the deterministic runtime
-does not import a model framework or download weights.
+does not import a model framework or download weights. The package is
+published on PyPI as `szl-triage` and has no runtime dependencies; from a
+checkout, `python -m pip install -e .` installs the same command.
 
 ```powershell
-python -m pip install --no-deps ./szl_triage-0.4.0-py3-none-any.whl
+python -m pip install szl-triage
 szl-triage decide "charged twice on invoice INV-2041, want a refund"
 szl-triage serve --port 8765
 ```
@@ -22,6 +24,13 @@ identity at `/readyz`, and decisions at `POST /v1/decide`:
 Invoke-RestMethod http://127.0.0.1:8765/v1/decide -Method Post `
   -ContentType 'application/json' `
   -Body '{"text":"charged twice on invoice INV-2041, want a refund"}'
+```
+
+The same request from a POSIX shell:
+
+```bash
+curl -s http://127.0.0.1:8765/v1/decide -H 'Content-Type: application/json' \
+  -d '{"text":"charged twice on invoice INV-2041, want a refund"}'
 ```
 
 The active policy is frozen for the process. `--policy PATH` explicitly selects
