@@ -140,3 +140,9 @@ head. The old `checkpoint-387` directories are therefore not a complete
 resume-from-checkpoint source. Historical Git revisions remain accessible;
 neither this current-head cleanup nor the Hub cleanup erases them or makes
 loading old serialized training state safe.
+
+Estate on Hugging Face: models, datasets and Spaces are published under the [SZLHOLDINGS](https://huggingface.co/SZLHOLDINGS) org.
+
+## License
+
+Apache-2.0 — see [LICENSE](LICENSE).
