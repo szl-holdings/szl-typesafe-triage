@@ -23,7 +23,7 @@ szl-papers at `74ab598`, 66 documents.
    - No fabricated benchmarks, citations, or arXiv IDs appear.
 ```
 
-DOIs: `10.5281/zenodo.19944926.`
+DOIs: `10.5281/zenodo.24239896.`
 
 ## `thesis/arxiv/append-only-governance/main.tex`
 
@@ -71,12 +71,12 @@ DOIs: `10.5281/zenodo.19944926.`
    with position. \\
 ```
 
-DOIs: `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.5281/zenodo.19944926`
+DOIs: `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.5281/zenodo.24239896`
 
 ## `thesis/arxiv/append-only-governance/references.bib`
 
 
-DOIs: `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.5281/zenodo.19944926`
+DOIs: `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.5281/zenodo.24239896`
 
 ## `thesis/arxiv/gpd-unified-v26/main.tex`
 
@@ -124,7 +124,7 @@ DOIs: `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.5281/zenodo.199449
    The kernel baseline is \textbf{749 declarations / 14 unique axioms /
 ```
 
-DOIs: `10.5281/zenodo.19867281`, `10.5281/zenodo.19944926`, `10.5281/zenodo.19983066`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20174600`, `10.5281/zenodo.20434276`
+DOIs: `10.5281/zenodo.19867281`, `10.5281/zenodo.24239896`, `10.5281/zenodo.19983066`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20174600`, `10.5281/zenodo.20434276`
 
 ## `thesis/arxiv/gpd-unified-v26/PAPER_NOTES.md`
 
@@ -137,7 +137,7 @@ DOIs: `10.5281/zenodo.19867281`, `10.5281/zenodo.19944926`, `10.5281/zenodo.1998
 - ### What is HONESTLY labeled as NOT claimed
 - ## arXiv submission metadata
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926.`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896.`
 
 ## `thesis/arxiv/gpd-unified-v26/references.bib`
 
@@ -162,10 +162,10 @@ DOIs: `10.1007/3-540-48184-2_32`, `10.1007/978-1-4757-6568-7`, `10.1007/978-3-03
    - Single substantive change from v25: locked count five -> eight (genuine F4/F7/F22 proofs of 2026-06-10); kernel baseline unchanged.
    - GPD is grounded only in the SZL Zenodo DOI chain; no external "post-deterministic" framework is claimed as a source.
    - Lambda = Conjecture 1, Khipu = Conjecture 2, experimental tier labeled, trust never 100%. No fabricated results, citations, or arXiv IDs.
-   - A Zenodo concept DOI (10.5281/zenodo.19944926) already exists for the program; this is the first arXiv submission of the thesis line. Cross-reference the DOI in the arXiv "Journa
+   - A Zenodo concept DOI (10.5281/zenodo.24239896) already exists for the program; this is the first arXiv submission of the thesis line. Cross-reference the DOI in the arXiv "Journa
 ```
 
-DOIs: `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.`
+DOIs: `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.`
 
 ## `thesis/arxiv/gpd-v26/main.tex`
 
@@ -210,12 +210,12 @@ DOIs: `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.`
    Governing a post-deterministic system is \emph{not} proving it always behaves
 ```
 
-DOIs: `10.1145/1629575.1629596.`, `10.1145/3372885.3373824.`, `10.5281/zenodo.19867281`, `10.5281/zenodo.19934129`, `10.5281/zenodo.19944926`, `10.5281/zenodo.20020841`, `10.5281/zenodo.20020845`, `10.5281/zenodo.20020846`
+DOIs: `10.1145/1629575.1629596.`, `10.1145/3372885.3373824.`, `10.5281/zenodo.19867281`, `10.5281/zenodo.19934129`, `10.5281/zenodo.24239896`, `10.5281/zenodo.20020841`, `10.5281/zenodo.20020845`, `10.5281/zenodo.20020846`
 
 ## `thesis/arxiv/gpd-v26/references.bib`
 
 
-DOIs: `10.1145/1629575.1629596`, `10.1145/3372885.3373824`, `10.5281/zenodo.19944926`
+DOIs: `10.1145/1629575.1629596`, `10.1145/3372885.3373824`, `10.5281/zenodo.24239896`
 
 ## `thesis/arxiv/graph-substrate/ARXIV_METADATA.md`
 
@@ -240,7 +240,7 @@ DOIs: `10.1145/1629575.1629596`, `10.1145/3372885.3373824`, `10.5281/zenodo.1994
    `Quot.sound`, and thirteen use the standard Mathlib trio. The semantic findings
 ```
 
-DOIs: `10.5281/zenodo.19944926.`
+DOIs: `10.5281/zenodo.24239896.`
 
 ## `thesis/arxiv/graph-substrate/main.tex`
 
@@ -294,7 +294,7 @@ DOIs: `10.1007/978-3-030-79876-5`, `10.1007/978-3-030-79876-5_37`, `10.1007/BF01
 ## `thesis/arxiv/graph-substrate/references.bib`
 
 
-DOIs: `10.1007/BF01200757`, `10.1007/BF02776078`, `10.1090/mbk/107`, `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.19944926`
+DOIs: `10.1007/BF01200757`, `10.1007/BF02776078`, `10.1090/mbk/107`, `10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.24239896`
 
 ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md`
 
@@ -315,7 +315,7 @@ DOIs: `10.1007/BF01200757`, `10.1007/BF02776078`, `10.1090/mbk/107`, `10.1145/16
 ## `thesis/ouroboros/corpus-v18/main.tex`
 
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v22/arxiv/00_README_ARXIV.md`
 
@@ -326,12 +326,12 @@ DOIs: `10.5281/zenodo.19944926`
 - ## Founder-only actions (NOT done by the agent)
 - ## Doctrine guardrails honored in this bundle
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v22/arxiv/references.bib`
 
 
-DOIs: `10.1007/3-540-45682-1_30`, `10.1007/s00199-007-0316-6`, `10.1023/A:1021840411064`, `10.1145/3149.214121`, `10.1214/074921707000000391`, `10.17487/RFC6962`, `10.4099/jjm1924.7.0_71`, `10.5281/zenodo.19944926`
+DOIs: `10.1007/3-540-45682-1_30`, `10.1007/s00199-007-0316-6`, `10.1023/A:1021840411064`, `10.1145/3149.214121`, `10.1214/074921707000000391`, `10.17487/RFC6962`, `10.4099/jjm1924.7.0_71`, `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v22/arxiv/thesis_v22.tex`
 
@@ -351,12 +351,12 @@ DOIs: `10.1007/3-540-45682-1_30`, `10.1007/s00199-007-0316-6`, `10.1023/A:102184
    \textbf{Conjecture 1}. We additionally report VCG mechanism truthfulness (proven on branch), the
 ```
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v22/CITATION.cff`
 
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926;`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896;`
 
 ## `thesis/ouroboros/papers/v22/ouroboros-thesis-v22.md`
 
@@ -392,7 +392,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926;`
    ### 2.3 VCG mechanism truthfulness (IN REVIEW, PR #172)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926;`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896;`
 
 ## `thesis/ouroboros/papers/v22/README.md`
 
@@ -401,7 +401,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.199
 - ## Honest posture
 - ## Doctrine v11 (LOCKED @ `c7c0ba17`)
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.svg)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.svg)`
 
 ## `thesis/ouroboros/papers/v23/0_README_v23.md`
 
@@ -448,7 +448,7 @@ DOIs: `10.1007/s10474-021-01185-z`, `10.1007/s10474-021-01185-z).`, `10.14232/ac
 ## `thesis/ouroboros/papers/v23/cover_letter.txt`
 
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v23/maxAgg_counterexample.md`
 
@@ -489,7 +489,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1002/j.1538-7305.1950.tb00463.x`
 ## `thesis/ouroboros/papers/v24/.zenodo.json`
 
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.20053148`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.20053148`
 
 ## `thesis/ouroboros/papers/v24/main.md`
 
@@ -526,7 +526,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.20053148`
    ### 4.4 The v24 advance: axiom-free conditional uniqueness (CUT-2)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926);`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896);`
 
 ## `thesis/ouroboros/papers/v24/main.tex`
 
@@ -573,7 +573,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.199
    with no infinite descending chain.
 ```
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/ouroboros/papers/v24/README.md`
 
@@ -593,7 +593,7 @@ DOIs: `10.5281/zenodo.19944926`
    - Supply-chain posture: **SLSA L1 honest, L2 build-attestation present** — L2-verified, L3,
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926).`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896).`
 
 ## `thesis/ouroboros/papers/v24/refs.bib`
 
@@ -610,7 +610,7 @@ DOIs: `10.1002/047174882X`, `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3
 - ## Files
 - ## Lineage (unbroken DOI chain)
 
-DOIs: `10.5281/zenodo.19867281)`, `10.5281/zenodo.19934129)`, `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926).`, `10.5281/zenodo.20020841)`, `10.5281/zenodo.20020845)`, `10.5281/zenodo.20020846)`
+DOIs: `10.5281/zenodo.19867281)`, `10.5281/zenodo.19934129)`, `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896).`, `10.5281/zenodo.20020841)`, `10.5281/zenodo.20020845)`, `10.5281/zenodo.20020846)`
 
 ## `thesis/ouroboros/papers/v25/unified-gpd-thesis-v25.md`
 
@@ -709,7 +709,7 @@ DOIs: `10.1145/1629575.1629596`, `10.1145/1629575.1629596)`, `10.1145/357172.357
    **Fix applied (MERGED 2026-06-03):** PR [szl-holdings/lutar-lean#148](https://github.com/szl-holdings/lutar-lean/pull/148)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926).`, `10.5281/zenodo.19944926.svg)`, `10.5281/zenodo.19983066`, `10.5281/zenodo.19983066)`, `10.5281/zenodo.20434276`, `10.5281/zenodo.20434276)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896).`, `10.5281/zenodo.24239896.svg)`, `10.5281/zenodo.19983066`, `10.5281/zenodo.19983066)`, `10.5281/zenodo.20434276`, `10.5281/zenodo.20434276)`
 
 ## `thesis/THESIS_LINEAGE.md`
 
@@ -727,7 +727,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.199
    K --> LAMBDA
 ```
 
-DOIs: `10.5281/zenodo.19867281)`, `10.5281/zenodo.19934129)`, `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.svg)`, `10.5281/zenodo.19983066)`, `10.5281/zenodo.20020841)`, `10.5281/zenodo.20020845)`
+DOIs: `10.5281/zenodo.19867281)`, `10.5281/zenodo.19934129)`, `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.svg)`, `10.5281/zenodo.19983066)`, `10.5281/zenodo.20020841)`, `10.5281/zenodo.20020845)`
 
 ## `thesis/v19/main.md`
 
@@ -801,7 +801,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x.`, `10.1007/11681878_14.`, `10.1007/97
    The equal-weight geometric mean $\La_k$ is the correct unique trust aggregator for
 ```
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/v19/README.md`
 
@@ -812,7 +812,7 @@ DOIs: `10.5281/zenodo.19944926`
 - ## Doctrine v11 (LOCKED @ `c7c0ba17`)
 - ## Lineage
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.svg)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.svg)`
 
 ## `thesis/v19/refs.bib`
 
@@ -911,7 +911,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x.`, `10.1007/978-3-030-79876-5`, `10.10
    ## Honest posture (load-bearing)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.svg)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.svg)`
 
 ## `thesis/v20/refs.bib`
 
@@ -961,7 +961,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3-030-79876-5_37`, `10.
    ```
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.`
 
 ## `thesis/v21/main.tex`
 
@@ -1008,7 +1008,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.199
    \end{theorem}
 ```
 
-DOIs: `10.1002/j.1538-7305.1948.tb01338.x.`, `10.1007/978-3-030-79876-5`, `10.1007/BFb0013365.`, `10.1103/PhysRevD.23.287.`, `10.1126/science.7466396.`, `10.1137/0108018.`, `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926.`
+DOIs: `10.1002/j.1538-7305.1948.tb01338.x.`, `10.1007/978-3-030-79876-5`, `10.1007/BFb0013365.`, `10.1103/PhysRevD.23.287.`, `10.1126/science.7466396.`, `10.1137/0108018.`, `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896.`
 
 ## `thesis/v21/README.md`
 
@@ -1018,12 +1018,12 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x.`, `10.1007/978-3-030-79876-5`, `10.10
 - ## Doctrine v11 (LOCKED @ `c7c0ba17`)
 - ## Lineage
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926.svg)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896.svg)`
 
 ## `thesis/v21/refs.bib`
 
 
-DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3-030-79876-5_37`, `10.1007/BFb0013365`, `10.1103/PhysRevD.23.287`, `10.1126/science.7466396`, `10.1137/0108018`, `10.5281/zenodo.19944926`
+DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3-030-79876-5_37`, `10.1007/BFb0013365`, `10.1103/PhysRevD.23.287`, `10.1126/science.7466396`, `10.1137/0108018`, `10.5281/zenodo.24239896`
 
 ## `thesis/v22/main.md`
 
@@ -1058,7 +1058,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3-030-79876-5_37`, `10.
    ### 7.1 The trust-weighted allocation setting
 ```
 
-DOIs: `10.1007/3-540-48184-2_32`, `10.1007/978-3-030-79876-5_37`, `10.1007/s10726-018-9589-3`, `10.1109/SP.1982.10014`, `10.1111/j.1540-6261.1961.tb02789.x`, `10.1126/science.7466396`, `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`
+DOIs: `10.1007/3-540-48184-2_32`, `10.1007/978-3-030-79876-5_37`, `10.1007/s10726-018-9589-3`, `10.1109/SP.1982.10014`, `10.1111/j.1540-6261.1961.tb02789.x`, `10.1126/science.7466396`, `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`
 
 ## `thesis/v22/main.tex`
 
@@ -1107,7 +1107,7 @@ DOIs: `10.1007/3-540-48184-2_32`, `10.1007/978-3-030-79876-5_37`, `10.1007/s1072
    \bottomrule
 ```
 
-DOIs: `10.1007/3-540-48184-2`, `10.1007/978-3-030-79876-5`, `10.1007/s10726-018-9589-3`, `10.1109/SP.1982.10014`, `10.1111/j.1540-6261.1961.tb02789.x`, `10.1126/science.7466396`, `10.5281/zenodo.19944926`, `10.5281/zenodo.20119582`
+DOIs: `10.1007/3-540-48184-2`, `10.1007/978-3-030-79876-5`, `10.1007/s10726-018-9589-3`, `10.1109/SP.1982.10014`, `10.1111/j.1540-6261.1961.tb02789.x`, `10.1126/science.7466396`, `10.5281/zenodo.24239896`, `10.5281/zenodo.20119582`
 
 ## `thesis/v22/README.md`
 
@@ -1125,7 +1125,7 @@ DOIs: `10.1007/3-540-48184-2`, `10.1007/978-3-030-79876-5`, `10.1007/s10726-018-
    ## What v22 reports (honest tiers)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20119582)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20119582)`
 
 ## `thesis/v22/refs.bib`
 
@@ -1212,7 +1212,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1002/j.1538-7305.1948.tb01338.x)
    \begin{axiom}[Boundedness, A4]
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.20119582`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.20119582`
 
 ## `thesis/v23/README.md`
 
@@ -1225,7 +1225,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.20119582`
 - # 1. Kernel-check the locked core + Wave-3/4 modules
 - # 2. Disclose the trusted axiom base
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20119582)`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.20119582`, `10.5281/zenodo.20119582)`
 
 ## `thesis/v23/refs.bib`
 
@@ -1267,7 +1267,7 @@ DOIs: `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/BF00417500`, `10.1007/BF024
    ### 4.4 The v24 advance: axiom-free conditional uniqueness (CUT-2)
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926);`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896);`
 
 ## `thesis/v24/main.tex`
 
@@ -1316,7 +1316,7 @@ DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.199
    \begin{axiom}[Permutation invariance, A5]\label{ax:a5}
 ```
 
-DOIs: `10.5281/zenodo.19944926`
+DOIs: `10.5281/zenodo.24239896`
 
 ## `thesis/v24/README.md`
 
@@ -1329,7 +1329,7 @@ DOIs: `10.5281/zenodo.19944926`
 - ## Verify it yourself
 - # => {propext, Classical.choice, Quot.sound}  (no project axiom)
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.19944926)`, `10.5281/zenodo.19944926).`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.24239896)`, `10.5281/zenodo.24239896).`
 
 ## `thesis/v24/refs.bib`
 
@@ -1382,4 +1382,4 @@ DOIs: `10.1002/047174882X`, `10.1002/j.1538-7305.1948.tb01338.x`, `10.1007/978-3
    sub-Gaussian moments (\texttt{MomentSubGaussian}),
 ```
 
-DOIs: `10.5281/zenodo.19944926`, `10.5281/zenodo.20434276`
+DOIs: `10.5281/zenodo.24239896`, `10.5281/zenodo.20434276`
