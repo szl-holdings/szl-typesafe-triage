@@ -136,13 +136,13 @@
       "file": "docs/CORPUS_DIGEST.md",
       "match": "locked-8",
       "why": "asserts a locked count this repository is not entitled to assert",
-      "context": "10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.19944926` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT lo"
+      "context": "10.1145/1629575.1629596`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.24239896` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT lo"
     },
     {
       "file": "docs/CORPUS_DIGEST.md",
       "match": "locked-8",
       "why": "asserts a locked count this repository is not entitled to assert",
-      "context": "96`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.19944926` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT locked-8) - ## What \"lo"
+      "context": "96`, `10.1145/357172.357176`, `10.1214/aoap/1177005980`, `10.5281/zenodo.24239896` ## `thesis/EXPERIMENTAL_LEAN_THEOREMS.md` - # Experimental machine-checked Lean theorems (NOT locked-8) - ## What \"lo"
     },
     {
       "file": "docs/CORPUS_DIGEST.md",
