@@ -151,6 +151,8 @@ Path("docs/announce/linkedin.txt").write_text("\n".join(li), encoding="utf-8")
 
 # ---------- citation ----------
 cff = ["cff-version: 1.2.0",
+ "# Zenodo (InvenioRDM) DOI - always resolves to the latest version of this archive",
+ "doi: 10.5281/zenodo.24240440",
  "message: \"If you reference this work, please cite it as below.\"",
  "title: \"szl-typesafe-triage: a deployed triage engine measured against its own formal specification\"",
  "authors:", "  - family-names: Lutar", "    given-names: \"Stephen P.\"", "    name-suffix: Jr.",
