@@ -411,7 +411,7 @@ szl-papers @ `74ab598` - 96 documents, 270 unique formal claims.
 - `thesis/ouroboros/papers/v26/unified-gpd-thesis-v26.md` [ouroboros] no status tag  
   **Conjecture 2** (Wave-23 conditional agreement only) · locked-proven = **exactly 8** {F1,F4,F7,F11,F12,F18,F19,F22} @ `c7c0ba17` (749/14/163), confirmed by `locked_count_eight` · F4/F7/F22 newly proven 2026-06-10 (kerne
 - `thesis/ouroboros/README.md` [ouroboros] no status tag  
-  **Conjecture 1 — NOT a theorem** (uniqueness chain completes only when all Cauchy_ND sorries close on `main`). Version DOI minted by Zenodo on release under Concept DOI [10.5281/zenodo.19944926](https://doi.org/10.5281/z
+  **Conjecture 1 — NOT a theorem** (uniqueness chain completes only when all Cauchy_ND sorries close on `main`). Version DOI minted by Zenodo on release under Concept DOI [10.5281/zenodo.24239896](https://doi.org/10.5281/z
 - `thesis/ouroboros/README.md` [ouroboros] no status tag  
   **Theorem (Λ-gate completeness):** Every governed decision trace that terminates satisfies > the Lutar Invariant Λ ∈ [0, 1]. Conversely, every Λ-compliant trace admits a unique > audit-fiber factorisation witnessing its 
 - `thesis/ouroboros/README.md` [ouroboros] no status tag  
