@@ -180,6 +180,7 @@ class _PublicHandler(local._Handler):
             "model_promotion": "HOLD",
             "model_serving_ready": False,
         })
+        return None
 
     def _decision_envelope(self, decision: dict[str, Any]) -> dict[str, Any]:
         envelope = {"schema": ENVELOPE_SCHEMA, "mode": MODE,

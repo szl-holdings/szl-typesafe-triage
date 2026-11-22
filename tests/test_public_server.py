@@ -121,6 +121,18 @@ def test_public_manifest_never_bypasses_host_or_origin_checks(running_public, he
     assert "source_binding" not in json.loads(body)
 
 
+def test_public_manifest_handler_has_explicit_terminal_return():
+    # Regression for the mixed implicit/explicit return CodeQL finding.
+    import ast
+    import inspect
+    import textwrap
+
+    body = ast.parse(textwrap.dedent(inspect.getsource(public._PublicHandler.do_GET))).body[0].body
+    assert isinstance(body[-1], ast.Return)
+    assert isinstance(body[-1].value, ast.Constant)
+    assert body[-1].value.value is None
+
+
 def test_public_manifest_rejects_mutable_query(running_public):
     assert request(running_public, path="/api/manifest?revision=latest")[0] == 404
 
