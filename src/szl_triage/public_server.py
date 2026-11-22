@@ -167,9 +167,10 @@ class _PublicHandler(local._Handler):
 
     def do_GET(self):
         if self.path != "/api/manifest":
-            return super().do_GET()
+            super().do_GET()
+            return None
         if not self._trusted_request():
-            return
+            return None
         identity = self.server.identity
         self._json(200, {
             "schema": "szl.triage-public-manifest/v1",

@@ -127,10 +127,11 @@ def test_public_manifest_handler_has_explicit_terminal_return():
     import inspect
     import textwrap
 
-    body = ast.parse(textwrap.dedent(inspect.getsource(public._PublicHandler.do_GET))).body[0].body
-    assert isinstance(body[-1], ast.Return)
-    assert isinstance(body[-1].value, ast.Constant)
-    assert body[-1].value.value is None
+    function = ast.parse(textwrap.dedent(inspect.getsource(public._PublicHandler.do_GET))).body[0]
+    returns = [node for node in ast.walk(function) if isinstance(node, ast.Return)]
+    assert len(returns) == 3
+    assert all(isinstance(node.value, ast.Constant) and node.value.value is None
+               for node in returns)
 
 
 def test_public_manifest_rejects_mutable_query(running_public):
