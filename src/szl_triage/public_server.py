@@ -165,6 +165,22 @@ class _PublicHandler(local._Handler):
             return False
         return True
 
+    def do_GET(self):
+        if self.path != "/api/manifest":
+            return super().do_GET()
+        if not self._trusted_request():
+            return
+        identity = self.server.identity
+        self._json(200, {
+            "schema": "szl.triage-public-manifest/v1",
+            "mode": identity["mode"],
+            "scope": identity["scope"],
+            "source_binding": identity["source_binding"],
+            "model_loaded": False,
+            "model_promotion": "HOLD",
+            "model_serving_ready": False,
+        })
+
     def _decision_envelope(self, decision: dict[str, Any]) -> dict[str, Any]:
         envelope = {"schema": ENVELOPE_SCHEMA, "mode": MODE,
                     "authenticity": "UNSIGNED_CONTENT_INTEGRITY_ONLY",

@@ -97,6 +97,11 @@ bound to `0.0.0.0:7860`. It uses only the standard-library deterministic pipelin
 `/readyz` and `/v1/decide` identify the runtime as `DETERMINISTIC_SOFTWARE_LAB`,
 report `model_loaded: false`, and retain model promotion as `HOLD`. Publishing
 this software lab does not qualify or publish a language model.
+`GET /api/manifest` exposes the already-verified-at-startup, **unsigned**
+source binding as a machine-readable software manifest. It explicitly reports
+`model_serving_ready: false` and `model_promotion: HOLD`. Neither `/readyz`
+nor `/api/manifest` proves the deployed Space matches current GitHub main
+or that model inference, training, or production promotion is authorized.
 
 Before startup, the publisher must create `SOURCE_BINDING.json` from the immutable
 canonical GitHub commit. Its exact fields are `schema` (`szl.triage-source-binding/v1`),
