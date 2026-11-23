@@ -93,6 +93,51 @@ def test_source_bound_software_lab_is_explicit(running_public, binding):
     assert headers["Content-Security-Policy"] == "default-src 'none'; frame-ancestors 'none'"
 
 
+def test_public_manifest_is_bounded_source_identity_not_model_readiness(running_public):
+    status, headers, body = request(running_public, path="/api/manifest")
+    manifest = json.loads(body)
+    assert status == 200 and headers["Cache-Control"] == "no-store"
+    assert headers["Content-Type"].startswith("application/json")
+    assert manifest == {
+        "schema": "szl.triage-public-manifest/v1",
+        "mode": "DETERMINISTIC_SOFTWARE_LAB",
+        "scope": "DETERMINISTIC_RULE_BASED_SOFTWARE_ONLY",
+        "source_binding": running_public.identity["source_binding"],
+        "model_loaded": False,
+        "model_promotion": "HOLD",
+        "model_serving_ready": False,
+    }
+    assert manifest["source_binding"]["github_commit"] == COMMIT
+    assert manifest["source_binding"]["authenticity"] == "UNSIGNED_CONTENT_BINDING_ONLY"
+
+
+@pytest.mark.parametrize("headers", [
+    {"Host": "attacker.example"},
+    {"Origin": "https://attacker.example"},
+])
+def test_public_manifest_never_bypasses_host_or_origin_checks(running_public, headers):
+    status, _, body = request(running_public, path="/api/manifest", headers=headers)
+    assert status == 403
+    assert "source_binding" not in json.loads(body)
+
+
+def test_public_manifest_handler_has_explicit_terminal_return():
+    # Regression for the mixed implicit/explicit return CodeQL finding.
+    import ast
+    import inspect
+    import textwrap
+
+    function = ast.parse(textwrap.dedent(inspect.getsource(public._PublicHandler.do_GET))).body[0]
+    returns = [node for node in ast.walk(function) if isinstance(node, ast.Return)]
+    assert len(returns) == 3
+    assert all(isinstance(node.value, ast.Constant) and node.value.value is None
+               for node in returns)
+
+
+def test_public_manifest_rejects_mutable_query(running_public):
+    assert request(running_public, path="/api/manifest?revision=latest")[0] == 404
+
+
 def test_public_decision_has_source_binding_and_never_promotes_a_model(running_public):
     status, _, body = post(running_public, headers={"Origin": f"https://{AUTHORITY}"})
     envelope = json.loads(body)
