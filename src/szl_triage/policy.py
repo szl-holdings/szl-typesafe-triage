@@ -17,6 +17,7 @@ Python and into data.
 from __future__ import annotations
 
 import json
+import math
 from importlib.resources import files
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -106,6 +107,28 @@ def _validate(raw: dict[str, Any]) -> None:
             )
 
 
+
+def _unique_policy_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Reject ambiguous policy fields at every nested JSON object."""
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise PolicyError(f"duplicate policy JSON key: {key}")
+        result[key] = value
+    return result
+
+
+def _reject_json_constant(token: str) -> Any:
+    raise PolicyError(f"non-finite policy JSON constant: {token}")
+
+
+def _parse_finite_float(token: str) -> float:
+    number = float(token)
+    if not math.isfinite(number):
+        raise PolicyError("non-finite policy JSON number")
+    return number
+
+
 def default_policy_path() -> Path:
     """Policy shipped in the installed package, independent of the caller's cwd."""
     return Path(str(files("szl_triage").joinpath("data", "triage_policy.v3.json")))
@@ -114,7 +137,12 @@ def default_policy_path() -> Path:
 def load(path: str | Path | None = None) -> Policy:
     if path is None:
         path = default_policy_path()
-    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    raw = json.loads(
+        Path(path).read_text(encoding="utf-8"),
+        object_pairs_hook=_unique_policy_object,
+        parse_constant=_reject_json_constant,
+        parse_float=_parse_finite_float,
+    )
     _validate(raw)
     dispositions = raw.get("doctrine_dispositions") or {}
     return Policy(
