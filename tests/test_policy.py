@@ -1,5 +1,7 @@
 # Copyright 2026 SZL Holdings. SPDX-License-Identifier: Apache-2.0
 """Policy loading fails closed. A permissive default is worse than a crash."""
+import json
+
 import pytest
 
 from szl_triage import PolicyError, load_policy
@@ -84,3 +86,32 @@ def test_empty_dispositions_block_raises(raw_policy, tmp_policy):
 def test_dispositions_are_loaded(policy):
     assert "disposition" in policy.disposition_fields
     assert "PENDING_HUMAN_RATIFICATION" in policy.disposition_tokens
+
+
+def test_duplicate_top_level_policy_key_fails_closed(raw_policy, tmp_path):
+    raw = json.dumps(raw_policy)
+    path = tmp_path / "policy.json"
+    path.write_text(raw[:-1] + ', "name": "shadow"}', encoding="utf-8")
+    with pytest.raises(PolicyError, match="duplicate policy JSON key"):
+        load_policy(path)
+
+
+def test_duplicate_nested_policy_key_fails_closed(raw_policy, tmp_path):
+    raw = json.dumps(raw_policy)
+    needle = '"axis_weights": {'
+    assert needle in raw
+    path = tmp_path / "policy.json"
+    path.write_text(raw.replace(needle, needle + '"lexical": 0.1, ', 1), encoding="utf-8")
+    with pytest.raises(PolicyError, match="duplicate policy JSON key"):
+        load_policy(path)
+
+
+@pytest.mark.parametrize("token", ["NaN", "Infinity", "-Infinity", "1e999", "-1e999"])
+def test_nonfinite_meta_cue_json_is_rejected(raw_policy, tmp_path, token):
+    raw = json.dumps(raw_policy)
+    needle = '"meta_cues": ['
+    assert needle in raw
+    path = tmp_path / "policy.json"
+    path.write_text(raw.replace(needle, needle + token + ", ", 1), encoding="utf-8")
+    with pytest.raises(PolicyError, match="non-finite policy JSON"):
+        load_policy(path)
